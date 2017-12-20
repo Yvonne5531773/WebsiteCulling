@@ -1,0 +1,70 @@
+name : ﻿坏男孩:
+url : http://www.puahome.com/
+title : 
+keywords : pua,追女孩子的技巧,追女生,把妹,泡妞
+description : PUA论坛,800万用户,亚洲领先的情感社区!专研恋爱约会艺术.教你追女生技巧,把妹泡妞方法,撩妹技巧.全面掌握追女孩方法,搭讪聊天,相亲约会,表白挽回等情感知识. 
+ico : http://www.puahome.com/favicon.ico
+
+name : 跑牛网:
+url : http://www.paoniu.com/forum.php
+title : 
+keywords : 泡学,PUA,泡学论坛,泡妞,泡妞秘籍,把妹达人,约会专家,恋爱
+description : 跑牛网，PUA分享交流泡妞技巧，泡妞秘籍，泡妞系统，泡妞经验的聚集地。国内最大泡学、恋爱论坛就在泡妞网！（跑牛网旗下网站） 
+ico : http://www.paoniu.com/favicon.ico
+
+name : 舞步学院:
+url : http://www.wubupua.com/
+title : 
+keywords : 怎么追女生,追女孩子的技巧,PUA,约会技巧
+description : PUA舞步学院,为大家每天分享各种追女孩子的技巧还有谈恋爱的方法,为广大男性同胞提供正确增加个人魅力的各种视频、音频、原创文章.
+ico : http://www.wubupua.com/favicon.ico
+
+name : PUA学院:
+url : http://www.puaschool.cn/
+title : 
+keywords : PUA学院,PUA,泡妞,约会,搭讪,千万别追女神
+description : 教你各种泡妞秘籍、恋爱技巧，提供搭讪、约会、恋爱等一系列实用指导方法。
+ico : http://www.puaschool.cn/favicon.ico
+
+name : 泡学网:
+url : http://www.paoxue.com/
+title : 
+keywords : pua,搭讪,泡学,约会,恋爱,社交
+description : 泡学网，专注为搭讪、恋爱、约会、社交等情感问题提供解决方案,是中国泡学达人(PUA)发源地和集中地。最专业的恋爱技巧、约会秘籍、泡男指导、社交系统就在泡学网。 
+ico : http://www.paoxue.com/favicon.ico
+
+name : 男人日志:
+url : http://www.rizhi123.com/
+title : 
+keywords : 
+description : 在这里你可以了解到舞步学院教育的所有课程，包括了内部、线下和网络课程。其中PUA课程有恋爱秘籍、网络课1.0-8.0、魔卡导师的课程、长期短期实战课程、调情速推课程、爱情管家、真命挽回、蓉城计划、老吴聊天课程等内容。
+ico : http://www.rizhi123.com/favicon.ico
+
+name : 魅学院:
+url : http://www.meixueyuan.com/
+title : 
+keywords : 
+description : 
+ico : http://www.meixueyuan.com/favicon.ico
+
+name : 笨鸟情感:
+url : http://www.zhuinvsheng.com/
+title : 
+keywords : PUA,搭讪,恋爱,把妹,相亲,约会,挽回爱情
+description : 笨鸟情感（武汉约会学）的把妹达人PUA分享追女孩子的技巧,致力解决你的爱情难题,专注搭讪,约会,挽回爱情,恋爱培训
+ico : http://www.zhuinvsheng.com/favicon.ico
+
+name : 浪迹教育:
+url : http://www.puamap.com/
+title : 
+keywords : pua,泡妞,把妹,浪迹,浪迹教育
+description : 浪迹教育是中国最具影响力的实战PUA泡妞把妹教育机构,浪迹PUA培训涵盖把妹、搭讪、聊天、视频等。经过五年的发展,浪迹教育已成为中国规模最大的实战PUA泡妞把妹培训平台.
+ico : http://www.puamap.com/favicon.ico
+
+name : PUA书籍:
+url : http://fulibk.net/pua/182.html
+title : 
+keywords : 
+description : PUA把妹达人网-PUA书籍大全...
+ico : http://fulibk.net/favicon.ico
+

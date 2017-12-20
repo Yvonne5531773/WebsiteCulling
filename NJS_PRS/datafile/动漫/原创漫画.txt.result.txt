@@ -1,0 +1,49 @@
+name : 有妖气 
+url : http://www.u17.com/
+title : 
+keywords : 漫画,在线漫画,漫画下载,漫画网,动漫,原创漫画,卡通,连载,绘本,四格
+description : 中国唯一且最大的纯原创漫画网站，数千名中国原创漫画作者汇聚于此，在线连载最热门的全新漫画作品，为中国原创漫画作者提供最肥沃的漫画创作土壤。
+ico : http://www.u17.com/favicon.ico
+
+name : 网易漫画 
+url : http://manhua.163.com/
+title : 
+keywords : 漫画,日漫,黑执事,免费,在线阅读,原创,国漫,漫画控,韩漫,条漫,阅读,动漫
+description : 网易漫画是一款全新漫画万能聚合神器,原创国漫,正版日漫等海量精彩内容免费在线阅读.支持多平台免费下载!中国怪谈,羽烟纱,狐话狐说,小食神,仙世录,大唐无双,战国武校,世变,杀手古德等,中国惊奇先生作者权迎升首发猎行者,于彦舒力作赤铁之心.独家签约日本SE,众多正版日漫作品等你来看黑执事,天才麻将少女,斩!赤红之瞳,钢之炼金术师,蓝兰岛漂流记,寒蝉鸣泣之时,元气囝仔,竹剑少女,牙之旅商人等
+ico : http://manhua.163.com/favicon.ico
+
+name : 幻天漫画 
+url : http://www.comicmoe.net
+title : 
+keywords : 幻天领域,漫画萌,ACGN,萌璃影音,ACGN动漫资源分享,acgn 幻天领域,本子,漫画,里番,二次元,奴隷との生活,动漫分享
+description : 幻想天空旗下致力于优秀漫画的二次元漫画推广平台喵~ ＞▽＜ 
+ico : http://www.comicmoe.net/favicon.ico
+
+name : 腾讯动漫 
+url : http://ac.qq.com/
+title : 
+keywords : 动漫,腾讯动漫,漫画,动画,原创,正版,火影忍者,海贼王,王牌御史,甜蜜的诅咒,腾讯动漫官方网站
+description : 中国最大最权威的正版动漫网站，连载众多原创国漫，原创动画，正版日漫等海内外最热正版动漫内容，为上千万动漫爱好者提供漫画、动画、资讯、论坛一站式全方位动漫服务，为原创动漫作者提供最优质的创作成长环境，为中国动漫产业打造梦想舞台。热门动画|漫画：尸兄、中国惊奇先生、火影忍者、海贼王、王牌御史、甜蜜的诅咒等
+ico : http://ac.qq.com/favicon.ico
+
+name : 暴走漫画 
+url : http://baozoumanhua.com/
+title : 
+keywords : 
+description : 
+ico : http://baozoumanhua.com/favicon.ico?v=2
+
+name : 动漫之家 
+url : http://www.dmzj.com/
+title : 
+keywords : 
+description : 
+ico : http://www.dmzj.com/favicon.ico
+
+name : i尚漫 
+url : http://www.ishangman.com/
+title : 
+keywords : 在线漫画,漫画,漫画在线看,漫画下载,漫画网,漫画图片,动漫,原创漫画,单幅,连载,绘本,四格
+description : i尚漫中国原创漫画全媒体平台,中国数千优秀原创漫画作者加盟i尚漫,连载他们的最新原创漫画作品,分享好看漫画故事,这里有大量免费原创漫画资源,您可以在线看漫画也可以加入漫画社区,分享漫画带给您的喜悦和快乐。
+ico : http://www.ishangman.com/favicon.ico
+

@@ -1,0 +1,56 @@
+name : 屌丝搜索:
+url : http://www.diaosisou.com/
+title : 
+keywords : 屌丝搜,屌丝搜索,diaosisou,BT种子,BT搜索,种子搜索,磁力搜索,磁力链接,磁力链接搜索,磁力链,种子搜索神器,p2p种子搜索器
+description : 屌丝搜索(diaosisou.com)通过网络爬虫机器人从DHT网络和全球各大bt搜索资源分享站爬取磁力链接，故本站不存储任何资源。能检索最热门影视，音乐，软件，电子书等资源，是探究DHT网络的学术产物。被称为p2p种子搜索器，是最懂屌丝的DHT磁力搜索引擎。
+ico : http://www.diaosisou.com/static/image/favicon.ico
+
+name : 蜘蛛磁力:
+url : http://www.zhizhu88.com/
+title : 
+keywords : 磁力搜索,磁力链接,种子搜索,BT搜索,番号搜索,蜘蛛磁力,BT下载
+description : 蜘蛛磁力搜索(www.zzcili.cc)是全球资源最丰富的BT种子搜索下载网站和垂直搜索引擎!
+ico : http://www.zhizhu88.com/favicon.ico
+
+name : 磁力爸爸:
+url : http://www.cilibaba.me/
+title : 
+keywords : 
+description : 
+ico : http://www.cilibaba.me/favicon.ico
+
+name : BT搜搜:
+url : http://www.btyunsou.com/
+title : 
+keywords : 磁力链接,磁力搜索,BT搜索,BT种子,BT种子搜索,种子搜索,高清BT,迅雷BT搜索,高清BT种子,bt种子搜索器
+description : BTSOSO是一个DHT磁力链接搜索引擎，专注于提供磁力链接和BT种子文件搜索服务,你可以在这里搜索电影、美剧、综艺、软件、动漫、教程、游戏等BT资源和磁力链接。
+ico : http://www.btyunsou.com/static/img/favicon.png
+
+name : TorrentKitty:
+url : http://www.torrentkitty.cn/
+title : 
+keywords : 
+description : 
+ico : http://www.torrentkitty.cn/favicon.ico
+
+name : 种子搜:
+url : http://www.zhongziso.com/
+title : 
+keywords : 种子搜,种子帝,磁力搜索,磁力链接,种子搜索,BT搜索,BT种子,BT种子搜索,种子搜索神器,BT种子下载,番号搜索
+description : 种子搜(www.zhongziso.com)种子帝(www.zhongzidi.com)磁力搜索是一个专业提供磁力链接搜索和下载的网站,索引了上千万磁力链接的搜索引擎，全球资源最丰富的BT种子磁力链接搜索下载网站和垂直搜索引擎，被誉为BT种子磁力链接搜索神器。本站本身不直接提供BT种子，而是通过网络机器人从DHT网络以及全球各大BT分享网站获取磁力链接
+ico : http://www.zhongziso.com/favicon.ico
+
+name : BT之家:
+url : http://www.btjia.org/
+title : 
+keywords : 
+description : 
+ico : http://www.btjia.org/favicon.ico
+
+name : 查片源:
+url : https://www.chapianyuan.com/
+title : 
+keywords : 
+description : 
+ico : https://www.chapianyuan.com/favicon.ico
+

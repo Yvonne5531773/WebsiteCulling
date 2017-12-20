@@ -1,0 +1,42 @@
+name : ﻿中国菜谱网:
+url : http://www.chinacaipu.com/menu/pengrenqiaomen/
+title : 
+keywords : 烹饪小窍门,菜谱网,菜谱大全,菜谱家常菜做法,健康养生,学做菜上菜谱网
+description : 菜谱网，中国最接地气儿的美食网站。在这里，你可以找到各类菜谱家常菜做法，也可以查阅与我们生 活息息相关的健康养生常识。总之，找菜谱大全、学做菜请来中国菜谱网。
+ico : http://www.chinacaipu.com/favicon.ico
+
+name : 香哈网-烹饪技巧:
+url : https://www.xiangha.com/zhishi/jq/
+title : 
+keywords : 烹饪技巧,美食知识 ,香哈网
+description : 香哈网是一个专业的美食网站。提供丰富的菜谱、健康食疗、食物相克大全，让您轻松地学会怎么做美食，吃得健康。
+ico : https://s2.cdn.xiangha.com/img/xiangha.ico
+
+name : 美食杰:
+url : http://www.meishij.net/pengren/jiqiao/
+title : 
+keywords : 烹饪技巧,家庭烹饪技巧
+description : 烹饪技巧,家庭烹饪技巧
+ico : http://www.meishij.net/favicon.ico
+
+name : 香哈网-食物相克:
+url : https://www.xiangha.com/xiangke/
+title : 
+keywords : 食物相克,食物相克表,食物相克大全,相克的食物
+description : 香哈网食物相克大全，为广大网民免费提供众多的食物相克大全介绍，具有丰富全面的食物相克表可供您查看，想要了解参考食物相克的食物有哪些，就来香哈网。
+ico : https://s2.cdn.xiangha.com/img/xiangha.ico
+
+name : 食物相克大全:
+url : http://www.shiwuxiangke.com/
+title : 
+keywords : 食物相克大全,食物相克,哪些食物相克
+description : 食物相克大全网站专门研究食物相克的相关信息，为网友提供食物相克大全资料，了解哪些食物相克，避免产生因为食物相克而产生的食物中毒现象！
+ico : http://www.shiwuxiangke.com/favicon.ico
+
+name : 99饮食:
+url : http://ys.99.com.cn/baike/shiwuxiangke.htm
+title : 
+keywords : 食物相克,食物相克查询,食物相克大全
+description : 99健康网小编推荐：以下食物同食会导致一些疾病的发生，所以广大网友牢记了。
+ico : http://ys.99.com.cn/favicon.ico
+

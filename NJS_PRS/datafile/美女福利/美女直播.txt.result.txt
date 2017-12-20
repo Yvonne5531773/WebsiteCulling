@@ -1,0 +1,63 @@
+name : YY直播:
+url : http://www.yy.com/
+title : 
+keywords : 吃鸡直播,美女直播,视频直播,王者荣耀直播,绝地求生直播,游戏直播,荒野行动直播,户外直播,dnf直播,cf直播,dota2直播,lol直播
+description : YY致力于打造全球领先的互动直播平台，以多样的美女互动、优质的直播内容、极致的互动体验，满足用户音乐、舞蹈、户外等热门直播以及王者荣耀、绝地求生等多种热门游戏直播的观看需求。
+ico : http://www.yy.com/favicon.ico
+
+name : 六间房:
+url : http://www.6.cn/
+title : 
+keywords : 美女视频,美女直播,视频聊天,视频交友
+description : 六间房是真人互动视频直播社区。秀场视频直播间，支持数万人同时在线视频聊天、在线K歌跳舞、视频交友。赶快加入，免费与数万个美女主播在线聊天。
+ico : https://vr0.6rooms.com/imges/favicon.ico
+
+name : 我秀:
+url : http://www.woxiu.com/
+title : 
+keywords : 我秀,我秀网,美女主播,美女直播,视频直播,手机直播,游戏直播,社交直播
+description : 我秀是一个人人在线视频娱乐直播平台，也是国内人气最旺的美女在线直播互动社区，在这里人人可以玩直播，可以与美女网红主播在线视频、手机直播聊天交友！
+ico : http://www.woxiu.com/favicon.ico
+
+name : 百度秀吧:
+url : http://www.xiu8.com/
+title : 
+keywords : 秀吧,秀吧美女视频,秀吧美女直播,秀吧美女主播,秀吧视频直播
+description : 秀吧是集视频交友与才艺展现为一体的互动社区，在线支持秀吧美女视频、秀吧美女直播、秀吧视频直播，免费与美女主播聊天互动，一起才艺展示赶快加入吧！
+ico : http://www.xiu8.com/favicon.ico
+
+name : 新浪秀场:
+url : http://ok.sina.com.cn/
+title : 
+keywords : 美女视频,美女直播,视频聊天,视频交友
+description : 新浪秀场是全国最大真人视频直播社区。秀场视频直播间，支持数万人同时在线视频聊天、在线K歌跳舞、视频交友。赶快加入，免费与数万个美女主播在线聊天。
+ico : http://sr.9see.com/v3.0/images/favicon.png
+
+name : 酷我秀场:
+url : http://x.kuwo.cn/
+title : 
+keywords : 聚星直播,酷我聚星,酷我聚星网,酷我,聚星,在线演艺,娱乐直播,酷我真人秀,聚星,聚星网
+description : 聚星直播，酷我聚星直播是国内领先的泛娱乐直播平台，支持海量用户同时在线互动。直播特色多种多样、内容精彩纷呈，支持视频聊天、互动交友、视频清晰稳定。快来加入，总有一款主播会打动你。
+ico : http://imagexc.kuwo.cn/kuwolive/jx_title.ico
+
+name : 69秀:
+url : http://www.69xiu.com/
+title : 
+keywords : 美女直播,美女视频, 美女主播,视频聊天,视频交友,美女交友,美女秀场,清纯美女,性感美女,美女互动,美女聊天,美女在线表演,美女直播间,美女聊天室
+description : 九秀美女秀场是集视频交友与美女在线表演为一体的视频交友网站,这里有美女视频直播、美女视频聊天、美女视频表演,看美女主播,与美女视频互动。九秀,一个美女如云网站!
+ico : http://www.9xiu.com/favicon.ico?id=1
+
+name : 都秀:
+url : http://www.doshow.com.cn/
+title : 
+keywords : 视频聊天网,视频聊天室,视频聊天,多人视频,多人视频聊天,视频交友,视频社区,都秀,doshow
+description : Doshow都秀视频聊天网是免费多人视频社区,提供多人视频聊天,视频聊天室,视频交友,多人视频等，是全国最大的视频聊天网站，是多人视频聊天的首选视频聊天网站。
+ico : http://www.doshow.com.cn/favicon.ico
+
+name : 网易Bobo:
+url : http://www.bobo.com/
+title : 
+keywords : 网易Bobo 美女主播 视频聊天 美女视频 视频直播 美女秀场 视频聊天室 在线K歌 视频交友
+description : BoBo是网易旗下大型在线娱乐社区 互联网明星直播平台 海量优质娱乐主播与你即时互动 技术先进的视频直播间 支持数万人同时在线视频聊天 在线K歌跳舞 视频交友 赶快加入
+ico : http://www.bobo.com/favicon.ico
+

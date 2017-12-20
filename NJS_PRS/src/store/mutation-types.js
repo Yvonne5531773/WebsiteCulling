@@ -1,0 +1,1 @@
+export const SET_COMPONENT = 'SET_COMPONENT'

@@ -1,0 +1,42 @@
+name : 直播吧:
+url : https://www.zhibo8.cc/
+title : 
+keywords : 直播吧,NBA,足球,体育,直播8,zhibo8,zhiboba
+description : 直播吧是知名体育平台,主要为足球迷,篮球迷等提供直播,新闻资讯,数据,论坛社区,原创报道,视频集锦等服务
+ico : https://www.zhibo8.cc/favicon.ico
+
+name : 章鱼TV:
+url : http://www.zhangyu.tv/channellist
+title : 
+keywords : 章鱼,中超直播,章鱼直播,体育直播,原创体育,体育解说,户外项目直播
+description : 章鱼是全民原创互动的体育直播，为观众提供覆盖面最广的比赛和多样化的直播体验。章鱼的直播内容包括中超、英超、足总杯、国王杯、WTA、MLB等热门联赛，也包括花样滑冰、短道速滑、羽毛球、乒乓球、户外项目、赛车等项目。
+ico : http://crossorigin.kukuplay.com/cdns/zyuser/201704//favicon.ico
+
+name : 天天直播:
+url : http://www.tiantianzhibo.com/
+title : 
+keywords : 天天直播,NBA直播,直播吧,足球直播,CCTV5在线直播,CCTV5+在线直播,直播吧
+description : 天天直播专业的NBA直播、足球直播、直播吧，做最好的直播吧，天天直播誓为您寻到最全最好的体育直播信号，NBA直播赛事、各足球直播比赛或足球直播篮球直播体育直播应有尽有，频道最全的直播吧。CCTV5在线直播，天天直播不仅最全，而且高清！只为做到最佳体验。
+ico : http://www.tiantianzhibo.com/favicon.ico
+
+name : jrs直播:
+url : http://www.jrsnba.com/
+title : 
+keywords : jrs、jrs直播
+description : jrs直播-这是一个在线免费观看篮球和足球比赛的直播网站、酷玩直播、英超直播、意甲西甲亚冠直播、NBA直播、斯诺克等比赛都可以流畅观看，还可以了解球员信息、比赛赛程、明日比赛预告等等-JRS
+ico : http://mat1.gtimg.com/sports/kbsweb/favicon.ico
+
+name : 24直播:
+url : http://www.24zbw.com/live/
+title : 
+keywords : 24直播,24直播网,直播吧,CCTV5在线直播,NBA直播,NBA直播吧,足球直播
+description : 24直播网汇集NBA直播吧,足球直播,CBA直播,NBA录像回放,高清视频下载,NBA中文网资讯,CCTV5在线直播,24小时不间断更新,是您观看直播的最佳选择！
+ico : http://www.24zbw.com/favicon.ico
+
+name : 哇哈体育:
+url : http://www.52waha.com/live
+title : 
+keywords : 欧洲杯直播,CCTV5在线直播,足球直播,足球直播吧,NBA直播,NBA视频直播,NBA直播吧,NBA比赛直播
+description : 哇哈体育直播提供欧洲杯直播、CCTV5在线直播、足球直播、NBA直播、中超直播等比赛直播，实时更新包括CCTV5在线直播、广东体育直播等体育直播信号。
+ico : http://www.52waha.com/favicon.ico
+

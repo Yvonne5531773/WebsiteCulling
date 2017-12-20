@@ -1,0 +1,35 @@
+name : 磨铁中文网 
+url : http://www.motie.com/
+title : 
+keywords : 网络小说,恐怖灵异小说
+description : 磨铁中文网男性原创频道提供原创小说在线阅读，包含玄幻小说、武侠小说、网络小说、历史小说、军事小说、网游小说、都市小说、修真小说、恐怖灵异小说、免费小说等在线阅读。
+ico : http://www.motie.com/favicon.ico
+
+name : 起点中文网  
+url : https://www.qidian.com/
+title : 
+keywords : 小说,小说网,玄幻小说,武侠小说,都市小说,历史小说,网络小说,言情小说,青春小说,原创网络文学
+description : 小说阅读,精彩小说尽在起点中文网. 起点中文网提供玄幻小说,武侠小说,原创小说,网游小说,都市小说,言情小说,青春小说,历史小说,军事小说,网游小说,科幻小说,恐怖小说,首发小说,最新章节免费
+ico : https://qidian.gtimg.com/qd/favicon/qd_icon.fb0b7.ico
+
+name : 纵横中文网:
+url : http://www.zongheng.com/
+title : 
+keywords : 小说,小说网,免费小说,纵横中文网
+description : 纵横中文网,最热门的免费小说网站,提供玄幻小说、网游小说、言情小说、穿越小说、都市小说等免费小说在线阅读与下载。大神作品齐聚纵横,最新章节每日更新。
+ico : http://www.zongheng.com/favicon.ico
+
+name : 幻江书盟:
+url : http://hjsm.tom.com/
+title : 
+keywords : 幻剑书盟,永久免费,原创小说,奇幻玄幻,武侠仙侠,女生言情,都市游戏,悬疑科幻,军事历史
+description : 幻剑书盟是中国首家永久免费原创文学门户，全站小说任意章节均可免费阅读！包括奇幻玄幻、武侠仙侠、女生言情、都市游戏、悬疑科幻、军事历史等。
+ico : http://hjsm.tom.com/favicon.ico
+
+name : 17K小说:
+url : http://www.17k.com/
+title : 
+keywords : 小说，免费小说，原创小说，17k小说网，小说阅读网
+description : 17k小说网，最好看的小说阅读网站，提供都市小说、玄幻小说、仙侠小说、历史小说、网游小说、免费小说等在线阅读以及免费下载。每日最快更新，页面简洁，访问速度快。
+ico : http://www.17k.com/favicon.ico
+

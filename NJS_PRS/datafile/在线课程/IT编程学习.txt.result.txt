@@ -1,0 +1,36 @@
+name : 慕课网:
+url : http://www.imooc.com/
+title : 
+keywords : 
+description : 慕课网（IMOOC）是IT技能学习平台。慕课网(IMOOC)提供了丰富的移动端开发、php开发、web前端、android开发以及html5等视频教程资源公开课。并且富有交互性及趣味性，你还可以和朋友一起编程。
+ico : http://www.imooc.com/favicon.ico
+
+name : 实验楼
+url : https://www.shiyanlou.com/courses/
+title : 
+keywords : 实验楼,IT培训,IT教育,编程,在线编程,Linux,Linux教程,Linux操作系统,Python,Python教程,Python基础教程,Java,Java编程,C语言,大数据,Node.js,Hadoop,PHP,Docker,Git,R,SQL,MongoDB,Redis,Swift,Spark,在线实验,IT在线教育,编程入门,项目训练,项目实践,webIDE,软件开发
+description : 实验楼是国内领先的IT在线编程及在线实训学习平台，专业导师提供精选的实践项目，创新的技术使得学习者无需配置繁琐的本地环境，随时在线流畅使用。以就业为导向，提供编程、运维、测试、云计算、大数据、数据库等全面的IT技术动手实践环境，提供Linux、Python、Java、C语言、Node.js、Hadoop、PHP、Docker、Git、R、SQL、MongoDB、Redis、Swift、Spark等千门热门课程。
+ico : https://static.shiyanlou.com/favicon.ico
+
+name : 计蒜客:
+url : https://www.jisuanke.com/
+title : 
+keywords : 计蒜客,编程,计算机,C语言,算法
+description : 计蒜客是学习计算机相关领域知识(编程、算法、开发、计算机理论)最便捷的渠道，其趣味盎然的交互方式让你可以和朋友一起轻松学习。
+ico : https://www.jisuanke.com/favicon.ico
+
+name : 鸥客学院:
+url : http://ok.lanou3g.com/
+title : 
+keywords : 
+Java大数据培训,VR/AR培训,UI全栈设计,HTML5全栈开发培训,Web安全攻防
+description : 鸥课学院程序员培训课堂为蓝鸥旗下在线教育品牌，依托多年成熟线下实体课程，推出在线智能化学习系统。课程全新优化，内容全面精深，顶尖讲师全程直播授课。提供程序员Java大数据开发、VR/AR开发、UI全栈设计、HTML5全栈开发、Web安全攻防等一系列线上IT学习服务，每年帮助上万名学习者成功就业。
+ico : http://ok.lanou3g.com/files/system/2017/03-03/160531b26913635611.ico?version=8.0.22
+
+name : 北风网:
+url : http://www.ibeifeng.com/
+title : 
+keywords : java培训,大数据培训,IT培训,IT培训机构,web前端培训,html5 培训
+description : 0基础学IT,高薪包就业！北风网拥有IT在线教育培训课程包括java培训,html5 培训,web前端培训,大数据培训,软件测试培训,android培训，ios培训等,是国内领先的IT培训机构。
+ico : http://www.ibeifeng.com/favicon.ico
+

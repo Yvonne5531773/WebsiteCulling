@@ -1,0 +1,70 @@
+name : 末日BT 
+url : http://share.acgnx.se
+title : 
+keywords : BT,動畫,漫畫,遊戲,動漫音樂,動漫資源,bt,acg資源,動漫BT下載,動畫下載,漫畫下載
+description : AcgnX末日動漫資源庫擁有華語範圍內最多最全的ACG資源,能為所有動漫愛好者提供最全的資源檢索服務
+ico : http://share.acgnx.se/images/favicon.ico
+
+name : MyGal 
+url : http://mygalgame.com/
+title : 
+keywords : mygalgame,galgame,忧郁的弟弟,我的galgame,汉化硬盘版,汉化,galgame下载,游戏下载,gal下载
+description : 汉化galgame分享站
+ico : http://mygalgame.com/favicon.ico
+
+name : 绅士下载站 
+url : https://www.shenshiacg.com
+title : 
+keywords : galgame下载,二次元,本子,少女映画,在线&下载
+description : 
+ico : https://www.shenshiacg.com/favicon.ico
+
+name : POPGO 
+url : https://bbs.popgo.org/bbs/
+title : 
+keywords : 『漫游』酷论坛
+description : 『漫游』酷论坛
+ico : https://bbs.popgo.org/favicon.ico
+
+name : 妖气动漫 
+url : http://www.17dm.net/
+title : 
+keywords : 
+description : 
+ico : http://www.17dm.net/favicon.ico
+
+name : 爱恋BT 
+url : http://www.kisssub.org/
+title : 
+keywords : 动画 漫画 Galgame 游戏 动漫音乐 片源 RAW 爱恋字幕社 BT下载站 BT分享页 BT发布页 字幕组 下载 Torrent
+description : 爱恋BT分享站，动画～漫画～游戏～动漫音乐～片源（RAW）～各类ACG资源聚集地～欢迎各大佬发布入住！
+ico : http://www.kisssub.org/images/favicon/kisssub.ico
+
+name : 哔哩哔哩JJ 
+url : http://www.bilibilijj.com/
+title : 
+keywords : 哔哩哔哩唧唧,哔哩哔哩,bilibili视频下载,bilibili弹幕下载,bilibili,唧唧
+description : 这是一个基于web,用于下载bilibili视频的在线应用程序,它能够下载99%bilibili官方视频(奇艺\乐视TV那些非官方播放器除外),并且它将会终身免费提供使用,另外,现在它已经支持弹幕下载!
+ico : http://www.bilibilijj.com/favicon.ico
+
+name : ACG狗狗 
+url : http://bt.acg.gg/
+title : 
+keywords : 动画,漫画,卡通,动漫下载,动漫资源,bt,acg资源,动画下载,漫画下载,动漫资源,动漫音乐
+description : 提供动画,漫画,电子书,动漫音乐,动漫游戏等资源下载。动漫资源,尽在ACG动漫BT下载频道
+ico : http://bt.acg.gg/favicon.ico
+
+name : 动漫1080P 
+url : http://dm1080p.com/
+title : 
+keywords : D动漫1080p,dm1080p,动漫下载,动画,BT下载,银魂,火影,死神,海贼王,动漫高清,1080P, 720P,BD, 蓝光,BDRIP,全集,打包,外挂字幕,特典,网盘下载
+description : D动漫1080P高清下载, 提供全集高清打包下载,付外挂字幕,特典,方便快捷,无需回复,网盘离线下载,种子下载,做最单纯简单的动漫下载站
+ico : http://dm1080p.com/favicon.ico
+
+name : 次元壁 
+url : http://www.ciyuan.bi/
+title : 
+keywords : 次元壁,动漫社区,二次元社区,以图搜视频,以图搜动漫,以图搜番,找番,动漫,动漫视频,插画,新番,二次元,番剧,动画,动画片,动漫搜索引擎,次元之壁
+description : 第一家支持以图搜动漫视频的动漫视频网站，二次元就在里面，突破次元壁,一个只属于漫宅的领域,老司机的乐园！新番,动漫视频,动漫插画,Pixiv图片搜索,以图搜视频,以图搜动漫,以图搜番,番剧
+ico : http://www.ciyuan.bi/favicon.ico
+

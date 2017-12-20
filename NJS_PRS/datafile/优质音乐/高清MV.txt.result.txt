@@ -1,0 +1,98 @@
+name : 音悦台:
+url : http://www.yinyuetai.com/
+title : 
+keywords : MV,MTV,高清MV,MV下载,高清MTV下载,MV免费下载,高清MV免费下载,MV视频,音乐MV,在线观看,MV手机免费下载,视频,在线视频MTV,口袋·FAN
+description : 音悦Tai-是以高清MV为主的娱乐视频网站，提供高品质音乐视频在线观看服务。同时也是偶像和粉丝的聚集地，既可以购买明星专辑和周边，也可以参与各式各样的线下活动。
+ico : http://www.yinyuetai.com/favicon.ico
+
+name : 音悦高清mv下载:
+url : http://tool.mkblog.cn/yinyuetai/
+title : 
+keywords : 音悦台,音悦台视屏解析,音悦台下载,MV下载,mv免费下载,音悦台超清,音悦台破解,yinyuetai,音悦台vip,音悦台视屏调用,在线工具箱,工具箱,网页工具箱,孟坤工具箱,孟坤软件,孟坤工具箱网页版
+description : 获取音悦台视频高清下载地址，免费下载音乐台超清 MV 视屏，免积分下载，无需客户端
+ico : http://tool.mkblog.cn/favicon.ico
+
+name : 日韩性感MV下载:
+url : http://www.hdmv.org/
+title : 
+keywords : 高清MV,hdmv,1080p高清MV,MV下载,韩国高清MV
+description : 高清MV|HDMV官网 - 以华语、韩国、日本、欧美各地720P,1080P,4K高清MV与现场Live下载分享交流社区。 
+ico : http://www.hdmv.org/favicon.ico
+
+name : 170MV:
+url : http://www.170mv.com/
+title : 
+keywords : 
+description : 170MV(一起来MV)下载网分享提供好看的音悦台高清MV免费迅雷下载地址及无广告播放,支持手机HTML5在线播放,使用MV解析工具快速获取音悦台1080P、超清、高清MV视频下载地址,高清MV下载,1080P车载MV下载,高清MP4免费下载网站。
+ico : http://static.170mv.com/wp-content/themes/beetube/images/favicon.ico
+
+name : 真乐网:
+url : http://www.truemv.com/
+title : 
+keywords : MV|MTV|MV下载|高清MV|在线MV|高清MV下载|MV免费下载|音乐MV|韩国高清MV
+description : MV|高清MV|MTV,真乐网是高清MV下载和在线观看网站，提供高品质华语MV、欧美MV、韩语MV和日语MV的网站，国内唯一不用注册、完全免费提供高清MV下载的高速播放体验的网站。
+ico : http://www.truemv.com/favicon.ico
+
+name : 主音高清:
+url : http://www.zhuyin.com/
+title : 
+keywords : 
+description : 
+ico : http://www.zhuyin.com/favicon.ico
+
+name : CHD高清音乐影像:
+url : http://www.chdmv.com/
+title : 
+keywords : chdmv,MV,高清MV,MV下载,高清MV下载,MV免费下载,1080P高清MV下载,无损音乐,高清电影
+description : 高清MV发烧友交流论坛，专注1080P高清MV下载，分享国内外最新最快的高清MV、高清现场、高清电影、无损音乐等,以迅雷、网盘、BT等多种下载方式提供免费的高清资源分享平台。 
+ico : http://www.chdmv.com/favicon.ico
+
+name : 7mv分享网:
+url : http://www.7mv.cn/
+title : 
+keywords : MV,MTV,高清MV,MV下载,高清,高清mv,高清MV下载,720p高清MV下载,1080p高清MV下载,MV免费下载,韩国高清MV,音乐MV,720p|1080p高清电影,高清电视剧,高清综艺
+description : 高清MV|MTV|720P|1080P高清MV下载,7mv高清MV下载社区主要有华语高清mv,韩国高清MV,日本高清MV，欧美高清MV，高清现场LIVE等世界各地高清MV免费下载，以及风光记录片、高清电影、高清娱乐节目、高清电影、高清写真等。
+ico : http://www.7mv.cn/favicon.ico
+
+name : 九酷·高清MV:
+url : http://www.9ku.com/yinyuetai/
+title : 
+keywords : MV,MTV,高清MV,MV下载,高清MTV下载,高清MV免费下载
+description : 2017最新的高清音乐MTV大全，海量的大陆、港台、日韩、欧美音乐MTV视频大全就在九酷高清MV大全。
+ico : http://www.9ku.com/favicon.ico
+
+name : 腾讯MV:
+url : http://v.qq.com/music/
+title : 
+keywords : MV,音乐,流行音乐MV,音乐视频,歌曲视频,影视原声,MV精选,舞蹈教学,舞蹈,翻唱,喊麦,演唱会
+description : 腾讯视频音乐频道不仅与各大唱片公司合作，还联合众多独立音乐人共同为你提供全球最新、最IN的高清正版MV。流行音乐、经典歌曲视频在线观看。音乐频道内容包含单曲MV、在线演唱会Live Music、音乐访谈、音乐纪录片、影视原声等节目类型，涵盖华语音乐、日韩音乐、欧美音乐等类型。
+ico : http://v.qq.com/favicon.ico
+
+name : 爱奇艺MV:
+url : http://music.iqiyi.com/
+title : 
+keywords : 音乐,MV,音乐视频,流行音乐MV,音乐歌曲视频
+description : 爱奇艺音乐频道拥有全网最新、最全的高清正版MV。流行音乐视频、经典歌曲视频在线观看。MV内容包含单曲MV、单曲现场、演唱会、影视原声、音乐短片、音乐访谈等节目类型，涵盖华语音乐、日韩音乐、拉美音乐等类型。
+ico : http://www.qiyipic.com/common/images/logo.ico
+
+name : 酷我MV:
+url : http://www.kuwo.cn/mv/
+title : 
+keywords : MV,高清MV,MV下载,音乐MV,MV免费下载,MV视频,在线观看,MV手机免费下载,高清MV免费下载,视频,酷我音乐
+description : 酷我音乐拥有海量的MV库，音乐MV归档索引，华语MV、欧美MV、日韩MV免费试听下载。
+ico : http://image.kuwo.cn/yinyue/kw_icon.ico
+
+name : 一听MV:
+url : http://www.1ting.com/mv/
+title : 
+keywords : 最新MV音乐,MV视频,在线MV观看,高清MV下载,一听MV音乐视频大全
+description : 一听MV音乐视频大全，提供免费全国几乎流行MV视频在线观看、音乐下载。一听MV拥有庞大、完整的MV大全，热门流行的MV音乐迅速更新,并提供下载。
+ico : http://www.1ting.com/favicon.ico
+
+name : 酷狗MV:
+url : http://www.kugou.com/mvweb/html/
+title : 
+keywords : 
+description : 
+ico : http://www.kugou.com/root/favicon.ico
+

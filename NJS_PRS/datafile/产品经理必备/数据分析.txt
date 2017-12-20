@@ -1,0 +1,15 @@
+百度指数:http://index.baidu.com/
+阿里指数:https://alizs.taobao.com/
+Google趋势:https://trends.google.com/trends/
+similarweb:https://www.similarweb.com/
+微博指数:http://data.weibo.com/index
+中国国家数据:http://data.stats.gov.cn/
+世界银行数据:http://data.worldbank.org.cn/
+360趋势:https://trends.so.com/index
+头条指数:https://index.toutiao.com/
+中国企业信息查询:http://www.gsxt.gov.cn/index.html
+百度流量研究院:https://mtj.baidu.com/data/mobile/profile
+可以查看PC和APP相关数据:https://mtj.baidu.com/data/mobile/profile
+西瓜数据:http://data.xiguaji.com/
+企鹅风讯:http://fsight.qq.com/?from=coop_woshipm_yuqing2
+talkingdata:http://mi.talkingdata.com/reports.html

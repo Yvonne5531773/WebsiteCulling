@@ -1,0 +1,42 @@
+name : 湖南卫视:
+url : http://www.shiting5.com/tv/hunanweishi.html
+title : 
+keywords : 湖南电视台,卫视
+description : 湖南电视台卫星频道，通称为湖南卫视 推出了《快乐大本营》、《玫瑰之约》、《晚间新闻》、《新青年》、《音乐不断》《超级女声》《快乐男声》等一系列名牌栏目，在中国国内外产生了广泛影响，确立了娱乐传媒的强势品牌地位。被中国媒体誉为快乐旋风、玫瑰花
+ico : http://www.shiting5.com/favicon.ico
+
+name : 江苏卫视:
+url : http://live.jstv.com/
+title : 
+keywords : 江苏卫视在线观看,江苏电视台直播,江苏在线直播
+description : 江苏卫视直播网打造江苏卫视在线直播高清观看网络平台,方便在线观看江苏电视台直播节目,更多精彩尽在荔枝网。
+ico : http://live.jstv.com/favicon.ico
+
+name : 浙江卫视:
+url : http://tv.cztv.com/live1
+title : 
+keywords : 浙江卫视,浙江卫视直播,浙江卫视直播在线观看,中国新歌声,奔跑吧,挑战者联盟,来吧冠军
+description : 中国蓝TV直播频道为您提供浙江卫视,6频道等电视频道同步网络直播，在线观看更多精彩直播内容,尽在中国蓝TV直播频道。
+ico : http://tv.cztv.com/user/favicon.ico
+
+name : CCTV全直播:
+url : http://tv.cctv.com/live/cctv1/
+title : 
+keywords : CCTV 央视网 中央电视台 央视官网 CCTV-1 综合频道 高清 直播
+description : CCTV节目官网提供CCTV在线直播及中央电视台节目表预告等服务,中央电视台是中国重要的新闻舆论机构,现已开办众多频道及节目,拥有国内一流的播音员和主持人队伍。
+ico : http://tv.cctv.com/favicon.ico
+
+name : 综合直播:
+url : http://360kan.wasu.cn/live/ahws/?site=huashu
+title : 
+keywords : 
+description : 
+ico : http://360kan.wasu.cn/favicon.ico
+
+name : 超级看PC版:
+url : http://www.zdfans.com/5084.html
+title : 
+keywords : VST直播PC版, 电视点播, 网络电视直播, 多媒体
+description : 超级看PC版（原VST直播PC版）是一款目前电脑上非常好用的免费网络电视直播软件，它的电视频道非常全且好多都是高清源，支持湖南卫视、央视、地方等热门高清频道，采用原力P2P直播源，源线路支持自动匹配最近节点，支持播放本地文件和网络URL协议rtsp,mms,rtmp,http,p2p，播放分辨率支持随便切换，支持普通及迷你窗口模式，播放画质默认增强、软件内置解码器(软解)且支持系统解码(硬解)，观看高清流畅！   新版变化  http:..
+ico : http://www.zdfans.com/favicon.ico
+

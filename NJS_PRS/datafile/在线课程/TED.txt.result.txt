@@ -1,0 +1,63 @@
+name : TED官网:
+url : https://www.ted.com/
+title : 
+keywords : TED, Talks, Themes, Speakers, Technology, Entertainment, Design
+description : TED Talks are influential videos from expert speakers on education, business, science, tech and creativity, with subtitles in 100+ languages. Ideas free to stream and download.
+ico : https://pa.tedcdn.com/favicon.ico
+
+name : 网易TED:
+url : http://open.163.com/ted/
+title : 
+keywords : ,ѧ,Ү³ѧ,ѧ,׹,Ƶ,
+description : ƵƵƳУ,漰㷺ѧ,Уʦ潲,ƵƵǿƵѧƽ̨
+ico : http://c.open.163.com/favicon.ico
+
+name : 优酷TED:
+url : http://edu.youku.com/ted
+title : 
+keywords : TED TED演讲 ted演讲集,优酷视频
+description : 优酷TED官方专区 - 优酷TED官方专区 - TED中国大陆首席战略合作伙伴优酷，TED官方专区   - 优酷视频
+ico : http://static.youku.com/v1.0.166/index/img/favicon.ico
+
+name : 新浪TED:
+url : http://open.sina.com.cn/school/id_57/
+title : 
+keywords : 公开课,耶鲁,哈佛,麻省理工,牛津,剑桥,普林斯顿,加州大学洛杉矶分校,加州大学伯克利分校,哥伦比亚,名校讲座,名师讲座,大学课程,视频讲座,国外课程,公开课下载,公开课视频
+description : 新浪名校公开课汇集哈佛、耶鲁、斯坦福、麻省等全世界各大名校的著名教授视频课程，涉及人文、历史、经济、哲学、理工等各学科，打造网络视频教学无国界分享平台。
+ico : http://open.sina.com.cn/favicon.ico
+
+name : 腾讯TED:
+url : http://v.qq.com/vplus/ted
+title : 
+keywords : 腾讯视频,电影,电视剧,综艺,新闻,财经,音乐,MV,高清,视频,在线观看
+description : 
+ico : http://v.qq.com/favicon.ico
+
+name : A站TED:
+url : http://www.acfun.cn/a/aa5002167
+title : 
+keywords : TED
+description : TED（指technology, entertainment, design在英语中的缩写，即技术、娱乐、设计）是美国的一家私有非盈利机构，该机构以它组织的TED大会著称，这个会议的宗旨是“用思想的力量来改变世界”。
+ico : http://www.acfun.cn/favicon.ico
+
+name : 可可英语:
+url : http://www.kekenet.com/Article/videolis/tedspeech/
+title : 
+keywords : TED 演讲 英语视频听力,可可英语
+description : TED是美国的一家私有非盈利机构，该机构以它组织的TED大会著称。TED诞生于1984年，其发起人是里查德沃曼。 从2006年起，TED演讲的视频被上传到网上。截至2010年4月，TED官方网站上收录的TED演讲视频已达650个，有逾五千万的网民观看了TED演讲的视频。所有的TED演讲的视频都是以创用CC的方式予以授权的。
+ico : http://www.kekenet.com/favicon.ico
+
+name : VOA英语网:
+url : http://www.tingvoa.com/TED/
+title : 
+keywords : TED演讲集
+description : TED（指Technology, Entertainment, Design在英语中的缩写，即技术、娱乐、设计）是美国的一家私有非营利机构，该机构以它组织的TED大会著称。TED诞生於1984年，其发起人是里查德·沃曼。
+ico : http://www.tingvoa.com/favicon.ico
+
+name : 喜马拉雅TED:
+url : http://www.ximalaya.com/zhubo/1219164/
+title : 
+keywords : TED演讲集,TED演讲集网络电台,TED演讲集主播,个人电台
+description : 欢迎收听TED演讲集网络电台,在这里您可以了解更多TED演讲集主播,个人电台动态信息。喜马拉雅FM,听我想听！
+ico : http://www.ximalaya.com/favicon.ico
+

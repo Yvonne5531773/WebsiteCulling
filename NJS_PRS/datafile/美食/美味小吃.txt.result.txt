@@ -1,0 +1,49 @@
+name : ﻿美食天下:
+url : http://home.meishichina.com/recipe/xiaochi/
+title : 
+keywords : 小吃菜谱大全,小吃做法大全,小吃怎么做好吃,家常小吃菜谱做法大全
+description : 小吃的家常做法图片大全,小吃怎么做好吃,家常小吃的最简单制作方法等菜谱相关信息,让初学者也能烹饪出好味道。
+ico : http://static.meishichina.com/v6/img/lib/f.ico
+
+name : 美食厨房:
+url : http://www.meishichina.com/Eat/Special/Nosh/
+title : 
+keywords : 风味小吃的做法大全,小吃,特色小吃,地方小吃,小吃的做法,北京小吃
+description : 美食厨房风味小吃的做法大全。小吃,特色小吃,地方小吃,小吃的做法,北京小吃
+ico : http://static.meishichina.com/v6/favicon.ico
+
+name : 好豆菜谱:
+url : http://www.haodou.com/recipe/all/829/
+title : 
+keywords : 小吃的做法大全,小吃怎么做好吃
+description : 小吃怎么做才好吃？小吃的做法多式多样，在做小吃的时候需要注意哪些技巧呢？这里汇集了各类小吃的做法，每一道都含有详细的高清步骤图，助您轻松快速的学会小吃的花样做法。
+ico : http://www.haodou.com/favicon.ico
+
+name : 下厨房:
+url : http://www.xiachufang.com/category/40073/
+title : 
+keywords : 小吃,特色小吃,小吃的做法
+description : 下厨房5108道关于小吃的菜谱：[糯米枣]，好喜欢的小食。，虾扯蛋——台湾夜市小吃，京味小吃：切糕~~，Q弹椰汁千层糕(马蹄糕)，福州经典小吃芋泥，驴打滚，过年小食炸小果（焦叶），武汉小吃三鲜豆皮，琥珀核桃仁，潮汕小吃韭菜粿，拔丝地瓜，烤栗子（懒人版），自制小吃----凉皮，反沙芋头，葱花鸡蛋饼，葡式蛋挞，乌镇小吃--黄豆红糖麻糍✺◟(∗❛ัᴗ❛ั∗)◞✺，秘制沙县小吃卤鸡腿，蜜三刀（经典小吃），红薯圆子……
+ico : http://www.xiachufang.com/favicon.ico
+
+name : 豆果网:
+url : http://www.douguo.com/caipu/特色小吃
+title : 
+keywords : 
+description : 
+ico : http://www.douguo.com/favicon.ico
+
+name : 香哈网:
+url : https://www.xiangha.com/xiaochi/
+title : 
+keywords : 小吃,小吃大全,全国各地特色小吃做法大全
+description : 香哈网小吃大全，免费提供全国各地的特色小吃介绍、各地的美食攻略，更有小吃的做法大全以及小吃的简介和历史文化介绍，帮助您更全面的了解各地特色小吃和游览各地的美食攻略。
+ico : https://s2.cdn.xiangha.com/img/xiangha.ico
+
+name : 美食杰:
+url : http://www.meishij.net/china-food/xiaochi/
+title : 
+keywords : 小吃,特色小吃,加盟
+description : 小吃栏目向各位介绍中国各城市的老风味小吃为主及特色小吃的做法图片等
+ico : http://www.meishij.net/favicon.ico
+

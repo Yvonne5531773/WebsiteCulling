@@ -1,0 +1,63 @@
+name : ﻿官网论坛；
+url : http://pvp.qq.com/
+title : 
+keywords : 王者荣耀,王者联盟,英雄对战,5V5,MOBA,手游
+description : 《王者荣耀》是腾讯天美工作室历时3年推出的东方英雄即时对战手游大作，抗塔强杀、团灭超神，领略爽热血竞技的酣畅淋漓！1v1、3v3、5v5、闯关等丰富游戏模式，随时战，更自由！跨服匹配秒开局，好友组队战排位，不靠装备、没有等级，更公平、更爽快的无差异对战！
+ico : http://pvp.qq.com/favicon.ico
+
+name : 虎扑王者荣耀深度讨论专区:
+url : https://bbs.hupu.com/kog
+title : 
+keywords : 王者荣耀
+description : 王者荣耀来自社区, 玩累了，别忘了在这里和JRs聊聊心得。关注本区，发现王者荣耀热帖。
+ico : https://b3.hoopchina.com.cn/common/favicon.ico
+
+name : 18183王者荣耀攻略:
+url : http://www.18183.com/yxzjol/
+title : 
+keywords : 王者荣耀攻略,王者荣耀,腾讯王者荣耀,王者荣耀英雄攻略,王者荣耀英雄出装
+description : 18183王者荣耀专区是王者荣耀官网合作资料站,每天都有最新的王者荣耀下载，王者荣耀攻略资料发布,提供王者荣耀礼包发放等多种服务。
+ico : http://js.18183.com/public/img/favicon.ico
+
+name : NGA玩家社区:
+url : http://bbs.ngacn.cc/thread.php?fid=516
+title : 
+keywords : NGA,National Geographic Azeroth,游戏社区,魔兽世界,魔兽世界中文数据库,wow,World of Warcraft
+description : NGA 最专业的魔兽世界讨论 及综合游戏社区
+ico : http://bbs.ngacn.cc/favicon.ico
+
+name : 多玩游戏论坛:
+url : http://bbs.duowan.com/forum-2637-1.html
+title : 
+keywords : 王者荣耀
+description : 王者荣耀 ,多玩游戏论坛
+ico : http://bbs.duowan.com/favicon.ico
+
+name : 九游王者荣耀专区:
+url : http://bbs.9game.cn/forum-5981-1.html
+title : 
+keywords : 王者荣耀论坛,王者荣耀官网,王者荣耀攻略,王者荣耀特权礼包,王者荣耀激活码
+description : 九游王者荣耀官网论坛为您提供王者荣耀攻略、王者荣耀特权礼包、激活码、兑换码等内容,欢迎到九游王者荣耀论坛与玩家交流。 
+ico : http://bbs.9game.cn/favicon.ico
+
+name : 4399手游论坛:
+url : http://bbs.4399.cn/forums-mtag-82657#
+title : 
+keywords : 王者荣耀官方正版安卓下载_王者荣耀论坛_交流论坛_4399手游论坛
+description : 王者荣耀手游论坛，为您提供热门王者荣耀新英雄介绍、新闻资讯、活动消息、游戏攻略以及火爆的王者荣耀玩家交流平台。
+ico : http://m.img4399.com/root/assets/images/favicon.ico?20140110182527
+
+name : 游戏狗:
+url : http://bbs.gamedog.cn/forum-334-1.html
+title : 
+keywords : 王者荣耀
+description : 该论坛是专门为游戏狗广大玩家朋友们提供的一个王者荣耀心得问题交流版块，希望大家一起来参与建设成最有价值的平台。 
+ico : http://bbs.gamedog.cn/favicon.ico
+
+name : 当乐网王者荣耀社区:
+url : http://bbs.d.cn/topic_list_all_103046.html
+title : 
+keywords : 王者荣耀论坛,王者荣耀官网,王者荣耀攻略,王者荣耀下载
+description : 王者荣耀论坛,王者荣耀官网,王者荣耀攻略,王者荣耀下载 
+ico : http://bbs.d.cn/favicon.ico
+

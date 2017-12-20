@@ -1,0 +1,49 @@
+name : 创 业 邦:
+url : http://cyzone.cn/
+title : 
+keywords : 创业，资本，风险投资，VC，IPO，PE，私募，风险投资公司，私募股权，上市，融资，天使投资，创业故事,创业项目
+description : 创业邦致力于成为中国创业者的信息平台和服务平台，帮助中国创业者实现创业梦想。创业邦为创业者和风险投资人提供各种创业类最新资讯和实用知识手册，打造创业者和投资人的社交平台。
+ico : http://cyzone.cn/favicon.ico
+
+name : 速 途 网:
+url : http://www.sootoo.com/
+title : 
+keywords : 速途网,互联网新闻,电子商务,搜索引擎,行业网站,网络营销,
+description : 中国互联网行业社交媒体,包括新闻,电子商务,搜索,企业,营销,游戏,安全,SaaS,无线等频道,每日发布大量企业信息及专题,第一时间报道行业重大事件,全面关注互联网热点话题
+ico : http://www.sootoo.com/favicon.ico
+
+name : 创    见:
+url : http://tech2ipo.com/
+title : 
+keywords : TECH2IPO,创见,新零售
+description : TECH2IPO创见专注互联网创业与创新,我们报道最前沿的科技创业模式,披露最有潜力的新兴创业公司。
+ico : http://dn-noman.qbox.me/tc.png
+
+name : 新     芽:
+url : http://newseed.pedaily.cn/
+title : 
+keywords : 创始人,创业者,天使投资人,创投,独角兽
+description : 新芽NewSeed致力于为早期创业者、创始人和天使投资人提供又新又快的创业资讯、数据、创投融资对接、创投学院、新芽是创业者都关注的资本聚集地、你就是下一个独角兽。
+ico : http://static.pedaily.cn/app/newseed/favicon.ico
+
+name : 创 业 易:
+url : http://www.chinae.net/
+title : 
+keywords : 天使投资,找天使投资人,股权众筹,创业易,找投资人,天使投资人,天使众筹平台,众筹,创业融资,投融资平台
+description : 创业易是中国首家定位于为创业项目找天使投资人的”私密融资”平台,致力于通过互联网技术帮助优秀创业项目快速获得天使投资，对接最符合创业项目发展的天使投资人.创业计划书只有认证的天使投资人才可以看到,全面保护创业者的利益。创业易提供找投资人、项目合投、天使投资、股权众筹、创业计划书点评等服务.
+ico : http://www.chinae.net/favicon.ico
+
+name : 品 途 网:
+url : http://www.pintu360.com/
+title : 
+keywords : 创业投资, VC,天使投资,投资人,科技创新,人工智能,大数据,智能硬件,AI,新零售,电子商务,移动支付,产业升级,消费升级,互联网+医疗,医美,文化产业,企业服务,股权投资,风险投资,智能科技,新零售,消费升级
+description : 品途商业评论为您提供科技、文娱、零售、消费等产业资讯和深度分析，同时拥有投资人说、品途公司志、品途资本论等信息服务产品，我们致力用媒体激发产品创新，打造第一产业创新媒体平台。
+ico : http://www.pintu360.com/image/favicon.ico
+
+name : i 黑 马:
+url : http://www.iheima.com/
+title : 
+keywords : i黑马是面向创业者的创新型综合服务平台，掌握创业创新领域强有力话语权的媒体矩阵,致力于帮助创业者获得投资、人才、宣传和经验。
+description : 
+ico : http://img.iheima.com/templates/iheima/sprint1/img/favicon.ico
+

@@ -1,0 +1,128 @@
+name : 糗事百科:
+url : http://www.qiushibaike.com/
+title : 
+keywords : 笑话,搞笑,笑话大全 爆笑,笑话大全,糗事百科,幽默笑话,爆笑笑话
+description : 糗事百科是一个原创的糗事笑话分享社区,糗百网友分享的搞笑段子、搞笑图片大全,都是糗友最珍贵的开心经历,爆笑糗事笑话只在糗事百科！
+ico : http://www.qiushibaike.com/favicon.ico
+
+name : 快乐麻花:
+url : http://www.mahua.com/
+title : 
+keywords : 笑话,搞笑图片,冷笑话,快乐麻花
+description : 快乐麻花笑话网，与千万麻花一起分享最新最热的爆笑笑话、搞笑图片、动态图、冷笑话、糗事笑话、成人笑话、经典笑话、内涵段子等笑话大全。
+ico : http://www.mahua.com/favicon.ico
+
+name : 捧腹网:
+url : http://www.pengfu.com/
+title : 
+keywords : 幽默,搞笑,趣图,美女
+description : 捧腹网提供各类幽默笑话、成人笑话、冷笑话、搞笑图片、糗事
+ico : http://www.pengfu.com/favicon.ico
+
+name : 暴走漫画:
+url : http://baozoumanhua.com/
+title : 
+keywords : 
+description : 
+ico : http://baozoumanhua.com/favicon.ico?v=2
+
+name : 百思不得姐:
+url : http://www.budejie.com/
+title : 
+keywords : 内涵段子,冷笑话,百思不得姐,百思不得姐官网,不得姐
+description : 百思不得姐官网是一个在线发布和分享内涵段子、冷笑话，搞笑图片，成人笑话的热门社区，大家可以对爆笑的内涵图和其他玩家一起交流互动。
+ico : http://wimg.spriteapp.cn/logo/favicon.ico
+
+name : 巨有趣:
+url : http://www.juyouqu.com/
+title : 
+keywords : 笑话，搞笑图片，笑话大全，搞笑视频，冷笑话，幽默笑话，爆笑笑话，爆笑图片，搞笑笑话，内涵笑话，搞笑图集，gif动态图片，热门笑话，笑话吧，巨有趣
+description : 巨有趣笑话网是最火爆的搞笑图片、搞笑视频分享社区，在这里你可以分享经典笑话、搞笑笑话、爆笑笑话、冷笑话、笑话大全、内涵笑话、幽默笑话、gif动态图片、神吐槽、神语音、搞笑图集、搞笑猎奇、笑话吧，让生活中每一件小事尽情欢笑
+ico : http://f1.juyouqu.com/v3/images/favicon.ico
+
+name : 来福岛:
+url : http://www.laifudao.com/
+title : 
+keywords : 笑话,冷笑话,幽默笑话,笑话大全,段子,爆笑,幽默,内涵,搞笑,搞笑图片
+description : 来福岛爆笑娱乐网创建于2000年，是国内较早兴起的中文幽默类网站，经过数年的努力，目前网站平均每天浏览量已达到上百万人，网站提供的幽默笑话、内涵段子、搞笑图片等内容传播于各大论坛、社区，已成为国内同类网站中较有影响力的网站。我们将继续专注于幽默笑话、内涵段子、搞笑图片、搞笑铃声的收集，力争做最好的幽默类网站！
+ico : http://www.laifudao.com/favicon.ico
+
+name : 怪讯网:
+url : http://www.guaixun.com/
+title : 
+keywords : 怪讯,怪讯网,怪讯图片,怪讯笑话,搞笑图片
+description : 怪讯网提供大量笑话、成人笑话、冷笑话、搞笑图片、糗事
+ico : http://www.guaixun.com/favicon.ico
+
+name : 犯贱志:
+url : http://www.fanjian.net/
+title : 
+keywords : 邪恶动态图片,搞笑图片,内涵段子,搞笑段子,内涵图,犯贱,犯贱志
+description : 犯贱志是以“娱乐、社会、奇闻、搞笑”等相关轻松、休闲内容为主，集萃大众关注热点，融合了资讯、图片、视频等多种形式的综合娱乐网站
+ico : http://www.fanjian.net/favicon.ico
+
+name : 掘图志:
+url : http://juetuzhi.net/
+title : 
+keywords : 掘图志,搞笑图片,搞笑视频,图片,搞笑,老司机,福利
+description : 掘图志是一个聚合网上最新[搞笑、娱乐、稀奇古怪、休闲]等相关内容以图片或视频的方式呈现给广大网友的小众网站
+ico : http://juetuzhi.net/favicon.ico
+
+name : 乐归网:
+url : http://www.negui.com/
+title : 
+keywords : 搞笑图片，搞笑gif动态图片，搞笑动态图片，搞笑gif图片，gif搞笑图片，gif动态图片
+description : 乐归是专注分享搞笑图片、gif动态图片、搞笑gif动态图片、搞笑gif动态图片大全、搞笑gif图片、搞笑动态图片、搞笑动态图片大全、以及搞笑图片大全的垂直网站,只为你快乐而归。
+
+ico : http://www.negui.com/negui.ico
+
+name : 内涵社:
+url : http://neihanshe.cn/
+title : 
+keywords : 内涵图,内涵,内涵段子,无节操,内涵文,内涵图片,内涵字幕,神回复,糗事,找亮点,你懂的,内涵字幕制作器
+description : 内涵社是一个原创内涵图分享社区, 网友可以自由投稿, 投票, 评论, 审核内涵图, 并与其它社友互动, 在这里您可发现生活中很多形形色色的搞笑内涵片刻。
+ico : http://neihanshe.cn/images/favicon.png
+
+name : 嘻嘻哈哈:
+url : http://www.xxhh.com/
+title : 
+keywords : 笑话,笑话大全,动态图,冷笑话,搞笑段子
+description : 嘻嘻哈哈笑话网为您提供最新的经典笑话大全、搞笑图片、幽默笑话、内涵笑话、冷笑话大全、脑残对话、动态图、搞笑段子，欢迎笑话爱好者加入爆笑生活社区。
+ico : http://www.xxhh.com/favicon.ico
+
+name : 内涵吧:
+url : http://www.neihan8.com/
+title : 
+keywords : 内涵吧,内涵图,内涵漫画,邪恶漫画,韩国漫画
+description : 内涵吧,有内涵的网民们都爱看的网站!我们专注内涵的本质,分享最真实最内涵的搞笑内涵图片,内涵漫画以及各种搞笑内涵段子,首发韩国内涵邪恶漫画全集尽在内涵吧.
+ico : http://www.neihan8.com/favicon.ico
+
+name : 内涵谷:
+url : http://www.neihangu.com/
+title : 
+keywords : 内涵图,内涵段子,内涵视频,内涵谷,内涵图,冷笑话,色系,糗事,美女,内涵动态图
+description : 内涵谷全民讲笑话，分享那些让人爆笑的料，讲那些让气温突降的冷笑话。来内涵谷看笑话,来内涵谷讲笑话
+ico : http://www.neihangu.com/favicon.ico
+
+name : 内涵色:
+url : http://www.neihanse.net/
+title : 
+keywords : 内涵,内涵吧,内涵图,内涵图吧,内涵图片,内涵段子, 内涵笑话,内涵色,内涵涩,邪恶小漫画,邪恶漫画少女漫画,邪恶漫画大全,内涵图 你懂的,你懂的
+description : 内涵色,让内涵无处不在,分享一切内涵!你的内涵与幽默只有我们才懂!...内涵色是国内最大的内涵原创分享社区，每天分享最真实内涵漫画、邪恶漫画、搞笑图片、内涵段子、糗事百科、恶搞视频、雷人语录等,网罗互联网各种精品!
+
+ico : http://www.neihanse.net/favicon.ico
+
+name : 遨游哈哈:
+url : http://www.haha.mx/
+title : 
+keywords : 遨游哈哈，傲游哈哈，哈哈mx，笑话大全，搞笑图片，内涵段子，搞笑照片，幽默笑话，笑话段子，搞笑图片大全，搞笑说说，搞笑动态图片，幽默故事，搞笑动态图，幽默图片，爆笑笑话，幽默滑稽
+description : 傲游哈哈.MX网罗每日最新笑料、内涵段子、冷笑话、搞笑图片、GIF动态图、幽默漫画、美女恶搞、经典语录、爆笑神回复等,快来分享快乐,一起哈哈吧!
+ico : http://www.haha.mx/favicon.ico
+
+name : 笑话集:
+url : http://www.jokeji.cn/
+title : 
+keywords : 笑话,爆笑笑话,幽默笑话,笑话大全,爆笑短信,xiaohua,冷笑话,短信笑话,小笑话集锦,笑话短信,经典笑话,冷笑话大全,短笑话,搞笑短信,笑话吧,搞笑笑话
+description : 笑话网提供各种笑话,有经典笑话,幽默笑话,爆笑笑话,冷笑话,小笑话集锦,笑话大全,短信笑话,短笑话,爆笑短信,笑话短信,笑话故事,搞笑笑话,笑话吧,笑话大全乐翻天,开心每一天!
+ico : http://www.jokeji.cn/favicon.ico
+

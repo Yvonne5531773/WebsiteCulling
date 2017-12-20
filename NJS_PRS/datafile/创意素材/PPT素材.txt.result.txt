@@ -1,0 +1,120 @@
+name : ﻿PPT宝藏:
+url : http://www.pptbz.com/
+title : 
+keywords : PPT模板,PPT模板下载,免费PPT模板,PPT宝藏
+description : PPT宝藏提供大量好看漂亮的PPT模板、PPT教程、Powerpoint模板、幻灯片模板、PPT图标、PPT素材、PPT学校教学课件下载。
+ico : http://www.pptbz.com/favicon.ico
+
+name : 第一PPT:
+url : http://www.1ppt.com/
+title : 
+keywords : PPT模板,PPT模板下载,PPT背景,PPT素材,幻灯片背景图片,幻灯片模板,幻灯片模板下载,PPT背景图片
+description : 第一PPT模板网提供各类PPT模板免费下载，PPT背景图片，PPT素材，PPT模板下载，PPT下载，幻灯片背景图片大全，幻灯片模板下载，幻灯片下载，幻灯片素材，PowerPoint模版免费下载，PowerPoint素材，PowerPoint背景，PowerPoint下载。
+
+ico : http://www.1ppt.com/favicon.ico
+
+name : 百度文库:
+url : https://wenku.baidu.com/list/126
+title : 
+keywords : 
+description : 百度文库为您提供PPT模板,PPT模板免费下载等全方位的学习资料，您可以分享自己的文档，或者是全文阅读，下载其他人的文档。
+ico : https://www.baidu.com/cache/icon/favicon.ico
+
+name : HiPPTer:
+url : http://www.hippter.com/
+title : 
+keywords : PPT,PPT模板,PPT资源,PPT资源,PPT 资源导航,PPT设计,PPT教程,PPT美化,设计师导航
+description : 为PPTER推荐PPT设计相关网站，为你的PPT设计提供创意灵感、配色方案、免费图片、优质图标、工具插件等
+ico : http://www.hippter.com/favicon.ico
+
+name : 优品PPT:
+url : http://www.ypppt.com/
+title : 
+keywords : ppt模板,精美免费ppt模板下载,ppt下载,幻灯片模板,免费ppt模板下载,ppt模板免费下载,免费幻灯片模板下载,ppt主题,powerpoint模板下载
+description : 优品PPT模板网是一家专注于分享高质量的免费PPT模板下载网站，包括图表、背景图片、素材、教程等各类PPT资源。致力于打造国内最大最权威的PPT下载一站式服务平台。ppt主题下载。
+ico : http://www.ypppt.com/favicon.ico
+
+name : 逼格PPT:
+url : http://www.tretars.com/
+title : 
+keywords : 免费ppt模板下载,免费ppt模板,ppt模板,ppt模板下载
+description : 逼格PPT模板网，是一个提供免费ppt模板下载的个人博客网站。除了PPT模板以外，博主李益达还会分享一些免费ppt模板制作教程和素材下载。
+ico : http://www.tretars.com/wp-content/uploads/2014/12/favicon.ico
+
+name : 我爱ppt:
+url : http://iloveppt.cn/forum.php?mod=forumdisplay&fid=51
+title : 
+keywords : 免费ppt模板,ppt图表,ppt表格,ppt背景,ppt样式职场PPT,ppt达人怎样做ppt,PPT网站,PPT模板,加班做ppt,keynote,slide,sharepoint
+description : 我爱PPT中文网，中文演示设计平台，以全新的方式诠释演示设计的概念，强调信息的分类与整理，是PPT爱好者与职场达人必备网站。 
+ico : http://iloveppt.cn/favicon.ico
+
+name : PPTfans:
+url : http://www.pptfans.cn/pptmuban
+title : 
+keywords : PPT模板下载,PPT模板
+description : PPT素材频道，提供PPT模板、PPT逻辑图示、PPT图表图形、PPT图片等素材下载，只要轻松修改就能直接使用，快速提高PPT制作速度。
+ico : http://www.pptfans.cn/favicon.ico
+
+name : PPTstore:
+url : http://www.pptstore.net/ppt_moban/?opt=free
+title : 
+keywords : 免费PPT模板,PPT模板下载
+description : PPTSTORE提供大量免费PPT模板下载，全部由国内、外PPT专家制作，这些免费PPT模板不但精美、好看，而且兼顾实用、专业性，请尽情挑选，感谢您访问PPTSTORE。
+ico : http://www.pptstore.net/favicon.ico
+
+name : 稻壳儿:
+url : http://www.docer.com/
+title : 
+keywords : ppt模板下载，简历模板，PPT定制，视频教程，图片素材下载，ppt素材库
+description : 最新最全最优质的PPT模板、简历模板及图片素材下载，Docer稻壳儿-海量营养的Office文档资源分享平台，资源包括PPT模板、简历模板、图片和视频教程，为每个人的进步加分！
+ico : http://www.docer.com/favicon.ico
+
+name : 51ppt模板:
+url : http://www.51pptmoban.com/
+title : 
+keywords : ppt模板下载,免费ppt模板,原创免费ppt模板,幻灯片模板,ppt源文件素材,ppt背景图片,ppt图表,ppt特效动画,ppt教程,ppt设计技巧,精品ppt模板搜索
+description : 51ppt模板网提供部分原创ppt模板及PPTer分享的优质ppt模板下载，动态ppt模板，宽屏ppt模板，PowerPoint模版背景，ppt模板素材、图表、特效等幻灯片模板设计教程下载。
+ico : http://www.51pptmoban.com/favicon.ico
+
+name : PPT大学:
+url : http://www.pptschool.com/
+title : 
+keywords : PPT大学,PPT大学官网,PPT模板,PPT,商务PPT模板
+description : PPT大学为您免费提供专业的PPT教程、PPT素材、PPT背景图片和商务PPT模板下载。PPT大学让PPT制作从此简单。
+ico : http://www.pptschool.com/favicon.ico
+
+name : 演界网:
+url : http://www.yanj.cn/
+title : 
+keywords : PPT模板，PPT图表，PPT作品，PPT动画，keynote模板，图片素材，PPT设计，keynote设计，PPT定做，演示设计
+description : 中国首家演示设计交易平台，专业PPT模板、PPT图表、PPT动画、PPT作品、PPT动画、keynote、prezi、商业图片、正版图片、演示定制综合平台，提供PPT发布、PPT挣钱、PPT设计、PPT定制、keynote定制、prezi定制等服务
+ico : http://www.yanj.cn/favicon.ico
+
+name : 扑奔网:
+url : http://www.pooban.com/
+title : 
+keywords : 扑奔网,ppt模板,ppt制作,ppt设计
+description : 扑奔网是一个ppt模板、职场办公文档、简历模板、项目策划等高质量Office文档资源在线分享平台,并聚集国内优秀的ppt制作,ppt设计公司和设计师,扑奔网,让您工作更轻松。
+ico : http://www.pooban.com/favicon.ico
+
+name : 包图网:
+url : http://ibaotu.com/sucai/409325.html
+title : 
+keywords : 红色简约风格活动策划执行方案PPT模板
+description : 包图网提供精品模板下载，本设计作品为红色简约风格活动策划执行方案PPT模板，格式:PPTX，像素:1920x1080,下载即可获得源文件，作品可编辑修改，主体文字图片皆可替换，下载红色简约风格活动策划执行方案PPT模板就到包图网。
+ico : http://ibaotu.com/favicon.ico
+
+name : 站长之家:
+url : http://sc.chinaz.com/ppt/
+title : 
+keywords : PPT模板 PPT模板下载 PPT素材 PPT下载 PPT背景 PPT模板网站模板 PPT模板免费下载 PPT模板主题下载
+description : 提供各类PPT模板下载:PPT,PPT素材,PPT下载,答辩ppt模板,动态ppt模板,个人简历PPT模板,中国风ppt模板,毕业论文ppt模板,商务ppt模板,动画ppt模板,商业ppt模板,创意设计ppt模板,开题报告ppt模板,企业ppt模板等。
+ico : http://sc.chinaz.com/favicon.ico
+
+name : 百姓网:
+url : http://515ppt.tzbaixing.cn/?sid=1-44281
+title : 
+keywords : PPT模板，述职报告PPT，党政党建PPT，计划总结PPT，年终总结PPT，简历PPT，金融PPT
+description : PPT模板，述职报告PPT，党政党建PPT，计划总结PPT，年终总结PPT，简历PPT，金融PPT
+ico : http://515ppt.tzbaixing.cn/favicon.ico
+

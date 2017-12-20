@@ -1,0 +1,63 @@
+name : ﻿YY:
+url : https://www.yy.com/game/jdqs
+title : 
+keywords : 绝地求生,绝地求生直播,吃鸡
+description : YY绝地求生大逃杀专区为您提供最新最全的吃鸡游戏视频,精彩吃鸡技巧解说直播。
+ico : https://www.yy.com/favicon.ico
+
+name : 虎牙:
+url : https://www.huya.com/g/2793
+title : 
+keywords : 绝地求生直播，绝地求生，吃鸡直播，绝地求生视频直播，绝地求生吃鸡直播
+description : 虎牙绝地求生专区为用户提供热门的绝地求生直播和攻略视频解说内容，更有绝地求生玩家大主播在线直播绝地求生攻略，赛事，视频，一起嗨翻绝地求生直播间，全新的绝地求生就在虎牙直播。
+ico : https://www.huya.com/favicon.ico
+
+name : 斗鱼:
+url : https://www.douyu.com/directory/game/jdqs
+title : 
+keywords : 绝地求生,绝地求生直播,绝地求生直播间,绝地求生直播地址,客厅游戏直播,绝地求生视频解说攻略,热门游戏直播,高清游戏直播
+description : 绝地求生斗鱼直播频道,各类热门绝地求生精彩赛事直播和各种名家大神直播全天候不间断,绝地求生大神主播各种操作秀翻天,一起嗨翻全场,全新绝地求生直播尽在斗鱼直播。
+ico : https://www.douyu.com/favicon.ico
+
+name : 熊猫直播:
+url : https://www.panda.tv/cate/pubg
+title : 
+keywords : 绝地求生,绝地求生直播,绝地求生视频直播,主机单机直播,绝地求生视频攻略,热门游戏直播,电子竞技直播,高清游戏直播,精品游戏直播
+description : 熊猫直播不仅拥有最高清的绝地求生直播、吃鸡直播，还拥有各类绝地求生吃鸡精彩赛事，更有吃鸡大神操作秀翻天、美女第一视角教学，顶尖精彩的绝地求生吃鸡直播尽在熊猫直播！
+ico : https://www.panda.tv/favicon.ico
+
+name : 火猫直播:
+url : https://www.huomao.com/channel/battlegrounds
+title : 
+keywords : 绝地求生直播,绝地求生直播视频,绝地求生直播间,火猫直播
+description : 火猫直播绝地求生直播频道为您提供了各类热门绝地求生精彩赛事直播视频和各种名家大神绝地求生解说直播,更多高清热门绝地求生直播视频敬请关注火猫直播绝地求生直播平台
+ico : https://www.huomao.com/favicon.ico
+
+name : 触手直播:
+url : https://chushou.tv/gamezone/jdqs.htm
+title : 
+keywords : 绝地求生,绝地求生直播,绝地求生视频,绝地求生攻略,吃鸡直播,吃鸡视频,吃鸡攻略,触手直播,触手绝地求生专区,触手吃鸡专区
+description : 触手绝地求生专区为用户提供了绝地求生直播和吃鸡攻略视频解说内容，更有绝地求生主播在线直播吃鸡攻略、赛事、视频，快来一起加入触手绝地求生直播，围观大神吃鸡的高端技术。
+ico : https://chushou.tv/favicon.ico
+
+name : 战旗直播:
+url : https://www.zhanqi.tv/games/pubg
+title : 
+keywords : 绝地求生直播
+description : 绝地求生第一视角高清直播比赛视频尽在战旗直播-zhanqi.tv
+ico : https://www.zhanqi.tv/favicon.ico
+
+name : 全民直播:
+url : https://www.quanmin.tv/game/juediqiusheng
+title : 
+keywords : 绝地求生直播，绝地求生视频，全民直播绝地求生在线直播
+description : 绝地求生直播，绝地求生视频，全民直播绝地求生在线直播。全民直播提供绝地求生高清、流畅、丰富的绝地求生直播服务，为广大的游戏玩家构建一个尊重观众、尊重主播的全民直播平台。
+ico : https://static.quanmin.tv/public/common/pub/img/favicon.ico
+
+name : 龙族直播:
+url : http://www.longzhu.com/channels/jdqs
+title : 
+keywords : 龙珠游戏直播,游戏直播,赛事直播,大神直播,美女直播,英雄联盟,lol,穿越火线,cf,dnf,qq飞车,逆战,枪神纪, TGA大奖赛,赛事直播,电子竞技直播,LPL直播
+description : 龙珠直播,直播-最全的赛事直播,最丰富的游戏视频互动平台.提供德玛西亚杯、LPL、CFPL、SSC、F1天王赛等顶级赛事的高清、流畅直播,为玩家个人直播提供全面支持,最快更新上传赛事、解说、搞笑、攻略、花絮视频,这里是观看比赛、选手、解说、美女直播和视频的最佳平台
+ico : http://www.longzhu.com/favicon.ico
+

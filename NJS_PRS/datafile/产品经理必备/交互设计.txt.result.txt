@@ -1,0 +1,49 @@
+name : 设计师导航:
+url : http://hao.uisdc.com/
+title : 
+keywords : 设计师网站导航，设计师网址导航，优设导航，设计导航，设计师导航，UI设计，ps教程，设计教程，优秀网页设计，素材下载，用户体验，设计师招聘
+description : 优设网设计师网址导航为设计师提供ps教程、UI设计、素材下载、高清图库、配色方案、用户体验、网页设计等全方位设计师网站导航指引。每周更新及时，是优秀网页设计联盟（SDC）旗下最实用、最专业、最全面、最好用的设计师导航！
+ico : http://hao.uisdc.com/favicon.ico
+
+name : 昵 图 网:
+url : http://www.nipic.com/
+title : 
+keywords : 素材,图库,图片,图片下载,视频素材,设计素材,PSD,矢量,AI,CDR,EPS,ppt模板,设计
+description : 昵图网_原创素材共享平台.图片素材图库提供海量原创素材,图片下载,摄影作品,设计素材,视频素材,ppt模板,PSD源文件,矢量图,AI,CDR,EPS等高清图片下载.
+ico : http://static.nipic.com/images/favicon.ico
+
+name : 大 图 网:
+url : http://www.daimg.com/
+title : 
+keywords : PSD素材,PS素材,淘宝素材,影楼模板,矢量素材,高清图片,图片素材,剪贴素材,设计字体,婚纱模板,淘宝模板
+description : 大图网提供最优质的影楼素材和设计素材,内容包括PSD素材,淘宝素材,婚纱模板,儿童模板,写真模板,矢量素材,高清图片素材,剪贴素材和PS素材,致力于打造最好的素材共享平台
+ico : http://www.daimg.com/favicon.ico
+
+name : 千 图 网:
+url : http://www.58pic.com/
+title : 
+keywords : 千图网,免费素材下载,千图网免费素材图库,矢量图,矢量图库,图片素材,网页素材,免费素材,PS素材,网站素材,设计模板,设计素材,www.58pic.com,网页模板免费下载,千图,素材中国,素材,免费设计,图片
+description : 千图网(www.58pic.com) 是专注免费设计素材下载的网站！提供矢量图素材,矢量背景图片,矢量图库,还有psd素材,PS素材,设计模板,设计素材,PPT素材,以及网页素材,网站素材,网页图标免费下载
+ico : http://www.58pic.com/favicon.ico
+
+name : 站 酷 网:
+url : http://www.zcool.com.cn/
+title : 
+keywords : 设计,设计师,设计网站,设计社区,设计交流,中国原创,原创,原创作品,创意,design,designer,平面设计,UI设计,GUI,网页设计,网站设计,插画,动漫,摄影,插画,摄影,经验,教程,矢量素材,素材下载,素材,png图标,高清图片,设计素材,佳作欣赏,站酷,站酷网,ZCOOL,设计师招聘,设计师求职,设计大赛,设计比赛,正版图片,正版素材,版权图片,商业图片,图片库,摄影图片,插画素材,矢量插画,shutterstock,创意图片
+description : 站酷 (ZCOOL)，中国人气设计师互动平台。深耕设计领域十年，站酷聚集了470万优秀设计师、摄影师、插画师、艺术家、创意人，设计创意群体中具有较高的影响力与号召力。
+ico : http://static.zcool.cn/git_z/z/site/favicon.ico?version=1512821567993
+
+name : 优 设 网:
+url : http://www.uisdc.com/
+title : 
+keywords : 优设,优设网,优秀网页设计联盟,网页设计教程,聊设计,优设哥,你丫才美工,獠麝鸡,网站模板,WebUI,GUI,ICON,PSD,笔刷,模板,字体设计,uisdc
+description : 优设网-优秀网页设计联盟(SDC)，是有着良好职业交流氛围的网页设计行业联盟。与优设哥、獠麝鸡、你丫才美工一起听讲座，聊设计。联盟始终坚持开放、分享、成长的宗旨，为会员提供交流互动平台和网页设计讲座。
+ico : http://www.uisdc.com/favicon.ico
+
+name : 创 造 狮:
+url : http://chuangzaoshi.com
+title : 
+keywords : 设计师网站导航, 设计导航, 创造狮导航, 创意导航,创意网站导航, 创造师导航, 前端导航, 程序员导航, 程序导航, 产品导航, 产品经理导航, 运营导航, 极客导航, 创意工作者导航, www.chuangzaoshi.com
+description : 创造狮，一个创意工作者的导航，专注分享正版优质设计、前端、产品、运营的书签导航，设计教程、设计规范、颜色搭配、灵感创意、前端框架、开发者工具、互联网新品推荐、运营数据分析、自媒体和工具利器好用的分类导航大全
+ico : http://chuangzaoshi.com/assets/images/favicon.png
+

@@ -1,0 +1,105 @@
+name : 人人都是产品经理:
+url : http://www.woshipm.com/
+title : 
+keywords : 产品经理,人人都是产品经理,PRD,axure,axure教程,产品经理培训,产品经理招聘,交互设计,产品需求文档,产品设计,原型设计,demo,app,产品运营,互联网,移动互联网,互联网创业,产品经理论坛
+description : 人人都是产品经理致力为产品新人、产品经理等广大产品爱好者打造一个良好的学习交流平台。深度剖析国内外互联网业内动态，分享产品设计、交互设计、视觉设计、用户体验设计、产品运营、产品市场和项目管理等专业产品知识。
+ico : http://image.woshipm.com/wp-files/other/favicon.ico
+
+name : 运营派:
+url : http://www.yunyingpai.com/
+title : 
+keywords : 运营,运营派,互联网运营,营销,内容营销,数字化营销,广告人,文案,文案策划,新媒体运营,微信运营,微博运营,小程序运营,内容运营,用户运营,产品运营,活动策划 ,APP推广,APP运营,数据分析,数据运营,品牌公关,渠道运营,市场运营,社区运营,社群经济,粉丝经济,网红经济
+description : 运营派-是一个以互联网运营、内容营销、文案策划、市场推广为核心的泛运营、大运营学习、交流、分享平台。运营派为您提供用户运营、活动运营、数据运营、品牌运营、渠道运营、新媒体运营、内容营销、广告、文案策划及app运营等专业知识。
+ico : http://image.yunyingpai.com/wp/2016/12/ssyilso0oobdcdc7qdhc.ico
+
+name : 36Kr:
+url : http://www.36kr.com/
+title : 
+keywords : 创业,互联网创业,互联网创业项目
+description : 36氪为您提供创业资讯、科技新闻、投融资对接、股权投资、极速融资等创业服务，致力成为创业者可以依赖的创业服务平台，为创业者提供最好的产品和服务。
+ico : http://36kr.com/favicon.ico
+
+name : 雷锋网:
+url : https://www.leiphone.com/
+title : 
+keywords : 智能硬件,虚拟现实,VR,AR,移动互联网,互联网媒体,移动终端
+description : 雷锋网是国内最早关注人工智能和智能硬件领域的互联网科技媒体，内容涵盖人工智能、智能硬件、机器人、智能驾驶、ARVR、网络安全、物联网、未来医疗、金融科技等9大领域。雷锋网致力于连接和服务学术界、工业界与投资界，为用户提供更专业的互联网科技资讯和培训服务，让用户读懂智能与未来。
+ico : https://www.leiphone.com/favicon.ico
+
+name : 少数派:
+url : https://sspai.com/
+title : 
+keywords : app,iOS,Android,应用,workflow,VSCO,手机摄影,时间管理
+description : 少数派致力于更好地运用数字产品或科学方法，帮助用户提升工作效率和生活品质
+ico : https://cdn.sspai.com/sspai/assets/img/favicon/icon.ico
+
+name : NEXT:
+url : http://next.36kr.com/posts
+title : 
+keywords : NEXT，新产品，创业，互联网产品，Startup
+description : NEXT - 不错过任何一个新产品
+ico : http://next.36kr.com/favicon.ico
+
+name : 投资界:
+url : http://www.pedaily.cn/
+title : 
+keywords : 投资,股权投资,创业投资,风险投资
+description : 投资界是清科旗下的投资网站,为股权投资,创业投资,风险投资,私募股权,创业者提供TMT,IT服务,互联网,清洁技术,医疗健康,消费连锁等行业投资融资,上市IPO,收购重组,基金募集等新闻信息的股权投资权,风险投资专业门户。
+ico : http://static.pedaily.cn/favicon.ico
+
+name : 游戏葡萄:
+url : http://youxiputao.com/
+title : 
+keywords : 游戏葡萄
+description : 游戏葡萄,有判断,有前瞻的游戏行业媒体
+ico : http://cdn.youxiputao.com/static/img/favicon.ico
+
+name : 钛媒体:
+url : http://www.tmtpost.com/
+title : 
+keywords : 钛媒体,互联网,科技,技术,商业,变革,新媒体
+description : 【钛媒体官方网站】钛媒体是国内首家TMT公司人社群媒体，最有钛度的一人一媒体平台，集信息交流融合、IT技术信息、新媒体于一身的媒体平台。
+ico : http://www.tmtpost.com/favicon.ico?v=1
+
+name : 虎嗅网:
+url : https://www.huxiu.com/
+title : 
+keywords : 科技资讯,商业评论,明星公司,动态,宏观,趋势,创业,精选,有料,干货,有用,细节,内幕
+description : 聚合优质的创新信息与人群，捕获精选|深度|犀利的商业科技资讯。在虎嗅，不错过互联网的每个重要时刻。
+ico : https://www.huxiu.com/favicon.ico
+
+name : 广告门:
+url : http://www.adquan.com/
+title : 
+keywords : 广告,广告门,广告人才,广告公司,简历分享,广告新闻,广告创意,阿福广告语,劳博,苗浩,laobo,营销,品牌传播,广告们社区,文案,策划,品牌传奇,Adquan,作品,招聘,媒体,品牌,互动,营销,媒介,4A,奥美,盛世长城,JWT,电通,实力,培训
+description : 广告门网站是中国广告传播行业领先在线媒体及产业互动资讯服务平台。为广告传播行业提供专业行业信息，广告人才招聘/培训，广告营销案例推荐等专业服务。致力于将广告主、代理公司、媒体有机结合,
+ico : http://adquan.com/favicon.ico
+
+name : TNW:
+url : https://thenextweb.com/
+title : 
+keywords : 
+description : Original and proudly opinionated perspectives on remarkable stories for Generation T
+ico : https://cdn0.tnwcdn.com/wp-content/themes/cyberdelia/assets/icons/favicon.png?v=1513171178
+
+name : 数位时代:
+url : https://www.bnext.com.tw/
+title : 
+keywords : 
+description : 長期聚焦於全球、台灣與中國等地最新的科技、網路、創業、數位行銷等議題的動態及趨勢。受到企業領袖與新世代菁英的喜愛，更引領台灣社會對「新商業」的關注與討論。
+ico : https://www.bnext.com.tw/assets/img/favicon.ico
+
+name : SMASHING:
+url : https://www.smashingmagazine.com/
+title : 
+keywords : 
+description : Smashing Magazine — for web designers and developers
+ico : https://www.smashingmagazine.com/favicon.ico
+
+name : 梅花网:
+url : http://www.meihua.info/?woshipm
+title : 
+keywords : 梅花信息,媒体监测,广告监测,新闻监测,舆情监测,微博监测,微信监测,广告创意,传播分析,公关传播,危机预警,危机报告,竞争品牌,竞品监 测,竞争情报,市场营销资讯,资源,案例
+description : 梅花网是中国营销专业领域内容最丰富的网站，为用户提供营销资讯，资源，案例，活动等，公司产品包括媒体监测，广告监测，舆情监测，新闻监测，微信监测，微博监测，社媒监测，危机监测预警，竞争情报，论坛监测，品牌传播研究，新闻搜索，品牌监测，广告创意花费，广告策略，竞争品牌，竞品监测，广告库，案例，知识库，素材等，梅花信息致力于成为中国最优秀的以互联网技术驱动的营销信息服务商
+ico : http://www.meihua.info/favicon.ico
+

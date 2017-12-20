@@ -1,0 +1,14 @@
+name : ﻿美食台 
+url : https://www.mgtv.com/h/309467.html?cxid=95kqkw8n6
+title : 
+keywords : 
+description : 
+ico : https://www.mgtv.com/favicon.ico
+
+name : 天天饮食
+url : http://tv.cctv.com/lm/ttys/
+title : 
+keywords : 天天饮食 CCTV1 家常菜 厨艺 家庭
+description : 这是中央电视台推出的以介绍做菜方法、畅谈做菜体会为主要内容的集知识性、趣味性、服务性为一体的栏目。它适应了现代人们对生活品质不断追求的心理，将厨艺与饮食文化相结合，做家常菜，聊家常事，寻厨艺乐趣，品生活真味，使人们在繁忙的工作之余尽享家庭生活中的轻松与恬静使人们在繁忙的工作之余尽享家庭生活中的轻松。
+ico : http://tv.cctv.com/favicon.ico
+

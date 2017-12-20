@@ -1,0 +1,154 @@
+name : 中华网军事:
+url : http://military.china.com/zh_cn/
+title : 
+keywords : 军事,武器,军事论坛,台海,歼20,四代机,战斗机,武直10,武直19,苏35,运20,辽宁舰,枪,图库,解放军,美军,战争,军事历史,军事新闻,朝鲜半岛,钓鱼岛,南海,日本,侵华战争,二战,台湾,蔡英文,菲律宾
+description : 中华网军事频道是中国权威军事网站，主要有以下栏目：军事要闻、台海形势、中国军情、国际军情、军事专题、网友原创、军事视频、军事图库。
+ico : http://military.china.com/favicon.ico
+
+name : 西陆军事:
+url : http://junshi.xilu.com/
+title : 
+keywords : 西陆军事,中国军事,国际军事,军事新闻
+description : 西陆军事网是中国第一军事门户新闻网站，关注中国军事利益，对比国际军事力量，探寻军事战略，解读军事战争历史，求索强国之路.
+ico : http://junshi.xilu.com/favicon.ico
+
+name : 环球军事:
+url : http://mil.huanqiu.com/
+title : 
+keywords : 军事,军事新闻,中国军事,环球军事,国际军情,军事网
+description : 环球网军事新闻频道是中国最权威的军事新闻网站之一，为您报道中国、国际、台海等最新的军事新闻及军情谍报。包括：中国军事、国际军事、军事热点等独家军事报道。
+ico : http://himg2.huanqiu.com/statics/images/favicon1.ico
+
+name : 新浪军事:
+url : http://mil.news.sina.com.cn/
+title : 
+keywords : 军事新闻,军事图片,军事视频,军事论坛,新浪军事,军事历史,武器,军事博客
+description : 新浪军事频道是一个专业的军事知识网站，覆盖国内军事新闻、国际军事新闻、军备动态、台海形势、我军新闻、军帖精选、新闻评述、军事视频、军事图片、新浪军事论坛。
+ico : http://mil.news.sina.com.cn/favicon.ico
+
+name : 铁血网:
+url : http://www.tiexue.net/
+title : 
+keywords : 军事,中国军事,军事新闻,世界军事,军事网,军事网站,国际军事,军事报道,军事小说
+description : 铁血网是中国最大的军事网站,提供中国军事、世界军事、军事新闻、原创军事评论、军事科技、军事小说、军品装备等全方位的中国军事及世界军事内容。
+ico : http://www.tiexue.net/images/favicon.ico
+
+name : 凤凰军事:
+url : http://news.ifeng.com/mil/
+title : 
+keywords : 
+description : 
+ico : http://news.ifeng.com/favicon.ico
+
+name : 腾讯军事:
+url : http://mil.qq.com/
+title : 
+keywords : 浜,捐浜,浜棰,捐缃,捐,QQ,Tencent
+description : 捐浜
+ico : http://mil.qq.com/favicon.ico
+
+name : 米尔网:
+url : http://www.miercn.com/
+title : 
+keywords : 军事,军事网,军事新闻,中国军事网,军情,军事社区,军事论坛,米尔军事网,米尔网
+description : 米尔军事网是中国最具特色的军事社区，是“具有全球视野的理性爱国者”的网上聚集地。军事领域的所有事件都可以在这里找到深度分析，最新军事新闻、中国军情、历史事件、军事图片等资讯尽在米尔网。
+ico : http://www.miercn.com/images/favicon.ico
+
+name : 军事前沿网:
+url : http://www.qianyan001.com/
+title : 
+keywords : 军事网,中国军事,世界军事,军事新闻
+description : 军事前沿是中国最权威的军事门户网站之一,提供最新中国军事新闻，世界军事新闻还有网友对中国军事的最新爆料。
+ico : http://pic.qianyan001.com/images_2014/favicon.ico
+
+name : 搜狐军事:
+url : http://mil.sohu.com/
+title : 
+keywords : 印度,朝鲜,俄罗斯,美国,导弹,飞机,航母,四代机,歼20,F-35,F-22,南海,洞朗,台海,陆军,海军,空军,海军陆战队,东风21D,火箭炮,中印战争,内战,运-20
+description : 搜狐军事是搜狐旗下专业的军事资讯平台。提供海量、权威的军事信息，国际资讯，武器知识。
+ico : http://statics.itc.cn/web/static/images/pic/sohu-logo/favicon.ico
+
+name : 网易军事:
+url : http://war.163.com/
+title : 
+keywords : 军事，网易军事，军事频道，解放军，国军，中国军队，志愿军，红军，国民革命军，远征军，中国空军，中国海军，中国陆军，军事训练，军队建设，护航编队，世界军队，外国军队，美军，日军，朝鲜，韩国，越南，菲律宾，南海，印度，钓鱼岛，南沙群岛，西沙群岛
+description : 网易军事频道提供最靠谱，最即时的军事资讯，拥有最专业的独家军事评论。
+ico : http://war.163.com/favicon.ico
+
+name : 新华军事网:
+url : http://www.xinhuanet.com/mil/
+title : 
+keywords : 
+description :  
+ico : http://www.xinhuanet.com/favicon.ico
+
+name : 中国军网:
+url : http://www.81.cn/
+title : 
+keywords : 军事,国防,解放军,军队,军人,部队,军委,军校,护航,国防生,女兵,军事图片,军医
+description : 中国军网是经中央军委批准的中国人民解放军唯一新闻门户网站，第一时间向全球网民发布权威军事资讯，追踪军事热点，反映军事动态，介绍国内外最新武器发展动态，拥有中国最大的军事图片库，提供独家发布的军事视频。
+ico : http://www.81.cn/favicon.ico
+
+name : 中国战略网:
+url : http://www.chinaiiss.com/
+title : 
+keywords : 中国,国际,战略,政治,经济,军事,外交,战争,和平,国际军情,新闻,全球,世界,军事天地,历史回顾,战略图库,评论,台海观察,社会博览,环球,中国军情,国际军情,军林秘史,国内要闻,战略观察
+description : 战略网致力于全球政治、经济、军事研究，以增强公众对国际局势的了解。提供最新中国军事新闻、国际军事新闻，跟踪世界军事热点，透析大国军事博弈。
+ico : http://www.chinaiiss.com/favicon.ico
+
+name : 强国网:
+url : http://www.cnqiang.com/
+title : 
+keywords : 军事,强国,强国军事网,军事网站,CHN,强国网站,军事新闻,军事装备,最新军情,最新军事消息,最新军事新闻,军事网站,强国网,CHN强国网,强国军事,强国网军事,CHN,中国海军,军事图片,中国空军,中国陆军,军事强国,犯我中华者虽远必诛
+description : 强国网是一个最专业最全面的军事网站，主要有以下栏目：军事新闻,战略时评,军事评论,中国军事,军情聚焦,军事视频,国际观察,强国军事,军事图片,犯我中华者虽远必诛
+ico : http://www.cnqiang.com/favicon.ico
+
+name : 51军事观察室:
+url : http://www.51junshi.com/
+title : 
+keywords : 军事,军事新闻,迷彩虎,最新军事,军事图片,军事视频,中国军事
+description : 迷彩虎军事是中国第一军事娱乐网站，主要提供中国军事新闻、国际军事新闻、军事视频节目、军事图片、武器装备、历史战役等军事知识和军事热点独家报道。
+ico : http://www.51junshi.com/favicon.ico
+
+name : 怒血网:
+url : http://www.nuxue.com/
+title : 
+keywords : 兵器,中国兵器,武器,核武器,武器大全,怒血军事,cankaoa
+description : 怒血军事网是一家关注世界各国武器，兵器发展的专业网站，本站搜集各国武器最新动态，为中国军事科研人员提供参考。
+ico : http://www.nuxue.com/favicon.ico
+
+name : 东方军事网:
+url : http://mil.eastday.com/
+title : 
+keywords : 军事新闻,军事网,东方军事
+description : 东方军事网是东方网旗下的专业军事新闻网站，为军事迷提供中国军事，国际军事报道，深度解析全球军力,及时追踪尖端军事武器装备,海陆空军事图库等。
+ico : http://mil.eastday.com/favicon.ico
+
+name : 人民网军事:
+url : http://military.people.com.cn/
+title : 
+keywords : 人民网军事
+description : 人民网军事
+ico : http://military.people.com.cn/favicon.ico
+
+name : 国防部:
+url : http://www.mod.gov.cn/
+title : 
+keywords : 国防部,国防部网站,军事,国防,解放军,军队,军人,军委,四总部,军校,武器,装备,军演,维和,反恐,救援,护航,卫星,电子对抗,指挥自动化,火炮,导弹,轻武器,舰艇,飞机,装甲车,新兵,国防生,女兵,飞行员,军史,法规,军事图片
+description : 主要发布中国国防和军队建设权威信息，旨在对外传递中国军方声音，宣传中国国防政策，加强与外军交流合作，展示中国军队良好形象，促进国防和军队现代化建设。
+ico : http://www.mod.gov.cn/favicon.ico
+
+name : 鼎盛军事网:
+url : http://www.top81.com.cn/
+title : 
+keywords : 军事,军事网,军事新闻,军事图片,中国军事网,中国军情,军事评论,中国军事,中国武器,中国军事新闻,最新军事新闻
+description : 鼎盛网是中国军事专业门户网站,主要有以下栏目武器装备,防务新闻,中国军事、世界军事、军事评论、军事图片、军事政治、军事历史、战略评论、军政秘闻等信息
+ico : http://www.top81.com.cn/favicon.ico
+
+name : 亮剑军事网:
+url : http://www.liangjian.com/
+title : 
+keywords : 军事,军事网,军事新闻,中国军事,中国军事网,中国新闻,中国军事新闻,最新军事新闻,军情,军事网站,新军事
+description : 环球新军事网(www.xinjunshi.com) 提供最新军事新闻、中国军事新闻、国际军事新闻、军事图片等军事资料，以中国军事军情为主，每日更新，打造中国优秀前卫军事网站。
+ico : http://www.liangjian.com/favicon.ico
+
