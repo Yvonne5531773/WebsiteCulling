@@ -1,7 +1,9 @@
 <template>
 	<div class="home">
 		<VHeader></VHeader>
+		<keep-alive>
 		<component :is="current"></component>
+		</keep-alive>
 	</div>
 </template>
 <script>
@@ -18,13 +20,21 @@
 		},
 		watch: {
 			component () {
-				this.current = this.component
+				this.init()
 			}
+		},
+		mounted () {
+			this.init()
 		},
 		computed:{
 			...mapState([
 				'component'
 			])
+		},
+		methods: {
+			init () {
+				this.current = this.component
+			}
 		},
 		components: {
 			VHeader,

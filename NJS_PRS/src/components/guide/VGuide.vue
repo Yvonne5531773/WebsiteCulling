@@ -16,9 +16,9 @@
 			<div class="category">
 				<div ref="rBody" class="list" v-for="(row, i) in rows">
 					<div @click="click(i, index)" @mouseenter="enter(i, index)" @mouseleave="leave(i, index)" :class="{'first':data.id===`0`}" class="block" :key="data.id" v-for="(data, index) in row.list" >
-						<p class="title">
+						<span class="title" :style="data.name.length>=6&&`height:50px;width:75px`">
 							{{data.name}}
-						</p>
+						</span>
 						<div :class="{'big-mask':data.id===`0`}" class="mask"></div>
 					</div>
 				</div>
@@ -210,7 +210,7 @@
 						right 0
 						bottom 0
 						position absolute
-						line-height 5.5
+						height 25px
 					.block
 						font-size 18px
 						float right

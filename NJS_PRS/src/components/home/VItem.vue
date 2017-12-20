@@ -10,9 +10,9 @@
 			<span class="by">{{by}}</span>
 		</p>
 		<div class="site-list">
-			<p v-if="index<=2" :key="category.id" v-for="(site, index) in category.sites">
-				<span class="site-n" :title="site.name">{{site.name}}</span>
-				<span class="site-u" :title="site.url">{{site.url | doUrl}}</span>
+			<p v-if="index<=2" v-for="(site, index) in category.sites">
+				<span class="site-n" :title="site.name">{{site.name | clip}}</span>
+				<a :href="site.url" class="site-u" :title="site.url" target="_blank">{{site.url | doUrl}}</a>
 			</p>
 		</div>
 		<div class="more">
@@ -55,7 +55,7 @@ export default {
 			return relUrl
 		},
 		clip (str) {
-			return clipstring(str, 60)
+			return clipstring(str, 13)
 		}
 	}
 }
@@ -95,14 +95,13 @@ export default {
 				text-align left
 		.site-list
 			margin 16px 16px 7px
-			span
-				overflow hidden
-				font-size 12px
-				color #333333
 			p
 				height 20px
+				font-size 12px
+				overflow hidden
+				color #333333
 			.site-n
-				width 36%
+				width 42%
 				float left
 				text-align left
 			.site-u
@@ -115,7 +114,7 @@ export default {
 			color #5454a6
 			float right
 			bottom 0
-			margin 11px
+			margin 6px 16px
 			right 0
 			height 20px
 			position absolute

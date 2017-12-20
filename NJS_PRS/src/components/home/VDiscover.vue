@@ -7,10 +7,8 @@
 						<div class="left">
 							<b class="circle"></b>
 							<span class="head-t">
-									<a target="_blank">
-										<h2>{{data.name}}</h2>
-									</a>
-								</span>
+								<h2>{{data.name}}</h2>
+							</span>
 						</div>
 						<div class="right" @click="pullEvent(data, index)">
 							<span>{{pullTxt}}</span>
@@ -68,6 +66,7 @@
 				data = _.filter(_.uniqBy(mockData, 'id'), (d) => {
 					return ids && !_.isEmpty(d.name) && !!~ids.indexOf(d.id)
 				})
+				console.log('init data', data)
 				this.dataList = _.cloneDeep(_.forEach(data, (d) => {
 					d.event = 0
 				}))
@@ -81,7 +80,7 @@
 					})
 					//下拉动画
 					Velocity(this.$refs.pull[index], { rotateZ: "90deg" }, { duration: durationVal })
-					Velocity(this.$refs.body[index], { maxHeight: 1000 }, { duration: durationVal, complete: ()=>{}})
+					Velocity(this.$refs.body[index], { maxHeight: 2000 }, { duration: durationVal, complete: ()=>{}})
 				}else if (data.event===1) { //up
 					data.event = 0
 					//收缩动画
@@ -140,8 +139,6 @@
 							font-size 18px
 							line-height 24px
 							color #5454a6
-							a
-								color #5454a6
 							h2
 								font-size 18px!important
 								line-height 24px

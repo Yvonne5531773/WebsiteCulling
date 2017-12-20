@@ -49,7 +49,7 @@ export const mockData = [
 			{
 				"id": "751",
 				"name": "BT磁链",
-				"avatar": "BT磁链.png",
+				"avatar": "../../../static/img/avatar/BT磁链.png",
 				"sites": [
 					{
 						"id": "7869",

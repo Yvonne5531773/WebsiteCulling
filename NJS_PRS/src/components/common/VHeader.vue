@@ -34,6 +34,7 @@
 
 		},
 		mounted(){
+			console.log('head mount')
 			this.change(_.find(this.components, {selected: true}).name)
 		},
 		watch: {
@@ -46,6 +47,7 @@
 					c.selected = false
 					name===c.name && (c.selected = true)
 				})
+				console.log('head change name', name)
 				this.SET_COMPONENT({component: name})
 			}
 		},
