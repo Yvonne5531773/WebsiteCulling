@@ -1,5 +1,6 @@
 <template>
 	<div class="h-center">
+		<img class="top" src="../../../static/img/head/top.png" />
 		<div class="head">
 			<div class="title">
 				<i class="img"></i>
@@ -9,15 +10,16 @@
 				</div>
 			</div>
 			<div class="component">
-				<a v-for="(component, index) in components" :style="component.selected&&`color:#ffffff;borderBottom:5px solid #a4a4ff`" @click="change(component.name)">{{component.txt}}</a>
+				<a v-for="(component, index) in components" :style="!favoritePage && component.selected&&`color:#ffffff;borderBottom:5px solid #a4a4ff`" @click="change(component.name)">{{component.txt}}</a>
+				<b v-if="!favoritePage" class="back-guide" @click="$router.push({path: '/'})"></b>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import { mapMutations } from 'vuex'
-	import {  } from 'service'
+	import { mapState, mapMutations } from 'vuex'
+	import _ from 'lodash'
 	export default {
 		data() {
 			return {
@@ -31,11 +33,13 @@
 			}
 		},
 		props: {
-
+			favoritePage: {
+				type: Boolean
+			}
 		},
 		mounted(){
-			console.log('head mount')
-			this.change(_.find(this.components, {selected: true}).name)
+			const cname = this.component? this.component:_.find(this.components, {selected: true}).name
+			!this.favoritePage && this.change(cname)
 		},
 		watch: {
 
@@ -43,20 +47,27 @@
 		methods: {
 			...mapMutations(['SET_COMPONENT']),
 			change (name) {
+				if (this.favoritePage) {
+					this.$router.push({path: 'home'})
+				}
 				this.components.forEach((c)=>{
 					c.selected = false
 					name===c.name && (c.selected = true)
 				})
-				console.log('head change name', name)
 				this.SET_COMPONENT({component: name})
-			}
+			},
+		},
+		computed:{
+			...mapState([
+				'component'
+			])
 		},
 	}
 </script>
 
 <style lang="stylus">
 	.h-center
-		z-index 99
+		z-index 199
 		width 100%
 		height 85px
 		left 0
@@ -65,11 +76,13 @@
 		background-size 100% 110%
 		transform translateZ(0)
 		background #5454a6
+		.top
+			position absolute
 		.head
 			position relative
 			margin 0 auto
-			max-width 1105px
-			min-width 700px
+			max-width 1120px
+			min-width 1060px
 			height 85px
 			.title
 				top 14px
@@ -98,9 +111,20 @@
 				position absolute
 				a
 					font-size 18px
-					margin 28px
-					height 52px
+					margin 33px 30px 0 28px
+					height 47px
 					color #a4a4ff
 					display inline-block
-					/*border-bottom 5px solid #a4a4ff*/
+				.back-guide
+					background url("../../../static/img/head/back-guide.png") no-repeat
+					width 84px
+					height 34px
+					position absolute
+					cursor pointer
+					right 0
+					margin 30px 0 0 0
+					&:hover
+						background-position -84px
+					&:active
+						background-position -168px
 </style>

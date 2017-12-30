@@ -4,11 +4,11 @@
 		<section class="content">
 			<div class="r-data" v-for="(data, index) in list">
 				<a class="avatar" target="_blank" :href="data.url" :title="data.name">
-					<img :src="data.avatar || defaultAvatar"/>
+					<img v-lazy="data.avatar"/>
 				</a>
 				<p class="title">
-					<a target="_blank" :href="data.url">{{data.name}}</a>
-					<span class="description" :title="data.description">{{data.description}}</span>
+					<a target="_blank" :href="data.url" :title="data.url">{{data.name}}</a>
+					<a target="_blank" class="description" :href="data.url" :title="data.description">{{data.description}}</a>
 				</p>
 			</div>
 		</section>
@@ -20,7 +20,7 @@
 export default {
 	data () {
 		return {
-			defaultAvatar: '../../../static/img/home/recommend/default.png',
+			defaultAvatar: '/static/img/home/recommend/default.png',
 			list: [],
 		}
 	},
@@ -34,7 +34,7 @@ export default {
 	},
 	methods: {
 		init () {
-			this.list = _.cloneDeep(mockRecommend)
+			this.list = _.cloneDeep(_.sortBy(mockRecommend, ['sort']))
 		}
 	}
 }

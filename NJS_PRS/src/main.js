@@ -4,12 +4,15 @@ import App from './App'
 import VueRouter from 'vue-router'
 import routes from './router/router'
 import VueLazyload from 'vue-lazyload'
+import VueResource from 'vue-resource'
 import { routerMode } from '../src/config/config'
+
+Vue.use(VueResource)
 
 Vue.use(VueLazyload, {
 	preLoad: 1.3,
-	// loading: 'static/img/load.png',
-	// error: 'static/img/load.png'
+	loading: 'static/img/home/default.png',
+	error: 'static/img/home/default.png'
 })
 
 Vue.use(VueRouter)

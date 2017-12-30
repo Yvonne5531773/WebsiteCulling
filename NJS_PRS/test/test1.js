@@ -1,0 +1,1 @@
+[{"categoryId":"37","description":"屌丝搜索(diaosisou.com)通过网络爬虫机器人从DHT网络和全球各大bt搜索资源分享站爬取磁力链接，故本站不存储任何资源。能检索最热门影视，音乐，软件，电子书等资源，是探究DHT网络的学术产物。被称为p2p种子搜索器，是最懂屌丝的DHT磁力搜索引擎。","icon":"//lburlshare.cmcmcdn.com/url/437/8338f38885fcea31b2036d09.ico","id":"437","liked":true,"name":"屌丝搜索","url":"www.diaosisou.com","views":1}]

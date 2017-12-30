@@ -53,6 +53,7 @@ export const readFile = (file) => {
 }
 
 export const clipstring = (str, len) => {
+	str && (str = str.replace(/(^\s*)|(\s*$)/g, ""))
 	if(!str || !len) { return ''; }
 	let a = 0, i = 0, temp = '';
 	for(i = 0; i < str.length; i++) {
@@ -70,9 +71,9 @@ export const getRequest = () => {
 	let url = location.search,
 		theRequest = new Object();
 	if (url.indexOf("?") !== -1) {
-		var str = url.substr(1),
+		let str = url.substr(1),
 			strs = str.split("&");
-		for (var i = 0; i < strs.length; i++) {
+		for (let i = 0; i < strs.length; i++) {
 			theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
 		}
 	}
@@ -103,13 +104,13 @@ export const compareTime = (itemA, itemB) => {
 	let timeA = itemA.trackInfo&&itemA.trackInfo.length>0? (itemA.trackInfo[0].date + ' ' + itemA.trackInfo[0].time):null,
 		timeB = itemB.trackInfo&&itemB.trackInfo.length>0? (itemB.trackInfo[0].date + ' ' + itemB.trackInfo[0].time):null
 	if(timeA && timeB){
-		var beginTime = timeA;
-		var endTime = timeB;
-		var beginTimes = beginTime.substring(0, 10).split('-');
-		var endTimes = endTime.substring(0, 10).split('-');
+		let beginTime = timeA;
+		let endTime = timeB;
+		let beginTimes = beginTime.substring(0, 10).split('-');
+		let endTimes = endTime.substring(0, 10).split('-');
 		beginTime = beginTimes[1] + '-' + beginTimes[2] + '-' + beginTimes[0] + ' ' + beginTime.substring(10, 19);
 		endTime = endTimes[1] + '-' + endTimes[2] + '-' + endTimes[0] + ' ' + endTime.substring(10, 19);
-		var a = (Date.parse(endTime) - Date.parse(beginTime)) / 3600 / 1000;
+		let a = (Date.parse(endTime) - Date.parse(beginTime)) / 3600 / 1000;
 		if (a < 0) {
 			return 1;
 		} else if (a > 0) {
@@ -119,4 +120,19 @@ export const compareTime = (itemA, itemB) => {
 		}
 	}else if(timeA && !timeB) return -1
 	else if(!timeA && timeB) return 1
+}
+
+export const getOperationFullTime = date => {
+	let updateDate = new Date(date);
+	if (!updateDate) {
+		return '';
+	}
+	let month = updateDate.getMonth();
+	month ++;
+	month = month < 10? '0' + month : month
+	let day = updateDate.getDate() < 10 ? '0' + updateDate.getDate() : updateDate.getDate();
+	let hour = updateDate.getHours() < 10 ? '0' + updateDate.getHours() : updateDate.getHours();
+	let minutes = updateDate.getMinutes() < 10 ? '0' + updateDate.getMinutes() : updateDate.getMinutes();
+	let sceonds = updateDate.getSeconds() < 10 ? '0' + updateDate.getSeconds() : updateDate.getSeconds();
+	return '' + updateDate.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + sceonds;
 }

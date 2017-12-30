@@ -5,5 +5,5 @@
 @rem  rm -rf "C:\Users\pc\AppData\Local\liebao\User Data\Default\*.tmp"
 @rem D:\dev\ksDebug\Debug\BkPackTool.exe -c -i dist\ -o C:\Users\pc\AppData\Local\liebao\Data\tn.dat --bk-libver=2016.05.18.15
 
-call %cd%\BkPackTool.exe -c  --input=%cd%\express_manager\ --output=%cd%\expressmasterui.dat --bk-libver=2016.10.31.1
+call %cd%\BkPackTool.exe -c  --input=%cd%\website_culling\ --output=%cd%\websiteculling.dat --bk-libver=2016.10.31.1
 @pause

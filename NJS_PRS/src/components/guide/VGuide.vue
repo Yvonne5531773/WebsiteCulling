@@ -5,8 +5,8 @@
 				<img src="../../../static/img/guide/title.png"/>
 				<img src="../../../static/img/guide/desctiption.png"/>
 			</div>
-			<router-link :to="{path:'home', query:{ids: selectids}}">
-				<div class="btn start" v-if="showStartBtn">
+			<router-link :to="{path:'home', query:{themeid: selectids}}">
+				<div class="btn start" v-if="showStartBtn" @click="start">
 					<span>{{startBtnTxt}}</span>
 				</div>
 			</router-link>
@@ -20,6 +20,7 @@
 							{{data.name}}
 						</span>
 						<div :class="{'big-mask':data.id===`0`}" class="mask"></div>
+						<b v-show="data.id!==`0`" class="add"></b>
 					</div>
 				</div>
 			</div>
@@ -28,10 +29,10 @@
 	</div>
 </template>
 <script>
-	import {  } from 'service'
+	import { websiteApi } from 'api'
 	import _ from 'lodash'
-	import { getRequest, compareTime } from '../../config/utils'
-	import { mapActions, mapGetters } from 'vuex'
+	import { setStore, getStore } from '../../config/utils'
+	import { jsonp } from 'components/common/mixin'
 	import Velocity from 'velocity-animate/velocity.min'
 	import { mockData } from '../../mock/data.js'
 
@@ -41,7 +42,7 @@
 				chooseBtnTxt: '选择几个兴趣试试',
 				startBtnTxt: '开始使用',
 				list: [],
-				defaultAvatar: '../../../static/img/default.png',
+				defaultAvatar: '/static/img/default.png',
 				rows: [],
 				colors: {
 					0: ['#ffe92e'],
@@ -53,26 +54,57 @@
 				selectids: [],
 			}
 		},
+		mixins: [jsonp],
 		mounted() {
-//			this.init()
-			this.mockInit()
-		},
-		watch: {
-
-		},
-		computed: {
-			...mapGetters([
-
-			]),
+			this.init()
+//			this.mockInit()
 		},
 		methods: {
-			init () {
-
+			async init () {
+				websiteApi.getUserSelectedInfo()
+				let info = await websiteApi.getGlobalSelectedInfo()
+				console.log('init info', info)
+				let array = !_.isEmpty(info)? info.split(',') : []
+				console.log('init array', array)
+				let data = await this.jsonp('/v1/index')
+				this.list = _.filter(_.uniqBy(data, 'id'), (d) => {
+					return !_.isEmpty(d.name)
+				})
+				this.list.forEach( (l) => {
+					l.id += ''
+					console.log('!!~array.indexOf(l.id)', !!~array.indexOf(l.id))
+					array && !!~array.indexOf(l.id) && (l.selected = true)
+				})
+				console.log('init this.list', this.list)
+				this.list = _.sortBy(this.list, ['sort'])
+				let tlist = {}
+				tlist.list = this.list.splice(0,1)
+				this.rows.push(tlist)
+				this.list.splice(3, 0, {id: '0', name: '热门推荐', selected: true})
+				for(let i = 0; i < 3; i++){
+					let data = {}
+					data.list = this.list.splice(0, i + 4)
+					this.rows.push(data)
+				}
+				console.log('init this.rows', this.rows)
+				this.$nextTick( () => {
+					this.showStartBtn = !_.isEmpty(this.checkSelects())
+					this.rows.forEach( (row, i) => {
+						row.list.forEach( (data, j) => {
+							let block = this.$refs.rBody[i].childNodes[j],
+								color = this.colors[i][j],
+								addEl = block.querySelector('.add')
+							data.id!=='0' && data.selected && block && (block.style.color = '#000000', block.style.fontSize = '17px', Velocity(block, { scaleX: 1.05, scaleY: 1.05 }, { duration: 100 }) && (block.style.fontSize = '17px', block.style.backgroundColor = color, block.style.boxShadow = '0px 2px 18px'+color))
+							addEl && data.selected && Velocity(addEl, { opacity: 0 }, { duration: 200 })
+						})
+					})
+				})
 			},
 			mockInit(){
 				this.list = _.filter(_.uniqBy(mockData, 'id'), (d) => {
 					return !_.isEmpty(d.name)
 				})
+				this.list = _.sortBy(this.list, ['sort'])
 				let tlist = {}
 				tlist.list = this.list.splice(0,1)
 				this.rows.push(tlist)
@@ -84,25 +116,43 @@
 				}
 			},
 			enter (row, index) {
-				let block = this.$refs.rBody[row].childNodes[index]
-				this.rows[row].list[index].id!=='0' && Velocity(block, { scaleX: 1.05, scaleY: 1.05 }, { duration: 100 }) && (block.style.fontSize = '17px')
-				this.change(row, index, this.colors[row][index], block)
+				this.change('enter', row, index)
 			},
 			leave (row, index) {
-				let block = this.$refs.rBody[row].childNodes[index]
-				this.rows[row].list[index].id!=='0' && !this.rows[row].list[index].selected && Velocity(block, { scaleX: 1, scaleY: 1 }, { duration: 50 }) && (block.style.backgroundColor = '', block.style.boxShadow = '', block.style.fontSize = '18px')
+				this.change('leave', row, index)
 			},
 			click (row, index) {
-				this.rows[row].list[index].selected = !this.rows[row].list[index].selected
-				let block = this.$refs.rBody[row].childNodes[index]
-				block.style.color = this.rows[row].list[index].selected? '#000000' : ''
-				this.rows[row].list[index].id!=='0' && (block.style.fontSize = '17px')
-				this.change(row, index, this.colors[row][index], block)
-				this.showStartBtn = !_.isEmpty(this.checkSelects())
-				this.selectids = this.getSelectids()
+				this.change('click', row, index)
 			},
-			change (row, index, color, block) {
-				this.rows[row].list[index].id!=='0' && !this.rows[row].list[index].selected && (block.style.backgroundColor = color, block.style.boxShadow = '0px 2px 18px'+color, block.style.scaleX = 1.05, block.style.scaleY = 1.05)
+			change (action, row, index) {
+				let block = this.$refs.rBody[row].childNodes[index],
+					data = this.rows[row].list[index],
+					color = this.colors[row][index],
+					selected = data.selected
+				const addEl = block.querySelector('.add')
+				if(data.id === '0') return
+				switch (action) {
+					case 'enter':
+						Velocity(block, { scaleX: 1.05, scaleY: 1.05 }, { duration: 100 }) && (block.style.fontSize = '17px', block.style.backgroundColor = color, block.style.boxShadow = '0px 2px 18px'+color)
+						return
+					case 'leave':
+						!selected && Velocity(block, { scaleX: 1, scaleY: 1 }, { duration: 50 }) && (block.style.backgroundColor = '', block.style.boxShadow = '0 8px 18px rgba(0,0,0,.06)', block.style.fontSize = '18px')
+						return
+					case 'click':
+						data.selected = !data.selected
+						block.style.color = data.selected? '#000000' : ''
+						data.id!=='0' && (block.style.fontSize = '17px')
+						this.showStartBtn = !_.isEmpty(this.checkSelects())
+						this.selectids = this.getSelectids()
+						setStore('THEME_IDS', this.selectids.join(','))
+						!selected && (Velocity(block, { scaleX: 1.05, scaleY: 1.05 }, { duration: 100 }) && (block.style.fontSize = '17px', block.style.backgroundColor = color, block.style.boxShadow = '0px 2px 18px'+color))
+						selected && (Velocity(block, { scaleX: 1, scaleY: 1 }, { duration: 50 }) && (block.style.backgroundColor = '', block.style.boxShadow = '0 8px 18px rgba(0,0,0,.06)', block.style.fontSize = '18px', block.style.color = '#606060'))
+						if(addEl) {
+							!selected && Velocity(addEl, { opacity: 0 }, { duration: 200 })
+							selected && Velocity(addEl, { opacity: 1 }, { duration: 200 })
+						}
+						return
+				}
 			},
 			checkSelects () {
 				return this.rows.filter( (row) => {
@@ -121,11 +171,12 @@
 				return ids.map((s)=>{
 					return s.id
 				})
+			},
+			start () {
+				console.log('in start this.selectids.join(\',\')', this.selectids.join(','))
+				websiteApi.setUserSelectedInfo(this.selectids.join(','))
 			}
 		},
-		components: {
-
-		}
 	}
 </script>
 
@@ -145,12 +196,15 @@
 		background #edeff1
 		height 100%
 		width 100%
-		position absolute
+		top 0
+		bottom 0
+		position fixed
+		overflow-y scroll
+		overflow-x hidden
 		.container
 			width 1180px
-			min-height 768px
-			margin-left auto
-			margin-right auto
+			height 768px
+			margin auto
 			left 0
 			top 0
 			bottom 0
@@ -230,19 +284,24 @@
 						color #606060
 						&:hover
 							color #000000
-						/*&:nth-child(4n - 3)
-							margin-left 74px
-						&:nth-child(-n + 4)
-							margin-top 0*/
 						.mask
 							width 105px
 							height 105px
 							background url("../../../static/img/guide/small-mask.png") no-repeat
 						.big-mask
 							background url("../../../static/img/guide/big-mask.png") no-repeat !important
+						.add
+							background url("../../../static/img/guide/add.png") no-repeat
+							width 13px
+							height 13px
+							position absolute
+							top 0
+							right 0
+							margin 6px
+							opacity 1
 		.bottom
 			background url('../../../static/img/guide/bottom.png') no-repeat
-			position absolute
+			position fixed
 			width 100%
 			height 30%
 			bottom 0

@@ -42,6 +42,10 @@ export default async (url = '', data = {}, type = 'GET', method = 'fetch') => {
 		} catch (error) {
 			throw new Error(error)
 		}
+	} else if (method === 'jsonp') {
+		return new Promise((resolve, reject) => {
+
+		})
 	} else {
 		return new Promise((resolve, reject) => {
 			let requestObj;

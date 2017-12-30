@@ -2,7 +2,7 @@
 	<div class="home">
 		<VHeader></VHeader>
 		<keep-alive>
-		<component :is="current"></component>
+			<component :is="current"></component>
 		</keep-alive>
 	</div>
 </template>
@@ -59,6 +59,12 @@
 		flex-shrink 0
 		width 100%
 		height 100%
+		background #edeff1
+		top 0
+		bottom 0
+		position fixed
+		overflow-y scroll
+		overflow-x hidden
 		.container
 			margin 112px auto
 			width 1098px

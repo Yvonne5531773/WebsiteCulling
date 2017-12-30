@@ -1,5 +1,5 @@
 <template>
-	<section class="container">
+	<section class="discover-page">
 		<div class="containerRow">
 			<ul>
 				<li :key="data.id" v-for="(data, index) in dataList">
@@ -7,18 +7,19 @@
 						<div class="left">
 							<b class="circle"></b>
 							<span class="head-t">
-								<h2>{{data.name}}</h2>
+								{{data.name}}
 							</span>
 						</div>
-						<div class="right" @click="pullEvent(data, index)">
-							<span>{{pullTxt}}</span>
+						<div class="right" @click="pullEvent(data, index)" v-show="dataList.length > 2 && data.categories.length>3">
+							<span v-if="data.event===0">{{pullTxt}}</span>
+							<span v-else>{{pushTxt}}</span>
 							<b ref="pull" class="pull"></b>
 						</div>
 					</div>
 					<div class="body" ref="body">
 						<ul class="list">
 							<li :key="category.id" v-for="category in data.categories">
-								<VItem :category="category"></VItem>
+								<VItem :themeid="data.id" :category="category"></VItem>
 							</li>
 						</ul>
 					</div>
@@ -30,12 +31,11 @@
 </template>
 <script>
 	import VItem from 'components/home/VItem'
-	import VFoot from 'components/common/VFoot'
 	import VAlert from 'components/common/VAlert'
 	import VRecommend from 'components/home/VRecommend'
-	import {  } from 'service'
+	import {jsonp} from 'components/common/mixin'
 	import _ from 'lodash'
-	import { getRequest } from '../../config/utils'
+	import { getStore } from '../../config/utils'
 	import { mapActions, mapGetters } from 'vuex'
 	import Velocity from 'velocity-animate/velocity.min'
 	import { mockData } from '../../mock/data'
@@ -45,52 +45,59 @@
 			return {
 				dataList: [],
 				pullTxt: '查看全部',
-
+				pushTxt: '收起内容'
 			}
 		},
+		mixins: [jsonp],
 		mounted() {
 			this.init()
 		},
-		watch: {
-
-		},
-		computed: {
-			...mapGetters([
-
-			]),
-		},
 		methods: {
-			init () {
-				const ids = this.$route.query.ids
-				let data = []
-				data = _.filter(_.uniqBy(mockData, 'id'), (d) => {
-					return ids && !_.isEmpty(d.name) && !!~ids.indexOf(d.id)
-				})
-				console.log('init data', data)
-				this.dataList = _.cloneDeep(_.forEach(data, (d) => {
+			async init () {
+				const store = getStore('THEME_IDS')&&getStore('THEME_IDS').split(',')
+				let query = this.$route.query.themeid,
+					ids = query?(_.isArray(query)?query:[...new Array(query)]):[]
+				const themeid = ids&&ids.length>0?ids:(store.length>0?store:[])
+
+				let themes = await this.jsonp('/v1/theme/' + themeid.join(','))
+				console.log('themes', themes)
+//				let themes = mockData
+//				data = _.filter(_.uniqBy(themes, 'id'), (d) => {
+//					return themes && !_.isEmpty(d.name) && !_.isEmpty(themeid.filter((tid)=>{
+//						return tid === d.id
+//					}))
+//				})
+				this.dataList = _.cloneDeep(_.sortBy(_.forEach(themes, (d) => {
 					d.event = 0
-				}))
+					_.forEach(d.categories, (c) => {
+						c.parentId = d.id
+					})
+				})), ['sort'])
+				this.$nextTick(()=>{
+					this.dataList.length <= 2 && this.$refs.body && this.$refs.body.forEach( (b, i) => {
+						let count = this.dataList[i].categories.length
+						b.style.maxHeight = 353*(Math.floor(count/3)+1)+'px'
+					})
+				})
 			},
 			pullEvent(data, index){
 				if(data.event===0){ //down
 					const durationVal = 400
-					data.event = 1
-					this.$nextTick(()=>{
-
-					})
 					//下拉动画
-					Velocity(this.$refs.pull[index], { rotateZ: "90deg" }, { duration: durationVal })
-					Velocity(this.$refs.body[index], { maxHeight: 2000 }, { duration: durationVal, complete: ()=>{}})
+					let count = this.dataList[index].categories.length
+					Velocity(this.$refs.pull[index], { rotateZ: "90deg" }, { duration: durationVal})
+					Velocity(this.$refs.body[index], { maxHeight: 353*(Math.floor(count/3)+1) }, { duration: durationVal, complete: ()=>{
+						data.event = 1
+					}})
 				}else if (data.event===1) { //up
 					data.event = 0
 					//收缩动画
 					Velocity(this.$refs.pull[index], { rotateZ: "0deg" })
-					Velocity(this.$refs.body[index], { maxHeight: 365 }, { complete: ()=>{}})
+					Velocity(this.$refs.body[index], { maxHeight: 365 })
 				}
 			},
 		},
 		components: {
-			VFoot,
 			VAlert,
 			VItem,
 			VRecommend
@@ -99,21 +106,7 @@
 </script>
 
 <style lang="stylus" scoped>
-	/*.home*/
-		/*zoom 1*/
-		/*display flex*/
-		/*-webkit-box-orient vertical*/
-		/*-webkit-box-direction normal*/
-		/*-ms-flex-direction column*/
-		/*flex-direction column*/
-		/*-webkit-box-align stretch*/
-		/*-ms-flex-align stretch*/
-		/*align-items stretch*/
-		/*-ms-flex-negative 0*/
-		/*flex-shrink 0*/
-		/*width 100%*/
-		/*height 100%*/
-		.container
+		.discover-page
 			margin 112px auto
 			width 1098px
 			.containerRow
@@ -139,21 +132,17 @@
 							font-size 18px
 							line-height 24px
 							color #5454a6
-							h2
-								font-size 18px!important
-								line-height 24px
-								font-weight normal
 					.right
 						float right
 						position relative
-						right 70px
+						right 80px
 						top 8px
 						cursor pointer
 						span
 							position relative
 							font-size 12px
 							color #333333
-							bottom .5em
+							bottom 2px
 							right 5px
 						.pull
 							float right
@@ -179,7 +168,7 @@
 							float left
 							list-style none
 							margin 20px 28px 26px 10px
-							width 242px
+							width 239px
 							height 314px
 							text-align center
 							color gray
@@ -192,8 +181,5 @@
 							position relative
 							border-radius 4px
 							margin-top 0
-							&:nth-child(4n - 3)
-								/*margin-left 18px*/
-							&:nth-child(-n + 4)
-								margin-top 0
+
 </style>

@@ -1,0 +1,10 @@
+*/node_modules/*
+.idea/*
+*/dist/static/*
+*/website_culling/*
+scripts/KB_Base_Original/*
+/datafile/*
+avatar/*
+icon/*
+external/*
+

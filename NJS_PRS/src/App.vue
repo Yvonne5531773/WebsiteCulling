@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <keep-alive>
       <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
@@ -10,7 +10,7 @@
 <script>
 
 export default {
-
+	name: 'app'
 }
 
 </script>
