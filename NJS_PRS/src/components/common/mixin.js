@@ -31,21 +31,28 @@ export const jsonp = {
 				data.collected = item.collected || false
 				data.sort = item.sort || 0
 				data.updated = getOperationFullTime(new Date())
-				data.sites = item.sites
+				// data.sites = item.sites
 			}
 			websiteApi.setFormSelectedInfo(JSON.stringify(data))
 		},
-		saveSite (item, categoryId) {
-			let data = {}
-			if (item) {
-				data.id = item.id+''
+		async saveSite (site, categoryId) {
+			websiteApi.getURLSelectedInfo()
+			let sites = await websiteApi.getGlobalTopUrl(),
+				data = {}
+			sites = !_.isEmpty(sites)? JSON.parse(sites):[]
+			let s = _.find(sites, {id: site.id + ''})
+			site = _.isEmpty(s)? site:s
+			site.views = site.views? site.views+1 : 1
+			console.log('saveSite site', site)
+			if (site) {
+				data.id = site.id+''
 				data.categoryId = categoryId? categoryId+'' : ''
-				data.name = item.name || ''
-				data.url = item.url || ''
-				data.description = item.description || ''
-				data.icon = item.icon || ''
-				data.liked = item.liked || false
-				data.views = item.views
+				data.name = site.name || ''
+				data.url = site.url || ''
+				data.description = site.description || ''
+				data.icon = site.icon || ''
+				data.liked = site.liked || false
+				data.views = site.views
 			}
 			websiteApi.setURLSelectedInfo(JSON.stringify(data))
 		}

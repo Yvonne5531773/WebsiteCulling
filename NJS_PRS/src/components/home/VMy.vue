@@ -89,7 +89,7 @@
 				this.construct()
 			},
 			openUrl (data, sort) {
-				data.views = data.views? data.views+1 : 1
+//				data.views = data.views? data.views+1 : 1
 				data && sort === 1 && this.saveSite(data)
 			},
 			async construct() {

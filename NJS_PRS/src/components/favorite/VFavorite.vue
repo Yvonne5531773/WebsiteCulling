@@ -152,7 +152,7 @@
 			open (site, event) {
 				const url = site.href_url,
 					className = event.target.className
-				site.views = site.views? site.views+1 : 1
+//				site.views = site.views? site.views+1 : 1
 				this.saveSite(_.cloneDeep(site), this.categoryid)
 				typeof className==='string' && !~className.indexOf('text') && !~className.indexOf('like') && !~className.indexOf('heart') && window.open(url)
 			},

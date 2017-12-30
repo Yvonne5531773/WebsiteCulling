@@ -62,17 +62,22 @@
 		methods: {
 			async init () {
 				websiteApi.getUserSelectedInfo()
-				let info = await websiteApi.getGlobalSelectedInfo()
+				let info = await websiteApi.getGlobalSelectedInfo(),
+					array = !_.isEmpty(info)? info.split(',') : [],
+					data = {}
 				console.log('init info', info)
-				let array = !_.isEmpty(info)? info.split(',') : []
 				console.log('init array', array)
-				let data = await this.jsonp('/v1/index')
+				try {
+					data = await this.jsonp('/v1/index')
+				} catch (e) {
+					console.log('index error: ', e)
+				}
+				console.log('init data', data)
 				this.list = _.filter(_.uniqBy(data, 'id'), (d) => {
 					return !_.isEmpty(d.name)
 				})
 				this.list.forEach( (l) => {
 					l.id += ''
-					console.log('!!~array.indexOf(l.id)', !!~array.indexOf(l.id))
 					array && !!~array.indexOf(l.id) && (l.selected = true)
 				})
 				console.log('init this.list', this.list)
