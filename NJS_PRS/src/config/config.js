@@ -1,6 +1,5 @@
 'use strict'
 
-
 // const host = 'http://10.20.216.64:8081';
 let host = 'http://lburlshare.liebao.cn';
 const routerMode = 'hash';
