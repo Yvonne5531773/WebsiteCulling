@@ -101,8 +101,8 @@ export const getStyle = (element, attr, NumberMode = 'int') => {
  * 时间比较
  */
 export const compareTime = (itemA, itemB) => {
-	let timeA = itemA.trackInfo&&itemA.trackInfo.length>0? (itemA.trackInfo[0].date + ' ' + itemA.trackInfo[0].time):null,
-		timeB = itemB.trackInfo&&itemB.trackInfo.length>0? (itemB.trackInfo[0].date + ' ' + itemB.trackInfo[0].time):null
+	let timeA = itemA.updated,
+		timeB = itemB.updated
 	if(timeA && timeB){
 		let beginTime = timeA;
 		let endTime = timeB;
@@ -111,15 +111,15 @@ export const compareTime = (itemA, itemB) => {
 		beginTime = beginTimes[1] + '-' + beginTimes[2] + '-' + beginTimes[0] + ' ' + beginTime.substring(10, 19);
 		endTime = endTimes[1] + '-' + endTimes[2] + '-' + endTimes[0] + ' ' + endTime.substring(10, 19);
 		let a = (Date.parse(endTime) - Date.parse(beginTime)) / 3600 / 1000;
-		if (a < 0) {
+		if (a > 0) {
 			return 1;
-		} else if (a > 0) {
+		} else if (a < 0) {
 			return -1;
-		} else if (a == 0) {
+		} else if (a === 0) {
 			return 0;
 		}
-	}else if(timeA && !timeB) return -1
-	else if(!timeA && timeB) return 1
+	}else if(timeA && !timeB) return 1
+	else if(!timeA && timeB) return -1
 }
 
 export const getOperationFullTime = date => {

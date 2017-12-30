@@ -49,24 +49,24 @@
 			}
 		},
 		methods: {
-			open(flag, site) {
+			async open(flag, site) {
 				if(flag === 1) {
-//					websiteApi.getFormSelectedInfo()
-//					let categories = await websiteApi.getGlobalTopForm()
-//					categories = !_.isEmpty(categories)? JSON.parse(categories):[]
-//					console.log('open categories', categories)
-//					let category = _.find(categories, {id: this.category.id + ''})
-//					category = _.isEmpty(category)? this.category:category
-					console.log('open category', this.category)
-					this.saveForm(this.category)
+					websiteApi.getFormSelectedInfo()
+					let categories = await websiteApi.getGlobalTopForm()
+					categories = !_.isEmpty(categories)? JSON.parse(categories):[]
+					console.log('open categories', categories)
+					let category = _.find(categories, {id: this.category.id + ''})
+					category = _.isEmpty(category)? this.category:category
+					console.log('open category', category)
+					this.saveForm(category)
 				} else if(flag === 2 && site) {
-//					websiteApi.getURLSelectedInfo()
-//					let sites = await websiteApi.getGlobalTopUrl()
-//					sites = !_.isEmpty(sites)? JSON.parse(sites):[]
-//					console.log('open sites', sites)
-//					let s = _.find(sites, {id: site.id + ''})
-//					site = _.isEmpty(s)? site:s
-//					site.views = site.views? site.views+1 : 1
+					websiteApi.getURLSelectedInfo()
+					let sites = await websiteApi.getGlobalTopUrl()
+					sites = !_.isEmpty(sites)? JSON.parse(sites):[]
+					console.log('open sites', sites)
+					let s = _.find(sites, {id: site.id + ''})
+					site = _.isEmpty(s)? site:s
+					site.views = site.views? site.views+1 : 1
 					this.saveSite(site, this.category.id)
 				}
 			},

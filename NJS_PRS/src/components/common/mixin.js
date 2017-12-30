@@ -35,15 +35,9 @@ export const jsonp = {
 			}
 			websiteApi.setFormSelectedInfo(JSON.stringify(data))
 		},
-		async saveSite (site, categoryId) {
-			websiteApi.getURLSelectedInfo()
-			let sites = await websiteApi.getGlobalTopUrl(),
-				data = {}
-			sites = !_.isEmpty(sites)? JSON.parse(sites):[]
-			let s = _.find(sites, {id: site.id + ''})
-			site = _.isEmpty(s)? site:s
-			site.views = site.views? site.views+1 : 1
+		saveSite (site, categoryId) {
 			console.log('saveSite site', site)
+			let data = {}
 			if (site) {
 				data.id = site.id+''
 				data.categoryId = categoryId? categoryId+'' : ''

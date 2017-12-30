@@ -53,6 +53,7 @@
 	import { hots } from '../../mock/hots'
 	import { recents } from '../../mock/recents'
 	import { likes } from '../../mock/likes'
+	import { compareTime } from '../../config/utils'
 	import { collects } from '../../mock/collects'
 	export default {
 		data() {
@@ -82,17 +83,23 @@
 			})
 		},
 		methods: {
-			async init () {
-				let hotSites = await this.jsonp('/v1/hotsite')
-				this.contents[1].data = hotSites&&hotSites.length===0? hots:hotSites
-				this.doContent()
+			init () {
 				this.construct()
 			},
 			openUrl (data, sort) {
-//				data.views = data.views? data.views+1 : 1
+				data.views = data.views? data.views+1 : 1
 				data && sort === 1 && this.saveSite(data)
 			},
 			async construct() {
+				//热门网站
+				let hotSites = []
+				try {
+					hotSites = await this.jsonp('/v1/hotsite')
+				} catch (e) {
+					console.log('error: ', e)
+				}
+				this.contents[1].data = hotSites&&hotSites.length===0? hots:hotSites
+
 				websiteApi.getFormSelectedInfo()
 				let localCategory = await websiteApi.getGlobalTopForm()
 				localCategory = !_.isEmpty(localCategory)? JSON.parse(localCategory):[]
@@ -100,26 +107,51 @@
 				let sites = await websiteApi.getGlobalTopUrl()
 				sites = !_.isEmpty(sites)? JSON.parse(sites):[]
 
-				//取出网址文件的数据，更新到网单数据里
-				localCategory && localCategory.sites.forEach((site) => {
-					const s = _.find(sites, {id: site.id})
-					!_.isEmpty(s) && (site = _.cloneDeep(s))
-				})
-
+				console.log('construct localCategory', localCategory)
+				//我常用的
 				this.contents[0].data = _.sortBy(sites, ['views'])
-				this.contents[2].data = _.sortBy(localCategory, ['updated'])
+//				this.contents[2].data = _.sortBy(localCategory, ['updated'])
+				const dateRange = {
+					updated: ''
+				}
+				//最近访问
+				let ids = localCategory.sort(compareTime).map((c) => {
+					return c.id
+				})
+				let res = await this.getData(ids)
+				this.contents[2].data = _.cloneDeep(res)
+				//我的网单
 				likes[0].sites = _.cloneDeep(sites)
 				this.contents[3].data = likes
-				this.contents[4].data = _.sortBy(_.filter(localCategory, {'collected': true}), ['updated'])
+				//我收藏的网单
+				ids = localCategory.filter((c) => {
+					return c.collected
+				}).map((c) => {
+					return c.id
+				})
+				res = await this.getData(ids)
+				this.contents[4].data = _.cloneDeep(res)
 
-				console.log('localCategory', localCategory)
-				console.log('sites', sites)
 				console.log('this.contents', this.contents)
 				this.doContent()
 			},
+			async getData (ids) {
+				let data = []
+				for(let i = 0; i < ids.length; i++) {
+					let resObj = {}
+					try {
+						resObj = await this.jsonp('/v1/category/' + ids[i])
+						console.log('construct resObj', resObj)
+					} catch (e) {
+						console.log('error: ', e)
+					}
+					!_.isEmpty(resObj) && data.push(resObj)
+				}
+				return data
+			},
 			doContent() {
 				this.contents.forEach( (content) => {
-					content.data && content.data.forEach( (c) => {
+					!_.isEmpty(content.data) && content.data.forEach( (c) => {
 						if(c){
 							c.iconLazyObj = {
 								src: c.icon&&!~c.icon.indexOf('http')?'http://'+c.icon : c.icon,
