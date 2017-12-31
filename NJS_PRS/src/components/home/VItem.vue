@@ -1,25 +1,25 @@
 <template>
 	<div class="item">
-		<router-link :to="{ path: 'favorite', query: {themeid: category.parentId, categoryid: category.id}}">
+		<router-link :to="{ path: 'favorite', query: {categoryid: category.id}}">
 			<div class="avatar" :title="category.name" @click="open(1)">
-				<img v-lazy="addHttp(category.avatar)" :style="category.parentId&&category.parentId===`0099`&&`position:relative;bottom:4px`"/>
+				<img v-lazy="addHttp(category.avatar)" :style="category.id===`0099`&&`position:relative;bottom:4px`"/>
 				<span>{{category.name}}</span>
 				<div class="mask"></div>
 			</div>
 		</router-link>
 		<p class="title">
-			<router-link :to="{ path: 'favorite', query: {themeid: category.parentId, categoryid: category.id}}">
+			<router-link :to="{ path: 'favorite', query: {categoryid: category.id}}">
 				<a target="_blank" :title="category.name" @click="open(1)">{{category.name | clip}}</a>
 			</router-link>
 			<span class="by">{{by}}</span>
 		</p>
 		<div class="site-list">
 			<p v-if="index<=2" v-for="(site, index) in category.sites">
-				<a :href="site.url" class="site-n" :title="site.name" target="_blank"  @click="open(2, site)">{{site.name | clip}}</a>
-				<a :href="site.url" class="site-u" :title="site.url" target="_blank"  @click="open(2, site)">{{site.url | doUrl}}</a>
+				<a :href="site.href_url" class="site-n" :title="site.name" target="_blank"  @click="open(2, site)">{{site.name | clip}}</a>
+				<a :href="site.href_url" class="site-u" :title="site.url" target="_blank"  @click="open(2, site)">{{site.url | doUrl}}</a>
 			</p>
 		</div>
-		<router-link :to="{ path: 'favorite', query: {themeid: category.parentId, categoryid: category.id}}">
+		<router-link :to="{ path: 'favorite', query: {categoryid: category.id}}">
 			<div class="more" @click="open(1)">
 				<span>{{moreTxt}}</span>
 				<img src="../../../static/img/home/more.png"/>
@@ -51,28 +51,22 @@
 		methods: {
 			async open(flag, site) {
 				if(flag === 1) {
-					websiteApi.getFormSelectedInfo()
-					let categories = await websiteApi.getGlobalTopForm()
-					categories = !_.isEmpty(categories)? JSON.parse(categories):[]
-					console.log('open categories', categories)
-					let category = _.find(categories, {id: this.category.id + ''})
+					if(this.category.id==='0099') return
+					let categories = await this.getForm(),
+						category = _.find(categories, {id: this.category.id + ''})
 					category = _.isEmpty(category)? this.category:category
-					console.log('open category', category)
 					this.saveForm(category)
 				} else if(flag === 2 && site) {
-					websiteApi.getURLSelectedInfo()
-					let sites = await websiteApi.getGlobalTopUrl()
-					sites = !_.isEmpty(sites)? JSON.parse(sites):[]
-					console.log('open sites', sites)
-					let s = _.find(sites, {id: site.id + ''})
-					site = _.isEmpty(s)? site:s
-					site.views = site.views? site.views+1 : 1
-					this.saveSite(site, this.category.id)
+					let sites = await this.getSite(),
+						s = _.find(sites, {id: site.id + ''})
+					s = _.isEmpty(s)? site:s
+					s.views = s.views? s.views+1 : 1
+					this.saveSite(s, this.category.id)
 				}
 			},
 			addHttp(url) {
 				if(url){
-					return !~url.indexOf('http') && (url = 'http://' + url)
+					return !~url.indexOf('http')? 'http://'+url : url
 				}
 			}
 		},

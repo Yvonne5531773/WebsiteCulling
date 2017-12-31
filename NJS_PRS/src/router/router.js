@@ -20,10 +20,6 @@ export default [{
 		{
 			path: '/home',
 			component: home,
-			// children: [{
-			// 	path: '/favorite',
-			// 	component: favorite
-			// }]
 		},
 		{
 			path: '/favorite',

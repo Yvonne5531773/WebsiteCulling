@@ -60,18 +60,8 @@
 				const themeid = ids&&ids.length>0?ids:(store.length>0?store:[])
 
 				let themes = await this.jsonp('/v1/theme/' + themeid.join(','))
-				console.log('themes', themes)
-//				let themes = mockData
-//				data = _.filter(_.uniqBy(themes, 'id'), (d) => {
-//					return themes && !_.isEmpty(d.name) && !_.isEmpty(themeid.filter((tid)=>{
-//						return tid === d.id
-//					}))
-//				})
 				this.dataList = _.cloneDeep(_.sortBy(_.forEach(themes, (d) => {
 					d.event = 0
-					_.forEach(d.categories, (c) => {
-						c.parentId = d.id
-					})
 				})), ['sort'])
 				this.$nextTick(()=>{
 					this.dataList.length <= 2 && this.$refs.body && this.$refs.body.forEach( (b, i) => {

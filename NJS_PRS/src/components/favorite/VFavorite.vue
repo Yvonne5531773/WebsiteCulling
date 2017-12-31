@@ -5,7 +5,7 @@
 			<div class="f-l">
 				<div class="introduce">
 					<div class="avatar">
-						<img v-lazy="addHttp(category.avatar)" :style="themeid===`0099`&&`bottom:3px`"/>
+						<img v-lazy="addHttp(category.avatar)" :style="categoryid===`0099`&&`bottom:3px`"/>
 						<span>{{category.name}}</span>
 						<div class="mask"></div>
 					</div>
@@ -13,7 +13,7 @@
 						<a target="_blank" :title="category.name">{{category.name | clip(13)}}</a>
 						<span class="by">{{by}}</span>
 					</div>
-					<div class="add" :style="category.collected&&`backgroundPosition:-170px`"  @click="collect" v-if="themeid!==`0099`"></div>
+					<div class="add" :style="category.collected&&`backgroundPosition:-170px`"  @click="collect" v-if="categoryid!==`0099`"></div>
 				</div>
 			</div>
 			<div class="f-r">
@@ -62,7 +62,6 @@
 		data () {
 			return {
 				txt1: '网站列表',
-				themeid: this.$route.query.themeid,
 				categoryid: this.$route.query.categoryid,
 				category: {},
 				sites: [],
@@ -84,52 +83,47 @@
 		},
 		methods: {
 			async init () {
-				if (this.themeid === '0099') { //喜欢的网单
+				if (this.categoryid === '0099') { //喜欢的网单
 					this.category = likes[0]
+					this.sites = await this.getSite()
+					this.sites = _.filter(this.sites, site => site.liked)
+					console.log('like sites', this.sites)
 				} else {
-					const res = await this.jsonp('/v1/category/' + this.categoryid)
+					let res = {}
+					try {
+						res = await this.jsonp('/v1/category/' + this.categoryid)
+					}catch (e) {
+						console.log('error:', e)
+					}
+					if(_.isEmpty(res)) return
 					this.category = _.cloneDeep(res)
-//					this.category.sites = _.cloneDeep(res.sites)
 					this.sites = res.sites
 					this.by = 'by ' + this.category.by
-					this.sites && this.sites.forEach( (site) => {
-//						site.description = ''
-//						site.icon = ''
-						site.iconLazyObj = {
-							src: this.addHttp(site.icon),
-							error: 'static/img/favorite/default-icon.png',
-							loading: 'static/img/favorite/default-icon.png'
-						}
-					})
 					this.construct()
 				}
+				this.sites && this.sites.forEach( (site) => {
+					site.iconLazyObj = {
+						src: this.addHttp(site.icon),
+						error: 'static/img/favorite/default-icon.png',
+						loading: 'static/img/favorite/default-icon.png'
+					}
+				})
 			},
 			async construct () {
-				websiteApi.getFormSelectedInfo()
-				let categories = await websiteApi.getGlobalTopForm()
-				categories = !_.isEmpty(categories)? JSON.parse(categories):[]
-				websiteApi.getURLSelectedInfo()
-				let sites = await websiteApi.getGlobalTopUrl()
-				sites = !_.isEmpty(sites)? JSON.parse(sites):[]
-
-				console.log('construct sites', sites)
-				console.log('construct categories', categories)
-				console.log('construct this.categoryid', this.categoryid)
-				//先判断本地的网单和网址数据是否存在，因为服务端的数据有几个字段是变动的
-				const cat = _.find(categories, {'id': this.categoryid+''})
+				const localCategories = await this.getForm(),
+					localSites = await this.getSite(),
+					cat = _.find(localCategories, {'id': this.categoryid+''})
 				!_.isEmpty(cat) && (this.category.collected = cat.collected)
 				for(let i = 0; i < this.sites.length; i++){
 					let site = this.sites[i],
-						si = _.find(sites, {'id': site.id+'','liked': true})
-					!_.isEmpty(si) && (site.liked = si.liked, site.views = si.views, this.sites.splice(i, 1), this.sites.unshift(site))
+						si = _.find(localSites, {'id': site.id+''})
+					!_.isEmpty(si) && (site.liked = si.liked, site.views = si.views)
+					site.liked && (this.sites.splice(i, 1), this.sites.unshift(site))
 				}
 				console.log('construct this.category', this.category)
-				this.category = _.cloneDeep(this.category)
-				this.sites = _.cloneDeep(this.sites)
 			},
 			liked (site, i) {
 				if(!site) return
-				console.log('liked site', site)
 				site.alertTimeout && (clearTimeout(site.alertTimeout))
 				site.likedAlert = site.liked = !site.liked
 				site.likedAlert && (site.alertTimeout = setTimeout( () => {
@@ -150,15 +144,16 @@
 				this.saveForm(this.category)
 			},
 			open (site, event) {
-				const url = site.href_url,
+				const url = site.href_url? site.href_url : this.addHttp(site.url),
 					className = event.target.className
 				site.views = site.views? site.views+1 : 1
 				this.saveSite(_.cloneDeep(site), this.categoryid)
+				console.log('open url', url)
 				typeof className==='string' && !~className.indexOf('text') && !~className.indexOf('like') && !~className.indexOf('heart') && window.open(url)
 			},
 			addHttp(url) {
 				if(url){
-					return !~url.indexOf('http') && (url = 'http://' + url)
+					return !~url.indexOf('http')? 'http://'+url : url
 				}
 			}
 //			buildHeart (el) {

@@ -21,6 +21,20 @@ export const jsonp = {
 				})
 			})
 		},
+		async getSelectedInfo() {
+			websiteApi.getUserSelectedInfo()
+			return await websiteApi.getGlobalSelectedInfo()
+		},
+		async getForm() {
+			websiteApi.getFormSelectedInfo()
+			const categories = await websiteApi.getGlobalTopForm()
+			return !_.isEmpty(categories)? JSON.parse(categories):[]
+		},
+		async getSite() {
+			websiteApi.getURLSelectedInfo()
+			const sites = await websiteApi.getGlobalTopUrl()
+			return !_.isEmpty(sites)? JSON.parse(sites):[]
+		},
 		saveForm (item) {
 			let data = {}
 			if(item){
@@ -43,6 +57,7 @@ export const jsonp = {
 				data.categoryId = categoryId? categoryId+'' : ''
 				data.name = site.name || ''
 				data.url = site.url || ''
+				data.href_url = site.href_url || ''
 				data.description = site.description || ''
 				data.icon = site.icon || ''
 				data.liked = site.liked || false

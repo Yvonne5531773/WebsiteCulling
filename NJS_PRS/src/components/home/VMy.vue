@@ -18,10 +18,10 @@
 									</span>
 								</div>
 							</div>
-							<div class="body" :style="content.sort>=3&&`borderTop:none;margin:0px 0px 25px 10px;width:1120px`">
+							<div class="body" :style="content.sort>=3&&`borderTop:none;margin:0px 0px 25px 10px;width:1122px`">
 								<ul class="list">
 									<li :key="data.id" v-for="data in content.data" :title="data.name" :class='{block:content.sort>=3}'>
-										<a target="_blank" style="display:flex" :href="data.url" v-if="content.sort<3" @click="openUrl(data, content.sort)">
+										<a target="_blank" style="display:flex" :href="data.href_url" v-if="content.sort<3" @click="openUrl(data, content.sort)">
 											<img v-lazy="data.iconLazyObj" />
 											<span class="name" :style="{letterSpacing:data.letterSpace,textAlign:data.textAlign}">{{data.name}}</span>
 										</a>
@@ -71,7 +71,9 @@
 					txt1: '收藏更多',
 					txt2: '赶快去收藏你喜欢的网单吧',
 					txt3: '在【发现网站】页，丰富的个性化网单等你挑选！',
-				}
+				},
+				localCategories: [],
+				localSites: []
 			}
 		},
 		mixins: [jsonp],
@@ -100,31 +102,27 @@
 				}
 				this.contents[1].data = hotSites&&hotSites.length===0? hots:hotSites
 
-				websiteApi.getFormSelectedInfo()
-				let localCategory = await websiteApi.getGlobalTopForm()
-				localCategory = !_.isEmpty(localCategory)? JSON.parse(localCategory):[]
-				websiteApi.getURLSelectedInfo()
-				let sites = await websiteApi.getGlobalTopUrl()
-				sites = !_.isEmpty(sites)? JSON.parse(sites):[]
-
-				console.log('construct localCategory', localCategory)
 				//我常用的
-				this.contents[0].data = _.sortBy(sites, ['views'])
+				await this.getLocal()
+				this.contents[0].data = _.orderBy(this.localSites, ['views'], ['desc'])
+				this.doContent()
+
 //				this.contents[2].data = _.sortBy(localCategory, ['updated'])
 				const dateRange = {
 					updated: ''
 				}
+
 				//最近访问
-				let ids = localCategory.sort(compareTime).map((c) => {
+				let ids = this.localCategories.sort(compareTime).map((c) => {
 					return c.id
 				})
 				let res = await this.getData(ids)
 				this.contents[2].data = _.cloneDeep(res)
 				//我的网单
-				likes[0].sites = _.cloneDeep(sites)
+				likes[0].sites = _.cloneDeep(this.localSites)
 				this.contents[3].data = likes
 				//我收藏的网单
-				ids = localCategory.filter((c) => {
+				ids = this.localCategories.filter((c) => {
 					return c.collected
 				}).map((c) => {
 					return c.id
@@ -133,7 +131,6 @@
 				this.contents[4].data = _.cloneDeep(res)
 
 				console.log('this.contents', this.contents)
-				this.doContent()
 			},
 			async getData (ids) {
 				let data = []
@@ -149,9 +146,13 @@
 				}
 				return data
 			},
+			async getLocal () {
+				this.localCategories = await this.getForm()
+				this.localSites = await this.getSite()
+			},
 			doContent() {
-				this.contents.forEach( (content) => {
-					!_.isEmpty(content.data) && content.data.forEach( (c) => {
+				this.contents.forEach( content => {
+					!_.isEmpty(content.data) && content.sort<3 && content.data.forEach( (c) => {
 						if(c){
 							c.iconLazyObj = {
 								src: c.icon&&!~c.icon.indexOf('http')?'http://'+c.icon : c.icon,

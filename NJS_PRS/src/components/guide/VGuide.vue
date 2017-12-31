@@ -61,18 +61,14 @@
 		},
 		methods: {
 			async init () {
-				websiteApi.getUserSelectedInfo()
-				let info = await websiteApi.getGlobalSelectedInfo(),
+				let info = await this.getSelectedInfo(),
 					array = !_.isEmpty(info)? info.split(',') : [],
 					data = {}
-				console.log('init info', info)
-				console.log('init array', array)
 				try {
 					data = await this.jsonp('/v1/index')
 				} catch (e) {
 					console.log('index error: ', e)
 				}
-				console.log('init data', data)
 				this.list = _.filter(_.uniqBy(data, 'id'), (d) => {
 					return !_.isEmpty(d.name)
 				})
@@ -80,7 +76,6 @@
 					l.id += ''
 					array && !!~array.indexOf(l.id) && (l.selected = true)
 				})
-				console.log('init this.list', this.list)
 				this.list = _.sortBy(this.list, ['sort'])
 				let tlist = {}
 				tlist.list = this.list.splice(0,1)
