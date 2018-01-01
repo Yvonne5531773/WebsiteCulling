@@ -73,7 +73,9 @@
 					txt3: '在【发现网站】页，丰富的个性化网单等你挑选！',
 				},
 				localCategories: [],
-				localSites: []
+				localSites: [],
+				hotsitePath: '/v1/hotsite',
+				catePath: '/v1/category/'
 			}
 		},
 		mixins: [jsonp],
@@ -96,7 +98,7 @@
 				//热门网站
 				let hotSites = []
 				try {
-					hotSites = await this.jsonp('/v1/hotsite')
+					hotSites = await this.jsonp(this.path)
 				} catch (e) {
 					console.log('error: ', e)
 				}
@@ -137,7 +139,7 @@
 				for(let i = 0; i < ids.length; i++) {
 					let resObj = {}
 					try {
-						resObj = await this.jsonp('/v1/category/' + ids[i])
+						resObj = await this.jsonp(this.catePath + ids[i])
 						console.log('construct resObj', resObj)
 					} catch (e) {
 						console.log('error: ', e)

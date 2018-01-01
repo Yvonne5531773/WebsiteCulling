@@ -52,6 +52,7 @@
 				},
 				showStartBtn: false,
 				selectids: [],
+				path: '/v1/index'
 			}
 		},
 		mixins: [jsonp],
@@ -65,7 +66,7 @@
 					array = !_.isEmpty(info)? info.split(',') : [],
 					data = {}
 				try {
-					data = await this.jsonp('/v1/index')
+					data = await this.jsonp(this.path)
 				} catch (e) {
 					console.log('index error: ', e)
 				}

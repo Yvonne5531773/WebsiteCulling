@@ -45,7 +45,8 @@
 			return {
 				dataList: [],
 				pullTxt: '查看全部',
-				pushTxt: '收起内容'
+				pushTxt: '收起内容',
+				path: '/v1/theme/'
 			}
 		},
 		mixins: [jsonp],
@@ -59,7 +60,7 @@
 					ids = query?(_.isArray(query)?query:[...new Array(query)]):[]
 				const themeid = ids&&ids.length>0?ids:(store.length>0?store:[])
 
-				let themes = await this.jsonp('/v1/theme/' + themeid.join(','))
+				let themes = await this.jsonp(this.path + themeid.join(','))
 				this.dataList = _.cloneDeep(_.sortBy(_.forEach(themes, (d) => {
 					d.event = 0
 				})), ['sort'])

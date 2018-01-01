@@ -23,6 +23,7 @@ export default {
 		return {
 			defaultAvatar: '/static/img/home/recommend/default.png',
 			list: [],
+			path: '/v1/recommend'
 		}
 	},
 	mixins: [jsonp],
@@ -36,7 +37,7 @@ export default {
 		async init () {
 			let res = {}
 			try {
-				res = await this.jsonp('/v1/recommend')
+				res = await this.jsonp(this.path)
 			}catch (e) {
 				console.log('error:', e)
 			}

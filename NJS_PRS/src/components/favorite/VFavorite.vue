@@ -74,6 +74,7 @@
 				likedTxt: '已收藏',
 				alertTxt: '已添加到我喜欢的网单',
 				collectAlertSTO: {},
+				catePath: '/v1/category/'
 			}
 		},
 		mixins: [jsonp],
@@ -94,7 +95,7 @@
 				} else {
 					let res = {}
 					try {
-						res = await this.jsonp('/v1/category/' + this.categoryid)
+						res = await this.jsonp(this.catePath + this.categoryid)
 					}catch (e) {
 						console.log('error:', e)
 					}
