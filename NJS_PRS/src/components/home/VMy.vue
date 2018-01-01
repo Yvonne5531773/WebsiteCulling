@@ -28,7 +28,7 @@
 										<VItem :category="data" v-else></VItem>
 									</li>
 									<li v-if="content.name===`我收藏的网单`">
-										<a class="add-more">
+										<a class="add-more" @click="addMore">
 											<p class="txt1">{{addmore.txt1}}</p>
 											<p class="bottom">
 												<span class="txt2">{{addmore.txt2}}</span>
@@ -55,6 +55,7 @@
 	import { likes } from '../../mock/likes'
 	import { compareTime } from '../../config/utils'
 	import { collects } from '../../mock/collects'
+	import { mapMutations } from 'vuex'
 	export default {
 		data() {
 			return {
@@ -87,6 +88,7 @@
 			})
 		},
 		methods: {
+			...mapMutations(['SET_COMPONENT']),
 			init () {
 				this.construct()
 			},
@@ -172,7 +174,10 @@
 						}
 					})
 				})
-			}
+			},
+			addMore() {
+				this.SET_COMPONENT({component: 'VDiscover'})
+			},
 		},
 		components: {
 			VBaidu,

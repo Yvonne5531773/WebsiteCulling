@@ -42,7 +42,13 @@
 			!this.favoritePage && this.change(cname)
 		},
 		watch: {
-
+			component () {
+				console.log('vheader watch component',this.component)
+				this.components.forEach((c)=>{
+					c.selected = false
+					this.component===c.name && (c.selected = true)
+				})
+			}
 		},
 		methods: {
 			...mapMutations(['SET_COMPONENT']),
