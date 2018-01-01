@@ -3,12 +3,12 @@
 		<h2>热门推荐</h2>
 		<section class="content">
 			<div class="r-data" v-for="(data, index) in list">
-				<a class="avatar" target="_blank" :href="data.url" :title="data.name">
+				<a class="avatar" target="_blank" :href="data.href_url" :title="data.name">
 					<img v-lazy="data.avatar"/>
 				</a>
 				<p class="title">
-					<a target="_blank" :href="data.url" :title="data.url">{{data.name}}</a>
-					<a target="_blank" class="description" :href="data.url" :title="data.description">{{data.description}}</a>
+					<a target="_blank" :href="data.href_url" :title="data.href_url">{{data.name}}</a>
+					<a target="_blank" class="description" :href="data.href_url" :title="data.description">{{data.description}}</a>
 				</p>
 			</div>
 		</section>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+	import { jsonp } from 'components/common/mixin'
 	import { mockRecommend } from '../../mock/recommend'
 export default {
 	data () {
@@ -24,17 +25,22 @@ export default {
 			list: [],
 		}
 	},
+	mixins: [jsonp],
 	mounted () {
 		this.init()
 	},
 	props: {
-//		category: {
-//			type: Object
-//		}
+
 	},
 	methods: {
-		init () {
-			this.list = _.cloneDeep(_.sortBy(mockRecommend, ['sort']))
+		async init () {
+			let res = {}
+			try {
+				res = await this.jsonp('/v1/recommend')
+			}catch (e) {
+				console.log('error:', e)
+			}
+			this.list = !_.isEmpty(res) && res.bottoms? res.bottoms:mockRecommend
 		}
 	}
 }

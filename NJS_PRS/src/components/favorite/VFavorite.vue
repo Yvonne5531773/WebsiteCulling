@@ -21,7 +21,10 @@
 				<div class="content">
 					<div class="block" :key="site.id" v-for="(site, index) in sites" @click="open(site, $event)">
 						<div class="name">
-							<img v-lazy="site.iconLazyObj"/>
+							<div ref="img"  class="i">
+								<img v-lazy="site.iconLazyObj"/>
+								<img  v-lazy="site.iconLazyObj"/>
+							</div>
 							<span>{{site.name | clip(40)}}</span>
 						</div>
 						<div class="description" :title="site.description">
@@ -53,7 +56,7 @@
 	import VAlert from 'components/common/VAlert'
 	import { clipstring, getOperationFullTime } from '../../config/utils'
 	import { websiteApi } from 'api'
-	import { Animocon } from '../../config/animocon'
+	import Velocity from 'velocity-animate/velocity.min'
 	import { likes } from '../../mock/likes'
 	import { jsonp } from 'components/common/mixin'
 	import { mockData } from '../../mock/data'
@@ -120,16 +123,26 @@
 					!_.isEmpty(si) && (site.liked = si.liked, site.views = si.views)
 					site.liked && (this.sites.splice(i, 1), this.sites.unshift(site))
 				}
-				console.log('construct this.category', this.category)
 			},
 			liked (site, i) {
 				if(!site) return
+				let component = document.getElementsByClassName('component')[0].children[0],
+					cTop = component.getBoundingClientRect().top,
+					cLeft = component.getBoundingClientRect().left,
+					img = this.$refs.img[i].children[0],
+					iTop = img.getBoundingClientRect().top,
+					iLeft = img.getBoundingClientRect().left,
+					iimg = this.$refs.img[i].children[1],
+					iiTop = iimg.getBoundingClientRect().top,
+					iiLeft = iimg.getBoundingClientRect().left
+
 				site.alertTimeout && (clearTimeout(site.alertTimeout))
 				site.likedAlert = site.liked = !site.liked
-				site.likedAlert && (site.alertTimeout = setTimeout( () => {
+				site.liked && (site.alertTimeout = setTimeout( () => {
 					site.likedAlert = false
 					this.$refs.alert[i].style.display = 'none'
-				}, 800))
+				}, 800), Velocity(img, { translateY: cTop-iTop, translateX: cLeft-iLeft }, {duration: 500}))
+				!site.liked && (img.style = iimg.style)
 				this.sites = _.cloneDeep(this.sites)
 				this.saveSite(_.cloneDeep(site), this.categoryid)
 			},
@@ -148,7 +161,6 @@
 					className = event.target.className
 				site.views = site.views? site.views+1 : 1
 				this.saveSite(_.cloneDeep(site), this.categoryid)
-				console.log('open url', url)
 				typeof className==='string' && !~className.indexOf('text') && !~className.indexOf('like') && !~className.indexOf('heart') && window.open(url)
 			},
 			addHttp(url) {
@@ -395,11 +407,16 @@
 						.name
 							padding 10px 0 0 16px
 							font-size 14px
-							img
-								float left
-								width 16px
-								height 16px
-								padding 5px 10px 0 0
+							.i
+								width 20px
+								display inline-block
+								height 20px
+								img
+									float left
+									width 16px
+									height 16px
+									padding 5px 10px 0 0
+									position absolute
 							span
 								line-height 2
 								color #333333
