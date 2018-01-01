@@ -155,6 +155,7 @@
 					}, 1800))
 				this.category.collected && this.collectAlertSTO && (this.showAlert = false, clearTimeout(this.collectAlertSTO))
 				this.category.collected = !this.category.collected
+				this.category = _.cloneDeep(this.category)
 				this.saveForm(this.category)
 			},
 			open (site, event) {
