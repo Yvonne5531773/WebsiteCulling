@@ -103,10 +103,9 @@
 					}
 					console.log('init res', res)
 					if(_.isEmpty(res)) return
-					this.category = _.cloneDeep(res[0])
-					this.sites = this.category.sites
+					this.category = res[0]
 					this.by = 'by ' + this.category.by
-					this.construct()
+					await this.construct()
 				}
 				this.sites && this.sites.forEach( (site) => {
 					site.iconLazyObj = {
@@ -124,16 +123,13 @@
 					localSites = await this.getSite(),
 					cat = _.find(localCategories, {'id': this.categoryid+''})
 				!_.isEmpty(cat) && (this.category.collected = cat.collected)
+				this.sites = _.cloneDeep(this.category.sites)
 				for(let i = 0; i < this.sites.length; i++){
 					let site = this.sites[i],
 						si = _.find(localSites, {'id': site.id+''})
 					!_.isEmpty(si) && (site.liked = si.liked, site.views = si.views)
 					site.liked && (this.sites.splice(i, 1), this.sites.unshift(site))
 				}
-				this.category = _.cloneDeep(this.category)
-				this.sites = _.cloneDeep(this.sites)
-				console.log('this.sites', this.sites)
-				console.log('this.$refs.img', this.$refs.img)
 			},
 			liked (site, i) {
 				if(!site) return
