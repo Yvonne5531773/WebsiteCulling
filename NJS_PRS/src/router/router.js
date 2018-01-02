@@ -10,7 +10,7 @@ export default [{
 	children: [
 		{
 			path: '',
-			redirect: '/guide'
+			redirect: '/home'
 		},
 		{
 			path: '/guide',

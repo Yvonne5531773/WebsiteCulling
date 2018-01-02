@@ -10,8 +10,10 @@
 				</div>
 			</div>
 			<div class="component">
-				<a v-for="(component, index) in components" :style="!favoritePage && component.selected&&`color:#ffffff;borderBottom:5px solid #a4a4ff`" @click="change(component.name)">{{component.txt}}</a>
-				<b v-if="!favoritePage" class="back-guide" @click="$router.push({path: '/'})"></b>
+				<a v-for="(component, index) in components" :style="!favoritePage && component.selected&&`color:#ffffff;borderBottom:5px solid #a4a4ff`" @click="change(component.name)">{{component.txt}}
+					<span v-if="component.name===`VMy` && liked" class="dot">●</span>
+				</a>
+				<b v-if="!favoritePage" class="back-guide" @click="$router.push({path: '/guide'})"></b>
 			</div>
 		</div>
 	</div>
@@ -20,6 +22,7 @@
 <script>
 	import { mapState, mapMutations } from 'vuex'
 	import _ from 'lodash'
+	import { getStore, setStore } from '../../config/utils'
 	export default {
 		data() {
 			return {
@@ -28,7 +31,7 @@
 				components:
 					[
 						{name: 'VMy',txt:'我的网站', selected: false},
-						{name: 'VDiscover', txt: '发现网站', selected: true},
+						{name: 'VDiscover', txt: '发现网站', selected: false},
 					],
 			}
 		},
@@ -38,21 +41,26 @@
 			}
 		},
 		mounted(){
-			const cname = this.component? this.component:_.find(this.components, {selected: true}).name
+			const storeComponent = getStore('COMPONENT_NAME')
+			const cname = this.component? this.component: (storeComponent? storeComponent:'VDiscover')
+			console.log('this.component', this.component)
+			console.log('cname', cname)
 			!this.favoritePage && this.change(cname)
 		},
 		watch: {
 			component () {
-				console.log('vheader watch component',this.component)
 				this.components.forEach((c)=>{
 					c.selected = false
 					this.component===c.name && (c.selected = true)
 				})
+			},
+			liked() {
+				console.log('liked', this.liked)
 			}
 		},
 		methods: {
-			...mapMutations(['SET_COMPONENT']),
-			change (name) {
+			...mapMutations(['SET_COMPONENT', 'SET_LIKED']),
+			change(name) {
 				if (this.favoritePage) {
 					this.$router.push({path: 'home'})
 				}
@@ -61,11 +69,14 @@
 					name===c.name && (c.selected = true)
 				})
 				this.SET_COMPONENT({component: name})
+				setStore('COMPONENT_NAME', name)
+				this.liked && name==='VMy' && this.SET_LIKED({liked: false})
 			},
 		},
 		computed:{
 			...mapState([
-				'component'
+				'component',
+				'liked'
 			])
 		},
 	}
@@ -128,9 +139,16 @@
 					position absolute
 					cursor pointer
 					right 0
-					margin 30px 0 0 0
+					margin 30px 146px 0 0
 					&:hover
 						background-position -84px
 					&:active
 						background-position -168px
+				.dot
+					font-size 20px
+					line-heigth 16px
+					color rgba(255, 0, 0, 0.64)
+					position relative
+					bottom 13px
+					float right
 </style>

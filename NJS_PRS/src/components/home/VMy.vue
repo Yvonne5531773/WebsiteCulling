@@ -8,7 +8,7 @@
 			</div>
 			<div class="content" v-else>
 				<ul>
-					<li v-for="(content, index) in contents" v-if="content.data.length>0">
+					<li v-for="(content, index) in contents" v-if="content.data&&content.data.length>0||content.name===`我收藏的网单`">
 						<div>
 							<div class="head">
 								<b class="circle"></b>
@@ -18,7 +18,8 @@
 									</span>
 								</div>
 							</div>
-							<div class="body" :style="content.sort>=3&&`borderTop:none;margin:0px 0px 25px 10px;width:1122px`">
+							<!--<div class="body" :style="content.sort>=3&&`borderTop:none;margin:0px 0px 25px 10px;width:1122px`,content.sort<3&&`maxHeight:130px`">-->
+							<div class="body" :class="{'body-more-3':content.sort>=3}" :style="content.sort<3&&`minHeight:85px`">
 								<ul class="list">
 									<li :key="data.id" v-for="data in content.data" :title="data.name" :class='{block:content.sort>=3}'>
 										<a target="_blank" style="display:flex" :href="data.href_url" v-if="content.sort<3" @click="openUrl(data, content.sort)">
@@ -56,6 +57,7 @@
 	import { compareTime } from '../../config/utils'
 	import { collects } from '../../mock/collects'
 	import { mapMutations } from 'vuex'
+	import { setStore } from '../../config/utils'
 	export default {
 		data() {
 			return {
@@ -91,6 +93,7 @@
 			...mapMutations(['SET_COMPONENT']),
 			init () {
 				this.construct()
+				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:1,url:'',value:0})
 			},
 			openUrl (data, sort) {
 				data.views = data.views? data.views+1 : 1
@@ -100,7 +103,7 @@
 				//热门网站
 				let hotSites = []
 				try {
-					hotSites = await this.jsonp(this.path)
+					hotSites = await this.jsonp(this.hotsitePath)
 				} catch (e) {
 					console.log('error: ', e)
 				}
@@ -108,22 +111,28 @@
 
 				//我常用的
 				await this.getLocal()
-				this.contents[0].data = _.orderBy(this.localSites, ['views'], ['desc'])
+				const localSites = _.orderBy(this.localSites, ['views'], ['desc'])
+				this.contents[0].data = localSites.slice(0, 16)
 				this.doContent()
 
-//				this.contents[2].data = _.sortBy(localCategory, ['updated'])
 				const dateRange = {
 					updated: ''
 				}
-
 				//最近访问
 				let ids = this.localCategories.sort(compareTime).map((c) => {
 					return c.id
 				})
+				ids = ids && ids.slice(0, 8)
 				let res = await this.getData(ids)
 				this.contents[2].data = _.cloneDeep(res)
 				//我的网单
-				likes[0].sites = _.cloneDeep(this.localSites)
+				let likedSites = _.cloneDeep(localSites)
+				console.log('likedSites1', likedSites)
+				likedSites = likedSites.filter(site => {
+					return site.liked
+				})
+				console.log('likedSites2', likedSites)
+				likes[0].sites = _.cloneDeep(likedSites)
 				this.contents[3].data = likes
 				//我收藏的网单
 				ids = this.localCategories.filter((c) => {
@@ -137,18 +146,16 @@
 				console.log('this.contents', this.contents)
 			},
 			async getData (ids) {
-				let data = []
-				for(let i = 0; i < ids.length; i++) {
-					let resObj = {}
-					try {
-						resObj = await this.jsonp(this.catePath + ids[i])
-						console.log('construct resObj', resObj)
-					} catch (e) {
-						console.log('error: ', e)
-					}
-					!_.isEmpty(resObj) && data.push(resObj)
+				console.log('getData ids', ids)
+				if(_.isEmpty(ids)) return
+				let res = []
+				try {
+					res = await this.jsonp(this.catePath + ids.join(','))
+					console.log('construct res', res)
+				} catch (e) {
+					console.log('error: ', e)
 				}
-				return data
+				return res
 			},
 			async getLocal () {
 				this.localCategories = await this.getForm()
@@ -177,6 +184,7 @@
 			},
 			addMore() {
 				this.SET_COMPONENT({component: 'VDiscover'})
+				setStore('COMPONENT_NAME', 'VDiscover')
 			},
 		},
 		components: {
@@ -317,4 +325,8 @@
 						margin-top 0
 						&:nth-child(4n)
 							margin 0 !important
+				.body-more-3
+					border-top none !important
+					margin 0 0 25px 10px !important
+					width 1122px !important
 </style>

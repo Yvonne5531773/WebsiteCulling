@@ -82,7 +82,7 @@ export const websiteApi = {
 				reportData = {
 					name: name
 				};
-			data.version = 6
+			data.version = 1
 			for (i in data) {
 				if (data.hasOwnProperty(i)) {
 					arr.push(i + '=' + encodeURIComponent(data[i]));

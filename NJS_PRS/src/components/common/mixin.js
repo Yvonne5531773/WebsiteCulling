@@ -6,7 +6,10 @@ import { getOperationFullTime } from '../../config/utils'
 export const jsonp = {
 	methods: {
 		jsonp (path = '', params = {}) {
-			const url = host + path
+			let url = ''
+			if(!~path.indexOf('http'))
+				url = host + path
+			else url = path
 			// return this.$http.jsonp(url, {
 			// 	params: params,
 			// 	jsonp: 'callback'

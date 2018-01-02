@@ -1,7 +1,7 @@
 <template>
 	<div class="item">
 		<router-link :to="{ path: 'favorite', query: {categoryid: category.id}}">
-			<div class="avatar" :title="category.name" @click="open(1)">
+			<div class="avatar" :title="category.name" @click="open(1, 1)">
 				<img v-lazy="addHttp(category.avatar)" :style="category.id===`0099`&&`position:relative;bottom:4px`"/>
 				<span>{{category.name}}</span>
 				<div class="mask"></div>
@@ -15,12 +15,12 @@
 		</p>
 		<div class="site-list">
 			<p v-if="index<=2" v-for="(site, index) in category.sites">
-				<a :href="site.href_url" class="site-n" :title="site.name" target="_blank"  @click="open(2, site)">{{site.name | clip}}</a>
-				<a :href="site.href_url" class="site-u" :title="site.url" target="_blank"  @click="open(2, site)">{{site.url | doUrl}}</a>
+				<a :href="site.href_url" class="site-n" :title="site.name" target="_blank"  @click="open(2, 0, site)">{{site.name | clip}}</a>
+				<a :href="site.href_url" class="site-u" :title="site.url" target="_blank"  @click="open(2, 0, site)">{{site.url | doUrl}}</a>
 			</p>
 		</div>
 		<router-link :to="{ path: 'favorite', query: {categoryid: category.id}}">
-			<div class="more" @click="open(1)">
+			<div class="more" @click="open(1, 3)">
 				<span>{{moreTxt}}</span>
 				<img src="../../../static/img/home/more.png"/>
 			</div>
@@ -49,13 +49,14 @@
 			}
 		},
 		methods: {
-			async open(flag, site) {
+			async open(flag, type, site) {
 				if(flag === 1) {
 					if(this.category.id==='0099') return
 					let categories = await this.getForm(),
 						category = _.find(categories, {id: this.category.id + ''})
 					category = _.isEmpty(category)? this.category:category
 					this.saveForm(category)
+					websiteApi.reportByInfoc('liebao_urlchoose_find:351 action:byte value:byte hotsite:byte ver:byte',{action:2,value:type,hotsite:0})
 				} else if(flag === 2 && site) {
 					let sites = await this.getSite(),
 						s = _.find(sites, {id: site.id + ''})
@@ -66,7 +67,7 @@
 			},
 			addHttp(url) {
 				if(url){
-					return !~url.indexOf('http')? 'http://'+url : url
+					return !~url.indexOf('http')? 'http:'+url : url
 				}
 			}
 		},

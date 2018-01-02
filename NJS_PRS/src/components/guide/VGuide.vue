@@ -62,6 +62,7 @@
 		},
 		methods: {
 			async init () {
+				websiteApi.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:1,taste:0})
 				let info = await this.getSelectedInfo(),
 					array = !_.isEmpty(info)? info.split(',') : [],
 					data = {}
@@ -124,6 +125,7 @@
 			},
 			click (row, index) {
 				this.change('click', row, index)
+				websiteApi.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:2,taste:this.rows[row].list[index].id})
 			},
 			change (action, row, index) {
 				let block = this.$refs.rBody[row].childNodes[index],
@@ -174,7 +176,7 @@
 				})
 			},
 			start () {
-				console.log('in start this.selectids.join(\',\')', this.selectids.join(','))
+				websiteApi.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:3,taste:this.selectids.length})
 				websiteApi.setUserSelectedInfo(this.selectids.join(','))
 			}
 		},

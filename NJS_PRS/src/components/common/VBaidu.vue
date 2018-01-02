@@ -16,6 +16,8 @@
 </template>
 
 <script>
+	import { websiteApi } from 'api'
+	import { jsonp } from 'components/common/mixin'
 	export default {
 		data() {
 			return {
@@ -25,11 +27,13 @@
 				nowIndex: -1,
 				result: [],
 				inputTxt: '搜索',
-				focus: false
+				focus: false,
+				path: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su/wd=?wd='
 			}
 		},
+		mixins: [jsonp],
 		methods: {
-			show (ev) {
+			async show (ev) {
 				if (ev.keyCode === 38 || ev.keyCode === 40) {
 					if (this.nowIndex < -1){
 						return;
@@ -44,16 +48,19 @@
 					this.inputText = '';
 				}
 				this.text = this.inputText;
-				this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su', {
-					params: {
-						wd: this.inputText
-					},
-					jsonp: 'cb'
-				}).then(res => {
-					this.result = res.data.s;
-				})
+				this.result = await this.jsonp(this.path + this.inputText)
+				console.log('this.result', this.result)
+//				this.$http.jsonp(this.path, {
+//					params: {
+//						wd: this.inputText
+//					},
+//					jsonp: 'cb'
+//				}).then(res => {
+//					this.result = res.data.s;
+//				})
 			},
 			goto () {
+				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:2,url:'',value:0})
 				window.open('https://www.baidu.com/s?wd=' + this.inputText, '_blank');
 			},
 			goItem(item) {

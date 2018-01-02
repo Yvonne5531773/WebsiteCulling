@@ -13,7 +13,7 @@
 						<a target="_blank" :title="category.name">{{category.name | clip(13)}}</a>
 						<span class="by">{{by}}</span>
 					</div>
-					<div class="add" :style="category.collected&&`backgroundPosition:-170px`"  @click="collect" v-if="categoryid!==`0099`"></div>
+					<div class="add" :style="category.collected&&`backgroundPosition:-170px`" @click="collect" v-if="categoryid!==`0099`"></div>
 				</div>
 			</div>
 			<div class="f-r">
@@ -21,9 +21,9 @@
 				<div class="content">
 					<div class="block" :key="site.id" v-for="(site, index) in sites" @click="open(site, $event)">
 						<div class="name">
-							<div ref="img"  class="i">
+							<div ref="img" class="i">
 								<img v-lazy="site.iconLazyObj"/>
-								<img  v-lazy="site.iconLazyObj"/>
+								<img v-lazy="site.iconLazyObj"/>
 							</div>
 							<span>{{site.name | clip(40)}}</span>
 						</div>
@@ -59,6 +59,7 @@
 	import Velocity from 'velocity-animate/velocity.min'
 	import { likes } from '../../mock/likes'
 	import { jsonp } from 'components/common/mixin'
+	import { mapMutations } from 'vuex'
 	import { mockData } from '../../mock/data'
 	import { match } from '../../mock/match'
 	export default {
@@ -86,6 +87,7 @@
 			})
 		},
 		methods: {
+			...mapMutations(['SET_LIKED']),
 			async init () {
 				if (this.categoryid === '0099') { //喜欢的网单
 					this.category = likes[0]
@@ -99,9 +101,10 @@
 					}catch (e) {
 						console.log('error:', e)
 					}
+					console.log('init res', res)
 					if(_.isEmpty(res)) return
-					this.category = _.cloneDeep(res)
-					this.sites = res.sites
+					this.category = _.cloneDeep(res[0])
+					this.sites = this.category.sites
 					this.by = 'by ' + this.category.by
 					this.construct()
 				}
@@ -112,6 +115,9 @@
 						loading: 'static/img/favorite/default-icon.png'
 					}
 				})
+				this.category = _.cloneDeep(this.category)
+				this.sites = _.cloneDeep(this.sites)
+				websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:1,name:this.category.name,url:''})
 			},
 			async construct () {
 				const localCategories = await this.getForm(),
@@ -124,6 +130,10 @@
 					!_.isEmpty(si) && (site.liked = si.liked, site.views = si.views)
 					site.liked && (this.sites.splice(i, 1), this.sites.unshift(site))
 				}
+				this.category = _.cloneDeep(this.category)
+				this.sites = _.cloneDeep(this.sites)
+				console.log('this.sites', this.sites)
+				console.log('this.$refs.img', this.$refs.img)
 			},
 			liked (site, i) {
 				if(!site) return
@@ -136,16 +146,19 @@
 					iimg = this.$refs.img[i].children[1],
 					iiTop = iimg.getBoundingClientRect().top,
 					iiLeft = iimg.getBoundingClientRect().left
-
 				site.alertTimeout && (clearTimeout(site.alertTimeout))
 				site.likedAlert = site.liked = !site.liked
-				site.liked && (site.alertTimeout = setTimeout( () => {
+				site.liked && (site.alertTimeout = setTimeout(() => {
 					site.likedAlert = false
 					this.$refs.alert[i].style.display = 'none'
 				}, 800), Velocity(img, { translateY: cTop-iTop, translateX: cLeft-iLeft }, {duration: 500}))
+				console.log('this.$refs.img', this.$refs.img)
 				!site.liked && (img.style = iimg.style)
-				this.sites = _.cloneDeep(this.sites)
 				this.saveSite(_.cloneDeep(site), this.categoryid)
+				site.liked && this.SET_LIKED({liked: true})
+				this.category = _.cloneDeep(this.category)
+				this.sites = _.cloneDeep(this.sites)
+				websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:3,name:this.category.name,url:site.url})
 			},
 			collect () {
 				!this.category.collected &&
@@ -157,12 +170,14 @@
 				this.category.collected = !this.category.collected
 				this.category = _.cloneDeep(this.category)
 				this.saveForm(this.category)
+				websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:4,name:this.category.name,url:''})
 			},
 			open (site, event) {
 				const url = site.href_url? site.href_url : this.addHttp(site.url),
 					className = event.target.className
 				site.views = site.views? site.views+1 : 1
 				this.saveSite(_.cloneDeep(site), this.categoryid)
+				websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:2,name:this.category.name,url:site.url})
 				typeof className==='string' && !~className.indexOf('text') && !~className.indexOf('like') && !~className.indexOf('heart') && window.open(url)
 			},
 			addHttp(url) {

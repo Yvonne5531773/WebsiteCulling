@@ -1,6 +1,7 @@
 
 import {
 	SET_COMPONENT,
+	SET_LIKED,
 } from './mutation-types.js'
 
 
@@ -11,4 +12,9 @@ export default {
 		state.component = component;
 	},
 
+	[SET_LIKED](state, {
+		liked,
+	}) {
+		state.liked = liked;
+	},
 }

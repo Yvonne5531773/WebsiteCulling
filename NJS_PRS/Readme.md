@@ -58,3 +58,9 @@ c.猎豹网址精选，可以将各种特色网站分类，包装成精品网单
 第三部分：我的网站
 
 概念版不做
+
+liebao_urlchoose_taste:350 action:byte taste:byte ver:byte
+liebao_urlchoose_find:351 action:byte value:byte hotsite:byte ver:byte
+liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte
+liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte
+liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string

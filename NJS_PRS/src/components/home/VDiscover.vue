@@ -38,6 +38,7 @@
 	import { getStore } from '../../config/utils'
 	import { mapActions, mapGetters } from 'vuex'
 	import Velocity from 'velocity-animate/velocity.min'
+	import { websiteApi } from 'api'
 	import { mockData } from '../../mock/data'
 
 	export default {
@@ -55,6 +56,7 @@
 		},
 		methods: {
 			async init () {
+				websiteApi.reportByInfoc('liebao_urlchoose_find:351 action:byte value:byte hotsite:byte ver:byte',{action:1,value:0,hotsite:0})
 				const store = getStore('THEME_IDS')&&getStore('THEME_IDS').split(',')
 				let query = this.$route.query.themeid,
 					ids = query?(_.isArray(query)?query:[...new Array(query)]):[]
@@ -80,6 +82,7 @@
 					Velocity(this.$refs.body[index], { maxHeight: 353*(Math.floor(count/3)+1) }, { duration: durationVal, complete: ()=>{
 						data.event = 1
 					}})
+					websiteApi.reportByInfoc('liebao_urlchoose_find:351 action:byte value:byte hotsite:byte ver:byte',{action:4,value:0,hotsite:0})
 				}else if (data.event===1) { //up
 					data.event = 0
 					//收缩动画

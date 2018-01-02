@@ -11,6 +11,8 @@
 	import VDiscover from 'components/home/VDiscover'
 	import VMy from 'components/home/VMy'
 	import { mapState } from 'vuex'
+	import { jsonp } from 'components/common/mixin'
+	import { getStore } from '../../config/utils'
 
 	export default {
 		data() {
@@ -18,6 +20,7 @@
 				current: ''
 			}
 		},
+		mixins: [jsonp],
 		watch: {
 			component () {
 				this.init()
@@ -32,7 +35,12 @@
 			])
 		},
 		methods: {
-			init () {
+			async init () {
+				const info = await this.getSelectedInfo(),
+					store = getStore('THEME_IDS')&&getStore('THEME_IDS').split(',')
+				console.log('info', info)
+				console.log('store', store)
+				_.isEmpty(info) && _.isEmpty(store) && this.$router.push({path: '/guide'})
 				this.current = this.component
 			}
 		},

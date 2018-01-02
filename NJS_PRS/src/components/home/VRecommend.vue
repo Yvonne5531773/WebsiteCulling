@@ -3,12 +3,12 @@
 		<h2>热门推荐</h2>
 		<section class="content">
 			<div class="r-data" v-for="(data, index) in list">
-				<a class="avatar" target="_blank" :href="data.href_url" :title="data.name">
-					<img v-lazy="data.avatar"/>
+				<a class="avatar" target="_blank" :href="data.href_url" :title="data.name" @click="open(data)">
+					<img v-lazy="addHttp(data.avatar)"/>
 				</a>
 				<p class="title">
-					<a target="_blank" :href="data.href_url" :title="data.href_url">{{data.name}}</a>
-					<a target="_blank" class="description" :href="data.href_url" :title="data.description">{{data.description}}</a>
+					<a target="_blank" :href="data.href_url" :title="data.href_url" @click="open(data)">{{data.name}}</a>
+					<a target="_blank" class="description" :href="data.href_url" :title="data.description" @click="open(data)">{{data.description}}</a>
 				</p>
 			</div>
 		</section>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+	import { websiteApi } from 'api'
 	import { jsonp } from 'components/common/mixin'
 	import { mockRecommend } from '../../mock/recommend'
 export default {
@@ -42,6 +43,14 @@ export default {
 				console.log('error:', e)
 			}
 			this.list = !_.isEmpty(res) && res.bottoms? res.bottoms:mockRecommend
+		},
+		addHttp(url) {
+			if(url){
+				return !~url.indexOf('http')? 'http:'+url : url
+			}
+		},
+		open(data) {
+			websiteApi.reportByInfoc('liebao_urlchoose_find:351 action:byte value:byte hotsite:byte ver:byte',{action:3,value:0,hotsite:data.id})
 		}
 	}
 }
