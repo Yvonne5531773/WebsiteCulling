@@ -50,7 +50,7 @@ export default {
 			}
 		},
 		open(data) {
-			websiteApi.reportByInfoc('liebao_urlchoose_find:351 action:byte value:byte hotsite:byte ver:byte',{action:3,value:0,hotsite:data.id})
+			websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:3,value:0,hotsite:data.id,url:'',name:''})
 		}
 	}
 }

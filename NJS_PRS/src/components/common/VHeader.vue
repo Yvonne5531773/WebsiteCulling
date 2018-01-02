@@ -62,6 +62,7 @@
 			...mapMutations(['SET_COMPONENT', 'SET_LIKED']),
 			change(name) {
 				if (this.favoritePage) {
+					console.log('this.favoritePage')
 					this.$router.push({path: 'home'})
 				}
 				this.components.forEach((c)=>{

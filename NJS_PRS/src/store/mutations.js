@@ -2,6 +2,7 @@
 import {
 	SET_COMPONENT,
 	SET_LIKED,
+	SAVE_POSITION,
 } from './mutation-types.js'
 
 
@@ -16,5 +17,11 @@ export default {
 		liked,
 	}) {
 		state.liked = liked;
+	},
+
+	[SAVE_POSITION](state, {
+		position,
+	}) {
+		state.position = position;
 	},
 }

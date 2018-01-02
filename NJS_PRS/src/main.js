@@ -20,7 +20,7 @@ const router = new VueRouter({
 	routes,
 	mode: routerMode,
 	strict: process.env.NODE_ENV !== 'production',
-	scrollBehavior (to, from, savedPosition) { //当转到新的页面时，定位到最顶端
+	scrollBehavior(to, from, savedPosition) { //当转到新的页面时，定位到最顶端，只在history模式下有效
 		if (savedPosition) {
 			return savedPosition
 		} else {

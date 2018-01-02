@@ -23,7 +23,7 @@ export default [{
 		},
 		{
 			path: '/favorite',
-			component: favorite
+			component: favorite,
 		}
 	]
 }]

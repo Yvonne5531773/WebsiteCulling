@@ -36,7 +36,7 @@
 	import {jsonp} from 'components/common/mixin'
 	import _ from 'lodash'
 	import { getStore } from '../../config/utils'
-	import { mapActions, mapGetters } from 'vuex'
+	import { mapState } from 'vuex'
 	import Velocity from 'velocity-animate/velocity.min'
 	import { websiteApi } from 'api'
 	import { mockData } from '../../mock/data'
@@ -47,16 +47,28 @@
 				dataList: [],
 				pullTxt: '查看全部',
 				pushTxt: '收起内容',
-				path: '/v1/theme/'
+				path: '/v1/theme/',
+				scrollTop: 0
 			}
 		},
 		mixins: [jsonp],
 		mounted() {
+			console.log('dis mount')
 			this.init()
+		},
+		computed:{
+			...mapState([
+				'position'
+			])
+		},
+		watch: {
+			scrollTop() {
+				console.log('this.scrollTop', this.scrollTop)
+			}
 		},
 		methods: {
 			async init () {
-				websiteApi.reportByInfoc('liebao_urlchoose_find:351 action:byte value:byte hotsite:byte ver:byte',{action:1,value:0,hotsite:0})
+				websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:1,value:0,hotsite:0,url:'',name:''})
 				const store = getStore('THEME_IDS')&&getStore('THEME_IDS').split(',')
 				let query = this.$route.query.themeid,
 					ids = query?(_.isArray(query)?query:[...new Array(query)]):[]
@@ -83,6 +95,7 @@
 						data.event = 1
 					}})
 					websiteApi.reportByInfoc('liebao_urlchoose_find:351 action:byte value:byte hotsite:byte ver:byte',{action:4,value:0,hotsite:0})
+					websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:3,value:0,hotsite:data.id,url:'',name:''})
 				}else if (data.event===1) { //up
 					data.event = 0
 					//收缩动画
@@ -95,7 +108,7 @@
 			VAlert,
 			VItem,
 			VRecommend
-		}
+		},
 	}
 </script>
 

@@ -87,13 +87,12 @@
 			})
 		},
 		methods: {
-			...mapMutations(['SET_LIKED']),
+			...mapMutations(['SET_LIKED', 'SAVE_POSITION']),
 			async init () {
 				if (this.categoryid === '0099') { //喜欢的网单
 					this.category = likes[0]
 					this.sites = await this.getSite()
 					this.sites = _.filter(this.sites, site => site.liked)
-					console.log('like sites', this.sites)
 				} else {
 					let res = {}
 					try {
@@ -101,7 +100,6 @@
 					}catch (e) {
 						console.log('error:', e)
 					}
-					console.log('init res', res)
 					if(_.isEmpty(res)) return
 					this.category = res[0]
 					this.by = 'by ' + this.category.by
@@ -139,22 +137,19 @@
 					img = this.$refs.img[i].children[0],
 					iTop = img.getBoundingClientRect().top,
 					iLeft = img.getBoundingClientRect().left,
-					iimg = this.$refs.img[i].children[1],
-					iiTop = iimg.getBoundingClientRect().top,
-					iiLeft = iimg.getBoundingClientRect().left
+					iimg = this.$refs.img[i].children[1]
 				site.alertTimeout && (clearTimeout(site.alertTimeout))
 				site.likedAlert = site.liked = !site.liked
 				site.liked && (site.alertTimeout = setTimeout(() => {
 					site.likedAlert = false
 					this.$refs.alert[i].style.display = 'none'
-				}, 800), Velocity(img, { translateY: cTop-iTop, translateX: cLeft-iLeft }, {duration: 500}))
-				console.log('this.$refs.img', this.$refs.img)
+				}, 800), Velocity(img, { translateY:cTop-iTop,translateX:cLeft-iLeft,opacity:0}, {duration: Math.floor(i/3)!==0?(Math.floor(i/3)+1)*400:800}))
 				!site.liked && (img.style = iimg.style)
 				this.saveSite(_.cloneDeep(site), this.categoryid)
 				site.liked && this.SET_LIKED({liked: true})
 				this.category = _.cloneDeep(this.category)
 				this.sites = _.cloneDeep(this.sites)
-				websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:3,name:this.category.name,url:site.url})
+				site.liked && websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:3,name:this.category.name,url:site.url})
 			},
 			collect () {
 				!this.category.collected &&
@@ -166,7 +161,7 @@
 				this.category.collected = !this.category.collected
 				this.category = _.cloneDeep(this.category)
 				this.saveForm(this.category)
-				websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:4,name:this.category.name,url:''})
+				this.category.collected && websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:4,name:this.category.name,url:''})
 			},
 			open (site, event) {
 				const url = site.href_url? site.href_url : this.addHttp(site.url),
@@ -272,7 +267,7 @@
 		components: {
 			VHeader,
 			VAlert
-		}
+		},
 	}
 </script>
 
@@ -430,6 +425,7 @@
 									height 16px
 									padding 5px 10px 0 0
 									position absolute
+									/*z-index 200*/
 							span
 								line-height 2
 								color #333333

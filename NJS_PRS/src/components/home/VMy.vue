@@ -18,7 +18,6 @@
 									</span>
 								</div>
 							</div>
-							<!--<div class="body" :style="content.sort>=3&&`borderTop:none;margin:0px 0px 25px 10px;width:1122px`,content.sort<3&&`maxHeight:130px`">-->
 							<div class="body" :class="{'body-more-3':content.sort>=3}" :style="content.sort<3&&`minHeight:85px`">
 								<ul class="list">
 									<li :key="data.id" v-for="data in content.data" :title="data.name" :class='{block:content.sort>=3}'>
@@ -26,7 +25,10 @@
 											<img v-lazy="data.iconLazyObj" />
 											<span class="name" :style="{letterSpacing:data.letterSpace,textAlign:data.textAlign}">{{data.name}}</span>
 										</a>
-										<VItem :category="data" v-else></VItem>
+										<a class="add-like" v-else-if="content.sort===4&&data.sites.length===0">
+
+										</a>
+										<VItem :category="data" :sort="content.sort" v-else></VItem>
 									</li>
 									<li v-if="content.name===`我收藏的网单`">
 										<a class="add-more" @click="addMore">
@@ -98,6 +100,8 @@
 			openUrl (data, sort) {
 				data.views = data.views? data.views+1 : 1
 				data && sort === 1 && this.saveSite(data)
+				sort === 1 && websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:3,url:data.url,value:data.id})
+				sort === 2 && websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:4,url:data.url,value:data.id})
 			},
 			async construct() {
 				//热门网站
@@ -115,9 +119,6 @@
 				this.contents[0].data = localSites.slice(0, 16)
 				this.doContent()
 
-				const dateRange = {
-					updated: ''
-				}
 				//最近访问
 				let ids = this.localCategories.sort(compareTime).map((c) => {
 					return c.id
@@ -127,13 +128,12 @@
 				this.contents[2].data = _.cloneDeep(res)
 				//我的网单
 				let likedSites = _.cloneDeep(localSites)
-				console.log('likedSites1', likedSites)
-				likedSites = likedSites.filter(site => {
+				likedSites = likedSites && likedSites.filter(site => {
 					return site.liked
 				})
-				console.log('likedSites2', likedSites)
 				likes[0].sites = _.cloneDeep(likedSites)
 				this.contents[3].data = likes
+				console.log('this.contents[3].data', this.contents[3].data)
 				//我收藏的网单
 				ids = this.localCategories.filter((c) => {
 					return c.collected
@@ -185,6 +185,7 @@
 			addMore() {
 				this.SET_COMPONENT({component: 'VDiscover'})
 				setStore('COMPONENT_NAME', 'VDiscover')
+				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:7,url:'',value:0})
 			},
 		},
 		components: {
@@ -270,6 +271,13 @@
 								overflow hidden
 								text-overflow ellipsis
 								white-space nowrap
+						.add-like
+							background url("../../../static/img/my/add-like.png") no-repeat
+							width 243px
+							height 312px
+							position relative
+							color #fff
+							display block
 						.add-more
 							background url("../../../static/img/my/add-more.png") no-repeat
 							width 243px
@@ -279,7 +287,6 @@
 							bottom 10px
 							color #fff
 							display block
-							/*float left*/
 							.txt1
 								top 20px
 								bottom 0

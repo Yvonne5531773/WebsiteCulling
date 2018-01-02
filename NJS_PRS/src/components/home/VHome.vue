@@ -10,44 +10,66 @@
 	import VHeader from 'components/common/VHeader'
 	import VDiscover from 'components/home/VDiscover'
 	import VMy from 'components/home/VMy'
-	import { mapState } from 'vuex'
+	import { mapState, mapMutations } from 'vuex'
 	import { jsonp } from 'components/common/mixin'
 	import { getStore } from '../../config/utils'
 
 	export default {
 		data() {
 			return {
-				current: ''
+				current: '',
+				scrollTop: 0
 			}
 		},
 		mixins: [jsonp],
 		watch: {
 			component () {
 				this.init()
-			}
+			},
 		},
 		mounted () {
 			this.init()
 		},
+//		activated() {
+//			console.log('activity')
+//		},
 		computed:{
 			...mapState([
-				'component'
+				'component',
+				'position'
 			])
 		},
 		methods: {
+			...mapMutations(['SAVE_POSITION']),
 			async init () {
 				const info = await this.getSelectedInfo(),
 					store = getStore('THEME_IDS')&&getStore('THEME_IDS').split(',')
-				console.log('info', info)
-				console.log('store', store)
 				_.isEmpty(info) && _.isEmpty(store) && this.$router.push({path: '/guide'})
 				this.current = this.component
-			}
+				window.addEventListener('scroll', () => {
+					if(document.compatMode === "CSS1Compat") {
+						this.scrollTop = document.documentElement.scrollTop
+					} else {
+						this.scrollTop = document.body.scrollTop
+					}
+				}, false);
+				setTimeout(()=> {
+					console.log('this.position', this.position)
+					document.documentElement.scrollTop = this.position
+					document.body.scrollTop = this.position
+				}, 1000)
+
+			},
 		},
 		components: {
 			VHeader,
 			VDiscover,
 			VMy
+		},
+		beforeRouteLeave(to, from, next) {
+			this.SAVE_POSITION({position: window.scrollY})
+			console.log('beforeRouteLeave window.scrollY', window.scrollY)
+			next()
 		}
 	}
 </script>
@@ -67,12 +89,12 @@
 		flex-shrink 0
 		width 100%
 		height 100%
-		background #edeff1
+		/*background #edeff1*/
 		top 0
 		bottom 0
-		position fixed
-		overflow-y scroll
-		overflow-x hidden
+		position absolute
+		/*overflow-y scroll*/
+		/*overflow-x hidden*/
 		.container
 			margin 112px auto
 			width 1098px

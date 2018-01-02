@@ -49,7 +49,7 @@ export const websiteApi = {
 	},
 	//存储网单
 	setFormSelectedInfo (item) {
-		console.log('setFormSelectedInfo item', item)
+		// console.log('setFormSelectedInfo item', item)
 		chrome.send && chrome.send("SetFormSelectedInfo", [item]);
 	},
 
@@ -67,7 +67,7 @@ export const websiteApi = {
 	},
 	//存储网址
 	setURLSelectedInfo (item) {
-		console.log('setURLSelectedInfo item', item)
+		// console.log('setURLSelectedInfo item', item)
 		chrome.send && chrome.send("SetURLSelectedInfo", [item]);
 	},
 
@@ -82,7 +82,7 @@ export const websiteApi = {
 				reportData = {
 					name: name
 				};
-			data.version = 1
+			data.ver = 1
 			for (i in data) {
 				if (data.hasOwnProperty(i)) {
 					arr.push(i + '=' + encodeURIComponent(data[i]));
@@ -102,15 +102,15 @@ let globalSelectedInfo = {},
 
 global.websiteculling = {
 	GetUserSelectedCallback: res => {
-		console.log('GetUserSelectedCallback res', res)
+		// console.log('GetUserSelectedCallback res', res)
 		globalSelectedInfo = res
 	},
 	GetTopFormCallback: res => {
-		console.log('GetTopFormCallback res', res)
+		// console.log('GetTopFormCallback res', res)
 		globalTopForm = res
 	},
 	GetTopUrlCallback: res => {
-		console.log('GetTopUrlCallback res', res)
+		// console.log('GetTopUrlCallback res', res)
 		globalTopUrl = res
 	},
 }
