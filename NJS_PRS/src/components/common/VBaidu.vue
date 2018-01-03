@@ -48,16 +48,15 @@
 					this.inputText = '';
 				}
 				this.text = this.inputText;
-				this.result = await this.jsonp(this.path + this.inputText)
-				console.log('this.result', this.result)
-//				this.$http.jsonp(this.path, {
-//					params: {
-//						wd: this.inputText
-//					},
-//					jsonp: 'cb'
-//				}).then(res => {
-//					this.result = res.data.s;
-//				})
+				const path = "http://unionsug.baidu.com/su?wd=" + encodeURIComponent(this.inputText) + "&p=3&cb=window.baidu.sug&ie=UTF-8&t=" + Date.now();
+				websiteApi.submitHTTPRequest(path)
+				let res = await websiteApi.getGlobalResponse(),
+					response = {}
+				if(res.return_data.indexOf('w') === 0){
+					res = res.return_data.replace(/^window\.baidu\.sug\(|\);?$/g, '').replace(/[a-zA-Z](?=\:)/g, '"$&"');
+				}
+				response = JSON.parse(res)
+				this.result = _.cloneDeep(response.s)
 			},
 			goto () {
 				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:2,url:'',value:0})

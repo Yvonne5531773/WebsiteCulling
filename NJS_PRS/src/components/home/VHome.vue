@@ -42,6 +42,7 @@
 		methods: {
 			...mapMutations(['SAVE_POSITION']),
 			async init () {
+				console.log('home init')
 				const info = await this.getSelectedInfo(),
 					store = getStore('THEME_IDS')&&getStore('THEME_IDS').split(',')
 				_.isEmpty(info) && _.isEmpty(store) && this.$router.push({path: '/guide'})
@@ -53,12 +54,6 @@
 						this.scrollTop = document.body.scrollTop
 					}
 				}, false);
-				setTimeout(()=> {
-					console.log('this.position', this.position)
-					document.documentElement.scrollTop = this.position
-					document.body.scrollTop = this.position
-				}, 1000)
-
 			},
 		},
 		components: {

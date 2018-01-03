@@ -1,4 +1,3 @@
-
 /*
 *
 // 用户在起始页中选择的感兴趣的分类
@@ -93,12 +92,29 @@ export const websiteApi = {
 			// console.log('reportnoformat: ', JSON.stringify(reportData))
 		}
 	},
+
+	submitHTTPRequest(criteria) {
+		let arr = [criteria, '', ''],
+			context = randomStr()
+		arr.unshift(context)
+		console.log('submitHTTPRequest arr', arr)
+		chrome.send && chrome.send('submitHttpRequest', arr);
+	},
+
+	getGlobalResponse () {
+		return new Promise(function (resolve) {
+			setTimeout(() => {
+				resolve(globalResponse)
+			}, 200)
+		})
+	},
 }
 
 //暴露回调对象
 let globalSelectedInfo = {},
 	globalTopForm = {},
-	globalTopUrl = {}
+	globalTopUrl = {},
+	globalResponse = {}
 
 global.websiteculling = {
 	GetUserSelectedCallback: res => {
@@ -114,4 +130,17 @@ global.websiteculling = {
 		globalTopUrl = res
 	},
 }
+global.notifyHttpResponse = (response, context) => {
+	try {
+		globalResponse = JSON.parse(response);
+		console.log('notifyHttpResponse globalResponse', globalResponse)
+	} catch (e) {
+		console.log('notifyHttpResponse error: ', e)
+	}
+}
+
+function randomStr(){
+	return String(new Date().getTime()%600000+Math.random());
+}
+
 

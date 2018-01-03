@@ -31,6 +31,7 @@
 <script>
 	import { websiteApi } from 'api'
 	import _ from 'lodash'
+	import { mapMutations } from 'vuex'
 	import { setStore, getStore } from '../../config/utils'
 	import { jsonp } from 'components/common/mixin'
 	import Velocity from 'velocity-animate/velocity.min'
@@ -61,6 +62,7 @@
 //			this.mockInit()
 		},
 		methods: {
+			...mapMutations(['SET_COMPONENT', 'SAVE_POSITION']),
 			async init () {
 				websiteApi.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:1,taste:0})
 				let info = await this.getSelectedInfo(),
@@ -178,7 +180,10 @@
 			start () {
 				websiteApi.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:3,taste:this.selectids.length})
 				websiteApi.setUserSelectedInfo(this.selectids.join(','))
-			}
+				this.SET_COMPONENT({component: 'VDiscover'})
+				this.SAVE_POSITION({position: 0})
+				setStore('COMPONENT_NAME', 'VDiscover')
+			},
 		},
 	}
 </script>

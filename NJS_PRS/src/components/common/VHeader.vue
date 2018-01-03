@@ -13,7 +13,9 @@
 				<a v-for="(component, index) in components" :style="!favoritePage && component.selected&&`color:#ffffff;borderBottom:5px solid #a4a4ff`" @click="change(component.name)">{{component.txt}}
 					<span v-if="component.name===`VMy` && liked" class="dot">●</span>
 				</a>
-				<b v-if="!favoritePage" class="back-guide" @click="$router.push({path: '/guide'})"></b>
+				<b v-if="!favoritePage" class="back-guide" @click="$router.push({path: '/guide'})">
+					<span>{{txt3}}</span>
+				</b>
 			</div>
 		</div>
 	</div>
@@ -28,6 +30,7 @@
 			return {
 				txt1: '猎豹网址精选',
 				txt2: '新一代智能网址导航',
+				txt3: '重选兴趣',
 				components:
 					[
 						{name: 'VMy',txt:'我的网站', selected: false},
@@ -42,6 +45,7 @@
 		},
 		mounted(){
 			const storeComponent = getStore('COMPONENT_NAME')
+			console.log('storeComponent', storeComponent)
 			const cname = this.component? this.component: (storeComponent? storeComponent:'VDiscover')
 			console.log('this.component', this.component)
 			console.log('cname', cname)
@@ -140,11 +144,15 @@
 					position absolute
 					cursor pointer
 					right 0
-					margin 30px 146px 0 0
+					margin 30px 138px 0 0
+					color #a4a4ff
+					line-height 2.8
 					&:hover
 						background-position -84px
+						color white
 					&:active
 						background-position -168px
+						color white
 				.dot
 					font-size 20px
 					line-heigth 16px

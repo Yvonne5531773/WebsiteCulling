@@ -25,8 +25,12 @@
 											<img v-lazy="data.iconLazyObj" />
 											<span class="name" :style="{letterSpacing:data.letterSpace,textAlign:data.textAlign}">{{data.name}}</span>
 										</a>
-										<a class="add-like" v-else-if="content.sort===4&&data.sites.length===0">
-
+										<a class="add-like" v-else-if="content.sort===4&&data.sites.length===0"  @click="addMore">
+											<p class="txt4">{{addmore.txt4}}</p>
+											<p class="bottom">
+												<span class="txt5">{{addmore.txt5}}</span>
+												<span class="txt6">{{addmore.txt6}}</span>
+											</p>
 										</a>
 										<VItem :category="data" :sort="content.sort" v-else></VItem>
 									</li>
@@ -66,16 +70,19 @@
 				isnull: false,
 				txt1: '该页面正在开发，敬请期待...',
 				contents: [
-					{name: '我常用的', data: [], sort: 1},
-					{name: '热门网站', data: [], sort: 2},
-					{name: '最近访问', data: [], sort: 3},
-					{name: '我的网单', data: [], sort: 4},
-					{name: '我收藏的网单', data: [], sort: 5}
+//					{name: '我常用的', data: [], sort: 1},
+//					{name: '热门网站', data: [], sort: 2},
+//					{name: '最近访问', data: [], sort: 3},
+//					{name: '我的网单', data: [], sort: 4},
+//					{name: '我收藏的网单', data: [], sort: 5}
 				],
 				addmore: {
 					txt1: '收藏更多',
 					txt2: '赶快去收藏你喜欢的网单吧',
 					txt3: '在【发现网站】页，丰富的个性化网单等你挑选！',
+					txt4: '我喜欢的网站',
+					txt5: '赶快去收藏你喜欢的网站吧',
+					txt6: '点击喜欢，将网站一键加入我喜欢的网单！',
 				},
 				localCategories: [],
 				localSites: [],
@@ -93,9 +100,10 @@
 		},
 		methods: {
 			...mapMutations(['SET_COMPONENT']),
-			init () {
-				this.construct()
+			async init () {
+				await this.construct()
 				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:1,url:'',value:0})
+//				this.gotoPosition()
 			},
 			openUrl (data, sort) {
 				data.views = data.views? data.views+1 : 1
@@ -104,6 +112,10 @@
 				sort === 2 && websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:4,url:data.url,value:data.id})
 			},
 			async construct() {
+				//我常用的
+				await this.getLocal()
+				const localSites = _.orderBy(this.localSites, ['views'], ['desc'])
+				this.buildVM(localSites.slice(0, 16), '我常用的', 1)
 				//热门网站
 				let hotSites = []
 				try {
@@ -111,29 +123,22 @@
 				} catch (e) {
 					console.log('error: ', e)
 				}
-				this.contents[1].data = hotSites&&hotSites.length===0? hots:hotSites
-
-				//我常用的
-				await this.getLocal()
-				const localSites = _.orderBy(this.localSites, ['views'], ['desc'])
-				this.contents[0].data = localSites.slice(0, 16)
+				this.buildVM(hotSites&&hotSites.length===0? hots:hotSites, '热门网站', 2)
 				this.doContent()
-
 				//最近访问
 				let ids = this.localCategories.sort(compareTime).map((c) => {
 					return c.id
 				})
 				ids = ids && ids.slice(0, 8)
 				let res = await this.getData(ids)
-				this.contents[2].data = _.cloneDeep(res)
+				this.buildVM(res, '最近访问', 3)
 				//我的网单
 				let likedSites = _.cloneDeep(localSites)
 				likedSites = likedSites && likedSites.filter(site => {
 					return site.liked
 				})
 				likes[0].sites = _.cloneDeep(likedSites)
-				this.contents[3].data = likes
-				console.log('this.contents[3].data', this.contents[3].data)
+				this.buildVM(likes, '我的网单', 4)
 				//我收藏的网单
 				ids = this.localCategories.filter((c) => {
 					return c.collected
@@ -141,12 +146,10 @@
 					return c.id
 				})
 				res = await this.getData(ids)
-				this.contents[4].data = _.cloneDeep(res)
-
+				this.buildVM(res, '我收藏的网单', 5)
 				console.log('this.contents', this.contents)
 			},
 			async getData (ids) {
-				console.log('getData ids', ids)
 				if(_.isEmpty(ids)) return
 				let res = []
 				try {
@@ -182,11 +185,23 @@
 					})
 				})
 			},
+			buildVM(data, name, sort) {
+				let vm = {}
+				vm.data = _.cloneDeep(data)
+				vm.name = name
+				vm.sort = sort
+				this.contents.push(vm)
+			},
 			addMore() {
 				this.SET_COMPONENT({component: 'VDiscover'})
 				setStore('COMPONENT_NAME', 'VDiscover')
 				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:7,url:'',value:0})
 			},
+			gotoPosition() {
+				console.log('vmy gotoPosition this.position', this.position)
+				document.documentElement.scrollTop = this.position
+				document.body.scrollTop = this.position
+			}
 		},
 		components: {
 			VBaidu,
@@ -247,7 +262,7 @@
 								line-height 24px
 								color #5454a6
 				.body
-					margin 10px 0 0 25px
+					margin 10px 0 25px 25px
 					border-top 1px solid #cdcdde
 					min-height 130px
 					width 1060px
@@ -278,6 +293,33 @@
 							position relative
 							color #fff
 							display block
+							.txt4
+								top 20px
+								bottom 0
+								left 0
+								right 0
+								margin auto
+								height 40px
+								position absolute
+								font-size 24px
+								letter-spacing 7px
+								text-align center
+							.bottom
+								bottom 0
+								margin auto
+								left 0
+								right 0
+								position absolute
+								height 95px
+								width 205px
+								text-align left
+								span
+									display block
+								.txt5
+									font-size 14px
+									margin-bottom 12px
+								.txt6
+									font-size 12px
 						.add-more
 							background url("../../../static/img/my/add-more.png") no-repeat
 							width 243px

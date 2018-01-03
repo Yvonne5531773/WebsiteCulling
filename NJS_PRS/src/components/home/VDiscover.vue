@@ -2,7 +2,7 @@
 	<section class="discover-page">
 		<div class="containerRow">
 			<ul>
-				<li :key="data.id" v-for="(data, index) in dataList">
+				<li :key="data.id" v-for="(data, index) in dataList" v-if="data&&data.categories.length>0">
 					<div class="head">
 						<div class="left">
 							<b class="circle"></b>
@@ -48,12 +48,10 @@
 				pullTxt: '查看全部',
 				pushTxt: '收起内容',
 				path: '/v1/theme/',
-				scrollTop: 0
 			}
 		},
 		mixins: [jsonp],
 		mounted() {
-			console.log('dis mount')
 			this.init()
 		},
 		computed:{
@@ -62,9 +60,7 @@
 			])
 		},
 		watch: {
-			scrollTop() {
-				console.log('this.scrollTop', this.scrollTop)
-			}
+
 		},
 		methods: {
 			async init () {
@@ -81,8 +77,9 @@
 				this.$nextTick(()=>{
 					this.dataList.length <= 2 && this.$refs.body && this.$refs.body.forEach( (b, i) => {
 						let count = this.dataList[i].categories.length
-						b.style.maxHeight = 353*(Math.floor(count/3)+1)+'px'
+						b.style.maxHeight = 360*(Math.floor(count/3)+1)+'px'
 					})
+					this.gotoPosition(this.position)
 				})
 			},
 			pullEvent(data, index){
@@ -91,10 +88,9 @@
 					//下拉动画
 					let count = this.dataList[index].categories.length
 					Velocity(this.$refs.pull[index], { rotateZ: "90deg" }, { duration: durationVal})
-					Velocity(this.$refs.body[index], { maxHeight: 353*(Math.floor(count/3)+1) }, { duration: durationVal, complete: ()=>{
+					Velocity(this.$refs.body[index], { maxHeight: 360*(Math.floor(count/3)+1) }, { duration: durationVal, complete: ()=>{
 						data.event = 1
 					}})
-					websiteApi.reportByInfoc('liebao_urlchoose_find:351 action:byte value:byte hotsite:byte ver:byte',{action:4,value:0,hotsite:0})
 					websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:3,value:0,hotsite:data.id,url:'',name:''})
 				}else if (data.event===1) { //up
 					data.event = 0
@@ -103,6 +99,11 @@
 					Velocity(this.$refs.body[index], { maxHeight: 365 })
 				}
 			},
+			gotoPosition(position) {
+				console.log('vdiscover gotoPosition this.position', position)
+				document.documentElement.scrollTop = position
+				document.body.scrollTop = position
+			}
 		},
 		components: {
 			VAlert,

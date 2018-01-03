@@ -23,7 +23,7 @@
 						<div class="name">
 							<div ref="img" class="i">
 								<img v-lazy="site.iconLazyObj"/>
-								<img v-lazy="site.iconLazyObj"/>
+								<!--<img v-lazy="site.iconLazyObj"/>-->
 							</div>
 							<span>{{site.name | clip(40)}}</span>
 						</div>
@@ -143,7 +143,7 @@
 				site.liked && (site.alertTimeout = setTimeout(() => {
 					site.likedAlert = false
 					this.$refs.alert[i].style.display = 'none'
-				}, 800), Velocity(img, { translateY:cTop-iTop,translateX:cLeft-iLeft,opacity:0}, {duration: Math.floor(i/3)!==0?(Math.floor(i/3)+1)*400:800}))
+				}, 1000) /*Velocity(img, { translateY:cTop-iTop,translateX:cLeft-iLeft,opacity:0}, {duration: Math.floor(i/3)!==0?(Math.floor(i/3)+1)*400:800})*/)
 				!site.liked && (img.style = iimg.style)
 				this.saveSite(_.cloneDeep(site), this.categoryid)
 				site.liked && this.SET_LIKED({liked: true})
