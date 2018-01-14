@@ -1,6 +1,7 @@
 <template>
 	<div class="h-center">
-		<img class="top" src="../../../static/img/head/top.png" />
+		<div class="top"></div>
+		<!--<img class="top" src="../../../static/img/head/top.png" />-->
 		<div class="head">
 			<div class="title">
 				<i class="img"></i>
@@ -10,10 +11,10 @@
 				</div>
 			</div>
 			<div class="component">
-				<a v-for="(component, index) in components" :style="!favoritePage && component.selected&&`color:#ffffff;borderBottom:5px solid #a4a4ff`" @click="change(component.name)">{{component.txt}}
+				<a v-for="(component, index) in components" :style="!favoritePage && component.selected&&`color:#ffffff;borderBottom:5px solid #a4a4ff`" @click="change(component.name, 1)">{{component.txt}}
 					<span v-if="component.name===`VMy` && liked" class="dot">●</span>
 				</a>
-				<b v-if="!favoritePage" class="back-guide" @click="$router.push({path: '/guide'})">
+				<b v-if="!favoritePage" class="back-guide" @click="backGuide">
 					<span>{{txt3}}</span>
 				</b>
 			</div>
@@ -25,6 +26,7 @@
 	import { mapState, mapMutations } from 'vuex'
 	import _ from 'lodash'
 	import { getStore, setStore } from '../../config/utils'
+	import { websiteApi } from 'api'
 	export default {
 		data() {
 			return {
@@ -45,10 +47,7 @@
 		},
 		mounted(){
 			const storeComponent = getStore('COMPONENT_NAME')
-			console.log('storeComponent', storeComponent)
 			const cname = this.component? this.component: (storeComponent? storeComponent:'VDiscover')
-			console.log('this.component', this.component)
-			console.log('cname', cname)
 			!this.favoritePage && this.change(cname)
 		},
 		watch: {
@@ -58,15 +57,11 @@
 					this.component===c.name && (c.selected = true)
 				})
 			},
-			liked() {
-				console.log('liked', this.liked)
-			}
 		},
 		methods: {
 			...mapMutations(['SET_COMPONENT', 'SET_LIKED']),
-			change(name) {
+			change(name, type) {
 				if (this.favoritePage) {
-					console.log('this.favoritePage')
 					this.$router.push({path: 'home'})
 				}
 				this.components.forEach((c)=>{
@@ -76,7 +71,14 @@
 				this.SET_COMPONENT({component: name})
 				setStore('COMPONENT_NAME', name)
 				this.liked && name==='VMy' && this.SET_LIKED({liked: false})
+				type===1&&this.component==='VMy'&&!this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:6,value:0,hotsite:0,url:'',name:''})
+				type===1&&this.component==='VMy'&&this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:5,name:'',url:''})
 			},
+			backGuide() {
+				this.component==='VDiscover'&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:5,value:0,hotsite:0,url:'',name:''})
+				this.component==='VMy'&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:10,url:'',value:0})
+				this.$router.push({path: '/guide'})
+			}
 		},
 		computed:{
 			...mapState([
@@ -92,18 +94,21 @@
 		z-index 199
 		width 100%
 		height 85px
-		left 0
 		position fixed
 		transition .2s height
 		background-size 100% 110%
 		transform translateZ(0)
+		background url("../../../static/img/head/top-bkg.png") no-repeat
 		background #5454a6
 		.top
 			position absolute
+			width 100%
+			height 100%
+			background url("../../../static/img/head/top.png") no-repeat
 		.head
 			position relative
 			margin 0 auto
-			max-width 1120px
+			max-width 1108px
 			min-width 1060px
 			height 85px
 			.title
@@ -144,7 +149,7 @@
 					position absolute
 					cursor pointer
 					right 0
-					margin 30px 138px 0 0
+					margin 30px 133px 0 0
 					color #a4a4ff
 					line-height 2.8
 					&:hover

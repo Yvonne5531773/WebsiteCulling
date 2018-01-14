@@ -26,7 +26,7 @@
 				text: '',
 				nowIndex: -1,
 				result: [],
-				inputTxt: '搜索',
+				inputTxt: '搜一搜',
 				focus: false,
 				path: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su/wd=?wd='
 			}
@@ -49,16 +49,13 @@
 				}
 				this.text = this.inputText;
 				const path = "http://unionsug.baidu.com/su?wd=" + encodeURIComponent(this.inputText) + "&p=3&cb=window.baidu.sug&ie=UTF-8&t=" + Date.now();
-				websiteApi.submitHTTPRequest(path)
-				let res = await websiteApi.getGlobalResponse(),
-					response = {}
-				if(res.return_data.indexOf('w') === 0){
+				let res = await this.submitHTTPRequest([path, '', ''])
+				if(!_.isEmpty(res.return_data) && res.return_data.indexOf('w') === 0){
 					res = res.return_data.replace(/^window\.baidu\.sug\(|\);?$/g, '').replace(/[a-zA-Z](?=\:)/g, '"$&"');
 				}
-				response = JSON.parse(res)
-				this.result = _.cloneDeep(response.s)
+				this.result = !_.isEmpty(res)? _.cloneDeep(JSON.parse(res).s):''
 			},
-			goto () {
+			goto() {
 				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:2,url:'',value:0})
 				window.open('https://www.baidu.com/s?wd=' + this.inputText, '_blank');
 			},
@@ -97,12 +94,9 @@
 
 <style lang="stylus">
 	.baidu-search
-		position absolute
-		top 135px
 		margin auto
 		left 0
 		right 0
-		width 720px
 		z-index 100
 		font-size 14px
 		.content
@@ -112,13 +106,14 @@
 				width 140px
 				height 40px
 			.input
-				width 475px
-				height 40px
+				width 575px
+				height 38px
 				text-indent 4px
+				border 1px solid rgb(84, 84, 166)
 			.btn
 				input
 					height 40px
-					width 105px
+					width 155px
 					cursor pointer
 					color #fff
 					letter-spacing 1px
@@ -126,12 +121,12 @@
 					border 1px solid #5454a6
 					font-size 16px
 		ul
+			z-index 199
 			margin auto
-			left 17px
-			right 0
-			width 474px
-			position relative
-			background white
+			left 135px
+			width 555px
+			position absolute
+			background #fff
 			box-shadow 1px 1px 3px #ededed
 			-webkit-box-shadow 1px 1px 3px #ededed
 			li

@@ -65,12 +65,15 @@
 		methods: {
 			async init () {
 				websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:1,value:0,hotsite:0,url:'',name:''})
-				const store = getStore('THEME_IDS')&&getStore('THEME_IDS').split(',')
-				let query = this.$route.query.themeid,
-					ids = query?(_.isArray(query)?query:[...new Array(query)]):[]
-				const themeid = ids&&ids.length>0?ids:(store.length>0?store:[])
-
-				let themes = await this.jsonp(this.path + themeid.join(','))
+				const store = getStore('THEME_IDS')? getStore('THEME_IDS'):''
+				let themeid = ''
+				if(store && store.length > 0) {
+					themeid = store
+				}else {
+					let info = await this.getSelectedInfo()
+					themeid = info? info:''
+				}
+				let themes = await this.jsonp(this.path + themeid)
 				this.dataList = _.cloneDeep(_.sortBy(_.forEach(themes, (d) => {
 					d.event = 0
 				})), ['sort'])
@@ -79,7 +82,7 @@
 						let count = this.dataList[i].categories.length
 						b.style.maxHeight = 360*(Math.floor(count/3)+1)+'px'
 					})
-					this.gotoPosition(this.position)
+					this.position.name==='VDiscover' && this.gotoPosition(this.position.scrolly)
 				})
 			},
 			pullEvent(data, index){
@@ -91,7 +94,7 @@
 					Velocity(this.$refs.body[index], { maxHeight: 360*(Math.floor(count/3)+1) }, { duration: durationVal, complete: ()=>{
 						data.event = 1
 					}})
-					websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:3,value:0,hotsite:data.id,url:'',name:''})
+					websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:4,value:0,hotsite:0,url:'',name:this.dataList[index].id+''})
 				}else if (data.event===1) { //up
 					data.event = 0
 					//收缩动画
@@ -100,7 +103,6 @@
 				}
 			},
 			gotoPosition(position) {
-				console.log('vdiscover gotoPosition this.position', position)
 				document.documentElement.scrollTop = position
 				document.body.scrollTop = position
 			}
@@ -138,7 +140,7 @@
 							vertical-align middle
 							display inline-block
 							font-size 18px
-							line-height 24px
+							line-height 22px
 							color #5454a6
 					.right
 						float right

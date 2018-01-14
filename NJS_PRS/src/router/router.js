@@ -15,7 +15,7 @@ export default [{
 		{
 			path: '/guide',
 			component: guide,
-			meta: { keepAlive: true },
+			// meta: { keepAlive: true },
 		},
 		{
 			path: '/home',

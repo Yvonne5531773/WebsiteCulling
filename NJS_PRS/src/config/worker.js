@@ -29,7 +29,9 @@ export const worker = (option, fn) => {
 	if(i === id){
 		i = 1;
 	}
-	let url = option.url;
+	let url = option.url,
+		type = option.type,
+		data = option.data
 	let found = false;
 	// let callback = option.callback || ( 'callback' + id );
 	let callback = "callback";
@@ -37,7 +39,7 @@ export const worker = (option, fn) => {
 			found = true;
 			return '=' + callback;
 		});
-	if(!found){
+	if(!found && type === 'get'){
 		url = url + (url.indexOf('?') === -1 ? '?' : '&') + 'callback=' + callback;
 	}
 	let worker = popWorker();
@@ -58,6 +60,8 @@ export const worker = (option, fn) => {
 	worker.postMessage({
 		u: url,
 		i: id,
-		r: callback
+		r: callback,
+		t: type,
+		d: data
 	});
 }

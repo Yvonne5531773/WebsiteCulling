@@ -44,11 +44,6 @@ export default {
 			}
 			this.list = !_.isEmpty(res) && res.bottoms? res.bottoms:mockRecommend
 		},
-		addHttp(url) {
-			if(url){
-				return !~url.indexOf('http')? 'http:'+url : url
-			}
-		},
 		open(data) {
 			websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:3,value:0,hotsite:data.id,url:'',name:''})
 		}

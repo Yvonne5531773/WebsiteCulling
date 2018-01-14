@@ -1,6 +1,6 @@
 <template>
 	<div class="home">
-		<VHeader></VHeader>
+		<VHeader v-if="info&&info.length>0||store&&store.length>0"></VHeader>
 		<keep-alive>
 			<component :is="current"></component>
 		</keep-alive>
@@ -18,7 +18,9 @@
 		data() {
 			return {
 				current: '',
-				scrollTop: 0
+				scrollTop: 0,
+				store: [],
+				info: []
 			}
 		},
 		mixins: [jsonp],
@@ -30,9 +32,6 @@
 		mounted () {
 			this.init()
 		},
-//		activated() {
-//			console.log('activity')
-//		},
 		computed:{
 			...mapState([
 				'component',
@@ -42,18 +41,20 @@
 		methods: {
 			...mapMutations(['SAVE_POSITION']),
 			async init () {
-				console.log('home init')
-				const info = await this.getSelectedInfo(),
-					store = getStore('THEME_IDS')&&getStore('THEME_IDS').split(',')
-				_.isEmpty(info) && _.isEmpty(store) && this.$router.push({path: '/guide'})
-				this.current = this.component
-				window.addEventListener('scroll', () => {
-					if(document.compatMode === "CSS1Compat") {
-						this.scrollTop = document.documentElement.scrollTop
-					} else {
-						this.scrollTop = document.body.scrollTop
-					}
-				}, false);
+				this.info = await this.getSelectedInfo()
+				this.store = getStore('THEME_IDS')&&getStore('THEME_IDS').split(',')
+				if(_.isEmpty(this.info) && _.isEmpty(this.store))
+					this.$router.push({path: '/guide'})
+				else {
+					this.current = this.component
+					window.addEventListener('scroll', () => {
+						if(document.compatMode === "CSS1Compat") {
+							this.scrollTop = document.documentElement.scrollTop
+						} else {
+							this.scrollTop = document.body.scrollTop
+						}
+					}, false);
+				}
 			},
 		},
 		components: {
@@ -62,8 +63,7 @@
 			VMy
 		},
 		beforeRouteLeave(to, from, next) {
-			this.SAVE_POSITION({position: window.scrollY})
-			console.log('beforeRouteLeave window.scrollY', window.scrollY)
+			this.SAVE_POSITION({scrolly: window.scrollY, name: this.current})
 			next()
 		}
 	}
@@ -84,12 +84,9 @@
 		flex-shrink 0
 		width 100%
 		height 100%
-		/*background #edeff1*/
 		top 0
 		bottom 0
 		position absolute
-		/*overflow-y scroll*/
-		/*overflow-x hidden*/
 		.container
 			margin 112px auto
 			width 1098px
@@ -114,7 +111,7 @@
 							vertical-align middle
 							display inline-block
 							font-size 18px
-							line-height 24px
+							line-height 22px
 							color #5454a6
 							a
 								color #5454a6

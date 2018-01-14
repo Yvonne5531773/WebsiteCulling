@@ -15,8 +15,8 @@
 		</p>
 		<div class="site-list">
 			<p v-if="index<=2" v-for="(site, index) in category.sites">
-				<a :href="site.href_url" class="site-n" :title="site.name" target="_blank"  @click="open(2, 2, site)">{{site.name | clip}}</a>
-				<a :href="site.href_url" class="site-u" :title="site.url" target="_blank"  @click="open(2, 2, site)">{{site.url | doUrl}}</a>
+				<a :href="site.href_url" class="site-n" :title="site.name" target="_blank"  @click="open(2, 2, site)">{{site.name | clip(1)}}</a>
+				<a :href="site.href_url" class="site-u" :title="site.url" target="_blank"  @click="open(2, 2, site)">{{site.url | clip(2)}}</a>
 			</p>
 		</div>
 		<router-link :to="{ path: 'favorite', query: {categoryid: category.id}}">
@@ -57,47 +57,29 @@
 			async open(flag, type, site) {
 				if(flag === 1) {
 					if(this.category.id==='0099') {
-						websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:6,url:'',value:0})
+						websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:7,url:'',value:0})
 						return
 					}
 					let categories = await this.getForm(),
 						category = _.find(categories, {id: this.category.id + ''})
 					category = _.isEmpty(category)? this.category:category
 					this.saveForm(category)
-					websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:2,value:type,hotsite:0,url:'',name:this.category.id + ''})
+					!this.sort&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:2,value:type,hotsite:0,url:'',name:this.category.id + ''})
 					this.sort&&this.sort===3&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:5,url:'',value:this.category.id})
-					this.sort&&this.sort===5&&type===1&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:8,url:'',value:this.category.id})
+					this.sort&&this.sort===5&&type===1&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:9,url:'',value:this.category.id})
 				} else if(flag === 2 && site) {
 					let sites = await this.getSite(),
 						s = _.find(sites, {id: site.id + ''})
 					s = _.isEmpty(s)? site:s
 					s.views = s.views? s.views+1 : 1
 					this.saveSite(s, this.category.id)
-					websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:2,value:type,hotsite:0,url:site.url,name:this.category.id + ''})
+					!this.sort&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:2,value:type,hotsite:0,url:site.url,name:this.category.id + ''})
 				}
 			},
-			addHttp(url) {
-				if(url){
-					return !~url.indexOf('http')? 'http:'+url : url
-				}
-			}
 		},
 		filters: {
-			doUrl(url) {
-				if (!url) return ''
-				url += ''
-				let arrUrl = []
-				arrUrl = !!~url.indexOf('//') && url.split("//");
-				arrUrl = arrUrl.length > 1 ? arrUrl[1] : url
-				let end = !!~arrUrl.indexOf("/") ? arrUrl.indexOf("/") : arrUrl.length;
-				let relUrl = arrUrl.substring(0, end)
-				if (!!~relUrl.indexOf("?")) {
-					relUrl = relUrl.split("?")[0]
-				}
-				return relUrl
-			},
-			clip(str) {
-				return clipstring(str, 13)
+			clip(str, type) {
+				return type===1? clipstring(str, 13) : clipstring(str, 16)
 			},
 		},
 	}

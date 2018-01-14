@@ -26,32 +26,6 @@ export const removeStore = name => {
 	window.localStorage.removeItem(name);
 }
 
-/**
- * 写入本地文件
- */
-export const writeFile = (str, file) => {
-	file && external.lego && external.lego.FileSystem.WriteFile(file, btoa(str), (result)=>{
-		// console.log('writeFile result', result)
-	})
-}
-
-/**
- * 读取本地文件
- */
-export const readFile = (file) => {
-	if(file && external.lego){
-		return new Promise((resolve, reject) => {
-			external.lego.FileSystem.ReadFile(file, 1000000, (base64String) => {
-				let data = atob(JSON.parse(base64String).data);
-				if(data)
-					resolve(data)
-				else
-					reject({err: 'no file'})
-			});
-		})
-	}
-}
-
 export const clipstring = (str, len) => {
 	str && (str = str.replace(/(^\s*)|(\s*$)/g, ""))
 	if(!str || !len) { return ''; }
@@ -135,4 +109,17 @@ export const getOperationFullTime = date => {
 	let minutes = updateDate.getMinutes() < 10 ? '0' + updateDate.getMinutes() : updateDate.getMinutes();
 	let sceonds = updateDate.getSeconds() < 10 ? '0' + updateDate.getSeconds() : updateDate.getSeconds();
 	return '' + updateDate.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + sceonds;
+}
+
+export const getHost = url => {
+	if (!url) return ''
+	let arrUrl = []
+	arrUrl = !!~url.indexOf('//') && url.split("//");
+	arrUrl = arrUrl.length > 1 ? arrUrl[1] : url
+	let end = !!~arrUrl.indexOf("/") ? arrUrl.indexOf("/") : arrUrl.length,
+		relUrl = arrUrl.substring(0, end)
+	if (!!~relUrl.indexOf("?")) {
+		relUrl = relUrl.split("?")[0]
+	}
+	return relUrl
 }

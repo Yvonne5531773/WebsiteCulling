@@ -5,7 +5,7 @@ import { getOperationFullTime } from '../../config/utils'
 
 export const jsonp = {
 	methods: {
-		jsonp (path = '', params = {}) {
+		jsonp (path = '', type = 'get', data = {}) {
 			let url = ''
 			if(!~path.indexOf('http'))
 				url = host + path
@@ -15,7 +15,7 @@ export const jsonp = {
 			// 	jsonp: 'callback'
 			// })
 			return new Promise(function (resolve, reject) {
-				worker({'url': url}, (success, data) => {
+				worker({'url': url, type: type, data: data}, (success, data) => {
 					if (success) {
 						resolve(data)
 					} else {
@@ -24,20 +24,44 @@ export const jsonp = {
 				})
 			})
 		},
+
 		async getSelectedInfo() {
-			websiteApi.getUserSelectedInfo()
-			return await websiteApi.getGlobalSelectedInfo()
+			return await websiteApi.getUserSelectedInfo()
 		},
+
 		async getForm() {
-			websiteApi.getFormSelectedInfo()
-			const categories = await websiteApi.getGlobalTopForm()
+			const categories = await websiteApi.getFormSelectedInfo()
 			return !_.isEmpty(categories)? JSON.parse(categories):[]
 		},
+
 		async getSite() {
-			websiteApi.getURLSelectedInfo()
-			const sites = await websiteApi.getGlobalTopUrl()
+			const sites = await websiteApi.getURLSelectedInfo()
 			return !_.isEmpty(sites)? JSON.parse(sites):[]
 		},
+
+		async getHistories(criteria, type) {
+			if(type === 1){
+				let arr = []
+				for(let i = 0; i < criteria; i++){
+					const histories = await websiteApi.getHistories(i, type)
+					arr = [...arr, ...histories]
+				}
+				return arr
+			}else if(type === 2){
+				const histories = await websiteApi.getHistories(criteria, type)
+				return !_.isEmpty(histories)? histories:[]
+			}
+		},
+
+		async getBookmark(criteria) {
+			const bookmarks = await websiteApi.getBookmarks(criteria)
+			return !_.isEmpty(bookmarks)? bookmarks:[]
+		},
+
+		async submitHTTPRequest(criteria) {
+			return await websiteApi.submitHTTPRequest(criteria)
+		},
+
 		saveForm (item) {
 			let data = {}
 			if(item){
@@ -52,8 +76,8 @@ export const jsonp = {
 			}
 			websiteApi.setFormSelectedInfo(JSON.stringify(data))
 		},
+
 		saveSite (site, categoryId) {
-			console.log('saveSite site', site)
 			let data = {}
 			if (site) {
 				data.id = site.id+''
@@ -67,6 +91,12 @@ export const jsonp = {
 				data.views = site.views
 			}
 			websiteApi.setURLSelectedInfo(JSON.stringify(data))
+		},
+
+		addHttp(url) {
+			if(url){
+				return !~url.indexOf('http')? 'http:'+url : url
+			}
 		}
 	}
 }

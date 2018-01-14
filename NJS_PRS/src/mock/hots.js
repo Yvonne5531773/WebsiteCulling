@@ -59,28 +59,4 @@ export const hots = [
 		url: 'https://www.bilibili.com/',
 		icon: 'https://static.hdslb.com/images/favicon.ico',
 	},
-	{
-		id: Math.floor(Math.random()*1000 + 1),
-		name: '京东',
-		url: 'https://www.jd.com/',
-		icon: 'https://www.jd.com/favicon.ico',
-	},
-	{
-		id: Math.floor(Math.random()*1000 + 1),
-		name: '微博',
-		url: 'https://weibo.com/',
-		icon: 'https://weibo.com/favicon.ico',
-	},
-	{
-		id: Math.floor(Math.random()*1000 + 1),
-		name: '爱奇艺',
-		url: 'http://www.iqiyi.com/',
-		icon: 'http://act.cmcmcdn.com/upload/201712/dbe7e2453757f592fd6c49c46b9e1730.png',
-	},
-	{
-		id: Math.floor(Math.random()*1000 + 1),
-		name: '百度贴吧',
-		url: 'https://tieba.baidu.com/index.html',
-		icon: 'https://tb1.bdstatic.com/tb/favicon.ico',
-	},
 ]

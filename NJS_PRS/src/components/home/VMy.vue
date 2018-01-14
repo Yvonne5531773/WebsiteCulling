@@ -1,7 +1,7 @@
 <template>
 	<div class="my-page">
-		<VBaidu></VBaidu>
 		<section class="containerRow">
+			<VBaidu></VBaidu>
 			<div class="null" v-if="isnull">
 				<img src="../../../static/img/my/null.png"/>
 				<h2 class="txt1">{{txt1}}</h2>
@@ -20,12 +20,12 @@
 							</div>
 							<div class="body" :class="{'body-more-3':content.sort>=3}" :style="content.sort<3&&`minHeight:85px`">
 								<ul class="list">
-									<li :key="data.id" v-for="data in content.data" :title="data.name" :class='{block:content.sort>=3}'>
-										<a target="_blank" style="display:flex" :href="data.href_url" v-if="content.sort<3" @click="openUrl(data, content.sort)">
+									<li :key="data.id" v-for="(data,index) in content.data" :title="data.name" :class='{block:content.sort>=3}'>
+										<a target="_blank" style="display:flex" :href="data.href_url" v-if="content.sort<3" @click="openUrl(data, content.sort, index)">
 											<img v-lazy="data.iconLazyObj" />
 											<span class="name" :style="{letterSpacing:data.letterSpace,textAlign:data.textAlign}">{{data.name}}</span>
 										</a>
-										<a class="add-like" v-else-if="content.sort===4&&data.sites.length===0"  @click="addMore">
+										<a class="add-like" v-else-if="content.sort===4&&data.sites.length===0" @click="addMore(1)">
 											<p class="txt4">{{addmore.txt4}}</p>
 											<p class="bottom">
 												<span class="txt5">{{addmore.txt5}}</span>
@@ -35,7 +35,7 @@
 										<VItem :category="data" :sort="content.sort" v-else></VItem>
 									</li>
 									<li v-if="content.name===`我收藏的网单`">
-										<a class="add-more" @click="addMore">
+										<a class="add-more" @click="addMore(2)">
 											<p class="txt1">{{addmore.txt1}}</p>
 											<p class="bottom">
 												<span class="txt2">{{addmore.txt2}}</span>
@@ -50,6 +50,9 @@
 				</ul>
 			</div>
 		</section>
+		<keep-alive>
+			<VRelation></VRelation>
+		</keep-alive>
 	</div>
 </template>
 <script>
@@ -60,10 +63,11 @@
 	import { hots } from '../../mock/hots'
 	import { recents } from '../../mock/recents'
 	import { likes } from '../../mock/likes'
-	import { compareTime } from '../../config/utils'
+	import { compareTime, setStore, getHost } from '../../config/utils'
 	import { collects } from '../../mock/collects'
-	import { mapMutations } from 'vuex'
-	import { setStore } from '../../config/utils'
+	import { mapState, mapMutations } from 'vuex'
+	import VRelation from 'components/home/VRelation'
+
 	export default {
 		data() {
 			return {
@@ -86,9 +90,16 @@
 				},
 				localCategories: [],
 				localSites: [],
+				histories: [],
+				bookmarks: [],
 				hotsitePath: '/v1/hotsite',
 				catePath: '/v1/category/'
 			}
+		},
+		computed:{
+			...mapState([
+				'position'
+			])
 		},
 		mixins: [jsonp],
 		mounted() {
@@ -100,69 +111,115 @@
 		},
 		methods: {
 			...mapMutations(['SET_COMPONENT']),
-			async init () {
+			async init() {
 				await this.construct()
 				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:1,url:'',value:0})
-//				this.gotoPosition()
+				this.position.name==='VMy' && this.gotoPosition()
 			},
-			openUrl (data, sort) {
+			openUrl(data, sort, index) {
 				data.views = data.views? data.views+1 : 1
 				data && sort === 1 && this.saveSite(data)
-				sort === 1 && websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:3,url:data.url,value:data.id})
+				sort === 1 && websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:3,url:data.href_url,value:0})
 				sort === 2 && websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:4,url:data.url,value:data.id})
 			},
+			async buildHistories() {
+				let arrs = []
+				this.histories = await this.getHistories(100, 2)
+				this.histories && this.histories.forEach(history => {
+					if(!this.checkSite(history.title)){
+						history.title = getHost(history.title)
+						const data = {}
+						data.domain = history.domain
+						data.name = history.title
+						data.href_url = history.url
+						data.icon = 'chrome://favicon/size/16/'+history.url
+						data.count = 0
+						arrs.push(data)
+					}
+				})
+				arrs.forEach((obj) => {
+					arrs.forEach((o) => {
+						obj.domain === o.domain && obj.count++
+					})
+				})
+				arrs = _.unionBy(arrs, 'domain')
+				arrs = _.orderBy(arrs, ['count'], ['desc'])
+				return arrs
+			},
 			async construct() {
+				await this.constructHistory()
+				await this.constructHotSite()
+				this.doContent()
+				await this.constructRecent()
+				await this.constructLike()
+				await this.constructCollect()
+			},
+			async constructHistory() {
 				//我常用的
-				await this.getLocal()
-				const localSites = _.orderBy(this.localSites, ['views'], ['desc'])
-				this.buildVM(localSites.slice(0, 16), '我常用的', 1)
+				const histories = await this.buildHistories()
+				this.buildVM(histories.slice(0, 12), '我常用的', 1)
+//				const histories = _.orderBy(this.histories, ['views'], ['desc'])
+//				this.buildVM(histories.slice(0, 12), '我常用的', 1)
+			},
+			async constructHotSite() {
 				//热门网站
 				let hotSites = []
 				try {
 					hotSites = await this.jsonp(this.hotsitePath)
+					hotSites = hotSites? hotSites.slice(0, 12):[]
 				} catch (e) {
 					console.log('error: ', e)
 				}
 				this.buildVM(hotSites&&hotSites.length===0? hots:hotSites, '热门网站', 2)
-				this.doContent()
+			},
+			async constructRecent() {
 				//最近访问
-				let ids = this.localCategories.sort(compareTime).map((c) => {
+				this.localCategories = await this.getForm()
+				const recentCategories = this.localCategories.sort(compareTime).slice(0, 6)
+				this.buildVM(recentCategories, '最近访问', 3)
+				const recentIds = recentCategories.map((c) => {
 					return c.id
 				})
-				ids = ids && ids.slice(0, 8)
-				let res = await this.getData(ids)
-				this.buildVM(res, '最近访问', 3)
+				this.update(recentIds, '最近访问')
+			},
+			async constructLike() {
 				//我的网单
-				let likedSites = _.cloneDeep(localSites)
+				this.localSites = await this.getSite()
+				this.localSites = _.orderBy(this.localSites, ['views'], ['desc'])
+				let likedSites = _.cloneDeep(this.localSites)
 				likedSites = likedSites && likedSites.filter(site => {
 					return site.liked
 				})
 				likes[0].sites = _.cloneDeep(likedSites)
 				this.buildVM(likes, '我的网单', 4)
+			},
+			async constructCollect() {
 				//我收藏的网单
-				ids = this.localCategories.filter((c) => {
+				const collectCategories = this.localCategories.filter((c) => {
 					return c.collected
-				}).map((c) => {
+				})
+				this.buildVM(collectCategories, '我收藏的网单', 5)
+				const collectIds = collectCategories.map((c) => {
 					return c.id
 				})
-				res = await this.getData(ids)
-				this.buildVM(res, '我收藏的网单', 5)
-				console.log('this.contents', this.contents)
+				this.update(collectIds, '我收藏的网单')
 			},
-			async getData (ids) {
+			buildVM(data, name, sort) {
+				let vm = {}
+				vm.data = _.cloneDeep(data)
+				vm.name = name
+				vm.sort = sort
+				this.contents.push(vm)
+			},
+			updateVM(data, name) {
+				let vm = _.find(this.contents, {'name': name})
+				vm.data = _.cloneDeep(data)
+			},
+			update(ids, name) {
 				if(_.isEmpty(ids)) return
-				let res = []
-				try {
-					res = await this.jsonp(this.catePath + ids.join(','))
-					console.log('construct res', res)
-				} catch (e) {
-					console.log('error: ', e)
-				}
-				return res
-			},
-			async getLocal () {
-				this.localCategories = await this.getForm()
-				this.localSites = await this.getSite()
+				this.jsonp(this.catePath + ids.join(',')).then(res => {
+					this.updateVM(res, name)
+				}).catch(e => console.log('error: ', e))
 			},
 			doContent() {
 				this.contents.forEach( content => {
@@ -173,7 +230,7 @@
 								error: 'static/img/favorite/default-icon.png',
 								loading: 'static/img/favorite/default-icon.png'
 							}
-							switch (c.name.length) {
+							switch (c.name && c.name.length) {
 								case 2:
 									c.letterSpace = '11px';c.textAlign = 'center';return
 								case 3:
@@ -185,41 +242,42 @@
 					})
 				})
 			},
-			buildVM(data, name, sort) {
-				let vm = {}
-				vm.data = _.cloneDeep(data)
-				vm.name = name
-				vm.sort = sort
-				this.contents.push(vm)
-			},
-			addMore() {
+			addMore(type) {
 				this.SET_COMPONENT({component: 'VDiscover'})
 				setStore('COMPONENT_NAME', 'VDiscover')
-				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:7,url:'',value:0})
+				type===1&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:6,url:'',value:0})
+				type===2&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:8,url:'',value:0})
 			},
 			gotoPosition() {
-				console.log('vmy gotoPosition this.position', this.position)
-				document.documentElement.scrollTop = this.position
-				document.body.scrollTop = this.position
-			}
+				document.documentElement.scrollTop = this.position.scrolly
+				document.body.scrollTop = this.position.scrolly
+			},
+			checkSite(name) {
+				if(!name) return false
+				const error = ['400','401','403','404','405','406','407','410','412','414','500','501','502','504',]
+				return !!~error.indexOf(name.split(' ')[0])
+			},
 		},
 		components: {
 			VBaidu,
 			VItem,
+			VRelation,
 		}
 	}
 </script>
 
 <style lang="stylus" scoped>
 	.my-page
+		width 1146px
+		height 100%
+		margin auto
 		zoom 1
-		display flex
+		position relative
+		top 120px
 		.containerRow
-			width 1093px
-			position relative
-			float left
+			width 847px
 			margin auto
-			top 192px
+			float left
 			.null
 				position absolute
 				margin auto
@@ -240,6 +298,8 @@
 					bottom 10px
 					right 10px
 			.content
+				position relative
+				top 30px
 				li
 					display flex
 					.circle
@@ -259,13 +319,12 @@
 								vertical-align middle
 								display inline-block
 								font-size 18px
-								line-height 24px
+								line-height 22px
 								color #5454a6
 				.body
-					margin 10px 0 25px 25px
+					margin 10px 0 10px 25px
 					border-top 1px solid #cdcdde
 					min-height 130px
-					width 1060px
 					.list
 						padding-top 21px
 						display flex
@@ -273,8 +332,7 @@
 						li
 							margin 0 42px 26px 0
 							font-size 14px
-							cursor pointer
-							&:nth-child(8n)
+							&:nth-child(6n)
 								margin 0
 							img
 								width 16px
@@ -372,10 +430,9 @@
 						position relative
 						border-radius 4px
 						margin-top 0
-						&:nth-child(4n)
+						&:nth-child(3n)
 							margin 0 !important
 				.body-more-3
 					border-top none !important
-					margin 0 0 25px 10px !important
-					width 1122px !important
+					margin 0 0 15px 10px !important
 </style>

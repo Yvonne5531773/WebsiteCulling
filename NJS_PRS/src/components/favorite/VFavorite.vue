@@ -3,7 +3,7 @@
 		<VHeader :favoritePage="true"></VHeader>
 		<section class="favorite">
 			<div class="f-l">
-				<div class="introduce">
+				<div class="introduce" :style="categoryid===`0099`&&`height:274px`">
 					<div class="avatar">
 						<img v-lazy="addHttp(category.avatar)" :style="categoryid===`0099`&&`bottom:3px`"/>
 						<span>{{category.name}}</span>
@@ -112,6 +112,7 @@
 						loading: 'static/img/favorite/default-icon.png'
 					}
 				})
+				this.sites = _.orderBy(this.sites, ['views'], ['desc'])
 				this.category = _.cloneDeep(this.category)
 				this.sites = _.cloneDeep(this.sites)
 				websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:1,name:this.category.name,url:''})
@@ -131,20 +132,16 @@
 			},
 			liked (site, i) {
 				if(!site) return
-				let component = document.getElementsByClassName('component')[0].children[0],
-					cTop = component.getBoundingClientRect().top,
-					cLeft = component.getBoundingClientRect().left,
-					img = this.$refs.img[i].children[0],
-					iTop = img.getBoundingClientRect().top,
-					iLeft = img.getBoundingClientRect().left,
-					iimg = this.$refs.img[i].children[1]
+				let img = this.$refs.img[i].children[0]
+//					iimg = this.$refs.img[i].children[1]
 				site.alertTimeout && (clearTimeout(site.alertTimeout))
 				site.likedAlert = site.liked = !site.liked
 				site.liked && (site.alertTimeout = setTimeout(() => {
 					site.likedAlert = false
-					this.$refs.alert[i].style.display = 'none'
+					const alert = this.$refs.alert[i]
+					Velocity(alert, {opacity:0}, {duration:400, complete:()=>{alert.style.display='none',alert.style.opacity=0.95}})
 				}, 1000) /*Velocity(img, { translateY:cTop-iTop,translateX:cLeft-iLeft,opacity:0}, {duration: Math.floor(i/3)!==0?(Math.floor(i/3)+1)*400:800})*/)
-				!site.liked && (img.style = iimg.style)
+//				!site.liked && (img.style = iimg.style)
 				this.saveSite(_.cloneDeep(site), this.categoryid)
 				site.liked && this.SET_LIKED({liked: true})
 				this.category = _.cloneDeep(this.category)
@@ -168,14 +165,8 @@
 					className = event.target.className
 				site.views = site.views? site.views+1 : 1
 				this.saveSite(_.cloneDeep(site), this.categoryid)
-				websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:2,name:this.category.name,url:site.url})
-				typeof className==='string' && !~className.indexOf('text') && !~className.indexOf('like') && !~className.indexOf('heart') && window.open(url)
+				typeof className==='string' && !~className.indexOf('text') && !~className.indexOf('like') && !~className.indexOf('heart') && (window.open(url), websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:2,name:this.category.name,url:site.url}))
 			},
-			addHttp(url) {
-				if(url){
-					return !~url.indexOf('http')? 'http://'+url : url
-				}
-			}
 //			buildHeart (el) {
 //				let span = el.querySelector('span')
 //				new Animocon.animocon(el, {
@@ -288,7 +279,7 @@
 		top 0
 		bottom 0
 		overflow-x hidden
-		background #edeff1
+		background #f7f9fb
 		position fixed
 		overflow-y scroll
 		.favorite
@@ -409,6 +400,7 @@
 						position relative
 						cursor pointer
 						border 1px solid #fff
+						transition all .2s linear
 						&:hover
 							border 1px solid #bcbcdc
 							box-shadow 0 1px 20px -5px rgb(84, 84, 166)

@@ -10,7 +10,7 @@ import { routerMode } from '../src/config/config'
 Vue.use(VueResource)
 
 Vue.use(VueLazyload, {
-	preLoad: 1.3,
+	preLoad: 1.5,
 	loading: 'static/img/home/default.png',
 	error: 'static/img/home/default.png'
 })

@@ -9,7 +9,7 @@ Vue.use(Vuex)
 const state = {
 	component: '',
 	liked: false,
-	position: 0
+	position: {}
 }
 
 export default new Vuex.Store({
