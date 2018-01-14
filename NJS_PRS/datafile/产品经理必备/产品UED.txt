@@ -1,7 +1,0 @@
-腾讯ISUX:http://isux.tencent.com/
-腾讯MXD:http://mxd.tencent.com/
-阿里妈妈:http://ux.etao.com/
-TGideas:http://tgideas.qq.com/
-IOS规范:https://developer.apple.com/library/ios/navigation/
-安卓规范:http://developer.android.com/design/index.html
-BeForWeb:http://beforweb.com/

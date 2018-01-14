@@ -9,7 +9,7 @@
 		</router-link>
 		<p class="title">
 			<router-link :to="{ path: 'favorite', query: {categoryid: category.id}}">
-				<a target="_blank" :title="category.name" @click="open(1, 1)">{{category.name | clip}}</a>
+				<a target="_blank" :title="category.name" @click="open(1, 1)">{{category.name | clip(1)}}</a>
 			</router-link>
 			<span class="by">{{by}}</span>
 		</p>
@@ -138,7 +138,6 @@
 				color #333
 				position relative
 				float left
-				width 102px
 				overflow hidden
 				text-align left
 		.site-list
