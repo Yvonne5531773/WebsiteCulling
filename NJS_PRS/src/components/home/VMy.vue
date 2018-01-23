@@ -2,16 +2,12 @@
 	<div class="my-page">
 		<section class="containerRow">
 			<VBaidu></VBaidu>
-			<div class="null" v-if="isnull">
-				<img src="../../../static/img/my/null.png"/>
-				<h2 class="txt1">{{txt1}}</h2>
-			</div>
-			<div class="content" v-else>
+			<div class="content">
 				<ul>
 					<li v-for="(content, index) in contents" v-if="content.data&&content.data.length>0||content.name===`我收藏的网单`">
 						<div>
 							<div class="head">
-								<b class="circle"></b>
+								<b :class="content.sort<3?'flag f-s':'flag f-f'"></b>
 								<div class="left">
 									<span class="head-t">
 										{{content.name}}
@@ -21,9 +17,9 @@
 							<div class="body" :class="{'body-more-3':content.sort>=3}" :style="content.sort<3&&`minHeight:85px`">
 								<ul class="list">
 									<li :key="data.id" v-for="(data,index) in content.data" :title="data.name" :class='{block:content.sort>=3}'>
-										<a target="_blank" style="display:flex" :href="data.href_url" v-if="content.sort<3" @click="openUrl(data, content.sort, index)">
+										<a target="_blank" :href="data.href_url" v-if="content.sort<3" @click="openUrl(data, content.sort, index)">
 											<img v-lazy="data.iconLazyObj" />
-											<span class="name" :style="{letterSpacing:data.letterSpace,textAlign:data.textAlign}">{{data.name}}</span>
+											<span class="name" :style="{letterSpacing:data.letterSpace,textAlign:data.textAlign,width:data.width}">{{data.name | clip(10)}}</span>
 										</a>
 										<a class="add-like" v-else-if="content.sort===4&&data.sites.length===0" @click="addMore(1)">
 											<p class="txt4">{{addmore.txt4}}</p>
@@ -50,16 +46,14 @@
 				</ul>
 			</div>
 		</section>
-		<keep-alive>
-			<VRelation></VRelation>
-		</keep-alive>
+		<!--<VRelation :localSites="localSites"></VRelation>-->
 	</div>
 </template>
 <script>
 	import { websiteApi } from 'api'
 	import VBaidu from 'components/common/VBaidu'
 	import VItem from 'components/home/VItem'
-	import { jsonp } from 'components/common/mixin'
+	import { service } from 'components/common/mixin'
 	import { hots } from '../../mock/hots'
 	import { recents } from '../../mock/recents'
 	import { likes } from '../../mock/likes'
@@ -71,7 +65,6 @@
 	export default {
 		data() {
 			return {
-				isnull: false,
 				txt1: '该页面正在开发，敬请期待...',
 				contents: [
 //					{name: '我常用的', data: [], sort: 1},
@@ -90,6 +83,7 @@
 				},
 				localCategories: [],
 				localSites: [],
+				likedSites: [],
 				histories: [],
 				bookmarks: [],
 				hotsitePath: '/v1/hotsite',
@@ -101,7 +95,10 @@
 				'position'
 			])
 		},
-		mixins: [jsonp],
+		mixins: [service],
+//		created() {
+//			this.init()
+//		},
 		mounted() {
 			this.init()
 			this.$nextTick( () => {
@@ -117,8 +114,8 @@
 				this.position.name==='VMy' && this.gotoPosition()
 			},
 			openUrl(data, sort, index) {
-				data.views = data.views? data.views+1 : 1
-				data && sort === 1 && this.saveSite(data)
+//				data.views = data.views? data.views+1 : 1
+//				data && sort === 1 && this.saveSite(data)
 				sort === 1 && websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:3,url:data.href_url,value:0})
 				sort === 2 && websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:4,url:data.url,value:data.id})
 			},
@@ -147,7 +144,7 @@
 				return arrs
 			},
 			async construct() {
-				await this.constructHistory()
+//				await this.constructHistory()
 				await this.constructHotSite()
 				this.doContent()
 				await this.constructRecent()
@@ -158,15 +155,13 @@
 				//我常用的
 				const histories = await this.buildHistories()
 				this.buildVM(histories.slice(0, 12), '我常用的', 1)
-//				const histories = _.orderBy(this.histories, ['views'], ['desc'])
-//				this.buildVM(histories.slice(0, 12), '我常用的', 1)
 			},
 			async constructHotSite() {
 				//热门网站
 				let hotSites = []
 				try {
 					hotSites = await this.jsonp(this.hotsitePath)
-					hotSites = hotSites? hotSites.slice(0, 12):[]
+					hotSites = hotSites? hotSites.slice(0, 32):[]
 				} catch (e) {
 					console.log('error: ', e)
 				}
@@ -185,12 +180,14 @@
 			async constructLike() {
 				//我的网单
 				this.localSites = await this.getSite()
-				this.localSites = _.orderBy(this.localSites, ['views'], ['desc'])
-				let likedSites = _.cloneDeep(this.localSites)
-				likedSites = likedSites && likedSites.filter(site => {
+//				this.localSites = _.orderBy(this.localSites, ['views'], ['desc'])
+				this.likedSites = _.cloneDeep(_.reverse(this.localSites))
+				this.likedSites.filter(site => {
 					return site.liked
+				}).forEach(site => {
+					site.url = getHost(site.url)
 				})
-				likes[0].sites = _.cloneDeep(likedSites)
+				likes[0].sites = _.cloneDeep(this.likedSites)
 				this.buildVM(likes, '我的网单', 4)
 			},
 			async constructCollect() {
@@ -232,9 +229,9 @@
 							}
 							switch (c.name && c.name.length) {
 								case 2:
-									c.letterSpace = '11px';c.textAlign = 'center';return
+									c.letterSpace = '11px';c.textAlign = 'center';c.width = '67px';return
 								case 3:
-									c.letterSpace = '6px';c.textAlign = 'center';return
+									c.letterSpace = '6px';c.textAlign = 'center';c.width = '63px';return
 								case 4:
 									c.letterSpace = '1px';return
 							}
@@ -244,7 +241,6 @@
 			},
 			addMore(type) {
 				this.SET_COMPONENT({component: 'VDiscover'})
-				setStore('COMPONENT_NAME', 'VDiscover')
 				type===1&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:6,url:'',value:0})
 				type===2&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:8,url:'',value:0})
 			},
@@ -268,14 +264,14 @@
 
 <style lang="stylus" scoped>
 	.my-page
-		width 1146px
+		width 1045px
 		height 100%
 		margin auto
 		zoom 1
 		position relative
-		top 120px
+		top 115px
 		.containerRow
-			width 847px
+			/*width 770px*/
 			margin auto
 			float left
 			.null
@@ -302,12 +298,15 @@
 				top 30px
 				li
 					display flex
-					.circle
-						background url("../../../static/img/home/circle.png") no-repeat
+					.flag
 						width 20px
 						height 20px
 						float left
-						margin 3px 5px 0 0
+						margin 3px 3px 0 0
+					.f-s
+						background url("../../../static/img/my/f-s.png") no-repeat
+					.f-f
+						background url("../../../static/img/my/f-f.png") no-repeat
 					.head
 						position relative
 						height 24px
@@ -322,32 +321,34 @@
 								line-height 22px
 								color #5454a6
 				.body
-					margin 10px 0 10px 25px
+					margin 10px 0 15px 25px
 					border-top 1px solid #cdcdde
 					min-height 130px
 					.list
-						padding-top 21px
+						padding-top 18px
 						display flex
 						flex-wrap wrap
 						li
-							margin 0 42px 26px 0
+							margin 0 10px 18px 0
 							font-size 14px
-							&:nth-child(6n)
+							&:nth-child(8n)
 								margin 0
-							img
-								width 16px
-								height 16px
-								padding 3px 8px 0 0
-							.name
-								color #333
-								width 70px
-								overflow hidden
-								text-overflow ellipsis
-								white-space nowrap
+							a
+								display flex
+								width 118px
+								img
+									width 16px
+									height 16px
+									padding 3px 8px 0 0
+								.name
+									color #333
+									overflow hidden
+									text-overflow ellipsis
+									white-space nowrap
 						.add-like
 							background url("../../../static/img/my/add-like.png") no-repeat
-							width 243px
-							height 312px
+							width 240px
+							height 310px
 							position relative
 							color #fff
 							display block
@@ -380,10 +381,9 @@
 									font-size 12px
 						.add-more
 							background url("../../../static/img/my/add-more.png") no-repeat
-							width 243px
+							width 240px
 							height 320px
 							position relative
-							right 3px
 							bottom 10px
 							color #fff
 							display block
@@ -416,23 +416,20 @@
 					.block
 						float left
 						list-style none
-						margin 0 40px 26px 0 !important
-						width 239px
+						margin 0 20px 17px 0 !important
+						width 240px
 						height 310px
 						text-align center
 						color gray
 						-webkit-box-sizing border-box
 						box-sizing border-box
-						-webkit-box-shadow 0 8px 18px rgba(0,0,0,.06)
-						box-shadow 0 8px 18px rgba(0,0,0,.06)
 						background #fff
 						font-size 14px
 						position relative
-						border-radius 4px
 						margin-top 0
-						&:nth-child(3n)
+						&:nth-child(4n)
 							margin 0 !important
 				.body-more-3
 					border-top none !important
-					margin 0 0 15px 10px !important
+					margin 0 0 10px 0 !important
 </style>

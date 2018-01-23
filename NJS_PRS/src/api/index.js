@@ -18,7 +18,6 @@ export const websiteApi = {
 	getUserSelectedInfo() {
 		if(!global.websiteculling.GetUserSelectedCallback) {
 			global.websiteculling.GetUserSelectedCallback = res => {
-				console.log('GetUserSelectedCallback res', res)
 				globalRes.globalSelectedInfo = res
 			}
 		}
@@ -26,7 +25,6 @@ export const websiteApi = {
 		//获取回调数据
 		return new Promise(function (resolve) {
 			setTimeout( () => {
-				console.log('Promise globalSelectedInfo', globalRes.globalSelectedInfo)
 				resolve(globalRes.globalSelectedInfo)
 			}, 100)
 		})
@@ -143,7 +141,7 @@ export const websiteApi = {
 				reportData = {
 					name: name
 				};
-			data.ver = 1
+			data.ver = 2
 			for (i in data) {
 				if (data.hasOwnProperty(i)) {
 					arr.push(i + '=' + encodeURIComponent(data[i]));

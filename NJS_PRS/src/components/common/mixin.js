@@ -1,9 +1,9 @@
 import { host } from '../../config/config'
 import { worker } from '../../config/worker'
 import { websiteApi } from 'api'
-import { getOperationFullTime } from '../../config/utils'
+import { getOperationFullTime, clipstring } from '../../config/utils'
 
-export const jsonp = {
+export const service = {
 	methods: {
 		jsonp (path = '', type = 'get', data = {}) {
 			let url = ''
@@ -80,7 +80,7 @@ export const jsonp = {
 		saveSite (site, categoryId) {
 			let data = {}
 			if (site) {
-				data.id = site.id+''
+				data.id = site.id? site.id+'' : ''
 				data.categoryId = categoryId? categoryId+'' : ''
 				data.name = site.name || ''
 				data.url = site.url || ''
@@ -88,7 +88,7 @@ export const jsonp = {
 				data.description = site.description || ''
 				data.icon = site.icon || ''
 				data.liked = site.liked || false
-				data.views = site.views
+				// data.views = site.views
 			}
 			websiteApi.setURLSelectedInfo(JSON.stringify(data))
 		},
@@ -98,5 +98,10 @@ export const jsonp = {
 				return !~url.indexOf('http')? 'http:'+url : url
 			}
 		}
-	}
+	},
+	filters: {
+		clip(str, len) {
+			return clipstring(str, len)
+		},
+	},
 }

@@ -22,13 +22,16 @@
 				</div>
 			</div>
 			<router-link :to="{path:'home'}">
-				<div class="btn start" @click="start">
+				<div v-if="hasSelected" class="btn start" @click="start">
 					<span>{{startBtnTxt}}</span>
 					<b class="button-gif" :style="vGif&&`backgroundPosition:-24px`"></b>
 				</div>
 			</router-link>
+			<div class="btn no-select" v-if="!hasSelected">
+				<span>{{noSelectBtnTxt}}</span>
+			</div>
 		</section>
-		<div class="bottom"></div>
+		<!--<div class="bottom"></div>-->
 		<transition
 			name="holeTran"
 			:duration="400"
@@ -57,7 +60,7 @@
 	import _ from 'lodash'
 	import { mapMutations } from 'vuex'
 	import { setStore, getStore, getOperationFullTime } from '../../config/utils'
-	import { jsonp } from 'components/common/mixin'
+	import { service } from 'components/common/mixin'
 	import Velocity from 'velocity-animate/velocity.min'
 	import { mockData } from '../../mock/data.js'
 
@@ -65,6 +68,7 @@
 		data() {
 			return {
 				startBtnTxt: '开始使用',
+				noSelectBtnTxt: '选择几个兴趣试试',
 				list: [],
 				rows: [],
 				infoArray: [],
@@ -81,9 +85,10 @@
 				tipTxt2: '马上发现优质网站',
 				gifSI: '',
 				tipSTO: '',
+				hasSelected: true
 			}
 		},
-		mixins: [jsonp],
+		mixins: [service],
 		mounted() {
 			this.init()
 			this.gif()
@@ -94,7 +99,6 @@
 				websiteApi.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:1,taste:0})
 				let info = await this.getSelectedInfo(),
 					data = {}
-				console.log('guide info', info)
 				this.infoArray = !_.isEmpty(info)? info.split(',') : []
 				try {
 					data = await this.jsonp(this.path)
@@ -124,7 +128,7 @@
 							data.selected && block && this.actived(block)
 						})
 					})
-					_.isEmpty(this.checkSelects()) && !this.rows[0].list[0].selected && this.change('click', 0, 0)
+					_.isEmpty(this.checkSelects()) && (this.hasSelected = false, !this.rows[0].list[0].selected && this.change('click', 0, 0))
 					this.doHole()
 				})
 			},
@@ -155,6 +159,7 @@
 						this.rows = _.cloneDeep(this.rows)
 						this.changeSelectids(data)
 						this.saveIds()
+						this.hasSelected = !_.isEmpty(this.checkSelects())
 						return
 				}
 			},
@@ -207,7 +212,6 @@
 				this.SET_COMPONENT({component: 'VDiscover'})
 				this.SAVE_POSITION({position: 0})
 				setStore('THEME_IDS', storeIds)
-				setStore('COMPONENT_NAME', 'VDiscover')
 				this.gifSI && clearInterval(this.gifSI)
 			},
 			gif() {
@@ -295,10 +299,10 @@
 				font-size 24px
 				color #FFFFFF
 				line-height 3.6
-			.start
 				background url("../../../static/img/guide/start-btn.png") no-repeat
 				height 96px
 				width 271px
+			.start
 				letter-spacing 6px
 				&:hover
 					background-position -266px
@@ -313,6 +317,9 @@
 					left 0
 					right 0
 					margin auto
+			.no-select
+				font-size 22px
+				background-position -266px
 			.theme
 				bottom 170px
 				position absolute

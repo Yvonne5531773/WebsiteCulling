@@ -2,8 +2,12 @@
 	<div class="favorite-page">
 		<VHeader :favoritePage="true"></VHeader>
 		<section class="favorite">
+			<h2 class="path">{{txt1}}
+				<span> > </span>
+				<span>{{category.name}}网址列表</span>
+			</h2>
 			<div class="f-l">
-				<div class="introduce" :style="categoryid===`0099`&&`height:274px`">
+				<div class="introduce" :style="categoryid===`0099`&&`height:265px`">
 					<div class="avatar">
 						<img v-lazy="addHttp(category.avatar)" :style="categoryid===`0099`&&`bottom:3px`"/>
 						<span>{{category.name}}</span>
@@ -13,27 +17,29 @@
 						<a target="_blank" :title="category.name">{{category.name | clip(13)}}</a>
 						<span class="by">{{by}}</span>
 					</div>
-					<div class="add" :style="category.collected&&`backgroundPosition:-170px`" @click="collect" v-if="categoryid!==`0099`"></div>
+					<div class="add" :style="category.collected&&`backgroundPosition:-540px`" @click="collect" v-if="categoryid!==`0099`">
+						<img src="../../../static/img/favorite/start.png" />
+						<span v-if="category.collected">{{collectTxt}}</span>
+						<span v-else>{{noCollectTxt}}</span>
+					</div>
 				</div>
 			</div>
 			<div class="f-r">
-				<h2>{{txt1}}</h2>
 				<div class="content">
 					<div class="block" :key="site.id" v-for="(site, index) in sites" @click="open(site, $event)">
 						<div class="name">
 							<div ref="img" class="i">
 								<img v-lazy="site.iconLazyObj"/>
-								<!--<img v-lazy="site.iconLazyObj"/>-->
 							</div>
-							<span>{{site.name | clip(40)}}</span>
+							<span>{{site.name | clip(22)}}</span>
 						</div>
 						<div class="description" :title="site.description">
 							<span>{{site.description | clip(60)}}</span>
 						</div>
 						<div class="heart" :title="likeTxt" @click="liked(site, index)" >
-							<span :style="site.liked&&`backgroundPositionX:-16px`" class="like"></span>
+							<span :style="site.liked&&`backgroundPositionX:-30px`" class="like"></span>
 							<span class="text" v-if="!site.liked">{{likeTxt}}</span>
-							<span class="text" v-else>{{likedTxt}}</span>
+							<span class="liked-text" v-else>{{likedTxt}}</span>
 						</div>
 						<!--<button ref="heart" class="icobutton" :title="likeTxt" @click="liked(site)">-->
 						<!--<span class="fa fa-heart"></span>-->
@@ -58,19 +64,21 @@
 	import { websiteApi } from 'api'
 	import Velocity from 'velocity-animate/velocity.min'
 	import { likes } from '../../mock/likes'
-	import { jsonp } from 'components/common/mixin'
+	import { service } from 'components/common/mixin'
 	import { mapMutations } from 'vuex'
 	import { mockData } from '../../mock/data'
 	import { match } from '../../mock/match'
 	export default {
 		data () {
 			return {
-				txt1: '网站列表',
+				txt1: '发现网站',
 				categoryid: this.$route.query.categoryid,
 				category: {},
 				sites: [],
 				showAlert: false,
 				by: '',
+				noCollectTxt: '加入收藏',
+				collectTxt: '取消收藏',
 				likeTxt: '收藏',
 				likedTxt: '已收藏',
 				alertTxt: '已添加到我喜欢的网单',
@@ -78,7 +86,7 @@
 				catePath: '/v1/category/'
 			}
 		},
-		mixins: [jsonp],
+		mixins: [service],
 		mounted () {
 			this.init()
 			this.$nextTick(()=>{
@@ -92,7 +100,7 @@
 				if (this.categoryid === '0099') { //喜欢的网单
 					this.category = likes[0]
 					this.sites = await this.getSite()
-					this.sites = _.filter(this.sites, site => site.liked)
+					this.sites = _.reverse(_.filter(this.sites, site => site.liked))
 				} else {
 					let res = {}
 					try {
@@ -112,9 +120,9 @@
 						loading: 'static/img/favorite/default-icon.png'
 					}
 				})
-				this.sites = _.orderBy(this.sites, ['views'], ['desc'])
+//				this.sites = _.orderBy(this.sites, ['views'], ['desc'])
 				this.category = _.cloneDeep(this.category)
-				this.sites = _.cloneDeep(this.sites)
+//				this.sites = _.cloneDeep(this.sites)
 				websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:1,name:this.category.name,url:''})
 			},
 			async construct () {
@@ -132,20 +140,17 @@
 			},
 			liked (site, i) {
 				if(!site) return
-				let img = this.$refs.img[i].children[0]
-//					iimg = this.$refs.img[i].children[1]
 				site.alertTimeout && (clearTimeout(site.alertTimeout))
 				site.likedAlert = site.liked = !site.liked
+				site.alertEl = this.$refs.alert[i]
 				site.liked && (site.alertTimeout = setTimeout(() => {
 					site.likedAlert = false
-					const alert = this.$refs.alert[i]
+					const alert = site.alertEl
 					Velocity(alert, {opacity:0}, {duration:400, complete:()=>{alert.style.display='none',alert.style.opacity=0.95}})
-				}, 1000) /*Velocity(img, { translateY:cTop-iTop,translateX:cLeft-iLeft,opacity:0}, {duration: Math.floor(i/3)!==0?(Math.floor(i/3)+1)*400:800})*/)
-//				!site.liked && (img.style = iimg.style)
+				}, 1000))
 				this.saveSite(_.cloneDeep(site), this.categoryid)
 				site.liked && this.SET_LIKED({liked: true})
 				this.category = _.cloneDeep(this.category)
-				this.sites = _.cloneDeep(this.sites)
 				site.liked && websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:3,name:this.category.name,url:site.url})
 			},
 			collect () {
@@ -250,11 +255,6 @@
 //				})
 //			},
 		},
-		filters: {
-			clip (str, len) {
-				return clipstring(str, len)
-			},
-		},
 		components: {
 			VHeader,
 			VAlert
@@ -278,23 +278,21 @@
 		height 100%
 		top 0
 		bottom 0
-		overflow-x hidden
-		background #f7f9fb
-		position fixed
-		overflow-y scroll
+		position absolute
 		.favorite
 			display flex
 			margin 120px auto
-			width 1102px
+			width 1043px
+			.path
+				position absolute
+				color #5454a6
 			.f-l
-				margin 0 auto
 				width 252px
 				position relative
 				top 35px
 				.introduce
 					float left
 					list-style none
-					margin 0 0 0 10px
 					width 242px
 					height 310px
 					text-align center
@@ -306,7 +304,6 @@
 					background #fff
 					font-size 14px
 					position relative
-					border-radius 4px
 					border 1px solid #eae9ef
 					.avatar
 						height 160px
@@ -317,7 +314,6 @@
 						font-size 24px
 						color white
 						letter-spacing 7px
-						border-radius 4px
 						img
 							position relative
 						span
@@ -366,20 +362,29 @@
 						padding 10px
 					.add
 						background url("../../../static/img/favorite/add.png") no-repeat
-						width 170px
-						height 66px
+						width 270px
+						height 77px
 						cursor pointer
-						bottom 0
-						margin auto
-						left 0
+						bottom -21px
+						left -14px
 						right 0
+						margin auto
 						position absolute
-			/*&:active
-				background-position -165px*/
+						line-height 4.5
+						&:hover
+							background-position -270px
+						&:active
+							background-position -540px
+						img
+							position relative
+							right 6px
+							top 4px
+						span
+							color #ffffff
+							font-size 16px
 			.f-r
-				width 850px
-				bottom 6px
-				left 46px
+				top 35px
+				left 40px
 				position relative
 				h2
 					font-size 18px
@@ -389,35 +394,28 @@
 					display flex
 					flex-wrap wrap
 					.block
-						width 29.5%
+						width 240px
 						height 122px
-						margin 0 30px 30px 0
+						margin 0 20px 20px 0
 						box-sizing border-box
-						box-shadow 0 8px 18px rgba(0,0,0,.06)
 						background #fff
 						font-size 12px
-						border-radius 4px
 						position relative
 						cursor pointer
 						border 1px solid #fff
 						transition all .2s linear
 						&:hover
-							border 1px solid #bcbcdc
 							box-shadow 0 1px 20px -5px rgb(84, 84, 166)
 						.name
 							padding 10px 0 0 16px
 							font-size 14px
 							.i
-								width 20px
-								display inline-block
-								height 20px
 								img
 									float left
 									width 16px
 									height 16px
-									padding 5px 10px 0 0
-									position absolute
-									/*z-index 200*/
+									padding 6px 10px 0 0
+									position relative
 							span
 								line-height 2
 								color #333333
@@ -430,22 +428,24 @@
 								overflow hidden
 						.heart
 							position absolute
-							bottom 0
-							right 0
-							margin auto
-							padding 0 20px 12px 0
+							bottom 6px
+							right 10px
 							cursor pointer
 							font-size 14px
 							z-index 0
+							&:hover
+								.like
+									background-position -15px
+							&:active
+								.like
+									background-position -30px
 							.like
+								background url("../../../static/img/relation/like.png") no-repeat
+								width 15px
+								height 15px
 								float left
-								width 16px
-								height 16px
 								top 4px
-								right 4px
-								position relative
-								background url("../../../static/img/favorite/like.png") no-repeat
-								cursor pointer
+								right 8px
 							span
 								cursor pointer
 								position relative
@@ -455,6 +455,8 @@
 									font-size 12px
 							.text
 								color #5454a6
+							.liked-text
+								color #ff3f5f
 						.icobutton
 							position absolute
 							bottom 0

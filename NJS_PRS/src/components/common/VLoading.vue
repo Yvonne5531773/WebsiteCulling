@@ -4,7 +4,7 @@
             <img src="../../assets/puff.svg" />
             <p>{{txt}}</p>
         </div>
-        <div class="loading-bg"></div>
+        <!--<div class="loading-bg"></div>-->
     </div>
 </template>
 
@@ -13,7 +13,7 @@
 
 		data() {
 			return {
-				txt: '搜索中，请稍后',
+				txt: '加载中，请稍后',
 			}
 		},
 
@@ -27,21 +27,15 @@
     #loading
         text-align center
         position absolute
-        top 0
         left 0
         right 0
         bottom 0
         z-index 1000
-        display none
+        top 120px
         .loading-con
             z-index 10000
-            position fixed
-            top 50%
-            margin-top -60px
-            color #fff
+            color #6346de
             font-size 14px
-            left 50%
-            margin-left -50px
             p
                 padding-top 30px
             img

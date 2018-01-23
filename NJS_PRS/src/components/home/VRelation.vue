@@ -1,103 +1,140 @@
 <template>
-	<div class="relation" v-if="list&&list.length>0">
-		<div class="head">
-			<h2>{{title}}</h2>
-			<div class="change">
-				<span>{{txt1}}</span>
-				<a class="c">
-					<img src="../../../static/img/relation/change.png"/>
-					<span>{{txt2}}</span>
-				</a>
+	<div>
+		<div class="relation" v-if="list&&list.length>0">
+			<div class="head">
+				<h2>{{title}}</h2>
+				<div class="change">
+					<span>{{txt1}}</span>
+					<a class="c" @click="change" v-if="list&&list.length>1">
+						<b></b>
+						<span>{{txt2}}</span>
+					</a>
+				</div>
 			</div>
-		</div>
-		<section class="content">
-			<div class="r-data" v-for="(data, index) in list" v-if="data.title">
-				<a class="avatar" target="_blank" :href="data.host" :title="data.title" @click="open(data)">
-					<img v-lazy="data.icon"/>
-				</a>
-				<p class="title">
-					<a target="_blank" :href="data.host" :title="data.title" @click="open(data)">{{data.title | clip(1)}}</a>
-					<span class="like" v-if="data.hot">
-						<img src="../../../static/img/relation/like.png" />
+			<section class="content">
+				<div class="r-data" v-for="(data, i) in vm" v-if="data.title">
+					<a class="avatar" target="_blank" :href="data.host" :title="data.title" @click="open(data)">
+						<img v-lazy="data.iconLazyObj"/>
+					</a>
+					<p class="title">
+						<a target="_blank" class="name" :href="data.host" :title="data.title" @click="open(data)">{{data.title | clip(24)}}</a>
+						<a target="_blank" class="description" :href="data.host" :title="data.description" @click="open(data)">{{data.description | clip(60)}}</a>
+					</p>
+					<span class="r-t">
+						<a @click="like(data)" class="like" title="喜欢" :style="data.liked&&`backgroundPosition:-30px`"></a>
 						<span>{{data.hot}}</span>
 					</span>
-					<a target="_blank" class="description" :href="data.host" :title="data.description" @click="open(data)">{{data.description}}</a>
-				</p>
-			</div>
-		</section>
+				</div>
+			</section>
+		</div>
+		<!--<VLoading v-else></VLoading>-->
 	</div>
 </template>
 
 <script>
 	import { websiteApi } from 'api'
-	import { jsonp } from 'components/common/mixin'
+	import { service } from 'components/common/mixin'
 	import { getHost, clipstring } from '../../config/utils'
-	import { mockRecommend } from '../../mock/recommend'
+	import VLoading from 'components/common/VLoading'
+	import { mockRelation } from '../../mock/relation'
 export default {
 	data () {
 		return {
-			defaultAvatar: '/static/img/home/recommend/default.png',
 			list: [],
-			path: 'http://10.20.216.64:8081/v1/ai_recommend',
-			title: '相关推荐',
+			vm: [],
+			path: '/v1/ai_recommend',
+			title: '猜你喜欢',
 			txt1: '根据您的上网兴趣推荐',
 			txt2: '换一换',
+			index: 0
 		}
 	},
-	mixins: [jsonp],
-	activated() {
-		console.log('relation activated')
+	mixins: [service],
+	props: {
+		localSites: {
+			type: Array
+		}
+	},
+	watch: {
+		localSites() {
+			this.init()
+		}
 	},
 	mounted () {
-		console.log('relation mount')
-		this.init()
+//		this.init()
 	},
 	methods: {
-		async init () {
+		async init() {
 			try {
-//				this.list = [{
-//					id: '001',
-//					title: '米尔网米尔网米尔网米尔网米尔网',
-//					host: 'www.miercn.com',
-//					description: 'None',
-//					keywords: 'None',
-//				}]
 				const bookmarks = await this.constructRecommend(),
 					bookmarksStr = !_.isEmpty(bookmarks)? bookmarks.join(','):''
-				await this.getRelations(bookmarksStr)
-			}catch (e) {
+				this.list = await this.getRelations(bookmarksStr)
+				this.vm = this.list[this.index]
+			}catch(e) {
 				console.log('error:', e)
 			}
 		},
 		async constructRecommend() {
 			//收藏夹数据
 			let bookmarks = await this.getBookmark()
-			bookmarks = _.unionBy(bookmarks, 'url').map(bm => {
+			bookmarks = bookmarks.map(bm => {
 				return getHost(bm.url)
 			})
+			bookmarks = _.union(bookmarks)
 			return bookmarks
 		},
 		async getRelations(bookmarksStr) {
+			let list = []
 			try {
-				this.list = await this.jsonp(this.path, 'post', 'urls=' + bookmarksStr)
+				list = await this.jsonp(this.path, 'post', 'urls=' + bookmarksStr)
 			}catch(e) {
 				console.log('error', e)
 			}
-			if(_.isEmpty(this.list)) return
-			this.list = _.filter(this.list , l => {
+			list = !_.isEmpty(list)? list:mockRelation
+			list = _.filter(list , l => {
 				return this.checkValid(l.title)===1
 			})
-			this.list.forEach(l => {
-				l.icon = l.host? 'http://'+l.host+'/favicon.ico' : ''
-				l.description = l.description&&l.description!=='None'&&l.description!==''? l.description:(l.keywords&&l.keywords!=='None'&&l.keywords!==''? l.keywords:'')
+			list.forEach(l => {
+				l.iconLazyObj = {
+					src: l.icon,
+					error: 'static/img/favorite/default-icon.png',
+					loading: 'static/img/favorite/default-icon.png'
+				}
+				l.description = l.description&&l.description!=='None'&&l.description!==''? l.description:(l.keywords&&l.keywords!=='None'&&l.keywords!==''? l.keywords:(l.title!==''? l.title:''))
 				l.host = this.addHttp('//'+l.host)
+				l.hot = l.hot? parseInt(l.hot) : ''
+				const findSite = _.find(this.localSites, {'name': l.title})
+				l.liked = !_.isEmpty(findSite)? findSite.liked:false
+				l.id = !_.isEmpty(findSite)? findSite.id : (new Date()).valueOf()+Math.floor(Math.random()*1000 + 1)+''
 			})
-			this.list = _.orderBy(this.list, ['hot'], ['desc'])
-			this.list = !_.isEmpty(this.list)? this.list.slice(0, 10):[]
-			console.log('this.list2', this.list)
+//			list = _.orderBy(list, ['hot'], ['desc'])
+			return _.chunk(list, 10)
 		},
 		open(data) {
-			websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:3,value:0,hotsite:data.id,url:'',name:''})
+			websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:11,url:data.host,value:0})
+		},
+		like(data) {
+			data.liked = !data.liked
+			const store = {}
+			store.id = data.id
+			store.name = data.title
+			store.url = data.host
+			store.href_url = data.host
+			store.description = data.description
+			store.icon = data.iconLazyObj.src
+			store.liked = data.liked
+			this.vm = _.cloneDeep(this.vm)
+			this.saveSite(store)
+			store.liked && websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:12,url:data.host,value:0})
+		},
+		change() {
+			const list = this.list[this.index+1]
+			this.vm = []
+			this.index = _.isEmpty(list)? 0:this.index+1
+			this.$nextTick(() => {
+				this.vm = _.cloneDeep(this.list[this.index])
+			})
+			websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:14,url:'',value:0})
 		},
 		checkValid(val) {
 			let ret = 1
@@ -108,12 +145,10 @@ export default {
 				}
 			})
 			return ret
-		}
-	},
-	filters: {
-		clip(str, type) {
-			return type===1? clipstring(str, 18) : clipstring(str, 16)
 		},
+	},
+	components: {
+		VLoading,
 	},
 }
 </script>
@@ -121,7 +156,7 @@ export default {
 <style lang="stylus" scoped>
 	.relation
 		float left
-		width 225px
+		width 214px
 		position relative
 		margin-left 60px
 		.head
@@ -136,15 +171,22 @@ export default {
 				display flex
 				justify-content space-between
 				.c
+					width 57px
 					color #6346de
-					img
-						position relative
-						top 2px
+					display flex
+					&:hover
+						b
+							background-position -17px
+					b
+						background url("../../../static/img/relation/change.png") no-repeat
+						width 18px
+						margin 1px
 		.content
 			position relative
-			bottom 7px
+			top 20px
 			.r-data
-				height 45px
+				height 78px
+				margin-bottom 18px
 				font-size 14px
 				.avatar
 					float left
@@ -152,31 +194,36 @@ export default {
 						height 16px
 						width 16px
 				.title
-					margin 25px 0
 					padding-left 10px
-					text-overflow ellipsis
-					white-space pre-wrap
-					word-wrap break-word
 					overflow hidden
-					height 52px
 					position relative
-					left 10px
-					bottom 6px
-					line-height 2
+					bottom 3px
+					.name
+						overflow hidden
+						text-overflow ellipsis
+						white-space nowrap
+						display block
 					a
-						padding-top 5px
 						color #333333
 					.description
 						font-size 12px
+						height 38px
 						display block
-					.like
-						float right
-						font-size 12px
-						color #949494
-						padding-top 5px
-						display flex
-						img
-							padding 1px 3px
-							width 16px
-							height 16px
+						color #5b5b5b !important
+			.r-t
+				float right
+				font-size 12px
+				color #949494
+				position relative
+				bottom 3px
+				display flex
+				.like
+					background url("../../../static/img/relation/like.png") no-repeat
+					margin 2px 5px
+					width 15px
+					height 15px
+					&:hover
+						background-position -15px
+					&:active
+						background-position -30px
 </style>

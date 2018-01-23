@@ -2,10 +2,10 @@
 	<section class="discover-page">
 		<div class="containerRow">
 			<ul>
-				<li :key="data.id" v-for="(data, index) in dataList" v-if="data&&data.categories.length>0">
+				<li class="c-l" :key="data.id" v-for="(data, index) in dataList" v-if="data&&data.categories.length>0">
 					<div class="head">
 						<div class="left">
-							<b class="circle"></b>
+							<b class="flag"></b>
 							<span class="head-t">
 								{{data.name}}
 							</span>
@@ -18,7 +18,7 @@
 					</div>
 					<div class="body" ref="body">
 						<ul class="list">
-							<li :key="category.id" v-for="category in data.categories">
+							<li :key="category.id" v-for="category in data.showCategories" >
 								<VItem :themeid="data.id" :category="category"></VItem>
 							</li>
 						</ul>
@@ -33,7 +33,7 @@
 	import VItem from 'components/home/VItem'
 	import VAlert from 'components/common/VAlert'
 	import VRecommend from 'components/home/VRecommend'
-	import {jsonp} from 'components/common/mixin'
+	import {service} from 'components/common/mixin'
 	import _ from 'lodash'
 	import { getStore } from '../../config/utils'
 	import { mapState } from 'vuex'
@@ -50,7 +50,7 @@
 				path: '/v1/theme/',
 			}
 		},
-		mixins: [jsonp],
+		mixins: [service],
 		mounted() {
 			this.init()
 		},
@@ -75,6 +75,11 @@
 				}
 				let themes = await this.jsonp(this.path + themeid)
 				this.dataList = _.cloneDeep(_.sortBy(_.forEach(themes, (d) => {
+					if(themes.length > 2) {
+						d.showCategories = d.categories? d.categories.slice(0, 3):[]
+					}else {
+						d.showCategories = _.cloneDeep(d.categories)
+					}
 					d.event = 0
 				})), ['sort'])
 				this.$nextTick(()=>{
@@ -87,7 +92,8 @@
 			},
 			pullEvent(data, index){
 				if(data.event===0){ //down
-					const durationVal = 400
+					data.showCategories = _.cloneDeep(data.categories)
+					const durationVal = 120*(Math.floor(data.showCategories.length/3)+1)
 					//下拉动画
 					let count = this.dataList[index].categories.length
 					Velocity(this.$refs.pull[index], { rotateZ: "90deg" }, { duration: durationVal})
@@ -99,7 +105,9 @@
 					data.event = 0
 					//收缩动画
 					Velocity(this.$refs.pull[index], { rotateZ: "0deg" })
-					Velocity(this.$refs.body[index], { maxHeight: 365 })
+					Velocity(this.$refs.body[index], { maxHeight: 365 }, {complete: () => {
+						data.showCategories = _.cloneDeep(data.categories.slice(0,3))
+					}})
 				}
 			},
 			gotoPosition(position) {
@@ -118,19 +126,21 @@
 <style lang="stylus" scoped>
 		.discover-page
 			margin 112px auto
-			width 1098px
+			width 1040px
 			.containerRow
 				margin 0 auto
-				width 882px
+				width 762px
 				float left
+				.c-l
+					margin-bottom 10px
 				.head
 					position relative
 					height 24px
 					white-space nowrap
 					.left
 						float left
-						.circle
-							background url("../../../static/img/home/circle.png") no-repeat
+						.flag
+							background url("../../../static/img/my/f-f.png") no-repeat
 							width 20px
 							height 20px
 							float left
@@ -145,7 +155,6 @@
 					.right
 						float right
 						position relative
-						right 80px
 						top 8px
 						cursor pointer
 						span
@@ -153,11 +162,10 @@
 							font-size 12px
 							color #333333
 							bottom 2px
-							right 5px
 						.pull
 							float right
-							width 13px
-							height 15px
+							width 16px
+							height 16px
 							position relative
 							cursor pointer
 							background url("../../../static/img/home/pull.png") no-repeat
@@ -172,24 +180,21 @@
 						clear both
 						font-size 0
 					.list
-						padding-top 26px
+						padding-top 17px
 						overflow hidden
 						li
 							float left
 							list-style none
-							margin 20px 28px 26px 10px
+							margin 0 20px 20px 0
 							width 239px
 							height 314px
 							text-align center
 							color gray
 							-webkit-box-sizing border-box
 							box-sizing border-box
-							-webkit-box-shadow 0 8px 18px rgba(0,0,0,.06)
-							box-shadow 0 8px 18px rgba(0,0,0,.06)
 							background #fff
 							font-size 14px
 							position relative
-							border-radius 4px
-							margin-top 0
-
+							&:nth-child(3n)
+								margin-right 0
 </style>

@@ -17,7 +17,7 @@
 
 <script>
 	import { websiteApi } from 'api'
-	import { jsonp } from 'components/common/mixin'
+	import { service } from 'components/common/mixin'
 	export default {
 		data() {
 			return {
@@ -31,7 +31,7 @@
 				path: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su/wd=?wd='
 			}
 		},
-		mixins: [jsonp],
+		mixins: [service],
 		methods: {
 			async show (ev) {
 				if (ev.keyCode === 38 || ev.keyCode === 40) {
@@ -99,6 +99,7 @@
 		right 0
 		z-index 100
 		font-size 14px
+		width 780px
 		.content
 			display flex
 			.logo
@@ -106,25 +107,29 @@
 				width 140px
 				height 40px
 			.input
-				width 575px
+				width 497px
 				height 38px
 				text-indent 4px
-				border 1px solid rgb(84, 84, 166)
+				border 1px solid #6345de
 			.btn
 				input
 					height 40px
-					width 155px
+					width 140px
 					cursor pointer
 					color #fff
 					letter-spacing 1px
-					background #5454a6
-					border 1px solid #5454a6
-					font-size 16px
+					background #6345de
+					border none
+					font-size 14px
+					&:hover
+						background #8368f9
+					&:active
+						background #4f33c7
 		ul
 			z-index 199
 			margin auto
-			left 135px
-			width 555px
+			left 274px
+			width 497px
 			position absolute
 			background #fff
 			box-shadow 1px 1px 3px #ededed

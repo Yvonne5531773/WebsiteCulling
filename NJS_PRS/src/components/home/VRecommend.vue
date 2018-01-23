@@ -17,7 +17,7 @@
 
 <script>
 	import { websiteApi } from 'api'
-	import { jsonp } from 'components/common/mixin'
+	import { service } from 'components/common/mixin'
 	import { mockRecommend } from '../../mock/recommend'
 export default {
 	data () {
@@ -27,7 +27,7 @@ export default {
 			path: '/v1/recommend'
 		}
 	},
-	mixins: [jsonp],
+	mixins: [service],
 	mounted () {
 		this.init()
 	},
@@ -54,7 +54,7 @@ export default {
 <style lang="stylus" scoped>
 	.recommend
 		float right
-		width 210px
+		width 223px
 		h2
 			font-size 18px
 			position relative
@@ -82,10 +82,10 @@ export default {
 					overflow hidden
 					height 55px
 					position relative
-					left 22px
+					left 15px
 					a
 						color #333333
 					.description
 						display block
-						color #888888
+						color #5b5b5b
 </style>
