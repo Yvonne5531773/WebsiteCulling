@@ -12,7 +12,7 @@
         <!--</div>-->
         <!--</div>-->
         <!--<transition-group style="white-space:nowrap" :duration="800" :enter-active-class="'animated ' + transition.enterClass" :leave-active-class="'animated ' + transition.leaveClass">-->
-        <img ref="images" class="image lazyload" v-for="item in images" :key="item.index" :src="item.src" v-show="item.index===index+1 && !reset" @click.stop="addIndex">
+        <img ref="images" class="image" v-for="item in images" :key="item.index" :src="item.src" v-show="item.index===index+1 && !reset" @click.stop="addIndex">
         <!--</transition-group>-->
         <!--<div class="footer">-->
         <!--<span class="caption" @click.stop v-show="showcaption" v-html="images[index].caption"></span>-->
@@ -168,19 +168,19 @@
   .fancybox
     position: relative
     display: flex
-    height: calc(100% - 140px)
-    /*text-align: center*/
-    align-items: center
+    height calc(100% - 140px)
+    align-items center
     .image-wrapper
-      display: inline-block
-      position: relative
-      margin: 0 auto
+      display inline-block
+      position relative
+      margin 0 auto
       width 71vw
       min-width 964px
       .i-l
         width 46vw
         position relative
         text-align center
+        display flex
         .header
           height: 40px
           position: relative
@@ -198,10 +198,11 @@
             right: 0
             top: 10px
         .image
-          vertical-align: middle
-          max-height: calc(100vh - 180px)
-          min-height: 200px
-          max-width: calc(39vw)
+          vertical-align middle
+          object-fit contain
+          max-height calc(100vh - 180px)
+          min-height 200px
+          max-width 39vw
           /*@media screen and (max-width 1366px)
             max-width: calc(42vw)
           @media screen and (max-width 1920px)

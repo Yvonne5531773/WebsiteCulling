@@ -60,7 +60,6 @@
 <script>
 	import VHeader from 'components/common/VHeader'
 	import VAlert from 'components/common/VAlert'
-	import { clipstring, getOperationFullTime } from '../../config/utils'
 	import { websiteApi } from 'api'
 	import Velocity from 'velocity-animate/velocity.min'
 	import { likes } from '../../mock/likes'
@@ -95,7 +94,7 @@
 			})
 		},
 		methods: {
-			...mapMutations(['SET_LIKED', 'SAVE_POSITION']),
+			...mapMutations(['SET_LIKED']),
 			async init () {
 				if (this.categoryid === '0099') { //喜欢的网单
 					this.category = likes[0]
@@ -129,8 +128,9 @@
 				const localCategories = await this.getForm(),
 					localSites = await this.getSite(),
 					cat = _.find(localCategories, {'id': this.categoryid+''})
-				!_.isEmpty(cat) && (this.category.collected = cat.collected)
+				this.category.collected = !_.isEmpty(cat)? cat.collected:false
 				this.sites = _.cloneDeep(this.category.sites)
+				if(_.isEmpty(this.sites)) return
 				for(let i = 0; i < this.sites.length; i++){
 					let site = this.sites[i],
 						si = _.find(localSites, {'id': site.id+''})

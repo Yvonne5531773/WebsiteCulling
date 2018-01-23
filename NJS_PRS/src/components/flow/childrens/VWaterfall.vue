@@ -1,6 +1,6 @@
 <template lang="pug">
 .vue-waterfall-easy(
-  :style="isMobile? '':{width:colWidth*columnCount+'px',left:'50%',top:'10px',marginLeft: -1*colWidth*columnCount/2 +'px'}"
+  :style="isMobile? '':{width:colWidth*columnCount+'px',left:'50%',top:'95px',marginLeft: -1*colWidth*columnCount/2 +'px'}"
 )
   div.img-box(
     v-for="(v,i) in imgsArrC",
@@ -65,6 +65,7 @@ export default {
 		}
 	},
 	mounted() {
+		console.log('in water mounted ', this.$el)
 		// ==1== 根据窗口大小初始化列数
 		this.initColumnCount()
 		this.beginIndex = this.columnCount // 开始排列的元素索引
@@ -82,7 +83,10 @@ export default {
 			this.initColsHeightArr()
 			this.waterfall()
 		})
+		console.log('in water mounted this.$el', this.$el)
+		console.log('in water mounted this.$el.parentNode', this.$el.parentNode)
 		this.$el.parentNode.addEventListener('scroll', () => {
+			console.log('in scroll')
 			if (this.isPreloading) return
 			const lastImgHeight = this.imgsArr[this.imgsArr.length - 1].height
 			if (this.$el.parentNode.scrollTop + this.$el.parentNode.offsetHeight > this.$el.parentNode.scrollHeight - lastImgHeight) {

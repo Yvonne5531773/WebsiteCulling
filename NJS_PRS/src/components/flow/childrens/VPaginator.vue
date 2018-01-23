@@ -23,16 +23,19 @@
     data () {
       return {
         index: 0,
-        isMove: false
+        isMove: false,
+	      activeImages: []
       }
     },
     computed: {
-      activeImages () {
-      	console.log('activeImages this.images', this.images)
-        return this.images.slice(this.index, this.index + 5)
-      }
+//      activeImages () {
+//      	console.log('activeImages this.images', this.images)
+//        return this.images.slice(this.index, this.index + 5)
+//      }
     },
     mounted () {
+    	console.log('111')
+	    this.activeImages = this.images.slice(this.index, this.index + 5)
       this.index = this.setIndex(this.activeIndex)
       this.setActive(this.activeIndex)
     },

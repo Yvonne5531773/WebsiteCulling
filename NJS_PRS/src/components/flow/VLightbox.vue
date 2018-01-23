@@ -1,14 +1,21 @@
 <template>
   <div class="v-images">
-    <VHeader :favoritePage="true"></VHeader>
     <div class="content">
-      <div class="top">
-        <div class="title"></div>
+      <VHeader :favoritePage="true"></VHeader>
+      <div class="c-t">
+        <div class="title">
+          <span class="name">{{category.name}}</span>
+          <div class="add" :style="category.collected&&`backgroundPosition:-540px`" @click="collect" v-if="categoryid!==`0099`">
+            <img src="../../../static/img/favorite/start.png" />
+            <span v-if="category.collected">{{collectTxt}}</span>
+            <span v-else>{{noCollectTxt}}</span>
+          </div>
+        </div>
       </div>
-      <VWaterfall :imgsArr='images' :imgWidth="imgWidth" @scrollLoadImg="fetchImgsData" @changeIndex="changeImg($event)"></VWaterfall>
+      <VWaterfall :imgsArr='imgsArr' :imgWidth="imgWidth" @scrollLoadImg="fetchImgsData" @changeIndex="changeImg($event)"></VWaterfall>
       <div ref="lightbox" class="lightbox" v-show="isShow" @click="isShow=!modalclose">
-        <VFancybox ref="fancybox" :images="images" :index="index" :reset="!isShow" @play="playImg" @pause="pauseImg" @close="closeImg" @addIndex="nextImg" @decIndex="prevImg" :showclosebutton="showclosebutton" :showcaption="showcaption" :imagecountseparator="imagecountseparator" :showimagecount="showimagecount"></VFancybox>
-        <VPaginator :images="images" :activeIndex="index" @changeIndex="changeImg($event)" v-show="showthumbnails"></VPaginator>
+        <VFancybox ref="fancybox" :images="imgsArr" :index="index" :reset="!isShow" @close="closeImg" @addIndex="nextImg" @decIndex="prevImg" :showclosebutton="showclosebutton" :showcaption="showcaption" :imagecountseparator="imagecountseparator" :showimagecount="showimagecount"></VFancybox>
+        <VPaginator :images="imgsArr" :activeIndex="index" @changeIndex="changeImg($event)" v-show="showthumbnails"></VPaginator>
       </div>
     </div>
   </div>
@@ -19,21 +26,27 @@
 	import VHeader from 'components/common/VHeader'
   import VFancybox from 'components/flow/childrens/VFancybox'
   import VPaginator from 'components/flow/childrens/VPaginator'
-  import {images} from '../../mock/images'
+  import { images1 } from '../../mock/images1'
+	import { websiteApi } from 'api'
+	import { service } from 'components/common/mixin'
+	import { mapMutations } from 'vuex'
 
   export default {
 	  data () {
 		  return {
+			  categoryid: this.$route.query.categoryid,
+			  category: {},
+			  sites: [],
+			  noCollectTxt: '加入收藏',
+			  collectTxt: '取消收藏',
+			  likeTxt: '收藏',
+			  likedTxt: '已收藏',
+			  catePath: '/v1/category/',
 			  imgsArr: [],
-			  fetchImgsData: [],
+			  fetchImgsArr: [],
 			  imgWidth: 254,
 			  isShow: false,
 			  index: 0,
-			  playTimer: null,
-			  touchPoint: {
-				  prev: 0,
-				  now: 0
-			  },
         modalclose: true,
 			  keyinput: true,
 			  mousescroll: true,
@@ -43,44 +56,108 @@
 			  showimagecount: false,
 			  showthumbnails: true,
         showFullScreen: false,
+        IMAGE_LOAD_COUNT: 10,
+        LOAD_INDEX: 0,
 		  }
 	  },
+	  mixins: [service],
     computed: {
       images () {
-        let retArr = []
-        let idx = 0
-        images.forEach((item) => {
-          if (item) {
-            item['index'] = ++idx
-            item['isActive'] = false
-            item['caption'] = item.caption ? item.caption : ''
-            retArr.push(item)
-          }
-        })
-        for (let i = 0, len = retArr.length; i < len; i++) {
-          retArr[i]['total'] = len
-        }
-        console.log('images retArr', retArr)
-        return retArr
+	      let retArr = []
+	      let idx = 0
+	      images1.forEach((item) => {
+		      if (item) {
+			      item['index'] = ++idx
+			      item['isActive'] = false
+			      item['caption'] = item.caption ? item.caption : ''
+			      retArr.push(item)
+		      }
+	      })
+	      for (let i = 0, len = retArr.length; i < len; i++) {
+		      retArr[i]['total'] = len
+	      }
+	      return retArr
       }
     },
     created () {
-      if (this.isShow) {
+      if(this.isShow) {
         window.addEventListener('keydown', this.keyFun)
         window.addEventListener('mousewheel', this.wheelFun)
-        this.$refs.lightbox.addEventListener('touchstart', this.touchFun)
       }
+      console.log('in created', this.images)
+	    this.imgsArr = this.constructImages()
+	    this.fetchImgsArr = this.constructImages()
     },
+	  async mounted () {
+		  await this.init()
+		  this.$nextTick(()=>{
+			  this.category = _.cloneDeep(this.category)
+		  })
+	  },
     methods: {
+	    ...mapMutations(['SET_LIKED']),
+	    constructImages() {
+	    	const start = this.IMAGE_LOAD_COUNT* this.LOAD_INDEX++,
+		      end = this.IMAGE_LOAD_COUNT* this.LOAD_INDEX++
+		    return this.images.slice(start, end)
+      },
+	    async init () {
+		    this.category = {
+		    	name: this.categoryid==='59'?'福利美图':''
+        }
+		    await this.construct()
+		    this.sites && this.sites.forEach( (site) => {
+			    site.iconLazyObj = {
+				    src: this.addHttp(site.icon),
+				    error: 'static/img/favorite/default-icon.png',
+				    loading: 'static/img/favorite/default-icon.png'
+			    }
+		    })
+		    this.category = _.cloneDeep(this.category)
+        console.log('init this.category', this.category)
+		    websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:1,name:this.category.name,url:''})
+	    },
+	    async construct () {
+		    const localCategories = await this.getForm(),
+			    localSites = await this.getSite(),
+			    cat = _.find(localCategories, {'id': this.categoryid+''})
+		    this.category.collected = !_.isEmpty(cat)? cat.collected:false
+		    this.sites = _.cloneDeep(this.category.sites)
+        if(_.isEmpty(this.sites)) return
+		    for(let i = 0; i < this.sites.length; i++){
+			    let site = this.sites[i],
+				    si = _.find(localSites, {'id': site.id+''})
+			    !_.isEmpty(si) && (site.liked = si.liked, site.views = si.views)
+			    site.liked && (this.sites.splice(i, 1), this.sites.unshift(site))
+		    }
+	    },
+	    liked (site, i) {
+		    if(!site) return
+        site.liked = !site.liked
+		    this.saveSite(_.cloneDeep(site), this.categoryid)
+		    site.liked && this.SET_LIKED({liked: true})
+		    site.liked && websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:3,name:this.category.name,url:site.url})
+	    },
+	    collect () {
+		    this.category.collected = !this.category.collected
+		    this.saveForm(this.category)
+		    this.category.collected && websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:4,name:this.category.name,url:''})
+	    },
+	    open (site, event) {
+		    const url = site.href_url? site.href_url : this.addHttp(site.url),
+			    className = event.target.className
+		    site.views = site.views? site.views+1 : 1
+		    this.saveSite(_.cloneDeep(site), this.categoryid)
+		    typeof className==='string' && !~className.indexOf('text') && !~className.indexOf('like') && !~className.indexOf('heart') && (window.open(url), websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:2,name:this.category.name,url:site.url}))
+	    },
+	    fetchImgsData() {
+	    	console.log('fetchImgsData')
+		    this.imgsArr = [...this.imgsArr, ...this.fetchImgsArr]
+		    this.fetchImgsArr = this.constructImages()
+//		    this.imgsArr = this.imgsArr.concat(this.fetchImgsArr)
+	    },
       openImg () {
         this.isShow = true
-      },
-      playImg () {
-        let that = this
-        this.playTimer = window.setInterval(that.nextImg, 2000)
-      },
-      pauseImg () {
-        window.clearInterval(this.playTimer)
       },
       closeImg () {
         this.isShow = false
@@ -119,7 +196,6 @@
                   this.$refs.fancybox.animation = true
                   this.prevImg()
                 }
-
                 this.timeout = setTimeout(() => {
                   this.timeout = null
                 }, 375)
@@ -134,7 +210,6 @@
                   this.$refs.fancybox.animation = true
                   this.nextImg()
                 }
-
                 this.timeout = setTimeout(() => {
                   this.timeout = null
                 }, 375)
@@ -184,10 +259,11 @@
         if (this.isShow) {
           window.addEventListener('keydown', this.keyFun)
           this.$refs.lightbox.addEventListener('mousewheel', this.wheelFun)
+          document.body.style.overflow = 'hidden'
         } else {
-          this.pauseImg()
           window.removeEventListener('keydown', this.keyFun)
           this.$refs.lightbox.removeEventListener('mousewheel', this.wheelFun)
+	        document.body.style.overflow = ''
         }
       }
     },
@@ -202,15 +278,58 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
   .v-images
+    zoom: 1;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    top: 0
+    bottom: 0
+    position: absolute
     .content
-      position relative
-      top 85px
-      .top
+      overflow auto
+      height 100%
+      .c-t
+        position relative
+        top 85px
         background-color #9E9E9E
-        height 140px
         .title
           width 1100px
           margin auto
+          height 140px
+          font-size 30px
+          color #fff
+          position relative
+          .name
+            position absolute
+            bottom 20px
+          .add
+            background url("../../../static/img/favorite/add.png") no-repeat
+            width 270px
+            height 77px
+            cursor pointer
+            right 0
+            top 48px
+            margin auto
+            position absolute
+            text-align center
+            line-height 1.8
+            &:hover
+              background-position -270px
+            &:active
+              background-position -540px
+            img
+              position relative
+              top 4px
+            span
+              font-size 16px
+              padding-right 7px
   .lightbox
     position: fixed
     top: 0
