@@ -65,7 +65,6 @@ export default {
 		}
 	},
 	mounted() {
-		console.log('in water mounted ', this.$el)
 		// ==1== 根据窗口大小初始化列数
 		this.initColumnCount()
 		this.beginIndex = this.columnCount // 开始排列的元素索引
@@ -83,8 +82,6 @@ export default {
 			this.initColsHeightArr()
 			this.waterfall()
 		})
-		console.log('in water mounted this.$el', this.$el)
-		console.log('in water mounted this.$el.parentNode', this.$el.parentNode)
 		this.$el.parentNode.addEventListener('scroll', () => {
 			if (this.isPreloading) return
 			const lastImgHeight = this.imgsArr[this.imgsArr.length - 1].height

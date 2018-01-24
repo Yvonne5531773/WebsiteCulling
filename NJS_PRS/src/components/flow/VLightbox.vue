@@ -220,6 +220,7 @@
 	      console.log('changeImg this.index', this.index)
       },
 	    changeArticle(event) {
+	    	console.log('changeArticle event', event)
 //        this.$refs.fancybox.next = this.index > event
 		    this.articlesIndex = event
 	    },
@@ -230,7 +231,7 @@
 	      img.articles.images.forEach((item) => {
 		      let data = {}
 		      if (item) {
-			      data.index = idx++
+			      data.index = ++idx
 			      data.isActive = false
 			      data.src = item
 			      data.title = img.articles.title
@@ -398,7 +399,7 @@
             width 270px
             height 77px
             cursor pointer
-            right 0
+            right -10px
             top 48px
             margin auto
             position absolute

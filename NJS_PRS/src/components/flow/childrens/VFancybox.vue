@@ -12,7 +12,7 @@
         <!--</div>-->
         <!--</div>-->
         <!--<transition-group style="white-space:nowrap" :duration="800" :enter-active-class="'animated ' + transition.enterClass" :leave-active-class="'animated ' + transition.leaveClass">-->
-        <img ref="images" class="image" v-for="item in images" :key="item.index" :src="item.src" v-show="item.index===index+1 && !reset" @click.stop="addIndex">
+        <img ref="images" class="image" v-for="item in images" :key="item.index" :src="item.src" v-show="item.index===index+1" @click.stop="addIndex">
         <!--</transition-group>-->
         <!--<div class="footer">-->
         <!--<span class="caption" @click.stop v-show="showcaption" v-html="images[index].caption"></span>-->
@@ -22,7 +22,7 @@
     </div>
     <div v-if="images[index]" class="bottom">
       <a :href="images[index].url" target="_blank" class="b-t center-to-head" @click.stop="">{{images[index].title}}</a>
-      <a :href="images[index].host" target="_blank" class="b-f center-to-head" @click.stop="">{{images[index].from}}</a>
+      <a :href="images[index].host" target="_blank" class="center-to-head" @click.stop="">{{images[index].from}}</a>
       <!--<div class="add" :style="category.collected&&`backgroundPosition:-540px`" @click="collect">&ndash;&gt;-->
         <!--<img src="../../../../static/img/favorite/start.png" />-->
         <!--<span v-if="category.collected">{{collectTxt}}</span>-->
@@ -41,7 +41,6 @@
     props: {
       index: Number,
       images: Array,
-      reset: Boolean,
       animate: {
         type: Boolean,
         default: false
@@ -98,12 +97,6 @@
           }
         })
       },
-      reset () {
-        if (this.reset) {
-          this.isPlay = false
-          this.animation = false
-        }
-      }
     },
     components: {
       icon
@@ -255,10 +248,10 @@
         content ''
         display block
         width 100%
-        height 3px
+        height 2px
         position absolute
-        bottom -10px
-        background #fff
+        bottom -5px
+        background #6346de
         transition all 0.3s ease-in-out
         transform scale3d(0,1,1)
         transform-origin 50% 0
@@ -268,5 +261,4 @@
             transform scale3d(1,1,1)
       .b-t
         left 0
-      /*.b-f*/
 </style>
