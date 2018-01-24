@@ -9,7 +9,7 @@
 				</div>
 			</div>
 			<div class="component">
-				<a class="option" v-for="(component, index) in components" :style="!favoritePage && component.selected&&`color:#ffffff;borderBottom:5px solid #f7ea53`" @click="change(component.name, 1)">{{component.txt}}
+				<a class="option" v-for="(component, index) in components" :style="!favoritePage && component.selected&&`color:#ffffff;borderBottom:5px solid #f7ea53`" @click="change(component.name, 1) ">{{component.txt}}
 					<span v-if="component.name===`VMy` && liked" class="dot">●</span>
 				</a>
 				<a class="fb" :href="fbHref" target="_blank">{{feedback}}</a>

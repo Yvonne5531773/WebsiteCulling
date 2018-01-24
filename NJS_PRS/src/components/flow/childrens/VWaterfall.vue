@@ -86,7 +86,6 @@ export default {
 		console.log('in water mounted this.$el', this.$el)
 		console.log('in water mounted this.$el.parentNode', this.$el.parentNode)
 		this.$el.parentNode.addEventListener('scroll', () => {
-			console.log('in scroll')
 			if (this.isPreloading) return
 			const lastImgHeight = this.imgsArr[this.imgsArr.length - 1].height
 			if (this.$el.parentNode.scrollTop + this.$el.parentNode.offsetHeight > this.$el.parentNode.scrollHeight - lastImgHeight) {

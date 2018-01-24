@@ -1,7 +1,7 @@
 <template>
   <div class="fancybox">
     <div class="image-wrapper">
-      <div class="i-l">
+      <!--<div class="i-l">-->
         <!--<div class="header">-->
         <!--<div class="full" @click.stop="full" v-if="showFullScreen">-->
         <!--<icon v-if="!isFullScreen" :type="'full'" :color="'#ccc'"></icon>-->
@@ -18,14 +18,19 @@
         <!--<span class="caption" @click.stop v-show="showcaption" v-html="images[index].caption"></span>-->
         <!--<span class="count" @click.stop v-show="showimagecount">{{ index+1 }} {{imagecountseparator}} {{ images[index].total }}</span>-->
         <!--</div>-->
-        <div v-if="index > 0" class="arrow left" @click.stop="decIndex">
-          <icon :type="'arrowLeft'" :color="'#ccc'"></icon>
-        </div>
-        <div v-if="index < images[index].total-1" class="arrow right" @click.stop="addIndex">
-          <icon :type="'arrowRight'" :color="'#ccc'"></icon>
-        </div>
-      </div>
+      <!--</div>-->
     </div>
+    <div v-if="images[index]" class="bottom">
+      <a :href="images[index].url" target="_blank" class="b-t center-to-head" @click.stop="">{{images[index].title}}</a>
+      <a :href="images[index].host" target="_blank" class="b-f center-to-head" @click.stop="">{{images[index].from}}</a>
+      <!--<div class="add" :style="category.collected&&`backgroundPosition:-540px`" @click="collect">&ndash;&gt;-->
+        <!--<img src="../../../../static/img/favorite/start.png" />-->
+        <!--<span v-if="category.collected">{{collectTxt}}</span>-->
+        <!--<span v-else>{{noCollectTxt}}</span>-->
+      <!--</div>-->
+    </div>
+    <div v-if="index > 0" class="arrow left" @click.stop="decIndex"></div>
+    <div v-if="images[index] && index < images[index].total-1" class="arrow right" @click.stop="addIndex"></div>
   </div>
 </template>
 
@@ -46,26 +51,15 @@
       imagecountseparator: String,
       showimagecount: Boolean,
 	    showFullScreen: Boolean,
+	    noCollectTxt: '加入收藏',
+	    collectTxt: '取消收藏',
     },
     data () {
       return {
         next: true,
         animation: false,
-        isFullScreen: document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen,
         isPlay: false
       }
-    },
-    created () {
-      let that = this
-      document.addEventListener('fullscreenchange', () => {
-        that.isFullScreen = !that.isFullScreen
-      })
-      document.addEventListener('webkitfullscreenchange', () => {
-        that.isFullScreen = !that.isFullScreen
-      })
-      document.addEventListener('mozfullscreenchange', () => {
-        that.isFullScreen = !that.isFullScreen
-      })
     },
     computed: {
       transition () {
@@ -81,59 +75,12 @@
 	      this.$emit('decIndex')
 	      this.next = true
 	      this.animation = true
-//        if (this.timeout) {
-//          clearTimeout(this.timeout)
-//        } else {
-//          this.$emit('decIndex')
-//          this.next = true
-//          this.animation = true
-//        }
-//        this.timeout = setTimeout(() => {
-//          this.timeout = null
-//        }, 350)
       },
       addIndex () {
         if (this.index < this.images[this.index].total - 1) {
 	        this.$emit('addIndex')
 	        this.next = false
 	        this.animation = true
-//          if (this.timeout) {
-//            clearTimeout(this.timeout)
-//          } else {
-//            this.$emit('addIndex')
-//            this.next = false
-//            this.animation = true
-//          }
-//          this.timeout = setTimeout(() => {
-//            this.timeout = null
-//          }, 350)
-        }
-      },
-      full () {
-        function launchFullscreen (element) {
-          if (element.requestFullscreen) {
-            element.requestFullscreen()
-          } else if (element.mozRequestFullScreen) {
-            element.mozRequestFullScreen()
-          } else if (element.webkitRequestFullscreen) {
-            element.webkitRequestFullscreen()
-          } else if (element.msRequestFullscreen) {
-            element.msRequestFullscreen()
-          }
-        }
-        function exitFullscreen () {
-          if (document.exitFullscreen) {
-            document.exitFullscreen()
-          } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen()
-          } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen()
-          }
-        }
-        if (this.isFullScreen) {
-          exitFullscreen()
-        } else {
-          launchFullscreen(document.documentElement)
         }
       },
       close () {
@@ -141,7 +88,7 @@
         this.$emit('pause')
         this.$emit('close')
         this.animation = false
-      }
+      },
     },
     watch: {
       index () {
@@ -168,78 +115,158 @@
   .fancybox
     position: relative
     display: flex
-    height calc(100% - 140px)
+    height calc(100% - 70px)
     align-items center
     .image-wrapper
-      display inline-block
+      display flex
       position relative
       margin 0 auto
-      width 71vw
-      min-width 964px
+      bottom 20px
+      /*width 71vw*/
+      /*height 78%*/
+      /*min-width 964px*/
+      .image
+        vertical-align middle
+        object-fit contain
+        max-height calc(100vh - 150px)
+        min-height 200px
+        max-width 69vw
+        /*@media screen and (max-width 1366px)
+					max-width: calc(42vw)
+				@media screen and (max-width 1920px)
+					max-width: calc(98vw)*/
+        margin 0 auto
+        cursor pointer
+        user-select none
+      .footer
+        position: relative
+        padding: 5px
+        text-align: left
+        span
+          display inline-block
+          font-size 14px
+          color #fff
+          a
+            color #fff
+            &:hover
+              color #888
+        .count
+          position absolute
+          font-size 12px
+          right 0
       .i-l
         width 46vw
         position relative
         text-align center
         display flex
+        margin-right 100px
         .header
-          height: 40px
-          position: relative
-          text-align: left
+          height 40px
+          position relative
+          text-align left
           .full, .close
-            display: inline-block
-            width: 20px
-            height: 20px
-            cursor: pointer
+            display inline-block
+            width 20px
+            height 20px
+            cursor pointer
           .full
-            margin-top: 10px
-            margin-right: 10px
+            margin-top 10px
+            margin-right 10px
           .close
-            position: absolute
-            right: 0
-            top: 10px
-        .image
-          vertical-align middle
-          object-fit contain
-          max-height calc(100vh - 180px)
-          min-height 200px
-          max-width 39vw
-          /*@media screen and (max-width 1366px)
-            max-width: calc(42vw)
-          @media screen and (max-width 1920px)
-            max-width: calc(98vw)*/
-          margin: 0 auto
-          cursor: pointer
-          user-select: none
-        .footer
-          position: relative
-          padding: 5px
-          text-align: left
-          span
-            display: inline-block
-            font-size: 14px
-            color: #fff
-            a
-              color: #fff
-              &:hover
-                color: #888
-          .count
-            position: absolute
-            font-size: 12px
-            right: 0
+            position absolute
+            right 0
+            top 10px
+       .i-r
+         position relative
+         max-width 20vw
+         font-size 14px
+         color #fff
+         h2
+          margin-bottom 15px
+         .i-r-t
+          margin-bottom 15px
+          display inline-block
+         .add
+           background url("../../../../static/img/favorite/add.png") no-repeat
+           width 270px
+           height 77px
+           cursor pointer
+           right 0
+           top 48px
+           margin auto
+           position absolute
+           text-align center
+           line-height 1.8
+           &:hover
+             background-position -270px
+           &:active
+             background-position -540px
+           img
+             position relative
+             top 4px
+           span
+             font-size 16px
+             padding-right 7px
     .arrow
-      display: inline-block
-      position: absolute
+      display inline-block
+      position absolute
+      cursor pointer
       @media screen and (min-width:849px)
-        height: 40px
-        width: 40px
-        top: calc(50% - 20px)
+        height 50px
+        width 50px
+        top calc(50% - 48px)
       @media screen and (max-width:849px)
-        height: 20px
-        width: 20px
-        top: calc(50%)
-      cursor: pointer
+        height 50px
+        width 50px
+        top calc(50% - 45px)
       &.left
-        left: 0
+        background url("../../../../static/img/flow/arrow-left.png") no-repeat
+        left 25px
+        &:hover
+          background-position -50px
+        &:active
+          background-position -100px
       &.right
-        right: 0
+        background url("../../../../static/img/flow/arrow-right.png") no-repeat
+        right 25px
+        &:hover
+          background-position -50px
+        &:active
+          background-position -100px
+    .bottom
+      position absolute
+      bottom 0
+      height 40px
+      width 780px
+      min-width 500px
+      left 0
+      right 0
+      margin auto
+      text-align center
+      a
+        font-size 14px
+        color #fff
+        &:link, &:visited, &:focus
+          text-decoration none
+          color #fff
+      .center-to-head
+        position absolute
+      .center-to-head::after
+        content ''
+        display block
+        width 100%
+        height 3px
+        position absolute
+        bottom -10px
+        background #fff
+        transition all 0.3s ease-in-out
+        transform scale3d(0,1,1)
+        transform-origin 50% 0
+      .center-to-head
+        &:hover
+          &::after
+            transform scale3d(1,1,1)
+      .b-t
+        left 0
+      /*.b-f*/
 </style>
