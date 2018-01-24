@@ -363,6 +363,7 @@
     position absolute
     .content
       overflow auto
+      position sticky
       height 100%
       .c-t
         position relative
