@@ -375,6 +375,7 @@
           height 140px
           font-size 30px
           color #fff
+          background-color #9E9E9E
           position relative
           .back
             background url("../../../static/img/flow/back.png") no-repeat
