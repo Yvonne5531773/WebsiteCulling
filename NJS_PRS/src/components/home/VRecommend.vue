@@ -22,7 +22,6 @@
 export default {
 	data () {
 		return {
-			defaultAvatar: '/static/img/home/recommend/default.png',
 			list: [],
 			path: '/v1/recommend'
 		}

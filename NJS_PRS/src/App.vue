@@ -25,6 +25,4 @@ export default {
 
   #app
     font-family microsoft yahei
-    overflow auto
-
 </style>

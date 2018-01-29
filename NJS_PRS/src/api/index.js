@@ -117,7 +117,8 @@ export const websiteApi = {
 		if(!global.notifyHttpResponse) {
 			global.notifyHttpResponse = (response, context) => {
 				try {
-					globalRes.globalResponse = JSON.parse(response);
+					globalRes.globalResponse = JSON.parse(response)
+					console.log('notifyHttpResponse globalRes.globalResponse', globalRes.globalResponse)
 				} catch (e) {
 					console.log('notifyHttpResponse error: ', e)
 				}
@@ -126,9 +127,20 @@ export const websiteApi = {
 		arr.unshift(context)
 		chrome.send && chrome.send('submitHttpRequest', arr)
 		return new Promise(function (resolve) {
-			setTimeout(() => {
-				resolve(globalRes.globalResponse)
+			let count = 0
+			const si = setInterval(() => {
+				if((globalRes.globalResponse && globalRes.globalResponse.return_data) || count===100) {
+					console.log('new Promise globalRes.globalResponse', globalRes.globalResponse)
+					resolve(globalRes.globalResponse)
+					clearInterval(si)
+					globalRes.globalResponse = ''
+				}
+				count++
 			}, 100)
+			// setTimeout(() => {
+			// 	console.log('submitHTTPRequest Promise globalRes.globalResponse', globalRes.globalResponse)
+			// 	resolve(globalRes.globalResponse)
+			// }, 200)
 		})
 	},
 
@@ -141,7 +153,7 @@ export const websiteApi = {
 				reportData = {
 					name: name
 				};
-			data.ver = 2
+			data.ver = 3
 			for (i in data) {
 				if (data.hasOwnProperty(i)) {
 					arr.push(i + '=' + encodeURIComponent(data[i]));

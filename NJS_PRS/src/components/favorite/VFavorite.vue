@@ -65,7 +65,6 @@
 	import { likes } from '../../mock/likes'
 	import { service } from 'components/common/mixin'
 	import { mapMutations } from 'vuex'
-	import { mockData } from '../../mock/data'
 	export default {
 		data () {
 			return {

@@ -12,7 +12,7 @@
         <!--</div>-->
         <!--</div>-->
         <!--<transition-group style="white-space:nowrap" :duration="800" :enter-active-class="'animated ' + transition.enterClass" :leave-active-class="'animated ' + transition.leaveClass">-->
-        <img ref="images" class="image" v-for="item in images" :key="item.index" :src="item.src" v-show="item.index===index+1" @click.stop="addIndex">
+      <img ref="images" class="image" v-for="item in images" :key="item.index" :src="item.src" v-show="item.index===index+1" @click.stop="addIndex(1)">
         <!--</transition-group>-->
         <!--<div class="footer">-->
         <!--<span class="caption" @click.stop v-show="showcaption" v-html="images[index].caption"></span>-->
@@ -21,13 +21,12 @@
       <!--</div>-->
     </div>
     <div v-if="images[index]" class="bottom">
-      <a :href="images[index].url" target="_blank" class="b-t center-to-head" @click.stop="">{{images[index].title}}</a>
-      <a :href="images[index].host" target="_blank" class="center-to-head" @click.stop="">{{images[index].from}}</a>
-      <!--<div class="add" :style="category.collected&&`backgroundPosition:-540px`" @click="collect">&ndash;&gt;-->
-        <!--<img src="../../../../static/img/favorite/start.png" />-->
-        <!--<span v-if="category.collected">{{collectTxt}}</span>-->
-        <!--<span v-else>{{noCollectTxt}}</span>-->
-      <!--</div>-->
+      <a :href="images[index].url" target="_blank" class="b-t center-to-head" @click.stop="open(1)">{{images[index].title}}</a>
+      <a :href="images[index].host" target="_blank" class="center-to-head" @click.stop="open(2)" style="width:30%">{{images[index].from}}</a>
+      <a class="like" :style="images[index].liked&&`backgroundPosition:-160px`" @click.stop="like(images[index])">
+        <span v-if="images[index].liked">{{likedTxt}}</span>
+        <span v-else>{{nolikedTxt}}</span>
+      </a>
     </div>
     <div v-if="index > 0" class="arrow left" @click.stop="decIndex"></div>
     <div v-if="images[index] && index < images[index].total-1" class="arrow right" @click.stop="addIndex"></div>
@@ -35,7 +34,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import icon from 'components/common/icon'
+  import { websiteApi } from 'api'
+  import { getOperationFullTime } from '../../../config/utils'
 
   export default {
     props: {
@@ -50,57 +50,65 @@
       imagecountseparator: String,
       showimagecount: Boolean,
 	    showFullScreen: Boolean,
-	    noCollectTxt: '加入收藏',
-	    collectTxt: '取消收藏',
+	    category: Object
     },
     data () {
       return {
-        next: true,
-        animation: false,
-        isPlay: false
+	      nolikedTxt: '收藏',
+	      likedTxt: '已收藏',
+//        next: true,
+//        animation: false,
       }
     },
     computed: {
-      transition () {
-        return {
-          mode: '',
-          enterClass: this.next ? 'zoomIn' : 'zoomIn',
-          leaveClass: this.next ? 'slideOutRight' : 'slideOutLeft'
-        }
-      }
+//      transition () {
+//        return {
+//          mode: '',
+//          enterClass: this.next ? 'zoomIn' : 'zoomIn',
+//          leaveClass: this.next ? 'slideOutRight' : 'slideOutLeft'
+//        }
+//      }
     },
     methods: {
       decIndex () {
 	      this.$emit('decIndex')
 	      this.next = true
 	      this.animation = true
+	      websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:11,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
       },
-      addIndex () {
+      addIndex (flag) {
         if (this.index < this.images[this.index].total - 1) {
 	        this.$emit('addIndex')
 	        this.next = false
 	        this.animation = true
         }
+        const action = flag===1? 14:10
+	      websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:action,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
       },
-      close () {
-        this.isPlay = false
-        this.$emit('pause')
-        this.$emit('close')
-        this.animation = false
+	    like(site) {
+		    this.$emit('addLike', site)
       },
+	    open(flag) {
+      	const action = flag===1? 8 : 9,
+          url = flag===1? this.images[this.index].url : this.images[this.index].host
+		    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:action,name:this.category.id+'',url:url,action_time:getOperationFullTime(new Date())})
+      },
+//	    close () {
+//		    this.isPlay = false
+//		    this.$emit('pause')
+//		    this.$emit('close')
+//		    this.animation = false
+//	    },
     },
     watch: {
-      index () {
-        this.$nextTick(() => {
-          if (!this.isPlay) {
-            this.animation = false
-          }
-        })
-      },
+//      index () {
+//        this.$nextTick(() => {
+//          if (!this.isPlay) {
+//            this.animation = false
+//          }
+//        })
+//      },
     },
-    components: {
-      icon
-    }
   }
 </script>
 
@@ -260,5 +268,21 @@
           &::after
             transform scale3d(1,1,1)
       .b-t
+        width 50%
         left 0
+      .like
+        position absolute
+        right 0
+        background url("../../../../static/img/flow/like-small.png") no-repeat
+        width 80px
+        height 23px
+        &:hover
+          background-position -80px
+        &:active
+          background-position -160px
+        span
+          font-size 12px
+          line-height 1.8
+          position relative
+          left 12px
 </style>

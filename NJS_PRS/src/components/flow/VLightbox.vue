@@ -1,8 +1,9 @@
 <template>
   <div class="v-images">
-    <div class="content">
+    <div ref="content" class="content">
       <VHeader ref="header" :favoritePage="true"></VHeader>
       <div class="c-t">
+        <img class="banner" src="../../../static/img/flow/banner.png"/>
         <div class="title">
           <a class="back" @click="back">
             {{backTxt}}
@@ -18,8 +19,8 @@
       <VWaterfall :imgsArr='imgsArr' :imgWidth="imgWidth" @scrollLoadImg="fetchImgsData" @changeIndex="changeImg($event)"></VWaterfall>
       <transition :duration="300" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
         <div ref="lightbox" class="lightbox" v-if="isShow" @click="isShow=!modalclose">
-          <VFancybox ref="fancybox" :images="articles" :index="articlesIndex" :reset="!isShow" @close="closeImg" @addIndex="nextImg" @decIndex="prevImg" :showclosebutton="showclosebutton" :showcaption="showcaption" :imagecountseparator="imagecountseparator" :showimagecount="showimagecount"></VFancybox>
-          <VPaginator :images="articles" :activeIndex="articlesIndex" @changeIndex="changeArticle($event)" v-show="showthumbnails"></VPaginator>
+          <VFancybox ref="fancybox" :images="articles" :index="articlesIndex" :reset="!isShow" :category="category" @close="closeImg" @addIndex="nextImg" @decIndex="prevImg" @addLike="likeSite($event)" :showclosebutton="showclosebutton" :showcaption="showcaption" :imagecountseparator="imagecountseparator" :showimagecount="showimagecount"></VFancybox>
+          <VPaginator :images="articles" :activeIndex="articlesIndex" :category="category" @changeIndex="changeArticle($event)" v-show="showthumbnails"></VPaginator>
         </div>
       </transition>
     </div>
@@ -33,25 +34,25 @@
   import VFancybox from 'components/flow/childrens/VFancybox'
   import VPaginator from 'components/flow/childrens/VPaginator'
 	import VAlert from 'components/common/VAlert'
-  import { images } from '../../mock/images1'
-//	import { images } from '../../mock/images'
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
-	import { getHost, md5 } from '../../config/utils'
+	import { getHost, md5, getOperationFullTime } from '../../config/utils'
 	import { mapMutations } from 'vuex'
+	import { mockImages } from '../../mock/images1'
 
   export default {
 	  data () {
 		  return {
 			  categoryid: this.$route.query.categoryid,
+			  categoryname: this.$route.query.name,
 			  category: {},
-			  sites: [],
 			  noCollectTxt: '加入收藏',
 			  collectTxt: '取消收藏',
 			  likeTxt: '收藏',
 			  likedTxt: '已收藏',
         backTxt: '返回',
 			  catePath: '/v1/category/',
+			  images: [],
 			  imgsArr: [],
 			  articles: [],
 			  fetchImgsArr: [],
@@ -59,47 +60,34 @@
 			  isShow: false,
 			  index: 0,
 			  articlesIndex: 0,
+			  IMAGE_LOAD_COUNT: 20,
+			  LOAD_INDEX: 0,
+			  DATA_SERVICE_HOST: 'http://act.cmcmcdn.com/liebao/website/',
+			  changeTime: 100,
+			  showAlert: false,
+			  collectAlertSTO: {},
         modalclose: true,
 			  keyinput: true,
 			  mousescroll: true,
 			  showclosebutton: false,
 			  showcaption: false,
-			  imagecountseparator: 'of',
+			  imagecountseparator: '',
 			  showimagecount: false,
 			  showthumbnails: true,
         showFullScreen: false,
-        IMAGE_LOAD_COUNT: 20,
-        LOAD_INDEX: 0,
-        DATA_SERVICE_HOST: 'http://act.cmcmcdn.com//liebao/website/json/',
-        changeTime: 100,
-			  showAlert: false,
-			  collectAlertSTO: {},
 		  }
 	  },
 	  mixins: [service],
-    computed: {
-      images () {
-	      let retArr = []
-	      let idx = 0
-	      images.forEach((item) => {
-		      if (item) {
-			      item.index = idx++
-			      item.isActive = false
-			      retArr.push(item)
-		      }
-	      })
-	      for (let i = 0, len = retArr.length; i < len; i++) {
-		      retArr[i]['total'] = len
-	      }
-	      return retArr
-      }
-    },
-    created () {
+    async created () {
       if(this.isShow) {
         window.addEventListener('keydown', this.keyFun)
         window.addEventListener('mousewheel', this.wheelFun)
       }
+//	    this.images = mockImages
+      const path = this.DATA_SERVICE_HOST + 'index/' + this.categoryid + '.json'
+      this.images = await this.getJSON(path)
 	    this.imgsArr = this.constructImages()
+	    console.log('created this.images', this.images)
 	    this.fetchImgsArr = this.constructImages()
     },
 	  async mounted () {
@@ -115,19 +103,18 @@
 				  this.$nextTick(()=>{
 					  this.$refs.lightbox.addEventListener('mousewheel', this.wheelFun)
 				  })
-				  document.body.style.overflow = 'hidden'
-
-				  const img = this.imgsArr[this.index]
-				  console.log('watch isShow img', img)
-	        img.articles = _.isEmpty(img.articles)? await this.getJSON(img.href):img.articles
+          const contentEl = this.$refs.content
+				  contentEl.style.position = 'relative'
+				  const img = this.imgsArr[this.index],
+					  path = this.DATA_SERVICE_HOST + 'json/' + this.categoryid + '/' + md5(img.href, 32) + '.json'
+				  img.articles = _.isEmpty(img.articles)? await this.getJSON(path):img.articles
 				  this.articles = this.constructArticles(img)
-          console.log('watch isShow this.articles2',this.articles)
-//          const img = this.imgsArr[this.index]
-//				  this.articles = this.constructArticles(this.imgsArr, this.index)
+				  websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:2,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
 			  } else {
 				  window.removeEventListener('keydown', this.keyFun)
 				  this.$refs.lightbox.removeEventListener('mousewheel', this.wheelFun)
-				  document.body.style.overflow = ''
+				  const contentEl = this.$refs.content
+				  contentEl.style.position = 'fixed'
 				  this.articlesIndex = 0
 				  this.articles = []
 			  }
@@ -137,45 +124,54 @@
 	    ...mapMutations(['SET_LIKED']),
 	    constructImages() {
 	    	const start = this.IMAGE_LOAD_COUNT* this.LOAD_INDEX++,
-		      end = this.IMAGE_LOAD_COUNT* this.LOAD_INDEX++
-		    return this.images.slice(start, end)
+		      end = this.IMAGE_LOAD_COUNT* this.LOAD_INDEX++,
+          res = this.images&&this.images.length>0? this.images.slice(start, end):[]
+//		    res.forEach(r => {
+//		    	r.lazy = {
+//				    src: r.image,
+//				    error: '',
+//				    loading: ''
+//			    }
+//        })
+		    return res
       },
 	    async init () {
 		    this.category = {
 		    	id: this.categoryid,
-		    	name: this.categoryid=='59'?'福利美图':''
+		    	name: this.categoryname
         }
 		    await this.construct()
-		    this.sites && this.sites.forEach( (site) => {
-			    site.iconLazyObj = {
-				    src: this.addHttp(site.icon),
-				    error: 'static/img/favorite/default-icon.png',
-				    loading: 'static/img/favorite/default-icon.png'
-			    }
-		    })
 		    this.category = _.cloneDeep(this.category)
-		    websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:1,name:this.category.name,url:''})
+		    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:1,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
 	    },
 	    async construct () {
 		    const localCategories = await this.getForm(),
 			    localSites = await this.getSite(),
 			    cat = _.find(localCategories, {'id': this.categoryid+''})
 		    this.category.collected = !_.isEmpty(cat)? cat.collected:false
-		    this.sites = _.cloneDeep(this.category.sites)
-        if(_.isEmpty(this.sites)) return
-		    for(let i = 0; i < this.sites.length; i++){
-			    let site = this.sites[i],
-				    si = _.find(localSites, {'id': site.id+''})
-			    !_.isEmpty(si) && (site.liked = si.liked, site.views = si.views)
-			    site.liked && (this.sites.splice(i, 1), this.sites.unshift(site))
-		    }
+        this.images.forEach((item) => {
+		    	if(item) {
+				    const result = _.find(localSites, {'url': item.href})
+				    item.liked = !_.isEmpty(result)? result.liked:false
+				    item.id = !_.isEmpty(result)? result.id:(new Date()).valueOf()+Math.floor(Math.random()*1000 + 1)+''
+          }
+        })
 	    },
-	    liked (site, i) {
-		    if(!site) return
-        site.liked = !site.liked
-		    this.saveSite(_.cloneDeep(site), this.categoryid)
+	    likeSite (event) {
+	    	if(!event) return
+        const site = {
+	    		id: event.id,
+          liked: !event.liked,
+          url: event.url,
+          name: event.title,
+	        href_url: event.url,
+          icon: getHost(event.url) + '/favicon.ico'
+        }
+		    this.articles.forEach(a => a.liked = site.liked)
+		    this.imgsArr[this.index].liked = site.liked
+		    this.saveSite(_.cloneDeep(site))
 		    site.liked && this.SET_LIKED({liked: true})
-		    site.liked && websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:3,name:this.category.name,url:site.url})
+		    site.liked && websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:3,name:this.category.id+'', url:site.url,action_time:getOperationFullTime(new Date())})
 	    },
 	    collect () {
 		    !this.category.collected && (this.showAlert = true,
@@ -185,14 +181,7 @@
 		    this.category.collected && this.collectAlertSTO && (this.showAlert = false, clearTimeout(this.collectAlertSTO))
 		    this.category.collected = !this.category.collected
 		    this.saveForm(this.category)
-		    this.category.collected && websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:4,name:this.category.name,url:''})
-	    },
-	    open (site, event) {
-		    const url = site.href_url? site.href_url : this.addHttp(site.url),
-			    className = event.target.className
-		    site.views = site.views? site.views+1 : 1
-		    this.saveSite(_.cloneDeep(site), this.categoryid)
-		    typeof className==='string' && !~className.indexOf('text') && !~className.indexOf('like') && !~className.indexOf('heart') && (window.open(url), websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:2,name:this.category.name,url:site.url}))
+		    this.category.collected && websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:4,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
 	    },
 	    fetchImgsData() {
 		    this.imgsArr = [...this.imgsArr, ...this.fetchImgsArr]
@@ -215,13 +204,9 @@
       },
       changeImg (event) {
         this.isShow = true
-//        this.$refs.fancybox.next = this.index > event
         this.index = event
-	      console.log('changeImg this.index', this.index)
       },
 	    changeArticle(event) {
-	    	console.log('changeArticle event', event)
-//        this.$refs.fancybox.next = this.index > event
 		    this.articlesIndex = event
 	    },
       constructArticles(img) {
@@ -238,24 +223,24 @@
 			      data.url = img.articles.url
             data.host = 'http://' + getHost(img.articles.url)
             data.from = img.articles.url? '来自 '+getHost(img.articles.url):''
+            data.liked = img.liked
+			      data.id = img.id
 			      retArr.push(data)
 		      }
 	      })
 	      for (let i = 0, len = retArr.length; i < len; i++) {
-		      retArr[i]['total'] = len
+		      retArr[i].total = len
 	      }
 	      return retArr
       },
       async getJSON(path) {
-	    	path = this.DATA_SERVICE_HOST + md5(path+'', 32) + '.json'
         let data = {}
         try {
 	        const res = await this.submitHTTPRequest([path, '', ''])
-	        data = res && !_.isEmpty(res.return_data) && !~res.return_data.indexOf('404')? JSON.parse(res.return_data) : {}
+	        data = res && !_.isEmpty(res.return_data)? JSON.parse(res.return_data) : {}
         } catch (e) {
 	    		console.log('error:', e)
         }
-	      console.log('getJSON data', data)
         return data
       },
 	    keyFun (event) {
@@ -309,6 +294,7 @@
 						    this.$refs.fancybox.next = false
 						    this.$refs.fancybox.animation = true
 						    this.nextImg()
+						    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:15,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
 					    }
 					    this.timeout = setTimeout(() => {
 						    this.timeout = null
@@ -322,6 +308,7 @@
 						    this.$refs.fancybox.next = true
 						    this.$refs.fancybox.animation = true
 						    this.prevImg()
+						    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:16,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
 					    }
 					    this.timeout = setTimeout(() => {
 						    this.timeout = null
@@ -333,6 +320,7 @@
 	    back() {
 	    	const header = this.$refs.header
 		    header && header.change && header.change('VDiscover')
+		    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:6,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
       }
     },
     components: {
@@ -362,21 +350,28 @@
     bottom 0
     position absolute
     .content
-      overflow auto
-      position sticky
+      /*overflow auto*/
+      overflow-x hidden
+      position fixed
+      /*position sticky*/
+      width 100%
       height 100%
       .c-t
         position relative
         top 85px
-        background-color #9E9E9E
+        background-color black
+        .banner
+          position absolute
+          opacity 0.5
+          z-index 1
         .title
           width 1100px
           margin auto
           height 140px
           font-size 30px
           color #fff
-          background-color #9E9E9E
           position relative
+          z-index 2
           .back
             background url("../../../static/img/flow/back.png") no-repeat
             width 96px

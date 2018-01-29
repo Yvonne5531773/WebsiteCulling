@@ -55,10 +55,8 @@
 	import VItem from 'components/home/VItem'
 	import { service } from 'components/common/mixin'
 	import { hots } from '../../mock/hots'
-	import { recents } from '../../mock/recents'
 	import { likes } from '../../mock/likes'
 	import { compareTime, setStore, getHost } from '../../config/utils'
-	import { collects } from '../../mock/collects'
 	import { mapState, mapMutations } from 'vuex'
 	import VRelation from 'components/home/VRelation'
 

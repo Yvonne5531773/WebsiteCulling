@@ -59,10 +59,9 @@
 	import { websiteApi } from 'api'
 	import _ from 'lodash'
 	import { mapMutations } from 'vuex'
-	import { setStore, getStore, getOperationFullTime } from '../../config/utils'
+	import { setStore, getStore } from '../../config/utils'
 	import { service } from 'components/common/mixin'
 	import Velocity from 'velocity-animate/velocity.min'
-	import { mockData } from '../../mock/data.js'
 
 	export default {
 		data() {

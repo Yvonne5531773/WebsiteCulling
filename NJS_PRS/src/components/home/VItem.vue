@@ -11,8 +11,8 @@
 		</p>
 		<div class="site-list">
 			<p v-if="index<=2" v-for="(site, index) in category.sites">
-				<a :href="site.href_url" class="site-n" :title="site.name" target="_blank"  @click="open(2, 2, site)">{{site.name | clip(13)}}</a>
-				<a :href="site.href_url" class="site-u" :title="site.url" target="_blank"  @click="open(2, 2, site)">{{site.url | clip(16)}}</a>
+				<a :href="site.href_url" class="site-n" :title="site.name" target="_blank"  @click.stop="open(2, 2, site)">{{site.name | clip(13)}}</a>
+				<a :href="site.href_url" class="site-u" :title="site.url" target="_blank"  @click.stop="open(2, 2, site)">{{site.url | clip(16)}}</a>
 			</p>
 		</div>
 		<div class="more" @click="open(1, 3)">
@@ -24,7 +24,6 @@
 
 <script>
 	import { websiteApi } from 'api'
-	import { clipstring, getOperationFullTime } from '../../config/utils'
 	import { service } from 'components/common/mixin'
 	import { mapMutations } from 'vuex'
 	export default {
@@ -49,12 +48,8 @@
 		methods: {
 			...mapMutations(['SAVE_POSITION']),
 			async open(flag, type, site) {
-				if(this.category.id === 59)
-					this.$router.push({path: 'flow', query: {categoryid: this.category.id}})
-				else
-					this.$router.push({path: 'favorite', query: {categoryid: this.category.id}})
-
 				if(flag === 1) {
+					this.distribute()
 					if(this.category.id==='0099') {
 						websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:7,url:'',value:0})
 						return
@@ -73,6 +68,12 @@
 					!this.sort&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:2,value:type,hotsite:0,url:site.url,name:this.category.id + ''})
 				}
 			},
+			distribute() {
+				if(this.category.id===65)
+					this.$router.push({path: 'flow', query: {categoryid: this.category.id, name: this.category.name}})
+				else
+					this.$router.push({path: 'favorite', query: {categoryid: this.category.id}})
+			}
 		},
 	}
 </script>

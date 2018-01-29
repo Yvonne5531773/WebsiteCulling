@@ -2,7 +2,7 @@
 	<transition name="fade">
 		<div style="z-index: 999">
 			<div class="alert-frame">
-				<div class="content">
+				<div class="a-c">
 					<img src="../../../static/img/alert/alert.png" />
 					<div class="txt">
 						<p class="content-tip">{{tiptxt}}</p>
@@ -52,7 +52,7 @@
 		width 210px
 		opacity .9
 		border-radius 4px
-		.content
+		.a-c
 			top: 0;
 			bottom: 0;
 			left: 0;

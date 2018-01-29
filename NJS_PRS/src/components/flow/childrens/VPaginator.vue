@@ -1,22 +1,18 @@
 <template>
   <div class="paginator" @mouseenter="enterAndLeave(1)" @mouseleave="enterAndLeave(0)">
-    <div v-if="index > 0" ref="arrowLeft" class="arrow left" @click.stop="index -= 1"></div>
+    <div v-show="index > 0" ref="arrowLeft" class="arrow left" @click.stop="left"></div>
     <div class="thumbnail-wrapper" v-for="(item, i) in activeImages" :key="item.index" @click.stop="setActive(item.index-1)">
       <div :class="{'thumbnail active': item&&item.isActive, 'thumbnail': item&&!item.isActive}" :style="{backgroundImage:'url('+item.src+')'}" v-if="!isMove"></div>
     </div>
-    <div v-if="index < (images.length - showCount)" ref="arrowRight" class="arrow right" @click.stop="index += 1"></div>
+    <div v-show="index < (images.length - showCount)" ref="arrowRight" class="arrow right" @click.stop="right"></div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-	import icon from 'components/common/icon'
 	import Velocity from 'velocity-animate/velocity.min'
-
+	import { websiteApi } from 'api'
+	import { getOperationFullTime } from '../../../config/utils'
 	export default {
-		props: {
-			images: Array,
-			activeIndex: Number,
-		},
 		data () {
 			return {
 				index: 0,
@@ -25,39 +21,45 @@
 				screenWidth: document.body.clientWidth
 			}
 		},
+		props: {
+			images: Array,
+			activeIndex: Number,
+			category: Object
+		},
 		computed: {
 			activeImages () {
-				console.log('computed activeImages this.index',this.index)
-				console.log('computed activeImages this.showCount',this.showCount)
-        console.log('computed activeImages', this.images.slice(this.index, this.index + this.showCount))
 				return this.images.slice(this.index, this.index + this.showCount)
 			}
 		},
 		mounted () {
-			this.index = this.setIndex(this.activeIndex)
-			this.setActive(this.activeIndex)
-			const that = this
-			window.onresize = () => {
-				return (() => {
-					window.screenWidth = document.body.clientWidth
-					that.screenWidth = window.screenWidth
-				})()
-			}
-			this.showCount = this.doScreen()
+			this.init()
 		},
 		watch: {
 			activeIndex () {
 				this.index = this.setIndex(this.activeIndex)
 				this.setActive(this.activeIndex)
-				console.log('watch activeIndex index', this.index)
-				console.log('watch activeIndex activeIndex', this.activeIndex)
 			},
 			screenWidth (val) {
 				this.screenWidth = val
 				this.showCount = this.doScreen()
-			}
+			},
+			images() {
+				this.init()
+      }
 		},
 		methods: {
+			init () {
+				this.index = this.setIndex(this.activeIndex)
+				this.setActive(this.activeIndex)
+				const that = this
+				window.onresize = () => {
+					return (() => {
+						window.screenWidth = document.body.clientWidth
+						that.screenWidth = window.screenWidth
+					})()
+				}
+				this.showCount = this.doScreen()
+			},
 			setIndex (idx) {
 				if ((idx <= this.images.length - (Math.floor(this.showCount/2)+1)) && (idx >= Math.floor(this.showCount/2))) {
 					return idx - Math.floor(this.showCount/2)
@@ -68,9 +70,6 @@
 				}
 			},
 			setActive (idx) {
-				console.log('setActive activeImages', this.activeImages)
-				console.log('setActive idx', idx)
-				console.log('setActive this.activeIndex', this.activeIndex)
 				if(_.isEmpty(this.images)) return
 				if (idx !== this.activeIndex) {
 					this.$emit('changeIndex', idx)
@@ -90,10 +89,26 @@
 			},
       doScreen() {
 	      return this.screenWidth>1687? 11:(this.screenWidth>1409? 9:7)
-      }
+      },
+      left() {
+	      this.index -= 1
+	      if(this.index < (this.images.length - this.showCount)) {
+		      const arrowRight = this.$refs.arrowRight
+		      arrowRight && Velocity(arrowRight,{opacity: 1},{duration:200})
+	      }
+	      websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:13,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+      },
+			right() {
+				this.index += 1
+        if(this.index > 0) {
+	        const arrowLeft = this.$refs.arrowLeft
+	        arrowLeft && Velocity(arrowLeft,{opacity: 1},{duration:200})
+        }
+				websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:12,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+			}
 		},
 		components: {
-			icon,
+
 		}
 	}
 </script>

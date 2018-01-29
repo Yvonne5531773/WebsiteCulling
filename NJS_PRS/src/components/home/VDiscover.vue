@@ -39,7 +39,6 @@
 	import { mapState } from 'vuex'
 	import Velocity from 'velocity-animate/velocity.min'
 	import { websiteApi } from 'api'
-	import { mockData } from '../../mock/data'
 
 	export default {
 		data() {
