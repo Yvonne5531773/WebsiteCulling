@@ -18,7 +18,6 @@
 
 <script>
 export default {
-	name: 'vue-waterfall-easy',
 	props: {
 		gap: {
 			type: Number,
@@ -53,6 +52,7 @@ export default {
 			imgsArrC: [],
 			loadedCount: 0,
 			isFirstTIme: true,
+      failIndex: [],
 		}
 	},
 	computed: {
@@ -118,13 +118,22 @@ export default {
 			this.beginIndex = this.imgsArr.length
 		},
 		loadFn(e, oImg, i) {
-			if(oImg) {
+			if(!oImg) {
+				this.imgsArr.splice(i, 1)
+//				this.failIndex.push(i)
+			}else {
 				this.loadedCount++
-				if (e === 'load') {
+				if (e === 'load' && this.imgsArr[i]) {
 					this.$set(this.imgsArr[i], 'height', Math.round(this.imgWidthC / (oImg.width / oImg.height)))
 				}
+				console.log('loadFn this.imgsArr', this.imgsArr)
+				console.log('loadFn this.loadedCount', this.loadedCount)
 				if (this.loadedCount === this.imgsArr.length) {
-					this.imgsArrC = this.imgsArr.concat([])
+					this.imgsArrC = _.cloneDeep(this.imgsArr)
+//					this.imgsArrC = this.imgsArrC.filter((img, i) => {
+//						!~this.failIndex.indexOf(i)
+//					})
+					console.log('loadFn this.imgsArrC', this.imgsArrC)
 					this.isPreloading = false
 					this.isFirstTIme = false
 					this.$nextTick(() => {
@@ -132,23 +141,22 @@ export default {
 						this.$emit('preloaded')
 					})
 				}
-			}else { //to do list
-				this.imgsArr.splice(i, 1)
 			}
 		},
 		preload() {
+			console.log('preload this.imgsArr', this.imgsArr)
 			this.imgsArr.forEach((v, i) => {
 				if (i < this.loadedCount) return
 				this.loadImage(v.image, i, this.loadFn)
 			})
 		},
 		loadImage(src, i, callback) {
-			var img = new Image();
+			let img = new Image();
 			img.onload = function () {
 				typeof callback === 'function' && callback('load', img, i);
 			}
 			img.onerror = function () {
-				typeof callback === 'function' && callback(new Error('load image error!'));
+				typeof callback === 'function' && callback(new Error('load image error!'), null, i);
 			}
 			img.src = src;
 		},

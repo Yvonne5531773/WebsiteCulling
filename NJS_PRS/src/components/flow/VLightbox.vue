@@ -125,7 +125,7 @@
 	    constructImages() {
 	    	const start = this.IMAGE_LOAD_COUNT* this.LOAD_INDEX++,
 		      end = this.IMAGE_LOAD_COUNT* this.LOAD_INDEX++,
-          res = this.images&&this.images.length>0? this.images.slice(start, end):[]
+          res = this.images&&this.images.length>0? _.unionBy(this.images, 'href').slice(start, end):[]
 //		    res.forEach(r => {
 //		    	r.lazy = {
 //				    src: r.image,
