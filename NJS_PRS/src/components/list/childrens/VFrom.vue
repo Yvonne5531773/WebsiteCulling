@@ -12,11 +12,11 @@
 					<p class="title">
 						<a target="_blank" class="name" :href="data.host" :title="data.title" @click="open(data)">{{data.title | clip(24)}}</a>
 						<a target="_blank" class="description" :href="data.host" :title="data.description" @click="open(data)">{{data.description | clip(60)}}</a>
+						<span class="r-t" @click="like(data)">
+							<a class="like" title="喜欢" :style="data.liked&&`backgroundPosition:-30px`"></a>
+							<span>{{txt}}</span>
+						</span>
 					</p>
-					<span class="r-t">
-						<a @click="like(data)" class="like" title="喜欢" :style="data.liked&&`backgroundPosition:-30px`"></a>
-						<span>{{data.hot}}</span>
-					</span>
 				</div>
 			</section>
 		</div>
@@ -37,6 +37,7 @@ export default {
 			vm: [],
 			path: '/v1/ai_recommend',
 			title: '来源网站',
+			txt: '收藏',
 			index: 0
 		}
 	},
@@ -140,7 +141,6 @@ export default {
 		position relative
 		.head
 			color #6346de
-			padding-bottom 8px
 			border-bottom 1px solid #cdcdde
 			h2
 				font-size 14px
@@ -150,8 +150,7 @@ export default {
 			position relative
 			top 20px
 			.r-data
-				height 78px
-				margin-bottom 18px
+				height 70px
 				font-size 14px
 				.avatar
 					float left
@@ -172,23 +171,26 @@ export default {
 						color #333333
 					.description
 						font-size 12px
-						height 38px
+						height 20px
 						display block
 						color #5b5b5b !important
 			.r-t
-				float right
 				font-size 12px
-				color #949494
-				position relative
-				bottom 3px
+				color #6346de
+				position absolute
+				top 0
+				right 0
 				display flex
+				cursor pointer
+				&:hover
+					.like
+						background-position -15px
+				&:active
+					.like
+						background-position -30px
 				.like
 					background url("../../../../static/img/relation/like.png") no-repeat
 					margin 2px 5px
 					width 15px
 					height 15px
-					&:hover
-						background-position -15px
-					&:active
-						background-position -30px
 </style>

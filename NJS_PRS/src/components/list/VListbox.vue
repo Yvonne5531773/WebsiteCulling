@@ -5,7 +5,7 @@
       <VBanner :category="category" @back="back" @collect="collect"></VBanner>
       <div class="list">
         <section class="list-l">
-          <VRecyclist :list="list" :size="size" :loadmore="loadmore" :scrollElement="$refs.content">
+          <VRecyclist :list="listArr" :size="size" :loadmore="loadmore" :scrollElement="$refs.content" :offset="offest">
             <!--<template slot="tombstone" scope="props">-->
               <!--<div class="item tombstone">-->
                 <!--<div class="avatar"></div>-->
@@ -22,7 +22,7 @@
             <template slot="item" scope="props">
               <div class="item">
                 <div>
-                  <img class="avatar" :src="props.data.image" />
+                  <div class="avatar" :style="{backgroundImage: 'url(' + (props.data.image || '') + ')'}"></div>
                 </div>
                 <div class="bubble">
                   <p>{{ props.data.title }}</p>
@@ -30,7 +30,7 @@
                     <span class="summary">{{ props.data.summary }}</span>
                   </div>
                 </div>
-                <div class="b-line" v-if=""></div>
+                <div class="b-line" v-if="props.index!==props.lastIndex"></div>
               </div>
             </template>
           </VRecyclist>
@@ -61,8 +61,9 @@
 			  categoryname: this.$route.query.name||'',
 			  category: {},
 			  catePath: '/v1/category/',
-        list: [],
-			  size: 5,
+			  listArr: [],
+			  size: 20,
+			  offest: 600,
 			  loadIndex: 0,
 			  DATA_SERVICE_HOST: 'http://act.cmcmcdn.com/liebao/website/',
 			  showAlert: false,
@@ -70,13 +71,20 @@
 		  }
 	  },
 	  mixins: [service],
+	  computed: {
+		  list() {
+//			  mockList.forEach(data => {
+//			  	data.lazy = {
+//					  src: data.image,
+//          }
+//			  })
+			  console.log('compute list mockList', mockList)
+			  return mockList
+		  },
+    },
 	  async mounted () {
-	  	console.log('$refs.content', this.$refs.content)
 		  await this.init()
 	  },
-    created() {
-	  	this.list = this.constructList()
-    },
     methods: {
 	    ...mapMutations(['SET_LIKED']),
 	    async init () {
@@ -104,15 +112,14 @@
 	    loadmore() {
 		    setTimeout(() => {
 			    const fecth = this.constructList()
-			    this.list = [...this.list, ...fetch]
-			    console.log('loadmore this.list', this.list)
-		    }, 2000)
+			    this.listArr = this.listArr.concat(fecth)
+			    console.log('in loadmore this.listArr', this.listArr)
+		    }, 1000)
 	    },
 	    constructList() {
 		    const start = this.size* this.loadIndex++,
 			    end = this.size* this.loadIndex,
-          list = mockList,
-			    res = list&&list.length>0? list.slice(start, end):[]
+			    res = this.list&&this.list.length>0? this.list.slice(start, end):[]
 		    return res
 	    },
 	    likeSite (event) {
@@ -193,7 +200,7 @@
             background #fff
             box-sizing border-box
             display: flex;
-            img
+            .avatar
               width 188px
               height 124px
               background-size cover

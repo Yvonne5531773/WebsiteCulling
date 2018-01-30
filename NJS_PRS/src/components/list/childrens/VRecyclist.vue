@@ -1,12 +1,12 @@
 <template>
   <div class="vue-recyclist">
-    <div ref="list" class="vue-recyclist-items">
+    <div ref="list" class="vue-recyclist-items" :style="{height: height + 'px'}">
       <div v-for="(item, index) in visibleItems" class="vue-recyclist-item" :style="{transform: 'translate3d(0,' + item.top + 'px,0)'}">
         <div v-show="tombstone" :class="{'vue-recyclist-transition': tombstone}" :style="{opacity: +!item.loaded}">
           <slot name="tombstone"></slot>
         </div>
         <div :class="{'vue-recyclist-transition': tombstone}" :style="{opacity: +item.loaded}">
-          <slot name="item" :data="item.data" :index="index"></slot>
+          <slot name="item" :data="item.data" :index="index" :lastIndex="visibleItems.length-1"></slot>
         </div>
       </div>
       <div class="vue-recyclist-pool">
@@ -45,7 +45,6 @@
         loadings: [], // Loading status queue
         start: 0, // Visible items start index
         startOffset: 0, // Start item offset
-//        scrollElement: {},
       }
     },
     computed: {
@@ -78,7 +77,7 @@
       },
       offset: {
         type: Number,
-        default: 200 // The number of pixels of additional length to allow scrolling to.
+        default: 200 // 滚动距离底部还有多少时开始加载数据
       },
       loadmore: {
         type: Function,
@@ -90,7 +89,7 @@
       },
       nomore: {
         type: Boolean,
-        default: false // Whether to show 'no more data' status bar
+        default: false
       },
 	    scrollElement: {
 
