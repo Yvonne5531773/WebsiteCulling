@@ -3,8 +3,8 @@
   :style="isMobile? '':{width:colWidth*columnCount+'px',left:'50%',top:'95px',marginLeft: -1*colWidth*columnCount/2 +'px'}"
 )
   div.img-box(
-    v-for="(v,i) in imgsArrC",
-    @click="setActive(i)",
+    v-for="(v, i) in imgsArrC",
+    @click="setActive(v)",
     :style="{padding:'10px',width: isMobile ? '' : colWidth+'px'}"
   )
     .img-inner-box
@@ -52,7 +52,7 @@ export default {
 			imgsArrC: [],
 			loadedCount: 0,
 			isFirstTIme: true,
-      failIndex: [],
+      failImgs: [],
 		}
 	},
 	computed: {
@@ -68,7 +68,8 @@ export default {
 		this.beginIndex = this.columnCount
 		this.preload()
 		this.$on('preloaded', () => {
-			if (this.colsHeightArr.length === 0) this.initColsHeightArr() // 第一次初始化
+			if (this.colsHeightArr.length === 0)
+				this.initColsHeightArr() // 第一次初始化
 			this.waterfall()
 		})
 		window.addEventListener('resize', () => {
@@ -106,7 +107,7 @@ export default {
 	},
 	methods: {
 		waterfall() {
-			for (let i = this.beginIndex; i < this.imgsArr.length; i++) {
+			for (let i = this.beginIndex; i < this.imgsArrC.length; i++) {
 				let minHeight = Math.min.apply(null, this.colsHeightArr)
 				let minIndex = this.colsHeightArr.indexOf(minHeight)
 				let width = this.imgBoxEls[0].offsetWidth
@@ -115,36 +116,31 @@ export default {
 				this.imgBoxEls[i].style.top = minHeight + 'px'
 				this.$set(this.colsHeightArr, minIndex, minHeight + this.imgBoxEls[i].offsetHeight)
 			}
-			this.beginIndex = this.imgsArr.length
+			this.beginIndex = this.imgsArrC.length
 		},
 		loadFn(e, oImg, i) {
-			if(!oImg) {
-				this.imgsArr.splice(i, 1)
-//				this.failIndex.push(i)
+			if(e !== 'load') {
+				this.failImgs.push(oImg)
 			}else {
 				this.loadedCount++
 				if (e === 'load' && this.imgsArr[i]) {
 					this.$set(this.imgsArr[i], 'height', Math.round(this.imgWidthC / (oImg.width / oImg.height)))
 				}
-				console.log('loadFn this.imgsArr', this.imgsArr)
-				console.log('loadFn this.loadedCount', this.loadedCount)
-				if (this.loadedCount === this.imgsArr.length) {
-					this.imgsArrC = _.cloneDeep(this.imgsArr)
-//					this.imgsArrC = this.imgsArrC.filter((img, i) => {
-//						!~this.failIndex.indexOf(i)
-//					})
-					console.log('loadFn this.imgsArrC', this.imgsArrC)
-					this.isPreloading = false
-					this.isFirstTIme = false
-					this.$nextTick(() => {
-						this.initImgBoxEls()
-						this.$emit('preloaded')
-					})
-				}
+			}
+			if (this.loadedCount === this.imgsArr.length-this.failImgs.length) {
+				this.imgsArrC = _.cloneDeep(this.imgsArr)
+				this.imgsArrC = this.imgsArrC.filter((img) => {
+					return img && img.height
+				})
+				this.isPreloading = false
+				this.isFirstTIme = false
+				this.$nextTick(() => {
+					this.initImgBoxEls()
+					this.$emit('preloaded')
+				})
 			}
 		},
 		preload() {
-			console.log('preload this.imgsArr', this.imgsArr)
 			this.imgsArr.forEach((v, i) => {
 				if (i < this.loadedCount) return
 				this.loadImage(v.image, i, this.loadFn)
@@ -156,7 +152,7 @@ export default {
 				typeof callback === 'function' && callback('load', img, i);
 			}
 			img.onerror = function () {
-				typeof callback === 'function' && callback(new Error('load image error!'), null, i);
+				typeof callback === 'function' && callback(new Error('load image error!'), img, i);
 			}
 			img.src = src;
 		},
@@ -179,7 +175,8 @@ export default {
 				? 2
 				: (columnCount > this.maxCols ? this.maxCols : columnCount)
 		},
-		setActive (idx) {
+		setActive (img) {
+			const idx = this.imgsArr.map(img => img.image).indexOf(img.image)
 			this.$emit('changeIndex', idx)
 		}
 	},

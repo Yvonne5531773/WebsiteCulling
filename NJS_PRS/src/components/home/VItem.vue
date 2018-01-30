@@ -69,10 +69,14 @@
 				}
 			},
 			distribute() {
-				if(this.category.id===65)
-					this.$router.push({path: 'flow', query: {categoryid: this.category.id, name: this.category.name}})
-				else
-					this.$router.push({path: 'favorite', query: {categoryid: this.category.id}})
+				const query = {categoryid: this.category.id, name: this.category.name}
+				if(this.category.id===65){
+					this.$router.push({path:'flow', query: query})
+				} else if (this.category.id===43) {
+					this.$router.push({path:'list', query: query})
+				} else {
+					this.$router.push({path:'favorite', query: {categoryid: this.category.id}})
+				}
 			}
 		},
 	}

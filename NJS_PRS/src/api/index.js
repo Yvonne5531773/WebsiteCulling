@@ -109,16 +109,20 @@ export const websiteApi = {
 
 	//跨域获取数据
 	submitHTTPRequest(criteria) {
+		if(si) {
+			clearInterval(si)
+			globalRes.globalResponse = ''
+		}
 		const randomStr = () => {
 			return String(new Date().getTime() % 600000 + Math.random());
 		}
 		let arr = [...criteria],
-			context = randomStr()
+			context = randomStr(),
+			si = null
 		if(!global.notifyHttpResponse) {
 			global.notifyHttpResponse = (response, context) => {
 				try {
 					globalRes.globalResponse = JSON.parse(response)
-					console.log('notifyHttpResponse globalRes.globalResponse', globalRes.globalResponse)
 				} catch (e) {
 					console.log('notifyHttpResponse error: ', e)
 				}
@@ -128,9 +132,8 @@ export const websiteApi = {
 		chrome.send && chrome.send('submitHttpRequest', arr)
 		return new Promise(function (resolve) {
 			let count = 0
-			const si = setInterval(() => {
+			si = setInterval(() => {
 				if((globalRes.globalResponse && globalRes.globalResponse.return_data) || count===100) {
-					console.log('new Promise globalRes.globalResponse', globalRes.globalResponse)
 					resolve(globalRes.globalResponse)
 					clearInterval(si)
 					globalRes.globalResponse = ''

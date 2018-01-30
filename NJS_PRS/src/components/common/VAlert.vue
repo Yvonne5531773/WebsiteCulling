@@ -1,5 +1,5 @@
 <template>
-	<transition name="fade">
+	<transition name="a-fade">
 		<div style="z-index: 999">
 			<div class="alert-frame">
 				<div class="a-c">
@@ -27,18 +27,10 @@
 </script>
 
 <style lang="stylus">
-	.fade-enter-active, .fade-leave-active
+	.a-fade-enter-active, .a-fade-leave-active
 		transition all .3s ease-in
-	.fade-enter, .fade-leave-to
+	.a-fade-enter, .a-fade-leave-to
 		opacity 0
-
-	.bkg
-		position fixed
-		top 0
-		bottom 0
-		left 0
-		right 0
-		z-index 220
 	.alert-frame
 		top 0
 		bottom 60px
@@ -63,7 +55,6 @@
 			text-align: center;
 			width 122px
 			img
-				/*padding 16px 24px 0 16px*/
 				float left
 			.txt
 				float right

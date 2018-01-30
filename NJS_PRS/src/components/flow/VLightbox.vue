@@ -2,21 +2,8 @@
   <div class="v-images">
     <div ref="content" class="content">
       <VHeader ref="header" :favoritePage="true"></VHeader>
-      <div class="c-t">
-        <img class="banner" src="../../../static/img/flow/banner.png"/>
-        <div class="title">
-          <a class="back" @click="back">
-            {{backTxt}}
-          </a>
-          <span class="name">{{category.name}}</span>
-          <div class="add" :style="category.collected&&`backgroundPosition:-540px`" @click="collect" v-if="categoryid!==`0099`">
-            <img src="../../../static/img/favorite/start.png" />
-            <span v-if="category.collected">{{collectTxt}}</span>
-            <span v-else>{{noCollectTxt}}</span>
-          </div>
-        </div>
-      </div>
-      <VWaterfall :imgsArr='imgsArr' :imgWidth="imgWidth" @scrollLoadImg="fetchImgsData" @changeIndex="changeImg($event)"></VWaterfall>
+      <VBanner :category="category" @back="back" @collect="collect"></VBanner>
+      <VWaterfall v-if="imgsArr&&imgsArr.length>0" :imgsArr='imgsArr' :imgWidth="imgWidth" @scrollLoadImg="fetchImgsData" @changeIndex="changeImg($event)"></VWaterfall>
       <transition :duration="300" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
         <div ref="lightbox" class="lightbox" v-if="isShow" @click="isShow=!modalclose">
           <VFancybox ref="fancybox" :images="articles" :index="articlesIndex" :reset="!isShow" :category="category" @close="closeImg" @addIndex="nextImg" @decIndex="prevImg" @addLike="likeSite($event)" :showclosebutton="showclosebutton" :showcaption="showcaption" :imagecountseparator="imagecountseparator" :showimagecount="showimagecount"></VFancybox>
@@ -29,8 +16,9 @@
 </template>
 
 <script>
-	import VWaterfall from 'components/flow/childrens/VWaterfall'
 	import VHeader from 'components/common/VHeader'
+	import VBanner from 'components/common/VBanner'
+	import VWaterfall from 'components/flow/childrens/VWaterfall'
   import VFancybox from 'components/flow/childrens/VFancybox'
   import VPaginator from 'components/flow/childrens/VPaginator'
 	import VAlert from 'components/common/VAlert'
@@ -38,19 +26,16 @@
 	import { service } from 'components/common/mixin'
 	import { getHost, md5, getOperationFullTime } from '../../config/utils'
 	import { mapMutations } from 'vuex'
-	import { mockImages } from '../../mock/images1'
+	import { mockImages } from '../../mock/images'
 
   export default {
 	  data () {
 		  return {
-			  categoryid: this.$route.query.categoryid,
-			  categoryname: this.$route.query.name,
+			  categoryid: this.$route.query.categoryid||'',
+			  categoryname: this.$route.query.name||'',
 			  category: {},
-			  noCollectTxt: '加入收藏',
-			  collectTxt: '取消收藏',
 			  likeTxt: '收藏',
 			  likedTxt: '已收藏',
-        backTxt: '返回',
 			  catePath: '/v1/category/',
 			  images: [],
 			  imgsArr: [],
@@ -83,18 +68,19 @@
         window.addEventListener('keydown', this.keyFun)
         window.addEventListener('mousewheel', this.wheelFun)
       }
-//	    this.images = mockImages
-      const path = this.DATA_SERVICE_HOST + 'index/' + this.categoryid + '.json'
-      this.images = await this.getJSON(path)
+	    this.images = mockImages
+//      const path = this.DATA_SERVICE_HOST + 'index/' + this.categoryid + '.json'
+//      this.images = await this.getJSON(path)
+
+	    this.images = _.unionBy(this.images, 'image')
 	    this.imgsArr = this.constructImages()
-	    console.log('created this.images', this.images)
 	    this.fetchImgsArr = this.constructImages()
     },
 	  async mounted () {
 		  await this.init()
-		  this.$nextTick(()=>{
-			  this.category = _.cloneDeep(this.category)
-		  })
+//		  this.$nextTick(()=>{
+//			  this.category = _.cloneDeep(this.category)
+//		  })
 	  },
 	  watch: {
 		  async isShow () {
@@ -122,33 +108,19 @@
 	  },
     methods: {
 	    ...mapMutations(['SET_LIKED']),
-	    constructImages() {
-	    	const start = this.IMAGE_LOAD_COUNT* this.LOAD_INDEX++,
-		      end = this.IMAGE_LOAD_COUNT* this.LOAD_INDEX++,
-          res = this.images&&this.images.length>0? _.unionBy(this.images, 'href').slice(start, end):[]
-//		    res.forEach(r => {
-//		    	r.lazy = {
-//				    src: r.image,
-//				    error: '',
-//				    loading: ''
-//			    }
-//        })
-		    return res
-      },
 	    async init () {
-		    this.category = {
-		    	id: this.categoryid,
-		    	name: this.categoryname
-        }
-		    await this.construct()
-		    this.category = _.cloneDeep(this.category)
+		    this.category = await this.construct()
 		    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:1,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
 	    },
 	    async construct () {
+		    const category = {
+			    id: this.categoryid,
+			    name: this.categoryname
+		    }
 		    const localCategories = await this.getForm(),
 			    localSites = await this.getSite(),
 			    cat = _.find(localCategories, {'id': this.categoryid+''})
-		    this.category.collected = !_.isEmpty(cat)? cat.collected:false
+		    category.collected = !_.isEmpty(cat)? cat.collected:false
         this.images.forEach((item) => {
 		    	if(item) {
 				    const result = _.find(localSites, {'url': item.href})
@@ -156,6 +128,7 @@
 				    item.id = !_.isEmpty(result)? result.id:(new Date()).valueOf()+Math.floor(Math.random()*1000 + 1)+''
           }
         })
+        return category
 	    },
 	    likeSite (event) {
 	    	if(!event) return
@@ -209,6 +182,19 @@
 	    changeArticle(event) {
 		    this.articlesIndex = event
 	    },
+	    constructImages() {
+		    const start = this.IMAGE_LOAD_COUNT* this.LOAD_INDEX++,
+			    end = this.IMAGE_LOAD_COUNT* this.LOAD_INDEX,
+			    res = this.images&&this.images.length>0? this.images.slice(start, end):[]
+//		    res.forEach(r => {
+//		    	r.lazy = {
+//				    src: r.image,
+//				    error: '',
+//				    loading: ''
+//			    }
+//        })
+		    return res
+	    },
       constructArticles(img) {
 	    	if(_.isEmpty(img.articles)) return []
 	      let retArr = []
@@ -233,16 +219,11 @@
 	      }
 	      return retArr
       },
-      async getJSON(path) {
-        let data = {}
-        try {
-	        const res = await this.submitHTTPRequest([path, '', ''])
-	        data = res && !_.isEmpty(res.return_data)? JSON.parse(res.return_data) : {}
-        } catch (e) {
-	    		console.log('error:', e)
-        }
-        return data
-      },
+	    back() {
+		    const header = this.$refs.header
+		    header && header.change && header.change('VDiscover')
+		    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:6,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+	    },
 	    keyFun (event) {
 		    event.preventDefault()
 		    if (this.keyinput) {
@@ -317,14 +298,10 @@
 			    }
 		    }
 	    },
-	    back() {
-	    	const header = this.$refs.header
-		    header && header.change && header.change('VDiscover')
-		    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:6,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
-      }
     },
     components: {
 	    VHeader,
+	    VBanner,
 	    VWaterfall,
 	    VFancybox,
 	    VPaginator,
@@ -350,10 +327,8 @@
     bottom 0
     position absolute
     .content
-      /*overflow auto*/
       overflow-x hidden
       position fixed
-      /*position sticky*/
       width 100%
       height 100%
       .c-t

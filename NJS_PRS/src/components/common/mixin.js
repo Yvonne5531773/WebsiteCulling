@@ -62,6 +62,17 @@ export const service = {
 			return await websiteApi.submitHTTPRequest(criteria)
 		},
 
+		async getJSON(path) {
+			let data = {}
+			try {
+				const res = await this.submitHTTPRequest([path, '', ''])
+				data = res && !_.isEmpty(res.return_data)? JSON.parse(res.return_data) : {}
+			} catch (e) {
+				console.log('error:', e)
+			}
+			return data
+		},
+
 		saveForm (item) {
 			let data = {}
 			if(item){

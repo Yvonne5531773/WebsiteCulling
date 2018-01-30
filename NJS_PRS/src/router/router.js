@@ -4,6 +4,7 @@ const guide = r => require.ensure([], () => r(require('../components/guide/VGuid
 const home = r => require.ensure([], () => r(require('../components/home/VHome')), 'home')
 const favorite = r => require.ensure([], () => r(require('../components/favorite/VFavorite')), 'favorite')
 const flow = r => require.ensure([], () => r(require('../components/flow/VLightbox')), 'flow')
+const list = r => require.ensure([], () => r(require('../components/list/VListbox')), 'list')
 
 export default [{
 	path: '/',
@@ -29,6 +30,10 @@ export default [{
 		{
 			path: '/flow',
 			component: flow,
+		},
+		{
+			path: '/list',
+			component: list,
 		}
 	]
 }]
