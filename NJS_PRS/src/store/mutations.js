@@ -3,6 +3,7 @@ import {
 	SET_COMPONENT,
 	SET_LIKED,
 	SAVE_POSITION,
+	SET_FULL_SCREEN,
 } from './mutation-types.js'
 
 
@@ -21,5 +22,11 @@ export default {
 
 	[SAVE_POSITION](state, position) {
 		state.position = position;
+	},
+
+	[SET_FULL_SCREEN](state, {
+		isFullScreen,
+	}) {
+		state.isFullScreen = isFullScreen;
 	},
 }

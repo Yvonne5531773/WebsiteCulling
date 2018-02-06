@@ -1,8 +1,11 @@
 'use strict'
 
-// const host = 'http://10.20.216.64:8081';
-let host = 'http://lburlshare.liebao.cn';
-const routerMode = 'hash';
+// const host = 'http://10.20.216.64:8081'; //test
+let host = 'http://lburlshare.liebao.cn'; //prod
+const routerMode = 'hash',
+	dataServicePath = 'http://act.cmcmcdn.com/liebao/website/',
+	styleConfigPath = dataServicePath + 'config/style.json',
+	categoryPath = '/v1/category/'
 
 if (process.env.NODE_ENV === 'development') {
 
@@ -12,5 +15,8 @@ if (process.env.NODE_ENV === 'development') {
 
 export {
 	host,
-	routerMode
+	routerMode,
+	dataServicePath,
+	styleConfigPath,
+	categoryPath
 }

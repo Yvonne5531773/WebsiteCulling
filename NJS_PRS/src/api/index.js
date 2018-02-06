@@ -133,17 +133,13 @@ export const websiteApi = {
 		return new Promise(function (resolve) {
 			let count = 0
 			si = setInterval(() => {
-				if((globalRes.globalResponse && globalRes.globalResponse.return_data) || count===100) {
+				if((globalRes.globalResponse && globalRes.globalResponse.return_data) || count===60) {
 					resolve(globalRes.globalResponse)
 					clearInterval(si)
 					globalRes.globalResponse = ''
 				}
 				count++
 			}, 100)
-			// setTimeout(() => {
-			// 	console.log('submitHTTPRequest Promise globalRes.globalResponse', globalRes.globalResponse)
-			// 	resolve(globalRes.globalResponse)
-			// }, 200)
 		})
 	},
 
@@ -156,7 +152,7 @@ export const websiteApi = {
 				reportData = {
 					name: name
 				};
-			data.ver = 3
+			data.ver = 4
 			for (i in data) {
 				if (data.hasOwnProperty(i)) {
 					arr.push(i + '=' + encodeURIComponent(data[i]));

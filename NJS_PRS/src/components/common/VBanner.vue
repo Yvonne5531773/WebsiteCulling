@@ -1,6 +1,6 @@
 <template>
 	<div class="v-banner">
-		<img class="banner-i" src="../../../static/img/flow/banner-65.png"/>
+		<img class="banner-i" :src="category.banner"/>
 		<div class="title">
 			<a class="back" @click="$emit('back')">
 				{{backTxt}}
@@ -35,7 +35,6 @@
 <style lang="stylus">
 	.v-banner
 		position relative
-		top 85px
 		background-color black
 		.banner-i
 			position absolute

@@ -1,10 +1,12 @@
-import { host } from '../../config/config'
+import { host, categoryPath } from '../../config/config'
 import { worker } from '../../config/worker'
 import { websiteApi } from 'api'
 import { getOperationFullTime, clipstring } from '../../config/utils'
+import { mapMutations } from 'vuex'
 
 export const service = {
 	methods: {
+		...mapMutations(['SET_LIKED', 'SET_FULL_SCREEN']),
 		jsonp (path = '', type = 'get', data = {}) {
 			let url = ''
 			if(!~path.indexOf('http'))
@@ -100,14 +102,37 @@ export const service = {
 				data.icon = site.icon || ''
 				data.liked = site.liked || false
 				// data.views = site.views
+				site.liked && this.SET_LIKED({liked: true})
 			}
 			websiteApi.setURLSelectedInfo(JSON.stringify(data))
+		},
+
+		async constructCategory () {
+			let res = {},
+				category
+			try {
+				res = await this.jsonp(categoryPath + this.categoryid)
+			}catch (e) {
+				console.log('error:', e)
+			}
+			category = res? res[0] : {}
+			const localCategories = await this.getForm(),
+				cat = _.find(localCategories, {'id': category.id+''})
+			category.collected = !_.isEmpty(cat)? cat.collected:false
+			category.banner = this.addHttp(category.banner)
+			category.by = 'by ' + category.by
+			return category
 		},
 
 		addHttp(url) {
 			if(url){
 				return !~url.indexOf('http')? 'http:'+url : url
 			}
+		},
+
+		setFullScreen(isFullScreen) {
+			console.log('in setFullScreen isFullScreen', isFullScreen)
+			this.SET_FULL_SCREEN({isFullScreen: isFullScreen})
 		}
 	},
 	filters: {

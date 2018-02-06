@@ -1,11 +1,19 @@
 <template>
   <div class="v-list">
+    <VHeader ref="header" :favoritePage="true"></VHeader>
     <div ref="content" class="content">
-      <VHeader ref="header" :favoritePage="true"></VHeader>
       <VBanner :category="category" @back="back" @collect="collect"></VBanner>
       <div class="list">
         <section class="list-l">
-          <VRecyclist :list="listArr" :size="size" :loadmore="loadmore" :scrollElement="$refs.content" :offset="offest">
+          <h2 class="head">{{txt}}</h2>
+          <div class="refreshing" v-if="refreshing">
+            <div class="cssloading-circle spinner"></div>
+            <h2>{{refreshTxt}}</h2>
+          </div>
+          <!--<div class="fix" v-if="isFixed">-->
+            <!--<h2 class="head">{{txt}}</h2>-->
+          <!--</div>-->
+          <VRecyclist :list="listArr" :size="size" :loadmore="loadmore" :scrollElement="$refs.content" :offset="offest" :loadTxt="loadTxt" :nomore="nomore" @response="response($event)">
             <!--<template slot="tombstone" scope="props">-->
               <!--<div class="item tombstone">-->
                 <!--<div class="avatar"></div>-->
@@ -21,21 +29,23 @@
             <!--</template>-->
             <template slot="item" scope="props">
               <div class="item">
-                <div>
+                <a @click="open(1, props.data)">
                   <div class="avatar" :style="{backgroundImage: 'url(' + (props.data.image || '') + ')'}"></div>
-                </div>
+                </a>
                 <div class="bubble">
-                  <p>{{ props.data.title }}</p>
-                  <div class="meta">
-                    <span class="summary">{{ props.data.summary }}</span>
-                  </div>
+                  <p @click="open(2, props.data)">{{ props.data.title }}</p>
+                  <a class="meta" @click="open(3, props.data)">
+                    <span class="summary">{{ props.data.summary | clip(150) }}</span>
+                  </a>
                 </div>
                 <div class="b-line" v-if="props.index!==props.lastIndex"></div>
               </div>
             </template>
+            <div slot="nomore">{{noMoreTxt}}</div>
           </VRecyclist>
         </section>
-        <VFrom></VFrom>
+        <VFrom :isFixed="isFixed" :categoryid="categoryid" :sites="sites"></VFrom>
+        <VFunction :show="isFixed" :scrollEle="$refs.content" :categoryId="categoryid" :type="2"></VFunction>
       </div>
     </div>
     <VAlert v-show="showAlert"></VAlert>
@@ -48,11 +58,14 @@
 	import VRecyclist from 'components/list/childrens/VRecyclist'
 	import VFrom from 'components/list/childrens/VFrom'
 	import VAlert from 'components/common/VAlert'
+	import VFunction from 'components/common/VFunction'
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
 	import { getHost, md5, getOperationFullTime } from '../../config/utils'
 	import { mapMutations } from 'vuex'
-	import { mockList } from '../../mock/list'
+	import { dataServicePath } from '../../config/config'
+	import Velocity from 'velocity-animate/velocity.min'
+  import {mockList} from '../../mock/list'
 
   export default {
 	  data () {
@@ -60,84 +73,75 @@
 			  categoryid: this.$route.query.categoryid||'',
 			  categoryname: this.$route.query.name||'',
 			  category: {},
-			  catePath: '/v1/category/',
+        sites: [],
+        list: [],
 			  listArr: [],
-			  size: 20,
+			  size: 10,
 			  offest: 600,
 			  loadIndex: 0,
-			  DATA_SERVICE_HOST: 'http://act.cmcmcdn.com/liebao/website/',
 			  showAlert: false,
 			  collectAlertSTO: {},
+        txt: '精品资讯',
+        isFixed: false,
+        loadTxt: '加载中...',
+        refreshing: false,
+			  refreshTxt: '推荐中...',
+        noMoreTxt: '已全部加载完成',
+			  nomore: false
 		  }
 	  },
 	  mixins: [service],
-	  computed: {
-		  list() {
-//			  mockList.forEach(data => {
-//			  	data.lazy = {
-//					  src: data.image,
-//          }
-//			  })
-			  console.log('compute list mockList', mockList)
-			  return mockList
-		  },
-    },
 	  async mounted () {
 		  await this.init()
 	  },
     methods: {
-	    ...mapMutations(['SET_LIKED']),
 	    async init () {
-		    this.category = await this.construct()
-		    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:1,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+	    	this.list = await this.getList()
+		    this.category = await this.constructCategory()
+        this.sites = await this.constructSites()
+		    websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:1,name:this.categoryid+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 	    },
-	    async construct () {
-		    const category = {
-			    id: this.$route.query.categoryid,
-			    name: this.$route.query.name
-		    }
-		    const localCategories = await this.getForm(),
-			    localSites = await this.getSite(),
-			    cat = _.find(localCategories, {'id': category.id+''})
-		    this.category.collected = !_.isEmpty(cat)? cat.collected:false
-//        this.images.forEach((item) => {
-//		    	if(item) {
-//				    const result = _.find(localSites, {'url': item.href})
-//				    item.liked = !_.isEmpty(result)? result.liked:false
-//				    item.id = !_.isEmpty(result)? result.id:(new Date()).valueOf()+Math.floor(Math.random()*1000 + 1)+''
-//          }
-//        })
-        return category
-	    },
-	    loadmore() {
-		    setTimeout(() => {
-			    const fecth = this.constructList()
-			    this.listArr = this.listArr.concat(fecth)
-			    console.log('in loadmore this.listArr', this.listArr)
-		    }, 1000)
-	    },
+      async getList() {
+//	      const path = dataServicePath + 'index/' + this.categoryid + '.json',
+//		      list = await this.getJSON(path)
+//	      return _.unionBy(list, 'title')
+
+			  return _.unionBy(mockList, 'title')
+      },
+      async constructSites() {
+	      let sites = _.cloneDeep(this.category.sites)
+	      const localSites = await this.getSite()
+	      if(_.isEmpty(sites)) return
+	      for(let i = 0; i < sites.length; i++){
+		      let site = sites[i],
+			      si = _.find(localSites, {'id': site.id+''})
+		      site.liked = !_.isEmpty(si)? si.liked:false
+		      site.liked && (sites.splice(i, 1), sites.unshift(site))
+		      site.iconLazyObj = {
+		      	src: this.addHttp(site.icon),
+			      error: 'static/img/favorite/default-icon.png',
+			      loading: 'static/img/favorite/default-icon.png'
+          }
+	      }
+        return sites
+      },
 	    constructList() {
 		    const start = this.size* this.loadIndex++,
-			    end = this.size* this.loadIndex,
-			    res = this.list&&this.list.length>0? this.list.slice(start, end):[]
-		    return res
+			    end = this.size* this.loadIndex
+        return this.list&&this.list.length>0? this.list.slice(start, end):[]
 	    },
-	    likeSite (event) {
-	    	if(!event) return
-        const site = {
-	    		id: event.id,
-          liked: !event.liked,
-          url: event.url,
-          name: event.title,
-	        href_url: event.url,
-          icon: getHost(event.url) + '/favicon.ico'
-        }
-		    this.articles.forEach(a => a.liked = site.liked)
-		    this.imgsArr[this.index].liked = site.liked
-		    this.saveSite(_.cloneDeep(site))
-		    site.liked && this.SET_LIKED({liked: true})
-		    site.liked && websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:3,name:this.category.id+'', url:site.url,action_time:getOperationFullTime(new Date())})
+	    loadmore(flag) {
+		    setTimeout(() => {
+			    const fecth = this.constructList(),
+            length = this.listArr.length
+			    this.listArr = this.listArr.concat(fecth)
+			    length===this.listArr.length && (this.nomore=true)
+			    flag===1&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:9,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:this.listArr.length,number2:0})
+		    }, 200)
 	    },
+	    response(event) {
+	    	this.isFixed = event
+      },
 	    collect () {
 		    !this.category.collected && (this.showAlert = true,
 			    this.collectAlertSTO = setTimeout( () => {
@@ -146,24 +150,37 @@
 		    this.category.collected && this.collectAlertSTO && (this.showAlert = false, clearTimeout(this.collectAlertSTO))
 		    this.category.collected = !this.category.collected
 		    this.saveForm(this.category)
-		    this.category.collected && websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:4,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+		    this.category = _.cloneDeep(this.category)
+		    this.category.collected && websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:4,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 	    },
 	    back() {
 		    const header = this.$refs.header
 		    header && header.change && header.change('VDiscover')
-		    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:6,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+		    websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:6,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 	    },
+	    open(flag, data) {
+        window.open(data.href)
+		    websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:8,name:this.category.id+'',url:data.href,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+      },
+	    refresh() {
+		    this.refreshing = true
+	    	setTimeout(() => {
+			    this.refreshing = false
+        }, 1000)
+        this.backToTop()
+      }
     },
     components: {
 	    VHeader,
 	    VBanner,
 	    VRecyclist,
 	    VAlert,
-	    VFrom
+	    VFrom,
+	    VFunction
     }
 }
 </script>
-
+<style src="./cssloading.css"></style>
 <style lang="stylus" rel="stylesheet/stylus">
   .v-list
     zoom 1
@@ -180,21 +197,39 @@
     top 0
     bottom 0
     position absolute
+    overflow hidden
     .content
       overflow-x hidden
+      top 85px
+      bottom 0
+      margin 0
+      padding 0
       position fixed
       width 100%
-      height 100%
       .list
         display flex
         width 1100px
         margin auto
         zoom 1
         position relative
-        top 115px
+        top 30px
         .list-l
           width 820px
-          margin-right 30px
+          margin-right 33px
+          margin-bottom 55px
+          .head
+            font-size 14px
+            position relative
+            bottom 5px
+            color #6346de
+          .refreshing
+            text-align center
+            width 100%
+            .spinner
+              margin 10px auto
+              width 20px
+              height 20px
+              right 4px
           .item
             padding 21px 30px
             background #fff
@@ -221,19 +256,36 @@
               position relative
               padding 15px 0 0 20px
               font-size 14px
+              p
+                cursor pointer
+                &:hover
+                  color #6346de
               .meta
-                height 44px
                 overflow hidden
+                .summary
+                  color #5b5b5b
+                  &:hover
+                    color #6346de
   .lightbox
-    position: fixed
-    top: 0
-    left: 0
-    z-index: 9999
-    width: 100%
-    height: 100%
-    padding: 2px
-    background: rgba(0, 0, 0, 0.8)
-    box-sizing: border-box
-    font-size: 0
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+    position fixed
+    top 0
+    left 0
+    z-index 9999
+    width 100%
+    height 100%
+    padding 2px
+    background rgba(0, 0, 0, 0.8)
+    box-sizing border-box
+    font-size 0
+  .fix
+    position fixed
+    top 85px
+    z-index 9
+    height 46px
+    width 820px
+    background #edeff1
+    h2
+      position relative
+      top 20px
+      color #6346de
 </style>

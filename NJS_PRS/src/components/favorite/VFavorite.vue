@@ -64,7 +64,6 @@
 	import Velocity from 'velocity-animate/velocity.min'
 	import { likes } from '../../mock/likes'
 	import { service } from 'components/common/mixin'
-	import { mapMutations } from 'vuex'
 	export default {
 		data () {
 			return {
@@ -80,7 +79,6 @@
 				likedTxt: '已收藏',
 				alertTxt: '已添加到我喜欢的网单',
 				collectAlertSTO: {},
-				catePath: '/v1/category/'
 			}
 		},
 		mixins: [service],
@@ -92,22 +90,13 @@
 			})
 		},
 		methods: {
-			...mapMutations(['SET_LIKED']),
 			async init () {
 				if (this.categoryid === '0099') { //喜欢的网单
 					this.category = likes[0]
 					this.sites = await this.getSite()
 					this.sites = _.reverse(_.filter(this.sites, site => site.liked))
 				} else {
-					let res = {}
-					try {
-						res = await this.jsonp(this.catePath + this.categoryid)
-					}catch (e) {
-						console.log('error:', e)
-					}
-					if(_.isEmpty(res)) return
-					this.category = res[0]
-					this.by = 'by ' + this.category.by
+					this.category = await this.constructCategory()
 					await this.construct()
 				}
 				this.sites && this.sites.forEach( (site) => {
@@ -117,16 +106,11 @@
 						loading: 'static/img/favorite/default-icon.png'
 					}
 				})
-//				this.sites = _.orderBy(this.sites, ['views'], ['desc'])
 				this.category = _.cloneDeep(this.category)
-//				this.sites = _.cloneDeep(this.sites)
 				websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:1,name:this.category.name,url:''})
 			},
 			async construct () {
-				const localCategories = await this.getForm(),
-					localSites = await this.getSite(),
-					cat = _.find(localCategories, {'id': this.categoryid+''})
-				this.category.collected = !_.isEmpty(cat)? cat.collected:false
+				const localSites = await this.getSite()
 				this.sites = _.cloneDeep(this.category.sites)
 				if(_.isEmpty(this.sites)) return
 				for(let i = 0; i < this.sites.length; i++){
@@ -147,7 +131,6 @@
 					Velocity(alert, {opacity:0}, {duration:400, complete:()=>{alert.style.display='none',alert.style.opacity=0.95}})
 				}, 1000))
 				this.saveSite(_.cloneDeep(site), this.categoryid)
-				site.liked && this.SET_LIKED({liked: true})
 				this.category = _.cloneDeep(this.category)
 				site.liked && websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:3,name:this.category.name,url:site.url})
 			},
@@ -166,8 +149,8 @@
 			open (site, event) {
 				const url = site.href_url? site.href_url : this.addHttp(site.url),
 					className = event.target.className
-				site.views = site.views? site.views+1 : 1
-				this.saveSite(_.cloneDeep(site), this.categoryid)
+//				site.views = site.views? site.views+1 : 1
+//				this.saveSite(_.cloneDeep(site), this.categoryid)
 				typeof className==='string' && !~className.indexOf('text') && !~className.indexOf('like') && !~className.indexOf('heart') && (window.open(url), websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:2,name:this.category.name,url:site.url}))
 			},
 //			buildHeart (el) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="fancybox">
+  <div class="fancybox" :style="isFullScreen&&`width:100%;marginRight:0px`">
     <div class="image-wrapper">
       <!--<div class="i-l">-->
         <!--<div class="header">-->
@@ -20,14 +20,14 @@
         <!--</div>-->
       <!--</div>-->
     </div>
-    <div v-if="images[index]" class="bottom">
-      <a :href="images[index].url" target="_blank" class="b-t center-to-head" @click.stop="open(1)">{{images[index].title}}</a>
-      <a :href="images[index].host" target="_blank" class="center-to-head" @click.stop="open(2)" style="width:30%">{{images[index].from}}</a>
-      <a class="like" :style="images[index].liked&&`backgroundPosition:-160px`" @click.stop="like(images[index])">
-        <span v-if="images[index].liked">{{likedTxt}}</span>
-        <span v-else>{{nolikedTxt}}</span>
-      </a>
-    </div>
+    <!--<div v-if="images[index]" class="bottom">-->
+      <!--<a :href="images[index].url" target="_blank" class="b-t center-to-head" @click.stop="open(1)">{{images[index].title}}</a>-->
+      <!--<a :href="images[index].host" target="_blank" class="center-to-head" @click.stop="open(2)" style="width:30%">{{images[index].from}}</a>-->
+      <!--<a class="like" :style="images[index].liked&&`backgroundPosition:-160px`" @click.stop="like(images[index])">-->
+        <!--<span v-if="images[index].liked">{{likedTxt}}</span>-->
+        <!--<span v-else>{{nolikedTxt}}</span>-->
+      <!--</a>-->
+    <!--</div>-->
     <div v-if="index > 0" class="arrow left" @click.stop="decIndex"></div>
     <div v-if="images[index] && index < images[index].total-1" class="arrow right" @click.stop="addIndex"></div>
   </div>
@@ -45,12 +45,8 @@
         type: Boolean,
         default: false
       },
-      showclosebutton: Boolean,
-      showcaption: Boolean,
-      imagecountseparator: String,
-      showimagecount: Boolean,
-	    showFullScreen: Boolean,
-	    category: Object
+	    category: Object,
+	    isFullScreen: Boolean
     },
     data () {
       return {
@@ -100,36 +96,25 @@
 //		    this.animation = false
 //	    },
     },
-    watch: {
-//      index () {
-//        this.$nextTick(() => {
-//          if (!this.isPlay) {
-//            this.animation = false
-//          }
-//        })
-//      },
-    },
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
   .fancybox
-    position: relative
-    display: flex
-    height calc(100% - 70px)
+    position relative
+    display flex
+    width 75vw
+    height 100%
+    margin-right 20px
     align-items center
     .image-wrapper
       display flex
       position relative
       margin 0 auto
-      bottom 20px
-      /*width 71vw*/
-      /*height 78%*/
-      /*min-width 964px*/
       .image
         vertical-align middle
         object-fit contain
-        max-height calc(100vh - 150px)
+        max-height calc(100vh - 30px)
         min-height 200px
         max-width 69vw
         /*@media screen and (max-width 1366px)
@@ -212,77 +197,26 @@
       display inline-block
       position absolute
       cursor pointer
-      @media screen and (min-width:849px)
+      @media screen and (min-width 849px)
         height 50px
-        width 50px
+        width 32px
         top calc(50% - 48px)
-      @media screen and (max-width:849px)
+      @media screen and (max-width 849px)
         height 50px
-        width 50px
+        width 32px
         top calc(50% - 45px)
       &.left
         background url("../../../../static/img/flow/arrow-left.png") no-repeat
-        left 25px
+        left 0
         &:hover
-          background-position -50px
+          background-position -32px
         &:active
-          background-position -100px
+          background-position -64px
       &.right
         background url("../../../../static/img/flow/arrow-right.png") no-repeat
-        right 25px
-        &:hover
-          background-position -50px
-        &:active
-          background-position -100px
-    .bottom
-      position absolute
-      bottom 0
-      height 40px
-      width 780px
-      min-width 500px
-      left 0
-      right 0
-      margin auto
-      text-align center
-      a
-        font-size 14px
-        color #fff
-        &:link, &:visited, &:focus
-          text-decoration none
-          color #fff
-      .center-to-head
-        position absolute
-      .center-to-head::after
-        content ''
-        display block
-        width 100%
-        height 2px
-        position absolute
-        bottom -5px
-        background #6346de
-        transition all 0.3s ease-in-out
-        transform scale3d(0,1,1)
-        transform-origin 50% 0
-      .center-to-head
-        &:hover
-          &::after
-            transform scale3d(1,1,1)
-      .b-t
-        width 50%
-        left 0
-      .like
-        position absolute
         right 0
-        background url("../../../../static/img/flow/like-small.png") no-repeat
-        width 80px
-        height 23px
         &:hover
-          background-position -80px
+          background-position -32px
         &:active
-          background-position -160px
-        span
-          font-size 12px
-          line-height 1.8
-          position relative
-          left 12px
+          background-position -64px
 </style>

@@ -20,18 +20,18 @@
       </div>
     </div>
     <div v-show="spinner && !nomore && !tombstone"
-      class="vue-recyclist-loading"
-      :style="{visibility: loading ? 'visible' : 'hidden'}">
+         class="vue-recyclist-loading"
+         :style="{visibility: loading ? 'visible' : 'hidden'}">
       <slot name="spinner">
         <div class="vue-recyclist-loading-content">
           <div class="cssloading-circle spinner"></div>
+          <span style="position:absolute;bottom:0px">{{loadTxt}}</span>
         </div>
       </slot>
     </div>
-    <div v-show="nomore && !loading"
-      class="vue-recyclist-nomore">
+    <div v-show="!loading && nomore" class="vue-recyclist-nomore">
       <slot name="nomore">
-        <div>End of list</div>
+        <div></div>
       </slot>
     </div>
   </div>
@@ -49,7 +49,6 @@
     },
     computed: {
       visibleItems() {
-      	console.log('visibleItems this.items', this.items)
         return this.items.slice(Math.max(0, this.start - this.size), Math.min(this.items.length, this.start + this.size))
       },
       containerHeight() {
@@ -69,23 +68,23 @@
       },
       tombstone: {
         type: Boolean,
-        default: false // Whether to show tombstones.
+        default: false
       },
       size: {
         type: Number,
-        default: 20 // The number of items added each time.
+        default: 20
       },
       offset: {
         type: Number,
-        default: 200 // 滚动距离底部还有多少时开始加载数据
+        default: 200
       },
       loadmore: {
         type: Function,
-        required: true // The function of loading more items.
+        required: true
       },
       spinner: {
         type: Boolean,
-        default: true // Whether to show loading spinner.
+        default: true
       },
       nomore: {
         type: Boolean,
@@ -93,11 +92,13 @@
       },
 	    scrollElement: {
 
+      },
+	    loadTxt: {
+      	type: String
       }
     },
     watch: {
       list(arr) {
-      	console.log('watch list arr', arr)
         if (arr.length) {
           this.loadings.pop()
           if (!this.loading) {
@@ -113,7 +114,6 @@
         }
       },
 	    scrollElement() {
-      	console.log('scrollElement', this.scrollElement)
 		    this.scrollElement.addEventListener('scroll', this.onScroll.bind(this))
 		    window.addEventListener('resize', this.onResize.bind(this))
 		    this.init()
@@ -129,17 +129,17 @@
         this.height = this.top = this.start = 0
         this.scrollElement.scrollTop = 0
       },
-      load() {
+      load(flag) {
         if (this.tombstone) {
           this.items.length += this.size
           this.loadItems()
         } else if (!this.loading) {
-          this.getItems()
+          this.getItems(flag)
         }
       },
-      getItems() {
+      getItems(flag) {
         this.loadings.push(1)
-        this.loadmore()
+        this.loadmore(flag)
       },
       loadItems() {
         let loads = []
@@ -218,12 +218,17 @@
         }
       },
       makeScrollable() {
-        // make ios -webkit-overflow-scrolling scrollable
         this.scrollElement.classList.add('vue-recyclist-scrollable')
       },
       onScroll() {
+        const listTop = this.scrollElement.children[1].offsetTop
+        if(this.scrollElement.scrollTop >= listTop-80) {
+      		this.$emit('response', true)
+        }else {
+	        this.$emit('response', false)
+        }
         if (this.scrollElement.scrollTop + this.scrollElement.offsetHeight > this.height - this.offset) {
-          this.load()
+          this.load(1)
         }
         this.updateIndex()
       },
@@ -236,17 +241,15 @@
       }
     },
     destroyed() {
-	    this.scrollElement.removeEventListener('scroll', this.onScroll.bind(this))
+	    this.scrollElement&&this.scrollElement.removeEventListener('scroll', this.onScroll.bind(this))
       window.removeEventListener('resize', this.onResize.bind(this))
     }
   }
 
 </script>
-<style src="./cssloading.css"></style>
+<style src="../cssloading.css"></style>
 <style lang="stylus" rel="stylesheet/stylus">
   .vue-recyclist
-    /*overflow-x hidden*/
-    /*overflow-y auto*/
     height 100%
     &.vue-recyclist-scrollable
       -webkit-overflow-scrolling touch
@@ -270,13 +273,19 @@
       .vue-recyclist-loading-content
         width 100%
         text-align center
+        position relative
+        color #5b5b5b
         .spinner
           margin 10px auto
           width 20px
           height 20px
+          right 20px
     .vue-recyclist-nomore
       overflow hidden
       margin 10px auto
       height 20px
       text-align center
+      /*position relative*/
+      /*bottom 35px*/
+      color #5b5b5b
 </style>

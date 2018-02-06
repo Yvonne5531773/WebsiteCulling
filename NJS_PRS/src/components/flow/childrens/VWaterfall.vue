@@ -1,6 +1,6 @@
 <template lang="pug">
 .vue-waterfall-easy(
-  :style="isMobile? '':{width:colWidth*columnCount+'px',left:'50%',top:'95px',marginLeft: -1*colWidth*columnCount/2 +'px'}"
+  :style="isMobile? '':{width:colWidth*columnCount+'px',left:'50%',height:'100%',top:'10px',marginLeft: -1*colWidth*columnCount/2 +'px'}"
 )
   div.img-box(
     v-for="(v, i) in imgsArrC",
@@ -25,7 +25,7 @@ export default {
 		},
 		maxCols: {
 			type: Number,
-			default: 6
+			default: 20
 		},
 		imgsArr: {
 			type: Array,
@@ -81,9 +81,15 @@ export default {
 			this.waterfall()
 		})
 		this.$el.parentNode.addEventListener('scroll', () => {
+			const listTop = this.$el.parentNode.scrollTop
+			if(listTop >= 200) {
+				this.$emit('response', {show:true, el: this.$el.parentNode})
+			}else {
+				this.$emit('response', {show:false, el: this.$el.parentNode})
+			}
 			if (this.isPreloading) return
-			const lastImgHeight = this.imgsArr[this.imgsArr.length - 1].height
-			if (this.$el.parentNode.scrollTop + this.$el.parentNode.offsetHeight > this.$el.parentNode.scrollHeight - lastImgHeight) {
+			const lastImgHeight = this.imgsArr[this.imgsArr.length - 1].height || 0
+			if (this.$el.parentNode.scrollTop + this.$el.parentNode.offsetHeight >= this.$el.parentNode.scrollHeight - lastImgHeight) {
 				this.$emit('scrollLoadImg')
 			}
 		})
@@ -108,22 +114,24 @@ export default {
 	methods: {
 		waterfall() {
 			for (let i = this.beginIndex; i < this.imgsArrC.length; i++) {
-				let minHeight = Math.min.apply(null, this.colsHeightArr)
-				let minIndex = this.colsHeightArr.indexOf(minHeight)
-				let width = this.imgBoxEls[0].offsetWidth
-				this.imgBoxEls[i].style.position = 'absolute'
-				this.imgBoxEls[i].style.left = minIndex * width + 'px'
-				this.imgBoxEls[i].style.top = minHeight + 'px'
-				this.$set(this.colsHeightArr, minIndex, minHeight + this.imgBoxEls[i].offsetHeight)
+				if(this.imgBoxEls[i]) {
+					let minHeight = Math.min.apply(null, this.colsHeightArr)
+					let minIndex = this.colsHeightArr.indexOf(minHeight)
+					let width = this.imgBoxEls[0].offsetWidth
+					this.imgBoxEls[i].style.position = 'absolute'
+					this.imgBoxEls[i].style.left = minIndex * width + 'px'
+					this.imgBoxEls[i].style.top = minHeight + 'px'
+					this.$set(this.colsHeightArr, minIndex, minHeight + this.imgBoxEls[i].offsetHeight)
+				}
 			}
 			this.beginIndex = this.imgsArrC.length
 		},
 		loadFn(e, oImg, i) {
-			if(e !== 'load') {
+			if(e === 'error') {
 				this.failImgs.push(oImg)
-			}else {
+			}else if(e === 'success'){
 				this.loadedCount++
-				if (e === 'load' && this.imgsArr[i]) {
+				if (this.imgsArr[i]) {
 					this.$set(this.imgsArr[i], 'height', Math.round(this.imgWidthC / (oImg.width / oImg.height)))
 				}
 			}
@@ -142,26 +150,30 @@ export default {
 		},
 		preload() {
 			this.imgsArr.forEach((v, i) => {
-				if (i < this.loadedCount) return
+				if (i < this.loadedCount+this.failImgs.length) {
+					return
+				}
 				this.loadImage(v.image, i, this.loadFn)
 			})
 		},
 		loadImage(src, i, callback) {
 			let img = new Image();
 			img.onload = function () {
-				typeof callback === 'function' && callback('load', img, i);
+				typeof callback === 'function' && callback('success', img, i);
 			}
 			img.onerror = function () {
-				typeof callback === 'function' && callback(new Error('load image error!'), img, i);
+				typeof callback === 'function' && callback('error', img, i);
 			}
 			img.src = src;
 		},
 		initColsHeightArr() {
 			this.colsHeightArr = []
 			for (let i = 0; i < this.columnCount; i++) {
-				this.imgBoxEls[i].style.position = 'static'
-				let height = this.imgBoxEls[i].offsetHeight
-				this.colsHeightArr.push(height)
+				if(this.imgBoxEls[i]) {
+					this.imgBoxEls[i].style.position = 'static'
+					let height = this.imgBoxEls[i].offsetHeight
+					this.colsHeightArr.push(height)
+				}
 			}
 		},
 		initImgBoxEls() {

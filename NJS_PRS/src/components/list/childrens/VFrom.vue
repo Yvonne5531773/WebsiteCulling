@@ -1,34 +1,30 @@
 <template>
-	<div>
-		<div class="from" v-if="list&&list.length>0">
-			<div class="head">
-				<h2>{{title}}</h2>
-			</div>
-			<section class="content">
-				<div class="r-data" v-for="(data, i) in vm" v-if="data.title">
-					<a class="avatar" target="_blank" :href="data.host" :title="data.title" @click="open(data)">
-						<img v-lazy="data.iconLazyObj"/>
-					</a>
-					<p class="title">
-						<a target="_blank" class="name" :href="data.host" :title="data.title" @click="open(data)">{{data.title | clip(24)}}</a>
-						<a target="_blank" class="description" :href="data.host" :title="data.description" @click="open(data)">{{data.description | clip(60)}}</a>
-						<span class="r-t" @click="like(data)">
-							<a class="like" title="喜欢" :style="data.liked&&`backgroundPosition:-30px`"></a>
+	<div :class="{'from':!isFixed, 'from fixed': isFixed}" :style="{right:isFixed?right+'px':0}" v-if="sites&&sites.length>0">
+		<div class="head">
+			<h2>{{title}}</h2>
+		</div>
+		<section class="list-content">
+			<div class="r-data" v-for="(data, i) in sites" :key="data.id" v-if="data.name">
+				<a class="avatar" target="_blank" :href="data.href_url" :title="data.name" @click="open(data)">
+					<img v-lazy="data.iconLazyObj"/>
+				</a>
+				<p class="title">
+					<a target="_blank" class="name" :href="data.href_url" :title="data.name" @click="open(data)">{{data.name | clip(24)}}</a>
+					<a target="_blank" class="description" :href="data.href_url" :title="data.description" @click="open(data)">{{data.description | clip(60)}}</a>
+					<span class="r-t" @click="like(data)">
+							<a class="like" :style="data.liked&&`backgroundPosition:-30px`"></a>
 							<span>{{txt}}</span>
 						</span>
-					</p>
-				</div>
-			</section>
-		</div>
-		<!--<VLoading v-else></VLoading>-->
+				</p>
+			</div>
+		</section>
 	</div>
 </template>
 
 <script>
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
-	import { getHost, clipstring } from '../../../config/utils'
-	import VLoading from 'components/common/VLoading'
+	import { getHost, clipstring, getOperationFullTime } from '../../../config/utils'
 	import { mockRelation } from '../../../mock/relation'
 export default {
 	data () {
@@ -38,98 +34,57 @@ export default {
 			path: '/v1/ai_recommend',
 			title: '来源网站',
 			txt: '收藏',
-			index: 0
+			index: 0,
+			screenWidth: document.body.clientWidth,
+			right: document.body.clientWidth>=1066?document.body.clientWidth-((document.body.clientWidth-1100)/2+820+25+214):document.body.clientWidth-(820+214)
+		}
+	},
+	props: {
+		isFixed: {
+			type: Boolean,
+			default: false
+		},
+		sites: {
+			type: Array
+		},
+		categoryid: {
+
 		}
 	},
 	mixins: [service],
-	mounted () {
-		this.init()
+	watch: {
+		screenWidth (val) {
+			this.screenWidth = val
+			this.right = this.screenWidth>=1066?this.screenWidth-((this.screenWidth-1100)/2+820+25+214):this.screenWidth-(820+214)
+		},
+	},
+	mounted() {
+		const that = this
+		window.onresize = () => {
+			return (() => {
+				window.screenWidth = document.body.clientWidth
+				that.screenWidth = window.screenWidth
+			})()
+		}
 	},
 	methods: {
-		async init() {
-			try {
-				const bookmarks = await this.constructRecommend(),
-					bookmarksStr = !_.isEmpty(bookmarks)? bookmarks.join(','):''
-				this.list = await this.getRelations(bookmarksStr)
-				this.vm = this.list[this.index]
-			}catch(e) {
-				console.log('error:', e)
-			}
-		},
-		async constructRecommend() {
-			//收藏夹数据
-			let bookmarks = await this.getBookmark()
-			bookmarks = bookmarks.map(bm => {
-				return getHost(bm.url)
-			})
-			bookmarks = _.union(bookmarks)
-			return bookmarks
-		},
-		async getRelations(bookmarksStr) {
-			let list = []
-			try {
-				list = await this.jsonp(this.path, 'post', 'urls=' + bookmarksStr)
-			}catch(e) {
-				console.log('error', e)
-			}
-			list = !_.isEmpty(list)? list:mockRelation
-			list = _.filter(list , l => {
-				return this.checkValid(l.title)===1
-			})
-			list.forEach(l => {
-				l.iconLazyObj = {
-					src: l.icon,
-					error: 'static/img/favorite/default-icon.png',
-					loading: 'static/img/favorite/default-icon.png'
-				}
-				l.description = l.description&&l.description!=='None'&&l.description!==''? l.description:(l.keywords&&l.keywords!=='None'&&l.keywords!==''? l.keywords:(l.title!==''? l.title:''))
-				l.host = this.addHttp('//'+l.host)
-				l.hot = l.hot? parseInt(l.hot) : ''
-				const findSite = _.find(this.localSites, {'name': l.title})
-				l.liked = !_.isEmpty(findSite)? findSite.liked:false
-				l.id = !_.isEmpty(findSite)? findSite.id : (new Date()).valueOf()+Math.floor(Math.random()*1000 + 1)+''
-			})
-			return _.chunk(list, 10)
-		},
 		open(data) {
-			websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:11,url:data.host,value:0})
+			websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:2,name:this.categoryid+'',url:data.href_url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 		},
 		like(data) {
-			data.liked = !data.liked
 			const store = {}
 			store.id = data.id
-			store.name = data.title
-			store.url = data.host
-			store.href_url = data.host
+			store.name = data.name
+			store.url = data.url
+			store.href_url = data.href_url
 			store.description = data.description
-			store.icon = data.iconLazyObj.src
-			store.liked = data.liked
-			this.vm = _.cloneDeep(this.vm)
+			store.icon = data.icon
+			store.liked = data.liked = !data.liked
 			this.saveSite(store)
-			store.liked && websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:12,url:data.host,value:0})
-		},
-		change() {
-			const list = this.list[this.index+1]
-			this.vm = []
-			this.index = _.isEmpty(list)? 0:this.index+1
-			this.$nextTick(() => {
-				this.vm = _.cloneDeep(this.list[this.index])
-			})
-			websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:14,url:'',value:0})
-		},
-		checkValid(val) {
-			let ret = 1
-			const error = ['400','401','403','404','405','406','407','410','412','414','500','501','502','504']
-			error.forEach(e => {
-				if(!!~val.indexOf(e)){
-					ret = 0
-				}
-			})
-			return ret
+			store.liked && websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:3,name:this.categoryid+'',url:data.href_url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 		},
 	},
 	components: {
-		VLoading,
 	},
 }
 </script>
@@ -138,7 +93,15 @@ export default {
 	.from
 		float left
 		width 214px
+		height 82.6%
 		position relative
+		padding-bottom 20px
+		@media screen and (max-height 1800px)
+			height 86.6%
+		@media screen and (max-height 800px)
+			height 84.6%
+		@media screen and (max-height 687px)
+			height 82.6%
 		.head
 			color #6346de
 			border-bottom 1px solid #cdcdde
@@ -146,11 +109,15 @@ export default {
 				font-size 14px
 				position relative
 				bottom 5px
-		.content
+		.list-content
 			position relative
 			top 20px
+			height 100%
+			overflow auto
+			&::-webkit-scrollbar
+				display none
 			.r-data
-				height 70px
+				height 75px
 				font-size 14px
 				.avatar
 					float left
@@ -167,6 +134,9 @@ export default {
 						text-overflow ellipsis
 						white-space nowrap
 						display block
+						padding-bottom 3px
+						&:hover
+							color #6346de
 					a
 						color #333333
 					.description
@@ -174,6 +144,8 @@ export default {
 						height 20px
 						display block
 						color #5b5b5b !important
+						&:hover
+							color #6346de!important
 			.r-t
 				font-size 12px
 				color #6346de
@@ -193,4 +165,8 @@ export default {
 					margin 2px 5px
 					width 15px
 					height 15px
+	.fixed
+		position fixed
+		/*right 395px*/
+		bottom 0
 </style>

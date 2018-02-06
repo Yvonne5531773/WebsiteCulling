@@ -26,11 +26,13 @@
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
 	import { mapMutations } from 'vuex'
+	import { styleConfigPath } from '../../config/config'
+	import styleConfigs from '../../config/style'
 	export default {
 		data() {
 			return {
 				moreTxt: '更多',
-				by: ''
+				by: '',
 			}
 		},
 		mixins: [service],
@@ -49,7 +51,7 @@
 			...mapMutations(['SAVE_POSITION']),
 			async open(flag, type, site) {
 				if(flag === 1) {
-					this.distribute()
+					await this.distribute()
 					if(this.category.id==='0099') {
 						websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:7,url:'',value:0})
 						return
@@ -68,15 +70,17 @@
 					!this.sort&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:2,value:type,hotsite:0,url:site.url,name:this.category.id + ''})
 				}
 			},
-			distribute() {
-				const query = {categoryid: this.category.id, name: this.category.name}
-				if(this.category.id===65){
-					this.$router.push({path:'flow', query: query})
-				} else if (this.category.id===43) {
-					this.$router.push({path:'list', query: query})
-				} else {
-					this.$router.push({path:'favorite', query: {categoryid: this.category.id}})
+			async distribute() {
+				let styles = await this.getJSON(styleConfigPath)
+				styles = !_.isEmpty(styles)? styles:styleConfigs
+				const style = _.find(styles, {categoryId: this.category.id}),
+					data = { path: !_.isEmpty(style)? style.path:'favorite' };
+				data.query = {
+					categoryid: this.category.id,
+					name: this.category.name,
+					config: !_.isEmpty(style)? style.config:''
 				}
+				this.$router.push(data)
 			}
 		},
 	}

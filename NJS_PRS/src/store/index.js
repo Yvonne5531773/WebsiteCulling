@@ -9,7 +9,8 @@ Vue.use(Vuex)
 const state = {
 	component: '',
 	liked: false,
-	position: {}
+	position: {},
+	isFullScreen: false,
 }
 
 export default new Vuex.Store({

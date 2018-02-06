@@ -1,5 +1,5 @@
 <template>
-	<div class="h-center">
+	<div class="header">
 		<div class="top"></div>
 		<div class="head">
 			<div class="title">
@@ -24,7 +24,7 @@
 <script>
 	import { mapState, mapMutations } from 'vuex'
 	import _ from 'lodash'
-	import { getStore, setStore } from '../../config/utils'
+	import { getStore, setStore, getOperationFullTime } from '../../config/utils'
 	import { websiteApi } from 'api'
 	export default {
 		data() {
@@ -51,7 +51,7 @@
 			!this.favoritePage && this.change(cname)
 		},
 		watch: {
-			component () {
+			component() {
 				this.components.forEach((c)=>{
 					c.selected = false
 					this.component===c.name && (c.selected = true)
@@ -71,7 +71,8 @@
 				this.SET_COMPONENT({component: name})
 				this.liked && name==='VMy' && this.SET_LIKED({liked: false})
 				type===1&&this.component==='VMy'&&!this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:6,value:0,hotsite:0,url:'',name:''})
-				type===1&&this.component==='VMy'&&this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:5,name:'',url:''})
+				type===1&&this.component==='VMy'&&this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:5,name:'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				type===1&&this.component==='VDiscover'&&this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:7,name:'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 			},
 			backGuide() {
 				this.component==='VDiscover'&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:5,value:0,hotsite:0,url:'',name:''})
@@ -89,7 +90,7 @@
 </script>
 
 <style lang="stylus">
-	.h-center
+	.header
 		z-index 199
 		width 100%
 		height 85px
@@ -97,13 +98,11 @@
 		transition .2s height
 		background-size 100% 110%
 		transform translateZ(0)
-		/*background url("../../../static/img/head/top-bkg.png") no-repeat*/
 		background #6346de
 		.top
 			position absolute
 			width 100%
 			height 100%
-			/*background url("../../../static/img/head/top.png") no-repeat*/
 		.head
 			position relative
 			margin 0 auto

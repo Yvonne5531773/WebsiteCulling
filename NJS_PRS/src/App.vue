@@ -25,4 +25,5 @@ export default {
 
   #app
     font-family microsoft yahei
+
 </style>

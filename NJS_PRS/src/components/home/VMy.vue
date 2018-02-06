@@ -53,12 +53,13 @@
 	import { websiteApi } from 'api'
 	import VBaidu from 'components/common/VBaidu'
 	import VItem from 'components/home/VItem'
+	import VRelation from 'components/home/VRelation'
 	import { service } from 'components/common/mixin'
 	import { hots } from '../../mock/hots'
 	import { likes } from '../../mock/likes'
 	import { compareTime, setStore, getHost } from '../../config/utils'
 	import { mapState, mapMutations } from 'vuex'
-	import VRelation from 'components/home/VRelation'
+	import { categoryPath } from '../../config/config'
 
 	export default {
 		data() {
@@ -85,7 +86,6 @@
 				histories: [],
 				bookmarks: [],
 				hotsitePath: '/v1/hotsite',
-				catePath: '/v1/category/'
 			}
 		},
 		computed:{
@@ -168,7 +168,7 @@
 			async constructRecent() {
 				//最近访问
 				this.localCategories = await this.getForm()
-				const recentCategories = this.localCategories.sort(compareTime).slice(0, 6)
+				const recentCategories = this.localCategories.sort(compareTime).slice(0, 8)
 				this.buildVM(recentCategories, '最近访问', 3)
 				const recentIds = recentCategories.map((c) => {
 					return c.id
@@ -212,7 +212,7 @@
 			},
 			update(ids, name) {
 				if(_.isEmpty(ids)) return
-				this.jsonp(this.catePath + ids.join(',')).then(res => {
+				this.jsonp(categoryPath + ids.join(',')).then(res => {
 					this.updateVM(res, name)
 				}).catch(e => console.log('error: ', e))
 			},
