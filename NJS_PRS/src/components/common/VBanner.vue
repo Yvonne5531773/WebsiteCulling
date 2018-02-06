@@ -6,7 +6,7 @@
 				{{backTxt}}
 			</a>
 			<span class="name">{{category.name}}</span>
-			<div class="add" :style="category.collected&&`backgroundPosition:-540px`" @click="$emit('collect')" v-if="category.id!==`0099`">
+			<div class="add" :style="category.collected&&`backgroundPosition:-540px`" @click="collect" v-if="category.id!==`0099`">
 				<img src="../../../static/img/favorite/start.png" />
 				<span v-if="category.collected">{{collectTxt}}</span>
 				<span v-else>{{noCollectTxt}}</span>
@@ -27,7 +27,10 @@
 		props: {
 			category: {
 				type: Object
-			}
+			},
+			collect: {
+				type: Function
+			},
 		},
 	}
 </script>

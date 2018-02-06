@@ -2,21 +2,21 @@
   <div class="v-images">
     <VHeader ref="header" :favoritePage="true"></VHeader>
     <div ref="content" class="content">
-      <VBanner :category="category" @back="back" @collect="collect"></VBanner>
+      <VBanner :category="category" @back="back" :collect="collect"></VBanner>
       <VWaterfall v-if="imgsArr&&imgsArr.length>0" :imgsArr='imgsArr' :imgWidth="imgWidth" :maxCols="maxCols" @scrollLoadImg="fetchImgsData" @changeIndex="changeImg($event)" @response="response($event)"></VWaterfall>
       <transition :duration="300" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
         <div ref="lightbox" class="lightbox" v-if="isShow" @click="isShow=!modalclose" :style="!isFullScreen&&`padding:0 20px 0 20px`">
           <VFancybox ref="fancybox" :images="articles" :index="articlesIndex" :reset="!isShow" :category="category" :isFullScreen="isFullScreen" @close="closeImg" @addIndex="nextImg" @decIndex="prevImg" @addLike="likeSite($event)"></VFancybox>
           <VPaginator ref="paginator" :images="articles" :activeIndex="articlesIndex" :category="category" @changeIndex="changeArticle($event)" v-show="showthumbnails"></VPaginator>
           <transition :duration="600" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-            <span v-if="isFullScreen&&showEndTip" class="endTip">{{endTip}}</span>
+            <span v-show="isFullScreen&&showEndTip" class="endTip">{{endTip1}}<b>esc</b>{{endTip2}}</span>
           </transition>
           <a v-if="isFullScreen" class="close" @click.stop="close"></a>
         </div>
       </transition>
     </div>
     <VAlert v-show="showAlert"></VAlert>
-    <VFunction :show="showFunction" :scrollEle="scrollEle" :type="1"></VFunction>
+    <VFunction :show="showFunction" :scrollEle="scrollEle" :type="1" :collect="collect"></VFunction>
   </div>
 </template>
 
@@ -64,7 +64,8 @@
 			  showFunction: false,
 			  scrollEle: {},
 			  showEndTip: false,
-			  endTip: '已浏览完本组图片，按下esc键退出',
+			  endTip1: '已浏览完本组图片，按下',
+        endTip2: '键退出'
 		  }
 	  },
 	  mixins: [service],
@@ -91,6 +92,7 @@
 	  },
 	  watch: {
 		  async isShow () {
+		  	console.log('isFullScreen', this.isFullScreen)
 			  if (this.isShow) {
 				  window.addEventListener('keydown', this.keyFun)
 				  this.$nextTick(()=>{
@@ -435,4 +437,9 @@
       line-height 3.3
       color #000000
       background #f4e66c
+      b
+        padding 4px
+        margin 7px
+        border-radius 5px
+        box-shadow inset 0 0 0 2px #000
 </style>

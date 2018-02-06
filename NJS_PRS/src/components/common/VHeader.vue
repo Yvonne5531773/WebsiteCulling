@@ -22,10 +22,12 @@
 </template>
 
 <script>
-	import { mapState, mapMutations } from 'vuex'
+	import { mapState } from 'vuex'
 	import _ from 'lodash'
 	import { getStore, setStore, getOperationFullTime } from '../../config/utils'
 	import { websiteApi } from 'api'
+	import { service } from 'components/common/mixin'
+
 	export default {
 		data() {
 			return {
@@ -46,6 +48,7 @@
 				type: Boolean
 			}
 		},
+		mixins: [service],
 		mounted(){
 			const cname = this.component? this.component: 'VMy'
 			!this.favoritePage && this.change(cname)
@@ -59,7 +62,6 @@
 			},
 		},
 		methods: {
-			...mapMutations(['SET_COMPONENT', 'SET_LIKED']),
 			change(name, type) {
 				if (this.favoritePage) {
 					this.$router.push({path: 'home'})
@@ -68,8 +70,8 @@
 					c.selected = false
 					name===c.name && (c.selected = true)
 				})
-				this.SET_COMPONENT({component: name})
-				this.liked && name==='VMy' && this.SET_LIKED({liked: false})
+				this.setComponent(name)
+				this.liked && name==='VMy' && this.setLike(false)
 				type===1&&this.component==='VMy'&&!this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:6,value:0,hotsite:0,url:'',name:''})
 				type===1&&this.component==='VMy'&&this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:5,name:'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 				type===1&&this.component==='VDiscover'&&this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:7,name:'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})

@@ -2,7 +2,7 @@
   <div class="v-list">
     <VHeader ref="header" :favoritePage="true"></VHeader>
     <div ref="content" class="content">
-      <VBanner :category="category" @back="back" @collect="collect"></VBanner>
+      <VBanner :category="category" @back="back" :collect="collect"></VBanner>
       <div class="list">
         <section class="list-l">
           <h2 class="head">{{txt}}</h2>
@@ -45,7 +45,7 @@
           </VRecyclist>
         </section>
         <VFrom :isFixed="isFixed" :categoryid="categoryid" :sites="sites"></VFrom>
-        <VFunction :show="isFixed" :scrollEle="$refs.content" :categoryId="categoryid" :type="2"></VFunction>
+        <VFunction :show="isFixed" :scrollEle="$refs.content" :categoryId="categoryid" :type="2" :collect="collect"></VFunction>
       </div>
     </div>
     <VAlert v-show="showAlert"></VAlert>
@@ -62,7 +62,6 @@
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
 	import { getHost, md5, getOperationFullTime } from '../../config/utils'
-	import { mapMutations } from 'vuex'
 	import { dataServicePath } from '../../config/config'
 	import Velocity from 'velocity-animate/velocity.min'
   import {mockList} from '../../mock/list'

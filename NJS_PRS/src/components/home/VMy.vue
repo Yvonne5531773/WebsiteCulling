@@ -58,7 +58,7 @@
 	import { hots } from '../../mock/hots'
 	import { likes } from '../../mock/likes'
 	import { compareTime, setStore, getHost } from '../../config/utils'
-	import { mapState, mapMutations } from 'vuex'
+	import { mapState } from 'vuex'
 	import { categoryPath } from '../../config/config'
 
 	export default {
@@ -105,7 +105,6 @@
 			})
 		},
 		methods: {
-			...mapMutations(['SET_COMPONENT']),
 			async init() {
 				await this.construct()
 				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:1,url:'',value:0})
@@ -238,7 +237,7 @@
 				})
 			},
 			addMore(type) {
-				this.SET_COMPONENT({component: 'VDiscover'})
+				this.setComponent('VDiscover')
 				type===1&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:6,url:'',value:0})
 				type===2&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:8,url:'',value:0})
 			},

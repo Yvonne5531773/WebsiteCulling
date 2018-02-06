@@ -4,11 +4,13 @@
 )
   div.img-box(
     v-for="(v, i) in imgsArrC",
-    @click="setActive(v)",
     :style="{padding:'10px',width: isMobile ? '' : colWidth+'px'}"
   )
     .img-inner-box
-      div.img-wraper(:style="{width:imgWidthC+'px',height:v.height?v.height+'px':''}")
+      div.img-wraper(
+      @click="setActive(v)",
+      :style="{width:imgWidthC+'px',height:v.height?v.height+'px':'',position:'relative'}")
+        span(:style="{'position':'absolute','bottom':'0','width':'100%',color:'#fff',textAlign:'center',height:'30px',overflow:'hidden',lineHeight:'2',cursor:'pointer'}") {{v.title}}
         img(:src="v.image")
 
   .loading(v-if="isPreloadingC", :class="{'first-loading':isFirstTIme}")
@@ -53,6 +55,7 @@ export default {
 			loadedCount: 0,
 			isFirstTIme: true,
       failImgs: [],
+      loadOffest: 200,
 		}
 	},
 	computed: {
@@ -89,7 +92,7 @@ export default {
 			}
 			if (this.isPreloading) return
 			const lastImgHeight = this.imgsArr[this.imgsArr.length - 1].height || 0
-			if (this.$el.parentNode.scrollTop + this.$el.parentNode.offsetHeight >= this.$el.parentNode.scrollHeight - lastImgHeight) {
+			if (this.$el.parentNode.scrollTop+this.$el.parentNode.offsetHeight >= this.$el.parentNode.scrollHeight-lastImgHeight-this.loadOffest) {
 				this.$emit('scrollLoadImg')
 			}
 		})

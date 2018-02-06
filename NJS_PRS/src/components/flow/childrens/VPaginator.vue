@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isFullScreen" class="paginator" @mouseenter="enterAndLeave(1)" @mouseleave="enterAndLeave(0)">
     <section class="info" v-if="images[index]">
-      <b>本内容来自 </b>
+      <b>本页内容来自 </b>
       <a :href="images[index].host" target="_blank" class="from center-to-head" @click.stop="open(2)">{{images[index].from}}</a>
       <a :href="images[index].url" target="_blank" class="center-to-head" @click.stop="open(1)" style="margin-bottom:40px">{{images[index].title | clip(80)}}</a>
       <div class="button">
@@ -14,11 +14,9 @@
         </a>
       </div>
       <div class="image">
-        <!--<div v-show="index > 0" ref="arrowLeft" class="arrow left" @click.stop="left"></div>-->
         <div class="thumbnail-wrapper" v-for="(item, i) in activeImages" :key="item.index" @click.stop="setActive(item.index-1)">
           <div :class="{'thumbnail active': item&&item.isActive, 'thumbnail': item&&!item.isActive}" :style="{backgroundImage:'url('+item.src+')'}" v-if="!isMove"></div>
         </div>
-        <!--<div v-show="index < (images.length - showCount)" ref="arrowRight" class="arrow right" @click.stop="right"></div>-->
       </div>
     </section>
     <div class="bottom">
@@ -50,12 +48,15 @@
 			const that = this
 			document.addEventListener('fullscreenchange', () => {
 				that.isFullScreen = !that.isFullScreen
+        this.setFullScreen(that.isFullScreen)
 			})
 			document.addEventListener('webkitfullscreenchange', () => {
 				that.isFullScreen = !that.isFullScreen
+				this.setFullScreen(that.isFullScreen)
 			})
 			document.addEventListener('mozfullscreenchange', () => {
 				that.isFullScreen = !that.isFullScreen
+				this.setFullScreen(that.isFullScreen)
 			})
 		},
 		props: {

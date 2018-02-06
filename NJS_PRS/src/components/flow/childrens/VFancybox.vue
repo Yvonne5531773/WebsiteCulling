@@ -89,12 +89,6 @@
           url = flag===1? this.images[this.index].url : this.images[this.index].host
 		    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:action,name:this.category.id+'',url:url,action_time:getOperationFullTime(new Date())})
       },
-//	    close () {
-//		    this.isPlay = false
-//		    this.$emit('pause')
-//		    this.$emit('close')
-//		    this.animation = false
-//	    },
     },
   }
 </script>

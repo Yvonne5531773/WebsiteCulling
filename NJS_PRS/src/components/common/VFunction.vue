@@ -4,9 +4,10 @@
 		:duration="duration"
 		enter-active-class="animated fadeIn"
 		leave-active-class="animated fadeOut">
-		<div ref="function" class="function" v-if="show">
+		<div ref="function" :class="[type===1?'f-flow function':'f-list function']" v-if="show">
 			<!--<a class="btn refresh" title="刷新" @click="refresh"></a>-->
-			<a :class="[type===1?'btn b-flow back-to-top':'btn b-list back-to-top']" @click="backToTop" :title="bttTxt"></a>
+			<a class="btn collect" :title="collectTxt" @click="collect"></a>
+			<a class="btn back-to-top" @click="backToTop" :title="bttTxt"></a>
 		</div>
 	</transition>
 </template>
@@ -18,6 +19,7 @@
 		data() {
 			return {
 				bttTxt: '返回顶部',
+				collectTxt: '加入收藏',
 				duration: 300,
 			}
 		},
@@ -26,12 +28,13 @@
 				type: Boolean,
 				default: false
 			},
-			categoryId: {
-				type: Number
-			},
 			type: {
 				type: Number
 			},
+			collect: {
+				type: Function
+			},
+			categoryId: {},
 			scrollEle: {},
 		},
 		methods: {
@@ -45,21 +48,25 @@
 
 <style lang="stylus">
 	.function
+		display flex
+		flex-direction column
+		position fixed
+		bottom 36px
+		margin-left 588px
 		.btn
 			width 48px
 			height 48px
-			position fixed
-			bottom 36px
-			margin-left 588px
-		.b-flow
-			right 4.2%
-		.b-list
-			left 47.2%
-			@media screen and (max-width 1165px)
-				left 40.2%
 		.refresh
-			background url("../../../static/img/list/refresh.png") no-repeat
+			background url("../../../static/img/common/refresh.png") no-repeat
+		.collect
+			background url("../../../static/img/common/collect.png") no-repeat
 		.back-to-top
-			background url("../../../static/img/list/backToTop.png") no-repeat
-			margin-top 58px
+			background url("../../../static/img/common/backToTop.png") no-repeat
+			margin-top 10px
+	.f-flow
+		right 4.2%
+	.f-list
+		left 47.2%
+		@media screen and (max-width 1165px)
+			left 40.2%
 </style>

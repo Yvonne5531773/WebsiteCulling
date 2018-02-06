@@ -10,7 +10,7 @@
 	import VHeader from 'components/common/VHeader'
 	import VDiscover from 'components/home/VDiscover'
 	import VMy from 'components/home/VMy'
-	import { mapState, mapMutations } from 'vuex'
+	import { mapState } from 'vuex'
 	import { service } from 'components/common/mixin'
 	import { getStore } from '../../config/utils'
 
@@ -35,11 +35,9 @@
 		computed:{
 			...mapState([
 				'component',
-				'position'
 			])
 		},
 		methods: {
-			...mapMutations(['SAVE_POSITION']),
 			async init () {
 				this.info = await this.getSelectedInfo()
 				this.store = getStore('THEME_IDS')&&getStore('THEME_IDS').split(',')
@@ -63,7 +61,7 @@
 			VMy
 		},
 		beforeRouteLeave(to, from, next) {
-			this.SAVE_POSITION({scrolly: window.scrollY, name: this.current})
+			this.setPosition({scrolly: window.scrollY, name: this.current})
 			next()
 		}
 	}

@@ -58,7 +58,6 @@
 <script>
 	import { websiteApi } from 'api'
 	import _ from 'lodash'
-	import { mapMutations } from 'vuex'
 	import { setStore, getStore } from '../../config/utils'
 	import { service } from 'components/common/mixin'
 	import Velocity from 'velocity-animate/velocity.min'
@@ -93,7 +92,6 @@
 			this.gif()
 		},
 		methods: {
-			...mapMutations(['SET_COMPONENT', 'SAVE_POSITION']),
 			async init () {
 				websiteApi.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:1,taste:0})
 				let info = await this.getSelectedInfo(),
@@ -208,8 +206,7 @@
 					storeIds = ids.length>0? ids.join(','):''
 				websiteApi.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:3,taste:ids.length})
 				websiteApi.setUserSelectedInfo(ids?ids.join(','):'')
-				this.SET_COMPONENT({component: 'VDiscover'})
-				this.SAVE_POSITION({position: 0})
+				this.setComponent('VDiscover')
 				setStore('THEME_IDS', storeIds)
 				this.gifSI && clearInterval(this.gifSI)
 			},

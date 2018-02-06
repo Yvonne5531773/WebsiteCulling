@@ -25,7 +25,6 @@
 <script>
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
-	import { mapMutations } from 'vuex'
 	import { styleConfigPath } from '../../config/config'
 	import styleConfigs from '../../config/style'
 	export default {
@@ -48,7 +47,6 @@
 			}
 		},
 		methods: {
-			...mapMutations(['SAVE_POSITION']),
 			async open(flag, type, site) {
 				if(flag === 1) {
 					await this.distribute()
