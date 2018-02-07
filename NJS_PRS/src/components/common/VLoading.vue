@@ -4,22 +4,17 @@
             <img src="../../assets/puff.svg" />
             <p>{{txt}}</p>
         </div>
-        <!--<div class="loading-bg"></div>-->
     </div>
 </template>
 
 <script>
+	import txt from '../../config/txt'
 	export default {
-
 		data() {
 			return {
-				txt: '加载中，请稍后',
+				txt: txt.TXT_12,
 			}
 		},
-
-		components: {
-
-		}
 	}
 </script>
 

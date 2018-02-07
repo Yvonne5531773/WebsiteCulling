@@ -34,19 +34,18 @@
 	import VAlert from 'components/common/VAlert'
 	import VRecommend from 'components/home/VRecommend'
 	import {service} from 'components/common/mixin'
-	import _ from 'lodash'
 	import { getStore } from '../../config/utils'
 	import { mapState } from 'vuex'
 	import Velocity from 'velocity-animate/velocity.min'
 	import { websiteApi } from 'api'
-
+	import { themePath } from '../../config/config'
+	import txt from '../../config/txt'
 	export default {
 		data() {
 			return {
 				dataList: [],
-				pullTxt: '查看全部',
-				pushTxt: '收起内容',
-				path: '/v1/theme/',
+				pullTxt: txt.TXT_25,
+				pushTxt: txt.TXT_26,
 			}
 		},
 		mixins: [service],
@@ -72,7 +71,7 @@
 					let info = await this.getSelectedInfo()
 					themeid = info? info:''
 				}
-				let themes = await this.jsonp(this.path + themeid)
+				let themes = await this.jsonp(themePath + themeid)
 				this.dataList = _.cloneDeep(_.sortBy(_.forEach(themes, (d) => {
 					if(themes.length > 2) {
 						d.showCategories = d.categories? d.categories.slice(0, 3):[]

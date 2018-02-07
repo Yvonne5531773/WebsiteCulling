@@ -2,21 +2,21 @@
   <div class="v-images">
     <VHeader ref="header" :favoritePage="true"></VHeader>
     <div ref="content" class="content">
-      <VBanner :category="category" @back="back" :collect="collect"></VBanner>
+      <VBanner :category="category" :collect="collect" @back="back"></VBanner>
       <VWaterfall v-if="imgsArr&&imgsArr.length>0" :imgsArr='imgsArr' :imgWidth="imgWidth" :maxCols="maxCols" @scrollLoadImg="fetchImgsData" @changeIndex="changeImg($event)" @response="response($event)"></VWaterfall>
       <transition :duration="300" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
         <div ref="lightbox" class="lightbox" v-if="isShow" @click="isShow=!modalclose" :style="!isFullScreen&&`padding:0 20px 0 20px`">
-          <VFancybox ref="fancybox" :images="articles" :index="articlesIndex" :reset="!isShow" :category="category" :isFullScreen="isFullScreen" @close="closeImg" @addIndex="nextImg" @decIndex="prevImg" @addLike="likeSite($event)"></VFancybox>
-          <VPaginator ref="paginator" :images="articles" :activeIndex="articlesIndex" :category="category" @changeIndex="changeArticle($event)" v-show="showthumbnails"></VPaginator>
+          <VFancybox ref="fancybox" :images="articles" :index="articlesIndex" :reset="!isShow" :category="category" :isFullScreen="isFullScreen" @close="closeImg" @addIndex="nextImg" @decIndex="prevImg"></VFancybox>
+          <VPaginator ref="paginator" :images="articles" :activeIndex="articlesIndex" :category="category" @changeIndex="changeArticle($event)" @addLike="likeSite($event)"></VPaginator>
           <transition :duration="600" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
             <span v-show="isFullScreen&&showEndTip" class="endTip">{{endTip1}}<b>esc</b>{{endTip2}}</span>
           </transition>
-          <a v-if="isFullScreen" class="close" @click.stop="close"></a>
+          <a v-if="isFullScreen" title="退出全屏模式" class="close" @click.stop="close"></a>
         </div>
       </transition>
     </div>
     <VAlert v-show="showAlert"></VAlert>
-    <VFunction :show="showFunction" :scrollEle="scrollEle" :type="1" :collect="collect"></VFunction>
+    <VFunction :category="category" :show="showFunction" :scrollEle="scrollEle" :type="1" :collect="collect"></VFunction>
   </div>
 </template>
 
@@ -34,7 +34,7 @@
 	import { getHost, md5, getOperationFullTime } from '../../config/utils'
 	import { dataServicePath } from '../../config/config'
   import { mockImages } from '../../mock/image'
-
+	import txt from '../../config/txt'
   export default {
 	  data () {
 		  return {
@@ -44,8 +44,6 @@
 			  maxCols: this.$route.query.config.maxCols||8,
 			  IMAGE_LOAD_COUNT: this.$route.query.config.loadCount||20,
 			  category: {},
-			  likeTxt: '收藏',
-			  likedTxt: '已收藏',
 			  images: [],
 			  imgsArr: [],
 			  articles: [],
@@ -60,12 +58,13 @@
         modalclose: true,
 			  keyinput: true,
 			  mousescroll: true,
-			  showthumbnails: true,
 			  showFunction: false,
 			  scrollEle: {},
 			  showEndTip: false,
-			  endTip1: '已浏览完本组图片，按下',
-        endTip2: '键退出'
+			  likeTxt: txt.TXT_14,
+			  likedTxt: txt.TXT_15,
+			  endTip1: txt.TXT_19,
+        endTip2: txt.TXT_20
 		  }
 	  },
 	  mixins: [service],
@@ -75,9 +74,9 @@
         window.addEventListener('mousewheel', this.wheelFun)
       }
 	    this.images = mockImages
+
 //      const path = dataServicePath + 'index/' + this.categoryid + '.json'
 //      this.images = await this.getJSON(path)
-
 	    this.images = _.unionBy(this.images, 'image')
 	    this.imgsArr = this.constructImages()
 	    this.fetchImgsArr = this.constructImages()
@@ -91,9 +90,8 @@
 		  await this.init()
 	  },
 	  watch: {
-		  async isShow () {
-		  	console.log('isFullScreen', this.isFullScreen)
-			  if (this.isShow) {
+		  async isShow() {
+			  if(this.isShow) {
 				  window.addEventListener('keydown', this.keyFun)
 				  this.$nextTick(()=>{
 					  this.$refs.lightbox.addEventListener('mousewheel', this.wheelFun)
@@ -104,7 +102,7 @@
 					  path = dataServicePath + 'json/' + this.categoryid + '/' + md5(img.href, 32) + '.json'
 				  img.articles = _.isEmpty(img.articles)? await this.getJSON(path):img.articles
 				  this.articles = this.constructArticles(img)
-				  websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:2,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+				  websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:2,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 			  } else {
 				  window.removeEventListener('keydown', this.keyFun)
 				  this.$refs.lightbox.removeEventListener('mousewheel', this.wheelFun)
@@ -119,17 +117,15 @@
 			  this.showEndTip && setTimeout(() => {
 				  this.showEndTip = false
 			  }, 5000)
+      },
+		  isFullScreen() {
+			  !this.isFullScreen&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:21,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
       }
 	  },
     methods: {
 	    async init () {
 		    await this.construct()
-		    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string', {
-			    action: 1,
-			    name: this.category.id + '',
-			    url: '',
-			    action_time: getOperationFullTime(new Date())
-		    })
+		    websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:1,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 	    },
 	    async construct () {
 		    this.category = await this.constructCategory()
@@ -155,9 +151,9 @@
 		    this.articles.forEach(a => a.liked = site.liked)
 		    this.imgsArr[this.index].liked = site.liked
 		    this.saveSite(_.cloneDeep(site))
-		    site.liked && websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:3,name:this.category.id+'', url:site.url,action_time:getOperationFullTime(new Date())})
+		    site.liked && websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:3,name:this.category.id+'',url:site.url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 	    },
-	    collect () {
+	    collect() {
 		    !this.category.collected && (this.showAlert = true,
 			    this.collectAlertSTO = setTimeout( () => {
 				    this.showAlert = false
@@ -165,7 +161,7 @@
 		    this.category.collected && this.collectAlertSTO && (this.showAlert = false, clearTimeout(this.collectAlertSTO))
 		    this.category.collected = !this.category.collected
 		    this.saveForm(this.category)
-		    this.category.collected && websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:4,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+		    this.category.collected &&  websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:4,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 	    },
 	    fetchImgsData() {
 		    this.imgsArr = [...this.imgsArr, ...this.fetchImgsArr]
@@ -226,7 +222,7 @@
 	    back() {
 		    const header = this.$refs.header
 		    header && header.change && header.change('VDiscover')
-		    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:6,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+		    websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:6,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 	    },
 	    close() {
 		    const paginator = this.$refs.paginator
@@ -287,7 +283,8 @@
 						    this.$refs.fancybox.next = false
 						    this.$refs.fancybox.animation = true
 						    this.nextImg()
-						    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:15,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+						    !this.isFullScreen&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:15,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+						    this.isFullScreen&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:20,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 					    }
 					    this.timeout = setTimeout(() => {
 						    this.timeout = null
@@ -301,7 +298,6 @@
 						    this.$refs.fancybox.next = true
 						    this.$refs.fancybox.animation = true
 						    this.prevImg()
-						    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:16,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
 					    }
 					    this.timeout = setTimeout(() => {
 						    this.timeout = null
@@ -432,8 +428,8 @@
       left 0
       right 0
       margin auto
-      width 254px
-      height 48px
+      width 282px
+      height 45px
       line-height 3.3
       color #000000
       background #f4e66c

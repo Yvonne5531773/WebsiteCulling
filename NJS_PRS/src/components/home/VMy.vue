@@ -59,12 +59,11 @@
 	import { likes } from '../../mock/likes'
 	import { compareTime, setStore, getHost } from '../../config/utils'
 	import { mapState } from 'vuex'
-	import { categoryPath } from '../../config/config'
-
+	import { categoryPath, hotsitePath } from '../../config/config'
+	import txt from '../../config/txt'
 	export default {
 		data() {
 			return {
-				txt1: '该页面正在开发，敬请期待...',
 				contents: [
 //					{name: '我常用的', data: [], sort: 1},
 //					{name: '热门网站', data: [], sort: 2},
@@ -73,19 +72,15 @@
 //					{name: '我收藏的网单', data: [], sort: 5}
 				],
 				addmore: {
-					txt1: '收藏更多',
-					txt2: '赶快去收藏你喜欢的网单吧',
-					txt3: '在【发现网站】页，丰富的个性化网单等你挑选！',
-					txt4: '我喜欢的网站',
-					txt5: '赶快去收藏你喜欢的网站吧',
-					txt6: '点击喜欢，将网站一键加入我喜欢的网单！',
+					txt1: txt.TXT_28,
+					txt2: txt.TXT_29,
+					txt3: txt.TXT_30,
+					txt4: txt.TXT_31,
+					txt5: txt.TXT_32,
+					txt6: txt.TXT_33,
 				},
 				localCategories: [],
-				localSites: [],
-				likedSites: [],
 				histories: [],
-				bookmarks: [],
-				hotsitePath: '/v1/hotsite',
 			}
 		},
 		computed:{
@@ -157,7 +152,7 @@
 				//热门网站
 				let hotSites = []
 				try {
-					hotSites = await this.jsonp(this.hotsitePath)
+					hotSites = await this.jsonp(hotsitePath)
 					hotSites = hotSites? hotSites.slice(0, 32):[]
 				} catch (e) {
 					console.log('error: ', e)
@@ -176,15 +171,12 @@
 			},
 			async constructLike() {
 				//我的网单
-				this.localSites = await this.getSite()
-//				this.localSites = _.orderBy(this.localSites, ['views'], ['desc'])
-				this.likedSites = _.cloneDeep(_.reverse(this.localSites))
-				this.likedSites.filter(site => {
+				const localSites = await this.getSite()
+				likes[0].sites = _.cloneDeep(_.forEach(_.filter(_.reverse(localSites), site => {
 					return site.liked
-				}).forEach(site => {
+				}), site => {
 					site.url = getHost(site.url)
-				})
-				likes[0].sites = _.cloneDeep(this.likedSites)
+				}))
 				this.buildVM(likes, '我的网单', 4)
 			},
 			async constructCollect() {
@@ -268,28 +260,8 @@
 		position relative
 		top 115px
 		.containerRow
-			/*width 770px*/
 			margin auto
 			float left
-			.null
-				position absolute
-				margin auto
-				left 0
-				bottom 0
-				right 0
-				top 0
-				text-align center
-				font-size 15px
-				width 320px
-				height 345px
-				.txt1
-					font-size 18px
-					color #888888
-					margin-top 10px
-				img
-					position relative
-					bottom 10px
-					right 10px
 			.content
 				position relative
 				top 30px

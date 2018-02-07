@@ -14,10 +14,11 @@
 </template>
 
 <script>
+	import txt from '../../config/txt'
 	export default {
 		data() {
 			return {
-				tiptxt: '添加成功',
+				tiptxt: txt.TXT_5,
 			}
 		},
 		mounted(){
@@ -45,14 +46,14 @@
 		opacity .9
 		border-radius 4px
 		.a-c
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			margin: auto;
-			position: absolute;
-			height: 40px;
-			text-align: center;
+			top 0
+			bottom 0
+			left 0
+			right 0
+			margin auto
+			position absolute
+			height 40px
+			text-align center
 			width 122px
 			img
 				float left

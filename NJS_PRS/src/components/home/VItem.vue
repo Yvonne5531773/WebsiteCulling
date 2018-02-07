@@ -27,10 +27,11 @@
 	import { service } from 'components/common/mixin'
 	import { styleConfigPath } from '../../config/config'
 	import styleConfigs from '../../config/style'
+	import txt from '../../config/txt'
 	export default {
 		data() {
 			return {
-				moreTxt: '更多',
+				moreTxt: txt.TXT_27,
 				by: '',
 			}
 		},

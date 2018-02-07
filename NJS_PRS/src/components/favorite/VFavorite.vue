@@ -64,20 +64,21 @@
 	import Velocity from 'velocity-animate/velocity.min'
 	import { likes } from '../../mock/likes'
 	import { service } from 'components/common/mixin'
+	import txt from '../../config/txt'
 	export default {
 		data () {
 			return {
-				txt1: '发现网站',
 				categoryid: this.$route.query.categoryid,
 				category: {},
 				sites: [],
 				showAlert: false,
 				by: '',
-				noCollectTxt: '加入收藏',
-				collectTxt: '取消收藏',
-				likeTxt: '收藏',
-				likedTxt: '已收藏',
-				alertTxt: '已添加到我喜欢的网单',
+				txt1: txt.TXT_13,
+				noCollectTxt: txt.TXT_8,
+				collectTxt: txt.TXT_9,
+				likeTxt: txt.TXT_14,
+				likedTxt: txt.TXT_15,
+				alertTxt: txt.TXT_16,
 				collectAlertSTO: {},
 			}
 		},
@@ -85,7 +86,6 @@
 		mounted () {
 			this.init()
 			this.$nextTick(()=>{
-				//在$nextTick里重新赋值，不然v-lazy="category.avatar"会失效
 				this.category = _.cloneDeep(this.category)
 			})
 		},

@@ -7,6 +7,23 @@ import { mapMutations } from 'vuex'
 export const service = {
 	methods: {
 		...mapMutations(['SET_COMPONENT', 'SET_LIKED', 'SET_FULL_SCREEN', 'SET_POSITION']),
+
+		setComponent(component) {
+			this.SET_COMPONENT({component: component})
+		},
+
+		setLike(liked) {
+			this.SET_LIKED({liked: liked})
+		},
+
+		setFullScreen(isFullScreen) {
+			this.SET_FULL_SCREEN({isFullScreen: isFullScreen})
+		},
+
+		setPosition(position) {
+			this.SET_POSITION(position)
+		},
+
 		jsonp (path = '', type = 'get', data = {}) {
 			let url = ''
 			if(!~path.indexOf('http'))
@@ -128,22 +145,6 @@ export const service = {
 			if(url){
 				return !~url.indexOf('http')? 'http:'+url : url
 			}
-		},
-
-		setComponent(component) {
-			this.SET_COMPONENT({component: component})
-		},
-
-		setLike(liked) {
-			this.SET_LIKED({liked: liked})
-		},
-
-		setFullScreen(isFullScreen) {
-			this.SET_FULL_SCREEN({isFullScreen: isFullScreen})
-		},
-
-		setPosition(position) {
-			this.SET_POSITION(position)
 		},
 	},
 	filters: {

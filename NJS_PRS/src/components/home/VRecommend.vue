@@ -19,25 +19,22 @@
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
 	import { mockRecommend } from '../../mock/recommend'
+	import { recommendPath } from '../../config/config'
 export default {
 	data () {
 		return {
 			list: [],
-			path: '/v1/recommend'
 		}
 	},
 	mixins: [service],
 	mounted () {
 		this.init()
 	},
-	props: {
-
-	},
 	methods: {
 		async init () {
 			let res = {}
 			try {
-				res = await this.jsonp(this.path)
+				res = await this.jsonp(recommendPath)
 			}catch (e) {
 				console.log('error:', e)
 			}

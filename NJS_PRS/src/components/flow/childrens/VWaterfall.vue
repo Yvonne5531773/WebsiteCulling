@@ -8,9 +8,11 @@
   )
     .img-inner-box
       div.img-wraper(
-      @click="setActive(v)",
-      :style="{width:imgWidthC+'px',height:v.height?v.height+'px':'',position:'relative'}")
-        span(:style="{'position':'absolute','bottom':'0','width':'100%',color:'#fff',textAlign:'center',height:'30px',overflow:'hidden',lineHeight:'2',cursor:'pointer'}") {{v.title}}
+      @click="setActive(v)", @mouseenter="enterAndLeave(1, i)", @mouseleave="enterAndLeave(0, i)",
+      :style="{width:imgWidthC+'px',height:v.height?v.height+'px':'',position:'relative',cursor:'pointer'}"
+      )
+        span.title(ref="title") {{v.title}}
+        b.mask(ref="mask")
         img(:src="v.image")
 
   .loading(v-if="isPreloadingC", :class="{'first-loading':isFirstTIme}")
@@ -19,6 +21,7 @@
 </template>
 
 <script>
+import Velocity from 'velocity-animate/velocity.min'
 export default {
 	props: {
 		gap: {
@@ -193,7 +196,14 @@ export default {
 		setActive (img) {
 			const idx = this.imgsArr.map(img => img.image).indexOf(img.image)
 			this.$emit('changeIndex', idx)
-		}
+		},
+		enterAndLeave(opacity, index) {
+			const title = this.$refs.title[index],
+				mask = this.$refs.mask[index],
+				duration = 150
+			title && Velocity(title,{opacity: opacity},{duration:duration})
+			mask && Velocity(mask,{opacity: opacity},{duration:duration})
+		},
 	},
 }
 </script>
@@ -210,10 +220,32 @@ export default {
 			.img-inner-box
 				.img-wraper
 					width 100%
+					/*&:hover
+						.mask
+							opacity 1*/
 				img
 					width 100%
 					vertical-align bottom
 					cursor pointer
+				.title
+					position absolute
+					bottom 0
+					color #fff
+					padding-left 5px
+					height 30px
+					overflow hidden
+					line-height 2.3
+					cursor pointer
+					font-size 14px
+					opacity 0
+					z-index 1
+				.mask
+					opacity 0
+					height 30px
+					position absolute
+					bottom 0
+					width 100%
+					background linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0))
 		.loading
 			text-align center
 			position fixed

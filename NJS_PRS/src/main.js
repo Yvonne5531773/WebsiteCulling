@@ -6,6 +6,7 @@ import routes from './router/router'
 import VueLazyload from 'vue-lazyload'
 import VueResource from 'vue-resource'
 import { routerMode } from '../src/config/config'
+import _ from 'lodash'
 
 Vue.use(VueResource)
 

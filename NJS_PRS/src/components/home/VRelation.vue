@@ -37,12 +37,12 @@
 	import { getHost, clipstring } from '../../config/utils'
 	import VLoading from 'components/common/VLoading'
 	import { mockRelation } from '../../mock/relation'
+	import { aiRecommendPath } from '../../config/config'
 export default {
 	data () {
 		return {
 			list: [],
 			vm: [],
-			path: '/v1/ai_recommend',
 			title: '猜你喜欢',
 			txt1: '根据您的上网兴趣推荐',
 			txt2: '换一换',
@@ -86,7 +86,7 @@ export default {
 		async getRelations(bookmarksStr) {
 			let list = []
 			try {
-				list = await this.jsonp(this.path, 'post', 'urls=' + bookmarksStr)
+				list = await this.jsonp(aiRecommendPath, 'post', 'urls=' + bookmarksStr)
 			}catch(e) {
 				console.log('error', e)
 			}

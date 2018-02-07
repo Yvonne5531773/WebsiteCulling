@@ -6,7 +6,7 @@
 		leave-active-class="animated fadeOut">
 		<div ref="function" :class="[type===1?'f-flow function':'f-list function']" v-if="show">
 			<!--<a class="btn refresh" title="刷新" @click="refresh"></a>-->
-			<a class="btn collect" :title="collectTxt" @click="collect"></a>
+			<a v-if="!category.collected" class="btn collect" :title="collectTxt" @click="collect"></a>
 			<a class="btn back-to-top" @click="backToTop" :title="bttTxt"></a>
 		</div>
 	</transition>
@@ -15,12 +15,14 @@
 <script>
 	import { websiteApi } from 'api'
 	import { getOperationFullTime } from '../../config/utils'
+	import txt from '../../config/txt'
 	export default {
 		data() {
 			return {
-				bttTxt: '返回顶部',
-				collectTxt: '加入收藏',
+				bttTxt: txt.TXT_11,
+				collectTxt: txt.TXT_8,
 				duration: 300,
+//				scrollVal: 0,
 			}
 		},
 		props: {
@@ -34,14 +36,68 @@
 			collect: {
 				type: Function
 			},
-			categoryId: {},
+			category: {
+				type: Object
+			},
 			scrollEle: {},
+		},
+		created() {
+			window.onscroll = ()=>{
+				return (() => {
+					this.scrollVal = this.getScrollTop() + this.getWindowHeight()
+				})()
+			};
+		},
+		watch: {
+			scrollVal(val) {
+//				this.scrollVal = val
+//				console.log('in watch scrollVal', this.scrollVal)
+//				if(this.scrollVal === this.getScrollHeight()){
+//					setTimeout(()=>{
+//						this.show = true
+//					}, 200)
+//				}
+//				if(this.scrollVal < this.getScrollHeight()){
+//					this.show = false
+//				}
+			}
 		},
 		methods: {
 			backToTop() {
 				this.scrollEle.scrollTop = 0
-				websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:11,name:this.categoryId+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:7,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 			},
+			getScrollTop(){
+				let scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+				if(document.body){
+					bodyScrollTop = document.body.scrollTop;
+				}
+				if(document.documentElement){
+					documentScrollTop = document.documentElement.scrollTop;
+				}
+				scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+				return scrollTop;
+			},
+			getScrollHeight(){
+				let scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+				if(document.body){
+					bodyScrollHeight = document.body.scrollHeight;
+				}
+				if(document.documentElement){
+					documentScrollHeight = document.documentElement.scrollHeight;
+				}
+				scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
+				return scrollHeight;
+			},
+			getWindowHeight(){
+				let windowHeight = 0;
+				if(document.compatMode === "CSS1Compat"){
+					windowHeight = document.documentElement.clientHeight;
+				}else{
+					windowHeight = document.body.clientHeight;
+				}
+				return windowHeight;
+			}
 		}
 	}
 </script>

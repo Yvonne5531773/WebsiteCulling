@@ -45,7 +45,7 @@
           </VRecyclist>
         </section>
         <VFrom :isFixed="isFixed" :categoryid="categoryid" :sites="sites"></VFrom>
-        <VFunction :show="isFixed" :scrollEle="$refs.content" :categoryId="categoryid" :type="2" :collect="collect"></VFunction>
+        <VFunction :category="category" :show="isFixed" :scrollEle="$refs.content" :type="2" :collect="collect"></VFunction>
       </div>
     </div>
     <VAlert v-show="showAlert"></VAlert>
@@ -64,8 +64,8 @@
 	import { getHost, md5, getOperationFullTime } from '../../config/utils'
 	import { dataServicePath } from '../../config/config'
 	import Velocity from 'velocity-animate/velocity.min'
-  import {mockList} from '../../mock/list'
-
+	import txt from '../../config/txt'
+//  import {mockList} from '../../mock/list'
   export default {
 	  data () {
 		  return {
@@ -80,13 +80,13 @@
 			  loadIndex: 0,
 			  showAlert: false,
 			  collectAlertSTO: {},
-        txt: '精品资讯',
         isFixed: false,
-        loadTxt: '加载中...',
         refreshing: false,
-			  refreshTxt: '推荐中...',
-        noMoreTxt: '已全部加载完成',
-			  nomore: false
+			  nomore: false,
+			  txt: txt.TXT_35,
+			  loadTxt: txt.TXT_36,
+			  refreshTxt: txt.TXT_37,
+        noMoreTxt: txt.TXT_38,
 		  }
 	  },
 	  mixins: [service],
@@ -101,11 +101,11 @@
 		    websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:1,name:this.categoryid+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 	    },
       async getList() {
-//	      const path = dataServicePath + 'index/' + this.categoryid + '.json',
-//		      list = await this.getJSON(path)
-//	      return _.unionBy(list, 'title')
+	      const path = dataServicePath + 'index/' + this.categoryid + '.json',
+		      list = await this.getJSON(path)
+	      return _.unionBy(list, 'title')
 
-			  return _.unionBy(mockList, 'title')
+//			  return _.unionBy(mockList, 'title')
       },
       async constructSites() {
 	      let sites = _.cloneDeep(this.category.sites)
@@ -179,7 +179,7 @@
     }
 }
 </script>
-<style src="./cssloading.css"></style>
+
 <style lang="stylus" rel="stylesheet/stylus">
   .v-list
     zoom 1

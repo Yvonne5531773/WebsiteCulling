@@ -8,8 +8,8 @@
         <a v-if="!isFullScreen" class="btn full" @click.stop="full">
           <span>{{fullTxt}}</span>
         </a>
-        <a class="btn like" :style="images[index].liked&&`backgroundPosition:-160px`" @click.stop="like(images[index])">
-          <span v-if="images[index].liked">{{likedTxt}}</span>
+        <a class="btn like" :style="images[index].liked&&`backgroundPosition:-180px`" @click.stop="like(images[index])">
+          <span v-if="images[index].liked" :style="">{{likedTxt}}</span>
           <span v-else>{{nolikedTxt}}</span>
         </a>
       </div>
@@ -30,31 +30,24 @@
 	import { websiteApi } from 'api'
 	import { getOperationFullTime } from '../../../config/utils'
 	import { service } from 'components/common/mixin'
+	import txt from '../../../config/txt'
 	export default {
 		data () {
 			return {
 				index: 0,
 				isMove: false,
 				showCount: 9,
-				nolikedTxt: '收藏',
-				likedTxt: '已收藏',
-        fullTxt: '全屏',
+				nolikedTxt: txt.TXT_14,
+				likedTxt: txt.TXT_15,
+        fullTxt: txt.TXT_17,
+				tipTxt: txt.TXT_18,
 				isFullScreen: document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen,
-        tipTxt: '*本页面仅展示互联网随机内容，内容不代表本站立场，请用户自行甄别内容性质。',
 //				screenWidth: document.body.clientWidth
 			}
 		},
 		created () {
 			const that = this
-			document.addEventListener('fullscreenchange', () => {
-				that.isFullScreen = !that.isFullScreen
-        this.setFullScreen(that.isFullScreen)
-			})
 			document.addEventListener('webkitfullscreenchange', () => {
-				that.isFullScreen = !that.isFullScreen
-				this.setFullScreen(that.isFullScreen)
-			})
-			document.addEventListener('mozfullscreenchange', () => {
 				that.isFullScreen = !that.isFullScreen
 				this.setFullScreen(that.isFullScreen)
 			})
@@ -86,7 +79,6 @@
 				this.init()
       },
 			isFullScreen() {
-				console.log('watch isFullScreen', this.isFullScreen)
 				this.setFullScreen(this.isFullScreen)
       }
 		},
@@ -94,7 +86,7 @@
 			init () {
 				this.index = this.setIndex(this.activeIndex)
 				this.setActive(this.activeIndex)
-				const that = this
+//				const that = this
 //				window.onresize = () => {
 //					return (() => {
 //						window.screenWidth = document.body.clientWidth
@@ -155,7 +147,7 @@
 			open(flag) {
 				const action = flag===1? 8 : 9,
 					url = flag===1? this.images[this.index].url : this.images[this.index].host
-				websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:action,name:this.category.id+'',url:url,action_time:getOperationFullTime(new Date())})
+				websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 			},
 			full() {
 				const launchFullscreen = element => {
@@ -168,6 +160,7 @@
 					} else if (element.msRequestFullscreen) {
 						element.msRequestFullscreen()
 					}
+					websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:16,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 				}
 				const exitFullscreen = () => {
 					if (document.exitFullscreen) {
@@ -248,7 +241,7 @@
         span
           line-height 2.7
           position relative
-          left 41px
+          left 39px
       .image
         .arrow
           display inline-block

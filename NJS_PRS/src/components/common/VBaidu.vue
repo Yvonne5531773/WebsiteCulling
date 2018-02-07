@@ -1,7 +1,7 @@
 <template>
 	<div class="baidu-search">
 		<div class="content">
-			<a class="logo" target="_blank" href="http://www.baidu.com"></a>
+			<a class="logo" target="_blank" :href="baiduURL"></a>
 			<input type="text" class="input" :placeholder="txt" v-model='inputText' @keyup='show($event)' @keydown.down='down()' @keydown.up.prevent='up()' @focus="focusInput" @blur="blurInput">
 			<span class="btn" @click="goto()">
 	     <input type="submit" :value="inputTxt" >
@@ -18,17 +18,24 @@
 <script>
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
+	import { baiduPath } from '../../config/config'
+	import txt from '../../config/txt'
 	export default {
 		data() {
 			return {
 				inputText: '',
-				txt: '请输入搜索内容 ',
+				txt: txt.TXT_6,
+				inputTxt: txt.TXT_7,
 				text: '',
 				nowIndex: -1,
 				result: [],
-				inputTxt: '搜一搜',
 				focus: false,
-				path: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su/wd=?wd='
+				searchURL: ['http://unionsug.baidu.com/su?wd=', '&p=3&cb=window.baidu.sug&ie=UTF-8&t=']
+			}
+		},
+		computed: {
+			baiduURL() {
+				return baiduPath
 			}
 		},
 		mixins: [service],
@@ -36,31 +43,34 @@
 			async show (ev) {
 				if (ev.keyCode === 38 || ev.keyCode === 40) {
 					if (this.nowIndex < -1){
-						return;
+						return
 					}
 					if (this.nowIndex !== this.result.length && this.nowIndex !== -1) {
 						this.inputText = this.result[this.nowIndex];
 					}
-					return;
+					return
 				}
 				if (ev.keyCode === 13) {
-					window.open('https://www.baidu.com/s?wd=' + this.inputText, '_blank');
-					this.inputText = '';
+					const url = this.baiduURL + encodeURIComponent(this.inputText)
+					window.open(url, '_blank')
+					this.inputText = ''
 				}
 				this.text = this.inputText;
-				const path = "http://unionsug.baidu.com/su?wd=" + encodeURIComponent(this.inputText) + "&p=3&cb=window.baidu.sug&ie=UTF-8&t=" + Date.now();
-				let res = await this.submitHTTPRequest([path, '', ''])
+				const search = this.searchURL[0] + encodeURIComponent(this.inputText) + this.searchURL[1] + Date.now();
+				let res = await this.submitHTTPRequest([search, '', ''])
 				if(!_.isEmpty(res.return_data) && res.return_data.indexOf('w') === 0){
-					res = res.return_data.replace(/^window\.baidu\.sug\(|\);?$/g, '').replace(/[a-zA-Z](?=\:)/g, '"$&"');
+					res = res.return_data.replace(/^window\.baidu\.sug\(|\);?$/g, '').replace(/[a-zA-Z](?=\:)/g, '"$&"')
 				}
 				this.result = !_.isEmpty(res)? _.cloneDeep(JSON.parse(res).s):''
 			},
 			goto() {
+				const url = this.baiduURL + encodeURIComponent(this.inputText)
 				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:2,url:'',value:0})
-				window.open('https://www.baidu.com/s?wd=' + this.inputText, '_blank');
+				window.open(url, '_blank');
 			},
 			goItem(item) {
-				window.open('https://www.baidu.com/s?wd=' + item, '_blank');
+				const url = this.baiduURL + encodeURIComponent(item)
+				window.open(url, '_blank');
 			},
 			down () {
 				this.nowIndex++;

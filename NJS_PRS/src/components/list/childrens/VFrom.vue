@@ -26,14 +26,14 @@
 	import { service } from 'components/common/mixin'
 	import { getHost, clipstring, getOperationFullTime } from '../../../config/utils'
 	import { mockRelation } from '../../../mock/relation'
+	import txt from '../../../config/txt'
 export default {
 	data () {
 		return {
 			list: [],
 			vm: [],
-			path: '/v1/ai_recommend',
-			title: '来源网站',
-			txt: '收藏',
+			title: txt.TXT_34,
+			txt: txt.TXT_14,
 			index: 0,
 			screenWidth: document.body.clientWidth,
 			right: document.body.clientWidth>=1066?document.body.clientWidth-((document.body.clientWidth-1100)/2+820+25+214):document.body.clientWidth-(820+214)

@@ -36,7 +36,7 @@
 <script type="text/ecmascript-6">
   import { websiteApi } from 'api'
   import { getOperationFullTime } from '../../../config/utils'
-
+  import txt from '../../../config/txt'
   export default {
     props: {
       index: Number,
@@ -50,8 +50,8 @@
     },
     data () {
       return {
-	      nolikedTxt: '收藏',
-	      likedTxt: '已收藏',
+	      nolikedTxt: txt.TXT_14,
+	      likedTxt: txt.TXT_15,
 //        next: true,
 //        animation: false,
       }
@@ -70,7 +70,8 @@
 	      this.$emit('decIndex')
 	      this.next = true
 	      this.animation = true
-	      websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:11,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+        const action = this.isFullScreen? 18 : 11
+	      websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
       },
       addIndex (flag) {
         if (this.index < this.images[this.index].total - 1) {
@@ -78,8 +79,8 @@
 	        this.next = false
 	        this.animation = true
         }
-        const action = flag===1? 14:10
-	      websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:action,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+        const action = flag===1? (this.isFullScreen?19:14) : (this.isFullScreen?17:10)
+	      websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
       },
 	    like(site) {
 		    this.$emit('addLike', site)
@@ -87,7 +88,7 @@
 	    open(flag) {
       	const action = flag===1? 8 : 9,
           url = flag===1? this.images[this.index].url : this.images[this.index].host
-		    websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:action,name:this.category.id+'',url:url,action_time:getOperationFullTime(new Date())})
+		    websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
       },
     },
   }
@@ -108,13 +109,9 @@
       .image
         vertical-align middle
         object-fit contain
-        max-height calc(100vh - 30px)
+        max-height 100vh
         min-height 200px
         max-width 69vw
-        /*@media screen and (max-width 1366px)
-					max-width: calc(42vw)
-				@media screen and (max-width 1920px)
-					max-width: calc(98vw)*/
         margin 0 auto
         cursor pointer
         user-select none

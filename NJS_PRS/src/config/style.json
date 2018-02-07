@@ -63,7 +63,26 @@
 		}
 	},
 	{
+		"categoryId": 245,
+		"path": "flow",
+		"config": {
+			"imgWidth": 254,
+			"maxCols": 8,
+			"loadCount": 20
+		}
+	},
+	{
 		"categoryId": 43,
+		"path": "list",
+		"config": {}
+	},
+	{
+		"categoryId": 52,
+		"path": "list",
+		"config": {}
+	},
+	{
+		"categoryId": 22,
 		"path": "list",
 		"config": {}
 	}

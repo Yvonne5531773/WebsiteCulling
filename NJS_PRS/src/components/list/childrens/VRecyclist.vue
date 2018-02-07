@@ -40,11 +40,11 @@
   export default {
     data() {
       return {
-        items: [], // Wrapped full list items
-        height: 0, // Full list height
-        loadings: [], // Loading status queue
-        start: 0, // Visible items start index
-        startOffset: 0, // Start item offset
+        items: [],
+        height: 0,
+        loadings: [],
+        start: 0,
+        startOffset: 0,
       }
     },
     computed: {
@@ -150,12 +150,10 @@
             continue
           }
           this.setItem(i, this.list[i] || null)
-          // update newly added items position
           loads.push(this.$nextTick().then(() => {
             this.updateItemHeight(i)
           }))
         }
-        // update items top and full list height
         Promise.all(loads).then(() => {
           this.updateItemTop()
         })
@@ -170,25 +168,21 @@
         })
       },
       updateItemHeight(index) {
-        // update item height
         let cur = this.items[index]
         let dom = this.$refs['item' + index]
         if (dom && dom[0]) {
           cur.height = dom[0].offsetHeight
         } else {
-          // item is tombstone
           cur.height = this.tombHeight
         }
       },
       updateItemTop() {
-        // loop all items to update item top and list height
         this.height = 0
         for (let i = 0; i < this.items.length; i++) {
           let pre = this.items[i - 1]
           this.items[i].top = pre ? pre.top + pre.height : 0
           this.height += this.items[i].height
         }
-        // update scroll top when needed
         if (this.startOffset) {
           this.setScrollTop()
         }
@@ -196,7 +190,6 @@
         this.makeScrollable()
       },
       updateIndex() {
-        // update visible items start index
         let top = this.scrollElement.scrollTop
         for (let i = 0; i < this.items.length; i++) {
           if (this.items[i].top > top) {
@@ -213,7 +206,6 @@
       setScrollTop() {
         if (this.items[this.start]) {
           this.scrollElement.scrollTop = this.items[this.start].top - this.startOffset
-          // reset start item offset
           this.startOffset = 0
         }
       },
@@ -222,7 +214,7 @@
       },
       onScroll() {
         const listTop = this.scrollElement.children[1].offsetTop
-        if(this.scrollElement.scrollTop >= listTop-80) {
+        if(this.scrollElement.scrollTop >= listTop) {
       		this.$emit('response', true)
         }else {
 	        this.$emit('response', false)
@@ -247,7 +239,7 @@
   }
 
 </script>
-<style src="../cssloading.css"></style>
+<style src="./load.css"></style>
 <style lang="stylus" rel="stylesheet/stylus">
   .vue-recyclist
     height 100%
@@ -285,7 +277,5 @@
       margin 10px auto
       height 20px
       text-align center
-      /*position relative*/
-      /*bottom 35px*/
       color #5b5b5b
 </style>

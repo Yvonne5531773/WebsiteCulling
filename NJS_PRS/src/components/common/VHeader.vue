@@ -12,7 +12,7 @@
 				<a class="option" v-for="(component, index) in components" :style="!favoritePage && component.selected&&`color:#ffffff;borderBottom:5px solid #f7ea53`" @click="change(component.name, 1) ">{{component.txt}}
 					<span v-if="component.name===`VMy` && liked" class="dot">●</span>
 				</a>
-				<a class="fb" :href="fbHref" target="_blank">{{feedback}}</a>
+				<a class="fb" :href="href" target="_blank">{{feedback}}</a>
 				<b v-if="!favoritePage" class="back-guide" @click="backGuide">
 					<span>{{txt3}}</span>
 				</b>
@@ -23,29 +23,38 @@
 
 <script>
 	import { mapState } from 'vuex'
-	import _ from 'lodash'
-	import { getStore, setStore, getOperationFullTime } from '../../config/utils'
+	import { getOperationFullTime } from '../../config/utils'
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
+	import { fbHref } from '../../config/config'
+	import txt from '../../config/txt'
 
 	export default {
 		data() {
 			return {
-				txt1: '猎豹网址精选',
-				txt2: '新一代智能网址导航',
-				txt3: '重选兴趣',
-				feedback: '我要反馈',
-				fbHref: 'http://www.liebao.cn/helper/feedback/',
+				txt1: txt.TXT_1,
+				txt2: txt.TXT_2,
+				txt3: txt.TXT_3,
+				feedback: txt.TXT_4,
 				components:
 					[
-						{name: 'VMy',txt:'我的网站', selected: false},
-						{name: 'VDiscover', txt: '发现网站', selected: false},
+						{name:'VMy',txt:'我的网站',selected:false},
+						{name:'VDiscover', txt:'发现网站',selected:false},
 					],
 			}
 		},
 		props: {
 			favoritePage: {
 				type: Boolean
+			}
+		},
+		computed:{
+			...mapState([
+				'component',
+				'liked'
+			]),
+			href() {
+				return fbHref
 			}
 		},
 		mixins: [service],
@@ -74,19 +83,13 @@
 				this.liked && name==='VMy' && this.setLike(false)
 				type===1&&this.component==='VMy'&&!this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:6,value:0,hotsite:0,url:'',name:''})
 				type===1&&this.component==='VMy'&&this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:5,name:'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
-				type===1&&this.component==='VDiscover'&&this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:7,name:'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				type===1&&this.component==='VDiscover'&&this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:6,name:'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 			},
 			backGuide() {
 				this.component==='VDiscover'&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:5,value:0,hotsite:0,url:'',name:''})
 				this.component==='VMy'&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:10,url:'',value:0})
 				this.$router.push({path: '/guide'})
 			}
-		},
-		computed:{
-			...mapState([
-				'component',
-				'liked'
-			])
 		},
 	}
 </script>

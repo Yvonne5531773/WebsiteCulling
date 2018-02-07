@@ -50,7 +50,6 @@
 						</div>
 					</div>
 				</div>
-				<!--<div style="background: rgba(0,0,0,0.6); " class="mask"></div>-->
 			</div>
 		</transition>
 	</div>
@@ -61,26 +60,26 @@
 	import { setStore, getStore } from '../../config/utils'
 	import { service } from 'components/common/mixin'
 	import Velocity from 'velocity-animate/velocity.min'
-
+	import { indexPath } from '../../config/config'
+	import txt from '../../config/txt'
 	export default {
 		data() {
 			return {
-				startBtnTxt: '开始使用',
-				noSelectBtnTxt: '选择几个兴趣试试',
+				startBtnTxt: txt.TXT_21,
+				noSelectBtnTxt: txt.TXT_22,
 				list: [],
 				rows: [],
 				infoArray: [],
 				selectids: [],
 				resIds: [],
-				path: '/v1/index',
 				ROW_NUM: 3,
 				COLUMN_NUM: 7,
 				vGif: false,
 				hole: false,
 				lightBlock: {},
 				lightBlockEl: {},
-				tipTxt1: '选择兴趣',
-				tipTxt2: '马上发现优质网站',
+				tipTxt1: txt.TXT_23,
+				tipTxt2: txt.TXT_24,
 				gifSI: '',
 				tipSTO: '',
 				hasSelected: true
@@ -98,7 +97,7 @@
 					data = {}
 				this.infoArray = !_.isEmpty(info)? info.split(',') : []
 				try {
-					data = await this.jsonp(this.path)
+					data = await this.jsonp(indexPath)
 				} catch (e) {
 					console.log('error: ', e)
 				}

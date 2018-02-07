@@ -16,12 +16,13 @@
 </template>
 
 <script>
+	import txt from '../../config/txt'
 	export default {
 		data() {
 			return {
-				noCollectTxt: '加入收藏',
-				collectTxt: '取消收藏',
-				backTxt: '返回',
+				noCollectTxt: txt.TXT_8,
+				collectTxt: txt.TXT_9,
+				backTxt: txt.TXT_10,
 			}
 		},
 		props: {
