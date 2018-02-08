@@ -25,7 +25,7 @@
       <slot name="spinner">
         <div class="vue-recyclist-loading-content">
           <div class="cssloading-circle spinner"></div>
-          <span style="position:absolute;bottom:0px">{{loadTxt}}</span>
+          <span style="position:absolute;bottom:0">{{loadTxt}}</span>
         </div>
       </slot>
     </div>

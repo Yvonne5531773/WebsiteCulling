@@ -15,7 +15,8 @@
       </div>
       <div class="image">
         <div class="thumbnail-wrapper" v-for="(item, i) in activeImages" :key="item.index" @click.stop="setActive(item.index-1)">
-          <div :class="{'thumbnail active': item&&item.isActive, 'thumbnail': item&&!item.isActive}" :style="{backgroundImage:'url('+item.src+')'}" v-if="!isMove"></div>
+          <div :class="{'thumbnail active': item&&item.isActive, 'thumbnail': item&&!item.isActive}" :style="{backgroundImage:'url('+item.src+')'}" v-if="!isMove && !item.lazy"></div>
+          <div v-else="!isMove" v-lazy:background-image="item.lazy" :class="{'thumbnail active': item&&item.isActive, 'thumbnail': item&&!item.isActive}"></div>
         </div>
       </div>
     </section>

@@ -5,7 +5,8 @@
 		"config": {
 			"imgWidth": 254,
 			"maxCols": 8,
-			"loadCount": 20
+			"firstLoadCount": 20,
+			"loadCount": 16
 		}
 	},
 	{
@@ -14,7 +15,8 @@
 		"config": {
 			"imgWidth": 284,
 			"maxCols": 8,
-			"loadCount": 40
+			"firstLoadCount": 20,
+			"loadCount": 16
 		}
 	},
 	{
@@ -23,7 +25,8 @@
 		"config": {
 			"imgWidth": 254,
 			"maxCols": 8,
-			"loadCount": 20
+			"firstLoadCount": 20,
+			"loadCount": 16
 		}
 	},
 	{
@@ -32,7 +35,8 @@
 		"config": {
 			"imgWidth": 254,
 			"maxCols": 8,
-			"loadCount": 20
+			"firstLoadCount": 20,
+			"loadCount": 16
 		}
 	},
 	{
@@ -41,7 +45,8 @@
 		"config": {
 			"imgWidth": 254,
 			"maxCols": 8,
-			"loadCount": 20
+			"firstLoadCount": 20,
+			"loadCount": 16
 		}
 	},
 	{
@@ -50,7 +55,8 @@
 		"config": {
 			"imgWidth": 254,
 			"maxCols": 8,
-			"loadCount": 20
+			"firstLoadCount": 20,
+			"loadCount": 16
 		}
 	},
 	{
@@ -59,7 +65,8 @@
 		"config": {
 			"imgWidth": 254,
 			"maxCols": 8,
-			"loadCount": 20
+			"firstLoadCount": 20,
+			"loadCount": 16
 		}
 	},
 	{
@@ -68,22 +75,44 @@
 		"config": {
 			"imgWidth": 254,
 			"maxCols": 8,
-			"loadCount": 20
+			"firstLoadCount": 20,
+			"loadCount": 16,
+			"gif": true
 		}
 	},
 	{
 		"categoryId": 43,
 		"path": "list",
-		"config": {}
+		"config": {
+			"loadCount": 12
+		}
 	},
 	{
 		"categoryId": 52,
 		"path": "list",
-		"config": {}
+		"config": {
+			"loadCount": 12
+		}
 	},
 	{
 		"categoryId": 22,
 		"path": "list",
-		"config": {}
+		"config": {
+			"loadCount": 12
+		}
+	},
+	{
+		"categoryId": 86,
+		"path": "list",
+		"config": {
+			"loadCount": 12
+		}
+	},
+	{
+		"categoryId": 38,
+		"path": "list",
+		"config": {
+			"loadCount": 12
+		}
 	}
 ]

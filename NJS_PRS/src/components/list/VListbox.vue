@@ -10,9 +10,6 @@
             <div class="cssloading-circle spinner"></div>
             <h2>{{refreshTxt}}</h2>
           </div>
-          <!--<div class="fix" v-if="isFixed">-->
-            <!--<h2 class="head">{{txt}}</h2>-->
-          <!--</div>-->
           <VRecyclist :list="listArr" :size="size" :loadmore="loadmore" :scrollElement="$refs.content" :offset="offest" :loadTxt="loadTxt" :nomore="nomore" @response="response($event)">
             <!--<template slot="tombstone" scope="props">-->
               <!--<div class="item tombstone">-->
@@ -33,7 +30,7 @@
                   <div class="avatar" :style="{backgroundImage: 'url(' + (props.data.image || '') + ')'}"></div>
                 </a>
                 <div class="bubble">
-                  <p @click="open(2, props.data)">{{ props.data.title }}</p>
+                  <p @click="open(2, props.data)">{{ props.data.title | clip(50) }}</p>
                   <a class="meta" @click="open(3, props.data)">
                     <span class="summary">{{ props.data.summary | clip(150) }}</span>
                   </a>
@@ -65,21 +62,21 @@
 	import { dataServicePath } from '../../config/config'
 	import Velocity from 'velocity-animate/velocity.min'
 	import txt from '../../config/txt'
-//  import {mockList} from '../../mock/list'
+  import {mockList} from '../../mock/list'
   export default {
 	  data () {
 		  return {
 			  categoryid: this.$route.query.categoryid||'',
 			  categoryname: this.$route.query.name||'',
+			  size: 0,
 			  category: {},
         sites: [],
         list: [],
 			  listArr: [],
-			  size: 10,
-			  offest: 600,
+			  collectAlertSTO: {},
+			  offest: 800,
 			  loadIndex: 0,
 			  showAlert: false,
-			  collectAlertSTO: {},
         isFixed: false,
         refreshing: false,
 			  nomore: false,
@@ -95,6 +92,8 @@
 	  },
     methods: {
 	    async init () {
+		    const config = JSON.parse(this.$route.query.config)
+	    	this.size = config.loadCount || 20
 	    	this.list = await this.getList()
 		    this.category = await this.constructCategory()
         this.sites = await this.constructSites()
@@ -104,7 +103,6 @@
 	      const path = dataServicePath + 'index/' + this.categoryid + '.json',
 		      list = await this.getJSON(path)
 	      return _.unionBy(list, 'title')
-
 //			  return _.unionBy(mockList, 'title')
       },
       async constructSites() {
@@ -247,7 +245,7 @@
             .b-line
               background #edeff1
               height 1.4px
-              width 93%
+              width 92.8%
               position absolute
               bottom 0
             .bubble

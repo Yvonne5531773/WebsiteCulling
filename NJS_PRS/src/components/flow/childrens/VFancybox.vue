@@ -1,33 +1,10 @@
 <template>
   <div class="fancybox" :style="isFullScreen&&`width:100%;marginRight:0px`">
     <div class="image-wrapper">
-      <!--<div class="i-l">-->
-        <!--<div class="header">-->
-        <!--<div class="full" @click.stop="full" v-if="showFullScreen">-->
-        <!--<icon v-if="!isFullScreen" :type="'full'" :color="'#ccc'"></icon>-->
-        <!--<icon v-else :type="'exitfull'" :color="'#ccc'"></icon>-->
-        <!--</div>-->
-        <!--<div class="close" @click.stop="close" v-show="showclosebutton">-->
-        <!--<icon :type="'close'" :color="'#ccc'"></icon>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--<transition-group style="white-space:nowrap" :duration="800" :enter-active-class="'animated ' + transition.enterClass" :leave-active-class="'animated ' + transition.leaveClass">-->
+      <!--<transition-group style="white-space:nowrap" :duration="800" :enter-active-class="'animated ' + transition.enterClass" :leave-active-class="'animated ' + transition.leaveClass">-->
       <img ref="images" class="image" v-for="item in images" :key="item.index" :src="item.src" v-show="item.index===index+1" @click.stop="addIndex(1)">
-        <!--</transition-group>-->
-        <!--<div class="footer">-->
-        <!--<span class="caption" @click.stop v-show="showcaption" v-html="images[index].caption"></span>-->
-        <!--<span class="count" @click.stop v-show="showimagecount">{{ index+1 }} {{imagecountseparator}} {{ images[index].total }}</span>-->
-        <!--</div>-->
-      <!--</div>-->
+      <!--</transition-group>-->
     </div>
-    <!--<div v-if="images[index]" class="bottom">-->
-      <!--<a :href="images[index].url" target="_blank" class="b-t center-to-head" @click.stop="open(1)">{{images[index].title}}</a>-->
-      <!--<a :href="images[index].host" target="_blank" class="center-to-head" @click.stop="open(2)" style="width:30%">{{images[index].from}}</a>-->
-      <!--<a class="like" :style="images[index].liked&&`backgroundPosition:-160px`" @click.stop="like(images[index])">-->
-        <!--<span v-if="images[index].liked">{{likedTxt}}</span>-->
-        <!--<span v-else>{{nolikedTxt}}</span>-->
-      <!--</a>-->
-    <!--</div>-->
     <div v-if="index > 0" class="arrow left" @click.stop="decIndex"></div>
     <div v-if="images[index] && index < images[index].total-1" class="arrow right" @click.stop="addIndex"></div>
   </div>

@@ -15,7 +15,7 @@
         b.mask(ref="mask")
         img(:src="v.image")
 
-  .loading(v-if="isPreloadingC", :class="{'first-loading':isFirstTIme}")
+  .loading(v-show="isPreloadingC", :class="{'first-loading':isFirstTIme}")
     div.double-bounce1
     div.double-bounce2
 </template>
@@ -40,9 +40,13 @@ export default {
 			type: Number,
 			default: 240
 		},
+		//加载时间大于该值才出现加载图
 		timeOut: {
 			type: Number,
-			default: 500
+			default: 2000
+		},
+		fetchImgsData: {
+			type: Function
 		}
 	},
 	data() {
@@ -58,7 +62,6 @@ export default {
 			loadedCount: 0,
 			isFirstTIme: true,
       failImgs: [],
-      loadOffest: 200,
 		}
 	},
 	computed: {
@@ -95,7 +98,7 @@ export default {
 			}
 			if (this.isPreloading) return
 			const lastImgHeight = this.imgsArr[this.imgsArr.length - 1].height || 0
-			if (this.$el.parentNode.scrollTop+this.$el.parentNode.offsetHeight >= this.$el.parentNode.scrollHeight-lastImgHeight-this.loadOffest) {
+			if (this.$el.parentNode.scrollTop+this.$el.parentNode.offsetHeight >= this.$el.parentNode.scrollHeight-lastImgHeight*2.5) {
 				this.$emit('scrollLoadImg')
 			}
 		})
@@ -142,10 +145,10 @@ export default {
 				}
 			}
 			if (this.loadedCount === this.imgsArr.length-this.failImgs.length) {
-				this.imgsArrC = _.cloneDeep(this.imgsArr)
-				this.imgsArrC = this.imgsArrC.filter((img) => {
+				this.imgsArrC = _.filter(_.cloneDeep(this.imgsArr), img => {
 					return img && img.height
 				})
+				this.isFirstTIme && this.fetchImgsData()
 				this.isPreloading = false
 				this.isFirstTIme = false
 				this.$nextTick(() => {

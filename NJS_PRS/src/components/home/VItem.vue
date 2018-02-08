@@ -77,7 +77,7 @@
 				data.query = {
 					categoryid: this.category.id,
 					name: this.category.name,
-					config: !_.isEmpty(style)? style.config:''
+					config: !_.isEmpty(style)? JSON.stringify(style.config):''
 				}
 				this.$router.push(data)
 			}

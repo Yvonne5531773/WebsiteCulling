@@ -12,8 +12,8 @@ Vue.use(VueResource)
 
 Vue.use(VueLazyload, {
 	preLoad: 1.5,
-	loading: 'static/img/home/default.png',
-	error: 'static/img/home/default.png'
+	loading: 'static/img/default.png',
+	error: 'static/img/default.png'
 })
 
 Vue.use(VueRouter)

@@ -3,7 +3,7 @@
     <VHeader ref="header" :favoritePage="true"></VHeader>
     <div ref="content" class="content">
       <VBanner :category="category" :collect="collect" @back="back"></VBanner>
-      <VWaterfall v-if="imgsArr&&imgsArr.length>0" :imgsArr='imgsArr' :imgWidth="imgWidth" :maxCols="maxCols" @scrollLoadImg="fetchImgsData" @changeIndex="changeImg($event)" @response="response($event)"></VWaterfall>
+      <VWaterfall v-if="imgsArr&&imgsArr.length>0" :imgsArr='imgsArr' :imgWidth="imgWidth" :maxCols="maxCols" :fetchImgsData="fetchImgsData" @scrollLoadImg="fetchImgsData" @changeIndex="changeImg($event)" @response="response($event)"></VWaterfall>
       <transition :duration="300" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
         <div ref="lightbox" class="lightbox" v-if="isShow" @click="isShow=!modalclose" :style="!isFullScreen&&`padding:0 20px 0 20px`">
           <VFancybox ref="fancybox" :images="articles" :index="articlesIndex" :reset="!isShow" :category="category" :isFullScreen="isFullScreen" @close="closeImg" @addIndex="nextImg" @decIndex="prevImg"></VFancybox>
@@ -32,17 +32,19 @@
 	import { mapState } from 'vuex'
 	import { service } from 'components/common/mixin'
 	import { getHost, md5, getOperationFullTime } from '../../config/utils'
+	import txt from '../../config/txt'
 	import { dataServicePath } from '../../config/config'
   import { mockImages } from '../../mock/image'
-	import txt from '../../config/txt'
   export default {
 	  data () {
 		  return {
 			  categoryid: this.$route.query.categoryid||'',
 			  categoryname: this.$route.query.name||'',
-			  imgWidth: this.$route.query.config.imgWidth||254,
-			  maxCols: this.$route.query.config.maxCols||8,
-			  IMAGE_LOAD_COUNT: this.$route.query.config.loadCount||20,
+			  imgWidth: '',
+			  maxCols: '',
+			  firstLoadCount: '',
+			  loadCount: '',
+        gif: false,
 			  category: {},
 			  images: [],
 			  imgsArr: [],
@@ -55,12 +57,13 @@
 			  changeTime: 100,
 			  showAlert: false,
 			  collectAlertSTO: {},
+			  scrollEle: {},
         modalclose: true,
 			  keyinput: true,
 			  mousescroll: true,
 			  showFunction: false,
-			  scrollEle: {},
 			  showEndTip: false,
+        fetchSTO: {},
 			  likeTxt: txt.TXT_14,
 			  likedTxt: txt.TXT_15,
 			  endTip1: txt.TXT_19,
@@ -73,12 +76,18 @@
         window.addEventListener('keydown', this.keyFun)
         window.addEventListener('mousewheel', this.wheelFun)
       }
-	    this.images = mockImages
+      const config = JSON.parse(this.$route.query.config)
+      this.imgWidth = config.imgWidth || 254
+	    this.maxCols = config.maxCols || 8
+      this.firstLoadCount = config.firstLoadCount || 16
+		  this.loadCount = config.loadCount || 16
+      this.gif = config.gif
 
-//      const path = dataServicePath + 'index/' + this.categoryid + '.json'
-//      this.images = await this.getJSON(path)
+//	    this.images = mockImages
+      const path = dataServicePath + 'index/' + this.categoryid + '.json'
+      this.images = await this.getJSON(path)
 	    this.images = _.unionBy(this.images, 'image')
-	    this.imgsArr = this.constructImages()
+	    this.imgsArr = this.images.slice(0, this.firstLoadCount)
 	    this.fetchImgsArr = this.constructImages()
     },
     computed: {
@@ -164,8 +173,12 @@
 		    this.category.collected &&  websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:4,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 	    },
 	    fetchImgsData() {
+		    !_.isEmpty(this.fetchSTO) && clearTimeout(this.fetchSTO)
 		    this.imgsArr = [...this.imgsArr, ...this.fetchImgsArr]
 		    this.fetchImgsArr = this.constructImages()
+        this.fetchSTO = setTimeout(() => {
+	        this.imgsArr = [...this.imgsArr, ...this.fetchImgsArr]
+        }, 100)
 	    },
       closeImg () {
         this.isShow = false
@@ -190,8 +203,8 @@
 		    this.articlesIndex = event
 	    },
 	    constructImages() {
-		    const start = this.IMAGE_LOAD_COUNT* this.LOAD_INDEX++,
-			    end = this.IMAGE_LOAD_COUNT* this.LOAD_INDEX,
+		    const start = this.firstLoadCount + this.loadCount* this.LOAD_INDEX++,
+			    end = this.firstLoadCount + this.loadCount* this.LOAD_INDEX,
 			    res = this.images&&this.images.length>0? this.images.slice(start, end):[]
 		    return res
 	    },
@@ -211,12 +224,17 @@
             data.from = img.articles.url? getHost(img.articles.url):''
             data.liked = img.liked
 			      data.id = img.id
+			      data.lazy = this.gif? {
+			      	src: item,
+				      loading: 'static/img/flow/gif.svg'
+            } : null
 			      retArr.push(data)
 		      }
 	      })
 	      for(let i = 0, len = retArr.length; i < len; i++) {
 		      retArr[i].total = len
 	      }
+	      console.log('constructArticles retArr', retArr)
 	      return retArr
       },
 	    back() {
