@@ -15,7 +15,7 @@
       </div>
       <div class="image">
         <div class="thumbnail-wrapper" v-for="(item, i) in activeImages" :key="item.index" @click.stop="setActive(item.index-1)">
-          <div :class="{'thumbnail active': item&&item.isActive, 'thumbnail': item&&!item.isActive}" :style="{backgroundImage:'url('+item.src+')'}" v-if="!isMove && !item.lazy"></div>
+          <div :class="{'thumbnail active': item&&item.isActive, 'thumbnail': item&&!item.isActive}" :style="{backgroundImage:'url('+item.src+')'}" v-if="!isMove && !gif"></div>
           <div v-else="!isMove" v-lazy:background-image="item.lazy" :class="{'thumbnail active': item&&item.isActive, 'thumbnail': item&&!item.isActive}"></div>
         </div>
       </div>
@@ -37,7 +37,7 @@
 			return {
 				index: 0,
 				isMove: false,
-				showCount: 9,
+//				showCount: 3,
 				nolikedTxt: txt.TXT_14,
 				likedTxt: txt.TXT_15,
         fullTxt: txt.TXT_17,
@@ -56,13 +56,17 @@
 		props: {
 			images: Array,
 			activeIndex: Number,
-			category: Object
+			category: Object,
+			gif: Boolean
 		},
 		mixins: [service],
 		computed: {
 			activeImages () {
 				return this.images.slice(this.index, this.index + this.showCount)
-			}
+			},
+			showCount() {
+				return this.gif? 3 : 9
+      }
 		},
 		mounted () {
 			this.init()

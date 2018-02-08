@@ -7,7 +7,7 @@
       <transition :duration="300" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
         <div ref="lightbox" class="lightbox" v-if="isShow" @click="isShow=!modalclose" :style="!isFullScreen&&`padding:0 20px 0 20px`">
           <VFancybox ref="fancybox" :images="articles" :index="articlesIndex" :reset="!isShow" :category="category" :isFullScreen="isFullScreen" @close="closeImg" @addIndex="nextImg" @decIndex="prevImg"></VFancybox>
-          <VPaginator ref="paginator" :images="articles" :activeIndex="articlesIndex" :category="category" @changeIndex="changeArticle($event)" @addLike="likeSite($event)"></VPaginator>
+          <VPaginator ref="paginator" :images="articles" :activeIndex="articlesIndex" :category="category" :gif="gif" @changeIndex="changeArticle($event)" @addLike="likeSite($event)"></VPaginator>
           <transition :duration="600" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
             <span v-show="isFullScreen&&showEndTip" class="endTip">{{endTip1}}<b>esc</b>{{endTip2}}</span>
           </transition>
@@ -76,6 +76,7 @@
         window.addEventListener('keydown', this.keyFun)
         window.addEventListener('mousewheel', this.wheelFun)
       }
+      console.log('this.$route.query.config', this.$route.query.config)
       const config = JSON.parse(this.$route.query.config)
       this.imgWidth = config.imgWidth || 254
 	    this.maxCols = config.maxCols || 8
