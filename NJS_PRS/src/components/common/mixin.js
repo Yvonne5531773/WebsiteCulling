@@ -124,20 +124,22 @@ export const service = {
 			websiteApi.setURLSelectedInfo(JSON.stringify(data))
 		},
 
-		async constructCategory () {
+		async constructCategory(categoryid) {
 			let res = {},
 				category
 			try {
-				res = await this.jsonp(categoryPath + this.categoryid)
+				console.log('constructCategory categoryPath + categoryid', categoryPath + categoryid)
+				res = await this.jsonp(categoryPath + categoryid)
 			}catch (e) {
 				console.log('error:', e)
+				console.log('constructCategory res:', res)
+				return {}
 			}
 			category = res? res[0] : {}
 			const localCategories = await this.getForm(),
 				cat = _.find(localCategories, {'id': category.id+''})
 			category.collected = !_.isEmpty(cat)? cat.collected:false
 			category.banner = this.addHttp(category.banner)
-			category.by = 'by ' + category.by
 			return category
 		},
 

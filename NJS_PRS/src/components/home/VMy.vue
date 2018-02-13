@@ -213,8 +213,8 @@
 						if(c){
 							c.iconLazyObj = {
 								src: c.icon&&!~c.icon.indexOf('http')?'http://'+c.icon : c.icon,
-								error: 'static/img/favorite/default-icon.png',
-								loading: 'static/img/favorite/default-icon.png'
+								error: 'static/img/default-icon.png',
+								loading: 'static/img/default-icon.png'
 							}
 							switch (c.name && c.name.length) {
 								case 2:

@@ -15,7 +15,7 @@
 					</div>
 					<div class="title">
 						<a target="_blank" :title="category.name">{{category.name | clip(13)}}</a>
-						<span class="by">{{by}}</span>
+						<span class="by">'by ' + {{by}}</span>
 					</div>
 					<div class="add" :style="category.collected&&`backgroundPosition:-540px`" @click="collect" v-if="categoryid!==`0099`">
 						<img src="../../../static/img/favorite/start.png" />
@@ -68,7 +68,6 @@
 	export default {
 		data () {
 			return {
-				categoryid: this.$route.query.categoryid,
 				category: {},
 				sites: [],
 				showAlert: false,
@@ -83,6 +82,11 @@
 			}
 		},
 		mixins: [service],
+		computed: {
+			categoryid() {
+				return this.$route.query.categoryid || ''
+			},
+		},
 		mounted () {
 			this.init()
 			this.$nextTick(()=>{
@@ -96,14 +100,14 @@
 					this.sites = await this.getSite()
 					this.sites = _.reverse(_.filter(this.sites, site => site.liked))
 				} else {
-					this.category = await this.constructCategory()
+					this.category = await this.constructCategory(this.categoryid)
 					await this.construct()
 				}
 				this.sites && this.sites.forEach( (site) => {
 					site.iconLazyObj = {
 						src: this.addHttp(site.icon),
-						error: 'static/img/favorite/default-icon.png',
-						loading: 'static/img/favorite/default-icon.png'
+						error: 'static/img/default-icon.png',
+						loading: 'static/img/default-icon.png'
 					}
 				})
 				this.category = _.cloneDeep(this.category)

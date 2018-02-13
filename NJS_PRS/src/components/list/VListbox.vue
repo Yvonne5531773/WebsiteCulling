@@ -66,8 +66,6 @@
   export default {
 	  data () {
 		  return {
-			  categoryid: this.$route.query.categoryid||'',
-			  categoryname: this.$route.query.name||'',
 			  size: 0,
 			  category: {},
         sites: [],
@@ -90,12 +88,17 @@
 	  async mounted () {
 		  await this.init()
 	  },
+	  computed: {
+		  categoryid() {
+			  return this.$route.query.categoryid || ''
+		  },
+	  },
     methods: {
 	    async init () {
 		    const config = JSON.parse(this.$route.query.config)
 	    	this.size = config.loadCount || 20
 	    	this.list = await this.getList()
-		    this.category = await this.constructCategory()
+		    this.category = await this.constructCategory(this.categoryid)
         this.sites = await this.constructSites()
 		    websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:1,name:this.categoryid+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 	    },
@@ -116,8 +119,8 @@
 		      site.liked && (sites.splice(i, 1), sites.unshift(site))
 		      site.iconLazyObj = {
 		      	src: this.addHttp(site.icon),
-			      error: 'static/img/favorite/default-icon.png',
-			      loading: 'static/img/favorite/default-icon.png'
+			      error: 'static/img/default-icon.png',
+			      loading: 'static/img/default-icon.png'
           }
 	      }
         return sites

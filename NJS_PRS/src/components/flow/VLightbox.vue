@@ -38,26 +38,24 @@
   export default {
 	  data () {
 		  return {
-			  categoryid: this.$route.query.categoryid||'',
-			  categoryname: this.$route.query.name||'',
 			  imgWidth: '',
 			  maxCols: '',
 			  firstLoadCount: '',
 			  loadCount: '',
-        gif: false,
-			  category: {},
 			  images: [],
 			  imgsArr: [],
 			  articles: [],
 			  fetchImgsArr: [],
-			  isShow: false,
 			  index: 0,
 			  articlesIndex: 0,
 			  LOAD_INDEX: 0,
 			  changeTime: 100,
-			  showAlert: false,
+			  category: {},
 			  collectAlertSTO: {},
 			  scrollEle: {},
+			  gif: false,
+			  isShow: false,
+			  showAlert: false,
         modalclose: true,
 			  keyinput: true,
 			  mousescroll: true,
@@ -77,12 +75,7 @@
         window.addEventListener('mousewheel', this.wheelFun)
       }
       console.log('this.$route.query.config', this.$route.query.config)
-      const config = JSON.parse(this.$route.query.config)
-      this.imgWidth = config.imgWidth || 254
-	    this.maxCols = config.maxCols || 8
-      this.firstLoadCount = config.firstLoadCount || 16
-		  this.loadCount = config.loadCount || 16
-      this.gif = config.gif
+      this.constructConfig()
 
 	    this.images = mockImages
 //      const path = dataServicePath + 'index/' + this.categoryid + '.json'
@@ -95,6 +88,9 @@
 	    ...mapState([
 		    'isFullScreen'
 	    ]),
+	    categoryid() {
+		    return this.$route.query.categoryid || ''
+      },
     },
 	  async mounted () {
 		  await this.init()
@@ -138,7 +134,8 @@
 		    websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:1,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 	    },
 	    async construct () {
-		    this.category = await this.constructCategory()
+	    	console.log('construct this.categoryid', this.categoryid)
+		    this.category = await this.constructCategory(this.categoryid)
 		    const localSites = await this.getSite()
 		    this.images.forEach((item) => {
 			    if(item) {
@@ -203,6 +200,14 @@
 	    changeArticle(event) {
 		    this.articlesIndex = event
 	    },
+	    constructConfig() {
+		    const config = !_.isEmpty(this.$route.query.config)? JSON.parse(this.$route.query.config) : {}
+		    this.imgWidth = config.imgWidth || 254
+		    this.maxCols = config.maxCols || 8
+		    this.firstLoadCount = config.firstLoadCount || 16
+		    this.loadCount = config.loadCount || 16
+		    this.gif = config.gif
+	    },
 	    constructImages() {
 		    const start = this.firstLoadCount + this.loadCount* this.LOAD_INDEX++,
 			    end = this.firstLoadCount + this.loadCount* this.LOAD_INDEX,
@@ -227,7 +232,7 @@
 			      data.id = img.id
 			      data.lazy = this.gif? {
 			      	src: item,
-				      loading: 'static/img/flow/gif.svg'
+				      loading: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nNjBweCcgaGVpZ2h0PSc2MHB4JyB2aWV3Qm94PScwIDAgNjAgNjAnIHZlcnNpb249JzEuMScgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz4gICAgPGcgc3Ryb2tlPSdub25lJyBzdHJva2Utd2lkdGg9JzEnIGZpbGw9J25vbmUnIGZpbGwtcnVsZT0nZXZlbm9kZCc+ICAgICAgICA8ZWxsaXBzZSBmaWxsPScjNGYzM2M3JyBvcGFjaXR5PScwLjQ1JyBjeD0nMzAnIGN5PSczMCcgcng9JzMwJyByeT0nMzAnPjwvZWxsaXBzZT4gICAgICAgIDxlbGxpcHNlIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIG9wYWNpdHk9IjAuNSIgY3g9IjMwIiBjeT0iMzAiIHJ4PSIyNiIgcnk9IjI2Ij48L2VsbGlwc2U+ICAgICAgICA8ZWxsaXBzZSBzdHJva2U9JyNmZmZmZmYnIHN0cm9rZS13aWR0aD0nMicgc3Ryb2tlLWxpbmVjYXA9J3JvdW5kJyBzdHJva2UtbGluZWpvaW49J3JvdW5kJyBzdHJva2UtZGFzaGFycmF5PSc0LDEsNCcgY3g9JzMwJyBjeT0nMzAnIHJ4PScyNicgcnk9JzI2Jz4gICAgICAgICAgICA8YW5pbWF0ZVRyYW5zZm9ybSBhdHRyaWJ1dGVUeXBlPSJ4bWwiIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgdHlwZT0icm90YXRlIiBmcm9tPSIwIDMwIDMwIiB0bz0iOTAgMzAgMzAiIGR1cj0iMC4zcyIvPiAgICAgICAgICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9Im9wYWNpdHkiIGZyb209IjEiIHRvPSIwIiBkdXI9IjAuMyIgZmlsbD0iZnJlZXplIi8+ICAgICAgICA8L2VsbGlwc2U+ICAgIDwvZz4gICAgPHN2ZyB4PSIxNiIgeT0iMTguNSIgPiAgICA8ZyBpZD0iZ2lmLWxvZ28iIGZpbGw9IiNmZmZmZmYiPiAgICAgICAgPHBhdGggeD0nMTAwJyB5PScxMDAnIGQ9Ik0xMi44NDIyODUyLDEyLjk4MTQ0NTMgTDEyLjg0MjI4NTIsMTEuMzk5NDE0MSBMNy42MzkxNjAxNiwxMS4zOTk0MTQxIEw3LjYzOTE2MDE2LDEzLjA1MTc1NzggTDEwLjkwODY5MTQsMTMuMDUxNzU3OCBMMTAuOTA4NjkxNCwxMy4zMjQyMTg4IEMxMC44OTExMTMzLDE1LjIwNTA3ODEgOS40NjcyODUxNiwxNi40NzA3MDMxIDcuMzkzMDY2NDEsMTYuNDcwNzAzMSBDNS4wMTEyMzA0NywxNi40NzA3MDMxIDMuNTE3MDg5ODQsMTQuNjI1IDMuNTE3MDg5ODQsMTEuNjM2NzE4OCBDMy41MTcwODk4NCw4LjcwMTE3MTg4IDUuMDAyNDQxNDEsNi44NDY2Nzk2OSA3LjM0OTEyMTA5LDYuODQ2Njc5NjkgQzkuMDgwNTY2NDEsNi44NDY2Nzk2OSAxMC4yODQ2NjgsNy42ODE2NDA2MiAxMC43NzY4NTU1LDkuMjEwOTM3NSBMMTIuNzU0Mzk0NSw5LjIxMDkzNzUgQzEyLjMyMzczMDUsNi42NDQ1MzEyNSAxMC4yMzE5MzM2LDUuMDA5NzY1NjIgNy4zNDkxMjEwOSw1LjAwOTc2NTYyIEMzLjc5ODMzOTg0LDUuMDA5NzY1NjIgMS41MDQzOTQ1Myw3LjYxMTMyODEyIDEuNTA0Mzk0NTMsMTEuNjU0Mjk2OSBDMS41MDQzOTQ1MywxNS43NSAzLjc3MTk3MjY2LDE4LjMwNzYxNzIgNy4zNjY2OTkyMiwxOC4zMDc2MTcyIEMxMC42ODg5NjQ4LDE4LjMwNzYxNzIgMTIuODQyMjg1MiwxNi4yMjQ2MDk0IDEyLjg0MjI4NTIsMTIuOTgxNDQ1MyBaIE0xNy41MTgwNjY0LDE4IEwxNy41MTgwNjY0LDUuMzE3MzgyODEgTDE1LjU0OTMxNjQsNS4zMTczODI4MSBMMTUuNTQ5MzE2NCwxOCBMMTcuNTE4MDY2NCwxOCBaIE0yMi42NTk2NjgsMTggTDIyLjY1OTY2OCwxMi43NDQxNDA2IEwyOC4xMDg4ODY3LDEyLjc0NDE0MDYgTDI4LjEwODg4NjcsMTEuMDAzOTA2MiBMMjIuNjU5NjY4LDExLjAwMzkwNjIgTDIyLjY1OTY2OCw3LjExMDM1MTU2IEwyOC42MDk4NjMzLDcuMTEwMzUxNTYgTDI4LjYwOTg2MzMsNS4zMTczODI4MSBMMjAuNjkwOTE4LDUuMzE3MzgyODEgTDIwLjY5MDkxOCwxOCBMMjIuNjU5NjY4LDE4IFoiIGlkPSJHSUYiPjwvcGF0aD4gICAgPC9nPiAgPC9zdmc+ICAgIDxwYXRoIGQ9Ik01NiwzMCBDNTYsMTUuNjQwNTk2NSA0NC4zNTk0MDM1LDQgMzAsNCIgaWQ9Ik92YWwtMi1Db3B5LTMiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIG9wYWNpdHk9IjAiIGZpbGw9Im5vbmUiPiAgICAgICAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0ib3BhY2l0eSIgZnJvbT0iMCIgdG89IjEiIGR1cj0iLjYiIGZpbGw9ImZyZWV6ZSIvPiAgICAgICAgPGFuaW1hdGVUcmFuc2Zvcm0gYXR0cmlidXRlVHlwZT0ieG1sIiBhdHRyaWJ1dGVOYW1lPSJ0cmFuc2Zvcm0iIHR5cGU9InJvdGF0ZSIgZnJvbT0iMCAzMCAzMCIgdG89IjM2MCAzMCAzMCIgZHVyPSIxLjYyNXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIi8+ICAgIDwvcGF0aD48L3N2Zz4=', //打包后svg会失效，用bas64代替
             } : null
 			      retArr.push(data)
 		      }

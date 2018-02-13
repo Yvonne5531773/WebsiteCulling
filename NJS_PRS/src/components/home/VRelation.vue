@@ -97,8 +97,8 @@ export default {
 			list.forEach(l => {
 				l.iconLazyObj = {
 					src: l.icon,
-					error: 'static/img/favorite/default-icon.png',
-					loading: 'static/img/favorite/default-icon.png'
+					error: 'static/img/default-icon.png',
+					loading: 'static/img/default-icon.png'
 				}
 				l.description = l.description&&l.description!=='None'&&l.description!==''? l.description:(l.keywords&&l.keywords!=='None'&&l.keywords!==''? l.keywords:(l.title!==''? l.title:''))
 				l.host = this.addHttp('//'+l.host)

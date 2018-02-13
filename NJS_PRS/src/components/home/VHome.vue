@@ -41,7 +41,7 @@
 		},
 		methods: {
 			async init () {
-				if(this.toPrePage()) return
+//				if(this.toPrePage()) return
 				this.info = await this.getSelectedInfo()
 				this.store = getStore('THEME_IDS')&&getStore('THEME_IDS').split(',')
 				if(_.isEmpty(this.info) && _.isEmpty(this.store))
