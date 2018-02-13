@@ -1,10 +1,22 @@
 <template>
 	<div class="header">
-		<div class="top"></div>
 		<div class="head">
 			<div class="title">
 				<div class="txt">
 					<p class="txt1">{{txt1}}</p>
+					<a class="close">
+						<b class="btn" @click.stop="showTip=!showTip">{{closeTxt}}</b>
+					</a>
+					<transition :duration="300" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+						<span class="tip" v-if="showTip" @click.stop="showTip=!showTip">
+							<span class="t-c">
+									{{tipTxt1}}
+									<b>{{txt1}}</b>
+									{{tipTxt2}}
+								</span>
+							<a class="know" @click.stop="know">{{knowed}}</a>
+						</span>
+					</transition>
 					<p class="txt2">{{txt2}}</p>
 				</div>
 			</div>
@@ -23,10 +35,10 @@
 
 <script>
 	import { mapState } from 'vuex'
-	import { getOperationFullTime } from '../../config/utils'
+	import { getOperationFullTime, setStore } from '../../config/utils'
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
-	import { fbHref } from '../../config/config'
+	import { fbHref, prePage  } from '../../config/config'
 	import txt from '../../config/txt'
 
 	export default {
@@ -35,7 +47,12 @@
 				txt1: txt.TXT_1,
 				txt2: txt.TXT_2,
 				txt3: txt.TXT_3,
+				closeTxt: txt.TXT_39,
+				tipTxt1: txt.TXT_40,
+				tipTxt2: txt.TXT_41,
+				knowed: txt.TXT_42,
 				feedback: txt.TXT_4,
+				showTip: false,
 				components:
 					[
 						{name:'VMy',txt:'我的网站',selected:false},
@@ -89,6 +106,13 @@
 				this.component==='VDiscover'&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:5,value:0,hotsite:0,url:'',name:''})
 				this.component==='VMy'&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:10,url:'',value:0})
 				this.$router.push({path: '/guide'})
+			},
+			know() {
+				this.showTip = false
+				websiteApi.removeWebsiteFlag()
+				window.location.href = prePage
+				setStore('WEBSITE', 0)
+				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:14,url:'',value:0})
 			}
 		},
 	}
@@ -129,6 +153,57 @@
 					.txt2
 						font-size 14px
 						color #a4a4ff
+					.close
+						display flex
+						position absolute
+						top 8px
+						right -70px
+						text-align center
+						font-size 12px
+						color #a4a5ff
+						z-index 9
+						.btn
+							width 58px
+							height 20px
+							box-sizing border-box
+							border 1px solid #cdcdde
+							&:hover
+								background-color #8368f9
+								border-color #8368f9
+							&:active
+								background-color #4f33c7
+								border-color #4f33c7
+					.tip
+						background url("../../../static/img/head/tip.png") no-repeat
+						position absolute
+						top 40px
+						left 155px
+						width 240px
+						height 130px
+						font-size 14px
+						text-align center
+						.t-c
+							text-align left
+							color #333333
+							display inline-block
+							position relative
+							padding 28px 20px 10px 20px
+							b
+								font-weight 600
+								color #6346de
+						.know
+							position absolute
+							right 25px
+							line-height 2
+							font-size 12px
+							color #fff
+							width 64px
+							height 24px
+							background-color #6346de
+							&:hover
+								background-color #8368f9
+							&:active
+								background-color #4f33c7
 			.component
 				text-align center
 				left 0

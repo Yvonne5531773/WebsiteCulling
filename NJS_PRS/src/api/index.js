@@ -162,6 +162,18 @@ export const websiteApi = {
 			chrome.send && chrome.send("reportnoformat", [JSON.stringify(reportData)]);
 			// console.log('reportnoformat: ', JSON.stringify(reportData))
 		}
+	},
+
+	getWebsiteFlag() {
+		return external.CallWrapper? external.CallWrapper('websiteCulling', '{"popup_view_id":"get_website_flag"}'):0
+	},
+
+	getWebsiteNewTab() {
+		return external.CallWrapper? external.CallWrapper('websiteCulling', '{"popup_view_id":"get_website_new_tab"}'):0
+	},
+
+	removeWebsiteFlag() {
+		external.CallWrapper && external.CallWrapper('websiteCulling', '{"popup_view_id":"remove_website_flag"}')
 	}
 
 }

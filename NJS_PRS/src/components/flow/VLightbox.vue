@@ -84,9 +84,9 @@
 		  this.loadCount = config.loadCount || 16
       this.gif = config.gif
 
-//	    this.images = mockImages
-      const path = dataServicePath + 'index/' + this.categoryid + '.json'
-      this.images = await this.getJSON(path)
+	    this.images = mockImages
+//      const path = dataServicePath + 'index/' + this.categoryid + '.json'
+//      this.images = await this.getJSON(path)
 	    this.images = _.unionBy(this.images, 'image')
 	    this.imgsArr = this.images.slice(0, this.firstLoadCount)
 	    this.fetchImgsArr = this.constructImages()

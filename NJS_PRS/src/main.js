@@ -4,11 +4,11 @@ import App from './App'
 import VueRouter from 'vue-router'
 import routes from './router/router'
 import VueLazyload from 'vue-lazyload'
-import VueResource from 'vue-resource'
+// import VueResource from 'vue-resource'
 import { routerMode } from '../src/config/config'
 import _ from 'lodash'
 
-Vue.use(VueResource)
+// Vue.use(VueResource)
 
 Vue.use(VueLazyload, {
 	preLoad: 1.5,

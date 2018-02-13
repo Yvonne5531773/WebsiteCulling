@@ -11,8 +11,10 @@
 	import VDiscover from 'components/home/VDiscover'
 	import VMy from 'components/home/VMy'
 	import { mapState } from 'vuex'
+	import { websiteApi } from 'api'
+	import { prePage } from '../../config/config'
 	import { service } from 'components/common/mixin'
-	import { getStore } from '../../config/utils'
+	import { getStore, removeStore } from '../../config/utils'
 
 	export default {
 		data() {
@@ -39,6 +41,7 @@
 		},
 		methods: {
 			async init () {
+				if(this.toPrePage()) return
 				this.info = await this.getSelectedInfo()
 				this.store = getStore('THEME_IDS')&&getStore('THEME_IDS').split(',')
 				if(_.isEmpty(this.info) && _.isEmpty(this.store))
@@ -54,6 +57,15 @@
 					}, false);
 				}
 			},
+			toPrePage() {
+				if(websiteApi.getWebsiteFlag()!='1' && websiteApi.getWebsiteNewTab()!='1' && getStore('WEBSITE')=='0'){
+					window.location.href = prePage
+					return true
+				}else {
+					removeStore('WEBSITE')
+				}
+				return false
+			}
 		},
 		components: {
 			VHeader,
