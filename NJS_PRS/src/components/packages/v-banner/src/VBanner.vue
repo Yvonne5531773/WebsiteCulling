@@ -7,7 +7,7 @@
 			</a>
 			<span class="name">{{category.name}}</span>
 			<div class="add" :style="category.collected&&`backgroundPosition:-540px`" @click="collect" v-if="category.id!==`0099`">
-				<img src="../../../static/img/favorite/start.png" />
+				<img src="../../../../assets/img/favorite/start.png" />
 				<span v-if="category.collected">{{collectTxt}}</span>
 				<span v-else>{{noCollectTxt}}</span>
 			</div>
@@ -16,13 +16,13 @@
 </template>
 
 <script>
-	import txt from '../../config/txt'
 	export default {
+		name: 'VBanner',
 		data() {
 			return {
-				noCollectTxt: txt.TXT_8,
-				collectTxt: txt.TXT_9,
-				backTxt: txt.TXT_10,
+				noCollectTxt: this.$txt.TXT_8,
+				collectTxt: this.$txt.TXT_9,
+				backTxt: this.$txt.TXT_10,
 			}
 		},
 		props: {
@@ -53,7 +53,7 @@
 			position relative
 			z-index 2
 			.back
-				background url("../../../static/img/flow/back.png") no-repeat
+				background url("../../../../assets/img/flow/back.png") no-repeat
 				width 96px
 				height 56px
 				top 23px
@@ -72,7 +72,7 @@
 				position absolute
 				bottom 20px
 			.add
-				background url("../../../static/img/favorite/add.png") no-repeat
+				background url("../../../../assets/img/favorite/add.png") no-repeat
 				width 270px
 				height 77px
 				cursor pointer

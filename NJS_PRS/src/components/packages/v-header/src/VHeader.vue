@@ -35,23 +35,22 @@
 
 <script>
 	import { mapState } from 'vuex'
-	import { getOperationFullTime, setStore } from '../../config/utils'
+	import { getOperationFullTime, setStore } from '../../../../config/utils'
+	import { fbHref, prePage  } from '../../../../config/config'
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
-	import { fbHref, prePage  } from '../../config/config'
-	import txt from '../../config/txt'
-
 	export default {
+		name: 'VHeader',
 		data() {
 			return {
-				txt1: txt.TXT_1,
-				txt2: txt.TXT_2,
-				txt3: txt.TXT_3,
-				closeTxt: txt.TXT_39,
-				tipTxt1: txt.TXT_40,
-				tipTxt2: txt.TXT_41,
-				knowed: txt.TXT_42,
-				feedback: txt.TXT_4,
+				txt1: this.$txt.TXT_1,
+				txt2: this.$txt.TXT_2,
+				txt3: this.$txt.TXT_3,
+				closeTxt: this.$txt.TXT_39,
+				tipTxt1: this.$txt.TXT_40,
+				tipTxt2: this.$txt.TXT_41,
+				knowed: this.$txt.TXT_42,
+				feedback: this.$txt.TXT_4,
 				showTip: false,
 				components:
 					[
@@ -145,7 +144,7 @@
 					position absolute
 					width 60px
 					height 60px
-					background url("../../../static/img/head/logo.png") no-repeat
+					background url("../../../../assets/img/head/logo.png") no-repeat
 				.txt
 					.txt1
 						font-size 24px
@@ -174,7 +173,7 @@
 								background-color #4f33c7
 								border-color #4f33c7
 					.tip
-						background url("../../../static/img/head/tip.png") no-repeat
+						background url("../../../../assets/img/head/tip.png") no-repeat
 						position absolute
 						top 40px
 						left 155px
@@ -227,7 +226,7 @@
 					font-size 14px
 					color #fff
 				.back-guide
-					background url("../../../static/img/head/back-guide.png") no-repeat
+					background url("../../../../assets/img/head/back-guide.png") no-repeat
 					width 146px
 					height 66px
 					font-size 14px

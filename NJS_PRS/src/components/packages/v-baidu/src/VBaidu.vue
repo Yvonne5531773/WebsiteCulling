@@ -18,14 +18,14 @@
 <script>
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
-	import { baiduPath } from '../../config/config'
-	import txt from '../../config/txt'
+	import { baiduPath } from '../../../../config/config'
 	export default {
+		name: 'VBaidu',
 		data() {
 			return {
 				inputText: '',
-				txt: txt.TXT_6,
-				inputTxt: txt.TXT_7,
+				txt: this.$txt.TXT_6,
+				inputTxt: this.$txt.TXT_7,
 				text: '',
 				nowIndex: -1,
 				result: [],
@@ -113,7 +113,7 @@
 		.content
 			display flex
 			.logo
-				background url("../../../static/img/baidu/logo.png") no-repeat
+				background url("../../../../assets/img/baidu/logo.png") no-repeat
 				width 140px
 				height 40px
 			.input

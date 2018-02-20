@@ -15,7 +15,7 @@
 					</div>
 					<div class="title">
 						<a target="_blank" :title="category.name">{{category.name | clip(13)}}</a>
-						<span class="by">'by ' + {{by}}</span>
+						<!--<span class="by">'by ' + {{by}}</span>-->
 					</div>
 					<div class="add" :style="category.collected&&`backgroundPosition:-540px`" @click="collect" v-if="categoryid!==`0099`">
 						<img src="../../../static/img/favorite/start.png" />
@@ -58,13 +58,10 @@
 </template>
 
 <script>
-	import VHeader from 'components/common/VHeader'
-	import VAlert from 'components/common/VAlert'
 	import { websiteApi } from 'api'
 	import Velocity from 'velocity-animate/velocity.min'
 	import { likes } from '../../mock/likes'
 	import { service } from 'components/common/mixin'
-	import txt from '../../config/txt'
 	export default {
 		data () {
 			return {
@@ -72,12 +69,12 @@
 				sites: [],
 				showAlert: false,
 				by: '',
-				txt1: txt.TXT_13,
-				noCollectTxt: txt.TXT_8,
-				collectTxt: txt.TXT_9,
-				likeTxt: txt.TXT_14,
-				likedTxt: txt.TXT_15,
-				alertTxt: txt.TXT_16,
+				txt1: this.$txt.TXT_13,
+				noCollectTxt: this.$txt.TXT_8,
+				collectTxt: this.$txt.TXT_9,
+				likeTxt: this.$txt.TXT_14,
+				likedTxt: this.$txt.TXT_15,
+				alertTxt: this.$txt.TXT_16,
 				collectAlertSTO: {},
 			}
 		},
@@ -239,10 +236,6 @@
 //					}
 //				})
 //			},
-		},
-		components: {
-			VHeader,
-			VAlert
 		},
 	}
 </script>

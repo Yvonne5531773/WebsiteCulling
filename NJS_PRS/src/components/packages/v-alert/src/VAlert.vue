@@ -3,7 +3,7 @@
 		<div style="z-index: 999">
 			<div class="alert-frame">
 				<div class="a-c">
-					<img src="../../../static/img/alert/alert.png" />
+					<img src="../../../../assets/img/alert/alert.png" />
 					<div class="txt">
 						<p class="content-tip">{{tiptxt}}</p>
 					</div>
@@ -14,11 +14,11 @@
 </template>
 
 <script>
-	import txt from '../../config/txt'
 	export default {
+		name: 'VAlert',
 		data() {
 			return {
-				tiptxt: txt.TXT_5,
+				tiptxt: this.$txt.TXT_5,
 			}
 		},
 		mounted(){

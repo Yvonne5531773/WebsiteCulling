@@ -21,13 +21,9 @@
 </template>
 
 <script>
-	import VHeader from 'components/common/VHeader'
-	import VBanner from 'components/common/VBanner'
 	import VWaterfall from 'components/flow/childrens/VWaterfall'
   import VFancybox from 'components/flow/childrens/VFancybox'
   import VPaginator from 'components/flow/childrens/VPaginator'
-	import VAlert from 'components/common/VAlert'
-	import VFunction from 'components/common/VFunction'
 	import { websiteApi } from 'api'
 	import { mapState } from 'vuex'
 	import { service } from 'components/common/mixin'
@@ -334,13 +330,9 @@
 	    },
     },
     components: {
-	    VHeader,
-	    VBanner,
 	    VWaterfall,
 	    VFancybox,
 	    VPaginator,
-	    VAlert,
-	    VFunction
     }
 }
 </script>

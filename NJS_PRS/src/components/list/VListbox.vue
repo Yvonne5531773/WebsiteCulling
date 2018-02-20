@@ -50,12 +50,8 @@
 </template>
 
 <script>
-	import VHeader from 'components/common/VHeader'
-	import VBanner from 'components/common/VBanner'
 	import VRecyclist from 'components/list/childrens/VRecyclist'
 	import VFrom from 'components/list/childrens/VFrom'
-	import VAlert from 'components/common/VAlert'
-	import VFunction from 'components/common/VFunction'
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
 	import { getHost, md5, getOperationFullTime } from '../../config/utils'
@@ -171,12 +167,8 @@
       }
     },
     components: {
-	    VHeader,
-	    VBanner,
 	    VRecyclist,
-	    VAlert,
 	    VFrom,
-	    VFunction
     }
 }
 </script>

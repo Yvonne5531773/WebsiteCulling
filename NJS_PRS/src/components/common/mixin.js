@@ -128,11 +128,9 @@ export const service = {
 			let res = {},
 				category
 			try {
-				console.log('constructCategory categoryPath + categoryid', categoryPath + categoryid)
 				res = await this.jsonp(categoryPath + categoryid)
 			}catch (e) {
 				console.log('error:', e)
-				console.log('constructCategory res:', res)
 				return {}
 			}
 			category = res? res[0] : {}

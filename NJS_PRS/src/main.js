@@ -1,14 +1,15 @@
-
 import Vue from 'vue'
 import App from './App'
-import VueRouter from 'vue-router'
 import routes from './router/router'
+import components from './components'
+import VueRouter from 'vue-router'
 import VueLazyload from 'vue-lazyload'
 import { routerMode } from '../src/config/config'
 import _ from 'lodash'
 
 // import VueResource from 'vue-resource'
 // Vue.use(VueResource)
+Vue.use(components)
 
 Vue.use(VueLazyload, {
 	preLoad: 1.2,

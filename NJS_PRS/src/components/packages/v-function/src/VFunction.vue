@@ -14,13 +14,13 @@
 
 <script>
 	import { websiteApi } from 'api'
-	import { getOperationFullTime } from '../../config/utils'
-	import txt from '../../config/txt'
+	import { getOperationFullTime } from '../../../../config/utils'
 	export default {
+		name: 'VFunction',
 		data() {
 			return {
-				bttTxt: txt.TXT_11,
-				collectTxt: txt.TXT_8,
+				bttTxt: this.$txt.TXT_11,
+				collectTxt: this.$txt.TXT_8,
 				duration: 300,
 //				scrollVal: 0,
 			}
@@ -114,11 +114,11 @@
 			width 48px
 			height 48px
 		.refresh
-			background url("../../../static/img/common/refresh.png") no-repeat
+			background url("../../../../assets/img/common/refresh.png") no-repeat
 		.collect
-			background url("../../../static/img/common/collect.png") no-repeat
+			background url("../../../../assets/img/common/collect.png") no-repeat
 		.back-to-top
-			background url("../../../static/img/common/backToTop.png") no-repeat
+			background url("../../../../assets/img/common/backToTop.png") no-repeat
 			margin-top 10px
 	.f-flow
 		right 4.2%

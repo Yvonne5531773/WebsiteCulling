@@ -7,7 +7,6 @@
 	</div>
 </template>
 <script>
-	import VHeader from 'components/common/VHeader'
 	import VDiscover from 'components/home/VDiscover'
 	import VMy from 'components/home/VMy'
 	import { mapState } from 'vuex'
@@ -68,7 +67,6 @@
 			}
 		},
 		components: {
-			VHeader,
 			VDiscover,
 			VMy
 		},

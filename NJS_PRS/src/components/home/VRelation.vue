@@ -35,7 +35,6 @@
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
 	import { getHost, clipstring } from '../../config/utils'
-	import VLoading from 'components/common/VLoading'
 	import { mockRelation } from '../../mock/relation'
 	import { aiRecommendPath } from '../../config/config'
 export default {
@@ -146,9 +145,6 @@ export default {
 			})
 			return ret
 		},
-	},
-	components: {
-		VLoading,
 	},
 }
 </script>

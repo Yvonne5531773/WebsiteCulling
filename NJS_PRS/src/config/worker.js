@@ -1,6 +1,3 @@
-/**
- * Created by lica4 on 12/30/2017.
- */
 export const worker = (option, fn) => {
 	let workerArr = [],
 		callbacks = Object.create(null),

@@ -51,8 +51,6 @@
 </template>
 <script>
 	import { websiteApi } from 'api'
-	import VBaidu from 'components/common/VBaidu'
-	import VItem from 'components/home/VItem'
 	import VRelation from 'components/home/VRelation'
 	import { service } from 'components/common/mixin'
 	import { hots } from '../../mock/hots'
@@ -60,7 +58,6 @@
 	import { compareTime, setStore, getHost } from '../../config/utils'
 	import { mapState } from 'vuex'
 	import { categoryPath, hotsitePath } from '../../config/config'
-	import txt from '../../config/txt'
 	export default {
 		data() {
 			return {
@@ -72,12 +69,12 @@
 //					{name: '我收藏的网单', data: [], sort: 5}
 				],
 				addmore: {
-					txt1: txt.TXT_28,
-					txt2: txt.TXT_29,
-					txt3: txt.TXT_30,
-					txt4: txt.TXT_31,
-					txt5: txt.TXT_32,
-					txt6: txt.TXT_33,
+					txt1: this.$txt.TXT_28,
+					txt2: this.$txt.TXT_29,
+					txt3: this.$txt.TXT_30,
+					txt4: this.$txt.TXT_31,
+					txt5: this.$txt.TXT_32,
+					txt6: this.$txt.TXT_33,
 				},
 				localCategories: [],
 				histories: [],
@@ -244,8 +241,6 @@
 			},
 		},
 		components: {
-			VBaidu,
-			VItem,
 			VRelation,
 		}
 	}

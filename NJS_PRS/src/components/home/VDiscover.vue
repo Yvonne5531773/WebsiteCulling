@@ -30,8 +30,6 @@
 	</section>
 </template>
 <script>
-	import VItem from 'components/home/VItem'
-	import VAlert from 'components/common/VAlert'
 	import VRecommend from 'components/home/VRecommend'
 	import {service} from 'components/common/mixin'
 	import { getStore } from '../../config/utils'
@@ -114,8 +112,6 @@
 			}
 		},
 		components: {
-			VAlert,
-			VItem,
 			VRecommend
 		},
 	}

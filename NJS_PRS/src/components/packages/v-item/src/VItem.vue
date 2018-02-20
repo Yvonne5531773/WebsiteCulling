@@ -17,7 +17,7 @@
 		</div>
 		<div class="more" @click="open(1, 3)">
 			<span>{{moreTxt}}</span>
-			<img src="../../../static/img/home/more.png"/>
+			<img src="../../../../assets/img/home/more.png"/>
 		</div>
 	</div>
 </template>
@@ -25,19 +25,20 @@
 <script>
 	import { websiteApi } from 'api'
 	import { service } from 'components/common/mixin'
-	import { styleConfigPath } from '../../config/config'
-	import styleConfigs from '../../config/style'
-	import txt from '../../config/txt'
+	import { styleConfigPath } from '../../../../config/config'
+	import styleConfigs from '../../../../config/style'
 	export default {
+		name: 'VItem',
 		data() {
 			return {
-				moreTxt: txt.TXT_27,
-				by: '',
+				moreTxt: this.$txt.TXT_27,
 			}
 		},
 		mixins: [service],
-		mounted() {
-			this.by = this.category.by ? 'by ' + this.category.by : ''
+		computed: {
+			by() {
+				return this.category.by ? 'by ' + this.category.by : ''
+			}
 		},
 		props: {
 			category: {

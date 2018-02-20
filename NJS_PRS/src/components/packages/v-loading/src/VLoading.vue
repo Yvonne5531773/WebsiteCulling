@@ -1,18 +1,18 @@
 <template>
     <div id="loading">
         <div class="loading-con">
-            <img src="../../../static/svg/puff.svg" />
+            <img src="../../../../assets/svg/puff.svg" />
             <p>{{txt}}</p>
         </div>
     </div>
 </template>
 
 <script>
-	import txt from '../../config/txt'
 	export default {
+		name: 'VLoading',
 		data() {
 			return {
-				txt: txt.TXT_12,
+				txt: this.$txt.TXT_12,
 			}
 		},
 	}
