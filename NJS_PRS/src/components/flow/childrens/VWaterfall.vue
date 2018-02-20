@@ -1,5 +1,5 @@
 <template lang="pug">
-.vue-waterfall-easy(
+.waterfall(
   :style="isMobile? '':{width:colWidth*columnCount+'px',left:'50%',height:'100%',top:'10px',marginLeft: -1*colWidth*columnCount/2 +'px'}"
 )
   div.img-box(
@@ -7,7 +7,7 @@
     :style="{padding:'10px',width: isMobile ? '' : colWidth+'px'}"
   )
     .img-inner-box
-      div.img-wraper(
+      div.img-wrapper(
       @click="setActive(v)", @mouseenter="enterAndLeave(1, i)", @mouseleave="enterAndLeave(0, i)",
       :style="{width:imgWidthC+'px',height:v.height?v.height+'px':'',position:'relative',cursor:'pointer'}"
       )
@@ -98,8 +98,8 @@ export default {
 			}
 			if (this.isPreloading) return
 			const lastImgHeight = this.imgsArr[this.imgsArr.length - 1].height || 0
-			if (this.$el.parentNode.scrollTop+this.$el.parentNode.offsetHeight >= this.$el.parentNode.scrollHeight-lastImgHeight*2.5) {
-				this.$emit('scrollLoadImg')
+			if (this.$el.parentNode.scrollTop+this.$el.parentNode.offsetHeight >= this.$el.parentNode.scrollHeight-lastImgHeight) {
+				this.fetchImgsData()
 			}
 		})
 	},
@@ -148,7 +148,7 @@ export default {
 				this.imgsArrC = _.filter(_.cloneDeep(this.imgsArr), img => {
 					return img && img.height
 				})
-				this.isFirstTIme && this.fetchImgsData()
+//				this.isFirstTIme && this.fetchImgsData()
 				this.isPreloading = false
 				this.isFirstTIme = false
 				this.$nextTick(() => {
@@ -211,7 +211,7 @@ export default {
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
-	.vue-waterfall-easy
+	.waterfall
 		position relative
 		width 100%
 		.img-box
@@ -221,7 +221,7 @@ export default {
 			float left
 			transition left 1s, top 1s
 			.img-inner-box
-				.img-wraper
+				.img-wrapper
 					width 100%
 					/*&:hover
 						.mask

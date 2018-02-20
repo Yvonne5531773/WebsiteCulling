@@ -1,7 +1,7 @@
 <template>
     <div id="loading">
         <div class="loading-con">
-            <img src="../../assets/puff.svg" />
+            <img src="../../../static/svg/puff.svg" />
             <p>{{txt}}</p>
         </div>
     </div>

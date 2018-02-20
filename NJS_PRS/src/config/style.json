@@ -76,7 +76,7 @@
 			"imgWidth": 254,
 			"maxCols": 8,
 			"firstLoadCount": 20,
-			"loadCount": 16,
+			"loadCount": 10,
 			"gif": true
 		}
 	},

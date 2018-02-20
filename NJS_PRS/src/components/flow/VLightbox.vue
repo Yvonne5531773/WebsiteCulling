@@ -1,9 +1,9 @@
 <template>
   <div class="v-images">
     <VHeader ref="header" :favoritePage="true"></VHeader>
-    <div ref="content" class="content">
+    <section ref="content" class="content">
       <VBanner :category="category" :collect="collect" @back="back"></VBanner>
-      <VWaterfall v-if="imgsArr&&imgsArr.length>0" :imgsArr='imgsArr' :imgWidth="imgWidth" :maxCols="maxCols" :fetchImgsData="fetchImgsData" @scrollLoadImg="fetchImgsData" @changeIndex="changeImg($event)" @response="response($event)"></VWaterfall>
+      <VWaterfall v-if="imgsArr&&imgsArr.length>0" :imgsArr='imgsArr' :imgWidth="imgWidth" :maxCols="maxCols" :fetchImgsData="fetchImgsData" @changeIndex="changeImg($event)" @response="response($event)"></VWaterfall>
       <transition :duration="300" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
         <div ref="lightbox" class="lightbox" v-if="isShow" @click="isShow=!modalclose" :style="!isFullScreen&&`padding:0 20px 0 20px`">
           <VFancybox ref="fancybox" :images="articles" :index="articlesIndex" :reset="!isShow" :category="category" :isFullScreen="isFullScreen" @close="closeImg" @addIndex="nextImg" @decIndex="prevImg"></VFancybox>
@@ -14,7 +14,7 @@
           <a v-if="isFullScreen" title="退出全屏模式" class="close" @click.stop="close"></a>
         </div>
       </transition>
-    </div>
+    </section>
     <VAlert v-show="showAlert"></VAlert>
     <VFunction :category="category" :show="showFunction" :scrollEle="scrollEle" :type="1" :collect="collect"></VFunction>
   </div>
@@ -81,7 +81,9 @@
 //      const path = dataServicePath + 'index/' + this.categoryid + '.json'
 //      this.images = await this.getJSON(path)
 	    this.images = _.unionBy(this.images, 'image')
-	    this.imgsArr = this.images.slice(0, this.firstLoadCount)
+	    this.imgsArr = _.forEach(this.images.slice(0, this.firstLoadCount), image => {
+	    	image.status = 1
+      })
 	    this.fetchImgsArr = this.constructImages()
     },
     computed: {
@@ -170,13 +172,14 @@
 		    this.saveForm(this.category)
 		    this.category.collected &&  websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:4,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 	    },
-	    fetchImgsData() {
-		    !_.isEmpty(this.fetchSTO) && clearTimeout(this.fetchSTO)
+	    fetchImgsData(status) {
+//		    !_.isEmpty(this.fetchSTO) && clearTimeout(this.fetchSTO)
 		    this.imgsArr = [...this.imgsArr, ...this.fetchImgsArr]
 		    this.fetchImgsArr = this.constructImages()
-        this.fetchSTO = setTimeout(() => {
-	        this.imgsArr = [...this.imgsArr, ...this.fetchImgsArr]
-        }, 100)
+//        this.fetchSTO = setTimeout(() => {
+//	        this.imgsArr = [...this.imgsArr, ...this.fetchImgsArr]
+//        }, 100)
+        console.log('fetchImgsData this.fetchImgsArr', this.fetchImgsArr)
 	    },
       closeImg () {
         this.isShow = false
@@ -240,7 +243,6 @@
 	      for(let i = 0, len = retArr.length; i < len; i++) {
 		      retArr[i].total = len
 	      }
-	      console.log('constructArticles retArr', retArr)
 	      return retArr
       },
 	    back() {

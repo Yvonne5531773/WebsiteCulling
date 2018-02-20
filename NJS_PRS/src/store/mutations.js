@@ -20,7 +20,9 @@ export default {
 		state.liked = liked;
 	},
 
-	[SET_POSITION](state, position) {
+	[SET_POSITION](state, {
+		position,
+	}) {
 		state.position = position;
 	},
 

@@ -21,7 +21,7 @@ export const service = {
 		},
 
 		setPosition(position) {
-			this.SET_POSITION(position)
+			this.SET_POSITION({position: position})
 		},
 
 		jsonp (path = '', type = 'get', data = {}) {

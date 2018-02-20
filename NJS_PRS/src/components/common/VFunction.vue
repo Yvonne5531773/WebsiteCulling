@@ -42,8 +42,9 @@
 			scrollEle: {},
 		},
 		created() {
-			window.onscroll = ()=>{
+			window.onscroll = () => {
 				return (() => {
+					console.log('in scroll')
 					this.scrollVal = this.getScrollTop() + this.getWindowHeight()
 				})()
 			};
