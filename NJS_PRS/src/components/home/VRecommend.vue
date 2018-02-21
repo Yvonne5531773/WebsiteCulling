@@ -17,7 +17,6 @@
 
 <script>
 	import { websiteApi } from 'api'
-	import { service } from 'components/common/mixin'
 	import { mockRecommend } from '../../mock/recommend'
 	import { recommendPath } from '../../config/config'
 export default {
@@ -26,7 +25,6 @@ export default {
 			list: [],
 		}
 	},
-	mixins: [service],
 	mounted () {
 		this.init()
 	},

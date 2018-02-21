@@ -30,7 +30,6 @@
 	import Velocity from 'velocity-animate/velocity.min'
 	import { websiteApi } from 'api'
 	import { getOperationFullTime } from '../../../config/utils'
-	import { service } from 'components/common/mixin'
 	import txt from '../../../config/txt'
 	export default {
 		data () {
@@ -59,7 +58,6 @@
 			category: Object,
 			gif: Boolean
 		},
-		mixins: [service],
 		computed: {
 			activeImages () {
 				return this.images.slice(this.index, this.index + this.showCount)

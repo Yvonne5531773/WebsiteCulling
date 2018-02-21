@@ -26,7 +26,6 @@
   import VPaginator from 'components/flow/childrens/VPaginator'
 	import { websiteApi } from 'api'
 	import { mapState } from 'vuex'
-	import { service } from 'components/common/mixin'
 	import { getHost, md5, getOperationFullTime } from '../../config/utils'
 	import txt from '../../config/txt'
 	import { dataServicePath } from '../../config/config'
@@ -64,7 +63,6 @@
         endTip2: txt.TXT_20
 		  }
 	  },
-	  mixins: [service],
     async created () {
       if(this.isShow) {
         window.addEventListener('keydown', this.keyFun)

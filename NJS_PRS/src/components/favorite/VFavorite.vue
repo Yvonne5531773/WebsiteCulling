@@ -61,7 +61,7 @@
 	import { websiteApi } from 'api'
 	import Velocity from 'velocity-animate/velocity.min'
 	import { likes } from '../../mock/likes'
-	import { service } from 'components/common/mixin'
+//	import { service } from 'components/common/mixin'
 	export default {
 		data () {
 			return {
@@ -78,7 +78,7 @@
 				collectAlertSTO: {},
 			}
 		},
-		mixins: [service],
+//		mixins: [service],
 		computed: {
 			categoryid() {
 				return this.$route.query.categoryid || ''

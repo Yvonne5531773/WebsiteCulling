@@ -53,7 +53,6 @@
 	import VRecyclist from 'components/list/childrens/VRecyclist'
 	import VFrom from 'components/list/childrens/VFrom'
 	import { websiteApi } from 'api'
-	import { service } from 'components/common/mixin'
 	import { getHost, md5, getOperationFullTime } from '../../config/utils'
 	import { dataServicePath } from '../../config/config'
 	import Velocity from 'velocity-animate/velocity.min'
@@ -80,7 +79,6 @@
         noMoreTxt: txt.TXT_38,
 		  }
 	  },
-	  mixins: [service],
 	  async mounted () {
 		  await this.init()
 	  },

@@ -12,7 +12,6 @@
 	import { mapState } from 'vuex'
 	import { websiteApi } from 'api'
 	import { prePage } from '../../config/config'
-	import { service } from 'components/common/mixin'
 	import { getStore, removeStore } from '../../config/utils'
 
 	export default {
@@ -24,7 +23,6 @@
 				info: []
 			}
 		},
-		mixins: [service],
 		watch: {
 			component () {
 				this.init()

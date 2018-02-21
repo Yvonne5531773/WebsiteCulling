@@ -33,7 +33,6 @@
 
 <script>
 	import { websiteApi } from 'api'
-	import { service } from 'components/common/mixin'
 	import { getHost, clipstring } from '../../config/utils'
 	import { mockRelation } from '../../mock/relation'
 	import { aiRecommendPath } from '../../config/config'
@@ -48,7 +47,6 @@ export default {
 			index: 0
 		}
 	},
-	mixins: [service],
 	props: {
 		localSites: {
 			type: Array

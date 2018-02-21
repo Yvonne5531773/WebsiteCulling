@@ -23,7 +23,6 @@
 
 <script>
 	import { websiteApi } from 'api'
-	import { service } from 'components/common/mixin'
 	import { getHost, clipstring, getOperationFullTime } from '../../../config/utils'
 	import { mockRelation } from '../../../mock/relation'
 	import txt from '../../../config/txt'
@@ -51,7 +50,6 @@ export default {
 
 		}
 	},
-	mixins: [service],
 	watch: {
 		screenWidth (val) {
 			this.screenWidth = val

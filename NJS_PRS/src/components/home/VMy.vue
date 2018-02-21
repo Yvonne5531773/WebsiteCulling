@@ -52,7 +52,6 @@
 <script>
 	import { websiteApi } from 'api'
 	import VRelation from 'components/home/VRelation'
-	import { service } from 'components/common/mixin'
 	import { hots } from '../../mock/hots'
 	import { likes } from '../../mock/likes'
 	import { compareTime, setStore, getHost } from '../../config/utils'
@@ -85,7 +84,6 @@
 				'position'
 			])
 		},
-		mixins: [service],
 //		created() {
 //			this.init()
 //		},

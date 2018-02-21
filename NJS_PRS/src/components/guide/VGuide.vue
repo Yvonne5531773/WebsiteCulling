@@ -58,7 +58,6 @@
 	import { websiteApi } from 'api'
 	import _ from 'lodash'
 	import { setStore, getStore } from '../../config/utils'
-	import { service } from 'components/common/mixin'
 	import Velocity from 'velocity-animate/velocity.min'
 	import { indexPath } from '../../config/config'
 	import txt from '../../config/txt'
@@ -85,7 +84,6 @@
 				hasSelected: true
 			}
 		},
-		mixins: [service],
 		mounted() {
 			this.init()
 			this.gif()

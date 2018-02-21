@@ -38,7 +38,6 @@
 	import { getOperationFullTime, setStore } from '../../../../config/utils'
 	import { fbHref, prePage  } from '../../../../config/config'
 	import { websiteApi } from 'api'
-	import { service } from 'components/common/mixin'
 	export default {
 		name: 'VHeader',
 		data() {
@@ -73,7 +72,6 @@
 				return fbHref
 			}
 		},
-		mixins: [service],
 		mounted(){
 			const cname = this.component? this.component: 'VMy'
 			!this.favoritePage && this.change(cname)

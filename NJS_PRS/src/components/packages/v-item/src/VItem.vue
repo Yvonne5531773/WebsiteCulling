@@ -24,7 +24,6 @@
 
 <script>
 	import { websiteApi } from 'api'
-	import { service } from 'components/common/mixin'
 	import { styleConfigPath } from '../../../../config/config'
 	import styleConfigs from '../../../../config/style'
 	export default {
@@ -34,7 +33,6 @@
 				moreTxt: this.$txt.TXT_27,
 			}
 		},
-		mixins: [service],
 		computed: {
 			by() {
 				return this.category.by ? 'by ' + this.category.by : ''

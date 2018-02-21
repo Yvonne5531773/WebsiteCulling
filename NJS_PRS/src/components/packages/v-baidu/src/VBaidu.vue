@@ -17,7 +17,6 @@
 
 <script>
 	import { websiteApi } from 'api'
-	import { service } from 'components/common/mixin'
 	import { baiduPath } from '../../../../config/config'
 	export default {
 		name: 'VBaidu',
@@ -38,7 +37,6 @@
 				return baiduPath
 			}
 		},
-		mixins: [service],
 		methods: {
 			async show (ev) {
 				if (ev.keyCode === 38 || ev.keyCode === 40) {
