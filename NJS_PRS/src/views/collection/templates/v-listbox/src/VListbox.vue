@@ -1,6 +1,6 @@
 <template>
   <div class="v-list">
-    <div ref="content" class="list-content">
+    <div class="list-content">
       <VBanner :category="category"></VBanner>
       <div class="list">
         <section class="list-l">

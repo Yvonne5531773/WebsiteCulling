@@ -2,7 +2,7 @@
   <div class="fancybox" :style="isFullScreen&&`width:100%;marginRight:0px`">
     <div class="image-wrapper">
       <!--<transition-group external="white-space:nowrap" :duration="800" :enter-active-class="'animated ' + transition.enterClass" :leave-active-class="'animated ' + transition.leaveClass">-->
-      <img ref="images" class="image" v-for="item in images" :key="item.index" :src="item.src" v-if="item.index===index+1" @click.stop="addIndex(1)">
+      <img class="image" v-for="item in images" :key="item.index" :src="item.src" v-if="item.index===index+1" @click.stop="addIndex(1)">
       <!--</transition-group>-->
     </div>
     <div v-if="index > 0" class="arrow left" @click.stop="decIndex"></div>

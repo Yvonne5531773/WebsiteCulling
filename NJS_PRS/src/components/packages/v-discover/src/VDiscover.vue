@@ -13,10 +13,10 @@
 						<a class="right" @click="pullEvent(data, index)" v-show="dataList.length > 2 && data.categories.length>3">
 							<span v-if="data.event===0">{{pullTxt}}</span>
 							<span v-else>{{pushTxt}}</span>
-							<b ref="pull" class="pull"></b>
+							<b ref="rPull" class="pull"></b>
 						</a>
 					</div>
-					<div class="body" ref="body">
+					<div class="body" ref="rBody">
 						<ul class="list">
 							<li :key="category.id" v-for="category in data.showCategories" >
 								<VItem :themeid="data.id" :category="category"></VItem>
@@ -74,7 +74,7 @@
 					d.event = 0
 				})), ['sort'])
 				this.$nextTick(()=>{
-					this.dataList.length <= 2 && this.$refs.body && this.$refs.body.forEach( (b, i) => {
+					this.dataList.length <= 2 && this.$refs.rBody && this.$refs.rBody.forEach( (b, i) => {
 						let count = this.dataList[i].categories.length
 						b.style.maxHeight = 360*(Math.floor(count/3)+1)+'px'
 					})
@@ -87,16 +87,16 @@
 					const durationVal = 120*(Math.floor(data.showCategories.length/3)+1)
 					//下拉动画
 					let count = this.dataList[index].categories.length
-					this.$velocity(this.$refs.pull[index], { rotateZ: "90deg" }, { duration: durationVal})
-					this.$velocity(this.$refs.body[index], { maxHeight: 360*(Math.floor(count/3)+1) }, { duration: durationVal, complete: ()=>{
+					this.$velocity(this.$refs.rPull[index], { rotateZ: "90deg" }, { duration: durationVal})
+					this.$velocity(this.$refs.rBody[index], { maxHeight: 360*(Math.floor(count/3)+1) }, { duration: durationVal, complete: ()=>{
 						data.event = 1
 					}})
 					this.$api.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:4,value:0,hotsite:0,url:'',name:this.dataList[index].id+''})
 				}else if (data.event===1) { //up
 					data.event = 0
 					//收缩动画
-					this.$velocity(this.$refs.pull[index], { rotateZ: "0deg" })
-					this.$velocity(this.$refs.body[index], { maxHeight: 365 }, {complete: () => {
+					this.$velocity(this.$refs.rPull[index], { rotateZ: "0deg" })
+					this.$velocity(this.$refs.rBody[index], { maxHeight: 365 }, {complete: () => {
 						data.showCategories = _.cloneDeep(data.categories.slice(0,3))
 					}})
 				}

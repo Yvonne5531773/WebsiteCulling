@@ -4,7 +4,7 @@
       <VBanner :category="category"></VBanner>
       <VWaterfall v-if="imgsArr&&imgsArr.length>0" :imgsArr='imgsArr' :imgWidth="imgWidth" :maxCols="maxCols" :fetchImgsData="fetchImgsData" @changeIndex="changeImg($event)" @response="response($event)"></VWaterfall>
       <transition :duration="300" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-        <div ref="lightbox" class="lightbox" v-if="isShow" @click="isShow=!modalclose" :style="!isFullScreen&&`padding:0 20px 0 20px`">
+        <div ref="rLightbox" class="lightbox" v-if="isShow" @click="isShow=!modalclose" :style="!isFullScreen&&`padding:0 20px 0 20px`">
           <VFancybox ref="fancybox" :images="articles" :index="articlesIndex" :reset="!isShow" :category="category" :isFullScreen="isFullScreen" @close="closeImg" @addIndex="nextImg" @decIndex="prevImg"></VFancybox>
           <VPaginator ref="paginator" :images="articles" :activeIndex="articlesIndex" :category="category" :gif="gif" @changeIndex="changeArticle($event)" @addLike="likeSite($event)"></VPaginator>
           <transition :duration="600" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
@@ -88,7 +88,7 @@
 			  if(this.isShow) {
 				  window.addEventListener('keydown', this.keyFun)
 				  this.$nextTick(()=>{
-					  this.$refs.lightbox.addEventListener('mousewheel', this.wheelFun)
+					  this.$refs.rLightbox.addEventListener('mousewheel', this.wheelFun)
 				  })
           const contentEl = this.$refs.content
 				  contentEl.style.position = 'absolute'
@@ -99,7 +99,7 @@
 				  this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:2,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 			  } else {
 				  window.removeEventListener('keydown', this.keyFun)
-				  this.$refs.lightbox.removeEventListener('mousewheel', this.wheelFun)
+				  this.$refs.rLightbox.removeEventListener('mousewheel', this.wheelFun)
 				  const contentEl = this.$refs.content
 				  contentEl.style.position = 'fixed'
 				  this.articlesIndex = 0

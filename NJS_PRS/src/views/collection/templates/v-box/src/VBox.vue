@@ -24,7 +24,7 @@
 				<div class="content">
 					<div class="block" :key="site.id" v-for="(site, index) in sites" @click="open(site, $event)">
 						<div class="name">
-							<div ref="img" class="i">
+							<div class="i">
 								<img v-lazy="site.iconLazyObj"/>
 							</div>
 							<span>{{site.name | clip(22)}}</span>
@@ -37,7 +37,7 @@
 							<span class="text" v-if="!site.liked">{{likeTxt}}</span>
 							<span class="liked-text" v-else>{{likedTxt}}</span>
 						</div>
-						<div ref="alert" class="alert" v-show="site.likedAlert">
+						<div ref="rAlert" class="alert" v-show="site.likedAlert">
 							<span>{{alertTxt}}</span>
 						</div>
 					</div>
@@ -107,7 +107,7 @@
 				if(!site) return
 				site.alertTimeout && (clearTimeout(site.alertTimeout))
 				site.likedAlert = site.liked = !site.liked
-				site.alertEl = this.$refs.alert[i]
+				site.alertEl = this.$refs.rAlert[i]
 				site.liked && (site.alertTimeout = setTimeout(() => {
 					site.likedAlert = false
 					const alert = site.alertEl

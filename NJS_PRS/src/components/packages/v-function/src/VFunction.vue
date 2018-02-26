@@ -5,7 +5,7 @@
 			:duration="duration"
 			enter-active-class="animated fadeIn"
 			leave-active-class="animated fadeOut">
-			<div ref="function" :class="[type===1?'f-flow function':'f-list function']" v-if="show">
+			<div :class="[type===1?'f-flow function':'f-list function']" v-if="show">
 				<!--<a class="btn refresh" title="刷新" @click="refresh"></a>-->
 				<a v-if="!category.collected" class="btn collect" :title="collectTxt" @click="collect"></a>
 				<a class="btn back-to-top" @click="backToTop" :title="bttTxt"></a>

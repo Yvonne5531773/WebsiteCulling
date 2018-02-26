@@ -39,7 +39,7 @@
 			leave-active-class="animated fadeOut"
 		>
 			<div class="overlay" v-show="hole" @click="tipClose">
-				<div ref="hole" class="hole">
+				<div ref="rHole" class="hole">
 					<div class="light">
 						<div class="tip">
 							<a class="close" @click="tipClose" title="关闭"></a>
@@ -213,8 +213,8 @@
 				this.lightBlock = this.rows[0].list[5]
 				if(this.lightBlock.selected) return
 				this.lightBlockEl = this.$refs.rBody[0].childNodes[5]
-				const bLight = this.lightBlockEl.getBoundingClientRect()
-				let holeEl = this.$refs.hole
+				const bLight = this.lightBlockEl.getBoundingClientRect(),
+					holeEl = this.$refs.rHole
 				holeEl.style.top = bLight.top-31+'px'
 				holeEl.style.left = bLight.left-29+'px'
 				setTimeout(() => {
