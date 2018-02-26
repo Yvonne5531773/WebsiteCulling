@@ -18,7 +18,7 @@
 								<ul class="list">
 									<li :key="data.id" v-for="(data,index) in content.data" :title="data.name" :class='{block:content.sort>=3}'>
 										<a target="_blank" :href="data.href_url" v-if="content.sort<3" @click="openUrl(data, content.sort, index)">
-											<img v-lazy="data.iconLazyObj" />
+											<img v-lazy="data.iconLazyObj">
 											<span class="name" :style="{letterSpacing:data.letterSpace,textAlign:data.textAlign,width:data.width}">{{data.name | clip(10)}}</span>
 										</a>
 										<a class="add-like" v-else-if="content.sort===4&&data.sites.length===0" @click="addMore(1)">
@@ -50,12 +50,11 @@
 	</div>
 </template>
 <script>
-	import { websiteApi } from 'api'
 	import { mapState } from 'vuex'
-	import { hots } from '../../../../mock/hots'
-	import { likes } from '../../../../mock/likes'
-	import { compareTime, setStore, getHost } from '../../../../config/utils'
-	import { categoryPath, hotsitePath } from '../../../../config/config'
+	import { hots } from 'mock/hots'
+	import { likes } from 'mock/likes'
+	import { compareTime, setStore, getHost } from 'utils/index'
+	import { categoryPath, hotsitePath } from 'config/index'
 	export default {
 		name: 'VMy',
 		data() {
@@ -97,14 +96,14 @@
 		methods: {
 			async init() {
 				await this.construct()
-				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:1,url:'',value:0})
+				this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:1,url:'',value:0})
 				this.position.name==='VMy' && this.gotoPosition()
 			},
 			openUrl(data, sort, index) {
 //				data.views = data.views? data.views+1 : 1
 //				data && sort === 1 && this.saveSite(data)
-				sort === 1 && websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:3,url:data.href_url,value:0})
-				sort === 2 && websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:4,url:data.url,value:data.id})
+				sort === 1 && this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:3,url:data.href_url,value:0})
+				sort === 2 && this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:4,url:data.url,value:data.id})
 			},
 			async buildHistories() {
 				let arrs = []
@@ -147,7 +146,7 @@
 				//热门网站
 				let hotSites = []
 				try {
-					hotSites = await this.jsonp(hotsitePath)
+					hotSites = await this.fetch(hotsitePath)
 					hotSites = hotSites? hotSites.slice(0, 32):[]
 				} catch (e) {
 					console.log('error: ', e)
@@ -198,7 +197,7 @@
 			},
 			update(ids, name) {
 				if(_.isEmpty(ids)) return
-				this.jsonp(categoryPath + ids.join(',')).then(res => {
+				this.fetch(categoryPath + ids.join(',')).then(res => {
 					this.updateVM(res, name)
 				}).catch(e => console.log('error: ', e))
 			},
@@ -207,7 +206,7 @@
 					!_.isEmpty(content.data) && content.sort<3 && content.data.forEach( (c) => {
 						if(c){
 							c.iconLazyObj = {
-								src: c.icon&&!~c.icon.indexOf('http')?'http://'+c.icon : c.icon,
+								src: c.icon&&!~c.icon.indexOf('http')?'http:'+c.icon : c.icon,
 								error: 'static/img/default-icon.png',
 								loading: 'static/img/default-icon.png'
 							}
@@ -225,8 +224,8 @@
 			},
 			addMore(type) {
 				this.setComponent('VDiscover')
-				type===1&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:6,url:'',value:0})
-				type===2&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:8,url:'',value:0})
+				type===1&&this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:6,url:'',value:0})
+				type===2&&this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:8,url:'',value:0})
 			},
 			gotoPosition() {
 				document.documentElement.scrollTop = this.position.scrolly

@@ -16,9 +16,8 @@
 </template>
 
 <script>
-	import { websiteApi } from 'api'
-	import { mockRecommend } from '../../../../mock/recommend'
-	import { recommendPath } from '../../../../config/config'
+	import { mockRecommend } from 'mock/recommend'
+	import { recommendPath } from 'config/index'
 	export default {
 		name: 'VRecommend',
 		data () {
@@ -33,14 +32,14 @@
 			async init () {
 				let res = {}
 				try {
-					res = await this.jsonp(recommendPath)
+					res = await this.fetch(recommendPath)
 				}catch (e) {
 					console.log('error:', e)
 				}
 				this.list = !_.isEmpty(res) && res.bottoms? res.bottoms:mockRecommend
 			},
 			open(data) {
-				websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:3,value:0,hotsite:data.id,url:'',name:''})
+				this.$api.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:3,value:0,hotsite:data.id,url:'',name:''})
 			}
 		}
 	}

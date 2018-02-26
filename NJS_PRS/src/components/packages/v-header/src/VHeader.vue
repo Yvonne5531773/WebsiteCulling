@@ -4,11 +4,12 @@
 			<div class="title">
 				<div class="txt">
 					<p class="txt1">{{txt1}}</p>
-					<a class="close">
-						<b class="btn" @click.stop="showTip=!showTip">{{closeTxt}}</b>
+					<a class="back2Pre">
+						<b class="btn" @click.stop="showTip=true">{{back2PreTxt}}</b>
 					</a>
-					<transition :duration="300" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-						<span class="tip" v-if="showTip" @click.stop="showTip=!showTip">
+					<transition :duration="200" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+						<span class="tip" v-if="showTip">
+							<a class="close" title="关闭" @click.stop="showTip=!showTip"></a>
 							<span class="t-c">
 									{{tipTxt1}}
 									<b>{{txt1}}</b>
@@ -21,11 +22,11 @@
 				</div>
 			</div>
 			<div class="component">
-				<a class="option" v-for="(component, index) in components" :style="!favoritePage && component.selected&&`color:#ffffff;borderBottom:5px solid #f7ea53`" @click="change(component.name, 1) ">{{component.txt}}
+				<a class="option" v-for="(component, index) in components" :style="!isCollection && component.selected&&`color:#ffffff;borderBottom:5px solid #f7ea53`" @click="change(component.name, 1) ">{{component.txt}}
 					<span v-if="component.name===`VMy` && liked" class="dot">●</span>
 				</a>
 				<a class="fb" :href="href" target="_blank">{{feedback}}</a>
-				<b v-if="!favoritePage" class="back-guide" @click="backGuide">
+				<b v-if="!isCollection" class="back-guide" @click="backGuide">
 					<span>{{txt3}}</span>
 				</b>
 			</div>
@@ -35,9 +36,8 @@
 
 <script>
 	import { mapState } from 'vuex'
-	import { getOperationFullTime, setStore } from '../../../../config/utils'
-	import { fbHref, prePage  } from '../../../../config/config'
-	import { websiteApi } from 'api'
+	import { getOperationFullTime, setStore } from 'utils/index'
+	import { fbHref, prePage, restoreOnStartup } from 'config/index'
 	export default {
 		name: 'VHeader',
 		data() {
@@ -45,7 +45,7 @@
 				txt1: this.$txt.TXT_1,
 				txt2: this.$txt.TXT_2,
 				txt3: this.$txt.TXT_3,
-				closeTxt: this.$txt.TXT_39,
+				back2PreTxt: this.$txt.TXT_39,
 				tipTxt1: this.$txt.TXT_40,
 				tipTxt2: this.$txt.TXT_41,
 				knowed: this.$txt.TXT_42,
@@ -54,13 +54,14 @@
 				components:
 					[
 						{name:'VMy',txt:'我的网站',selected:false},
-						{name:'VDiscover', txt:'发现网站',selected:false},
+						{name:'VDiscover',txt:'发现网站',selected:false},
 					],
 			}
 		},
 		props: {
-			favoritePage: {
-				type: Boolean
+			isCollection: {
+				type: Boolean,
+				default: false
 			}
 		},
 		computed:{
@@ -74,7 +75,7 @@
 		},
 		mounted(){
 			const cname = this.component? this.component: 'VMy'
-			!this.favoritePage && this.change(cname)
+			!this.isCollection && this.change(cname)
 		},
 		watch: {
 			component() {
@@ -86,7 +87,7 @@
 		},
 		methods: {
 			change(name, type) {
-				if (this.favoritePage) {
+				if (this.isCollection) {
 					this.$router.push({path: 'home'})
 				}
 				this.components.forEach((c)=>{
@@ -95,21 +96,22 @@
 				})
 				this.setComponent(name)
 				this.liked && name==='VMy' && this.setLike(false)
-				type===1&&this.component==='VMy'&&!this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:6,value:0,hotsite:0,url:'',name:''})
-				type===1&&this.component==='VMy'&&this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:5,name:'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
-				type===1&&this.component==='VDiscover'&&this.favoritePage&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:6,name:'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				type===1&&this.component==='VMy'&&!this.isCollection&&this.$api.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:6,value:0,hotsite:0,url:'',name:''})
+				type===1&&this.component==='VMy'&&this.isCollection&&this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:5,name:'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				type===1&&this.component==='VDiscover'&&this.isCollection&&this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:6,name:'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 			},
 			backGuide() {
-				this.component==='VDiscover'&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:5,value:0,hotsite:0,url:'',name:''})
-				this.component==='VMy'&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:10,url:'',value:0})
+				this.component==='VDiscover'&&this.$api.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:5,value:0,hotsite:0,url:'',name:''})
+				this.component==='VMy'&&this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:10,url:'',value:0})
 				this.$router.push({path: '/guide'})
 			},
 			know() {
+				this.$api.removeWebsiteFlag()
+				this.$api.setRestoreOnStartup(restoreOnStartup)
 				this.showTip = false
-				websiteApi.removeWebsiteFlag()
 				window.location.href = prePage
-				setStore('WEBSITE', 0)
-				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:14,url:'',value:0})
+//				setStore('WEBSITE', 0)
+				this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:14,url:'',value:0})
 			}
 		},
 	}
@@ -150,7 +152,7 @@
 					.txt2
 						font-size 14px
 						color #a4a4ff
-					.close
+					.back2Pre
 						display flex
 						position absolute
 						top 8px
@@ -201,6 +203,14 @@
 								background-color #8368f9
 							&:active
 								background-color #4f33c7
+						.close
+							position absolute
+							right 0
+							margin 15px 10px
+							z-index 9
+							background url("../../../../assets/img/guide/close.png") no-repeat
+							width 10px
+							height 10px
 			.component
 				text-align center
 				left 0

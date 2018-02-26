@@ -27,9 +27,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-	import Velocity from 'velocity-animate/velocity.min'
-	import { websiteApi } from 'api'
-	import { getOperationFullTime } from '../../../../config/utils'
+	import { getOperationFullTime } from 'utils/index'
 	export default {
 		name: 'VPaginator',
 		data () {
@@ -122,8 +120,8 @@
 			enterAndLeave(opacity) {
 				const arrowRight = this.$refs.arrowRight,
 					arrowLeft = this.$refs.arrowLeft
-				arrowRight && Velocity(arrowRight,{opacity: opacity},{duration:200})
-				arrowLeft && Velocity(arrowLeft,{opacity: opacity},{duration:200})
+				arrowRight && this.$velocity(arrowRight,{opacity: opacity},{duration:200})
+				arrowLeft && this.$velocity(arrowLeft,{opacity: opacity},{duration:200})
 			},
       doScreen() {
 	      return this.screenWidth>1687? 11:(this.screenWidth>1409? 9:7)
@@ -132,17 +130,17 @@
 	      this.index -= 1
 	      if(this.index < (this.images.length - this.showCount)) {
 		      const arrowRight = this.$refs.arrowRight
-		      arrowRight && Velocity(arrowRight,{opacity: 1},{duration:200})
+		      arrowRight && this.$velocity(arrowRight,{opacity: 1},{duration:200})
 	      }
-	      websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:13,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+	      this.$api.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:13,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
       },
 			right() {
 				this.index += 1
         if(this.index > 0) {
 	        const arrowLeft = this.$refs.arrowLeft
-	        arrowLeft && Velocity(arrowLeft,{opacity: 1},{duration:200})
+	        arrowLeft && this.$velocity(arrowLeft,{opacity: 1},{duration:200})
         }
-				websiteApi.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:12,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+				this.$api.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:12,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
 			},
 			like(site) {
 				this.$emit('addLike', site)
@@ -150,7 +148,7 @@
 			open(flag) {
 				const action = flag===1? 8 : 9,
 					url = flag===1? this.images[this.index].url : this.images[this.index].host
-				websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 			},
 			full() {
 				const launchFullscreen = element => {
@@ -163,7 +161,7 @@
 					} else if (element.msRequestFullscreen) {
 						element.msRequestFullscreen()
 					}
-					websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:16,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+					this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:16,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 				}
 				const exitFullscreen = () => {
 					if (document.exitFullscreen) {

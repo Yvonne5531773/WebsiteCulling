@@ -1,5 +1,5 @@
 <template>
-	<div class="content">
+	<div class="v-guide">
 		<section class="container">
 			<div class="top">
 				<img src="../../assets/img/guide/title.png"/>
@@ -55,11 +55,8 @@
 	</div>
 </template>
 <script>
-	import { websiteApi } from 'api'
-	import _ from 'lodash'
-	import { setStore, getStore } from '../../config/utils'
-	import Velocity from 'velocity-animate/velocity.min'
-	import { indexPath } from '../../config/config'
+	import { setStore, getStore } from 'utils/index'
+	import { indexPath } from 'config/index'
 	export default {
 		data() {
 			return {
@@ -89,12 +86,12 @@
 		},
 		methods: {
 			async init () {
-				websiteApi.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:1,taste:0})
+				this.$api.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:1,taste:0})
 				let info = await this.getSelectedInfo(),
 					data = {}
 				this.infoArray = !_.isEmpty(info)? info.split(',') : []
 				try {
-					data = await this.jsonp(indexPath)
+					data = await this.fetch(indexPath)
 				} catch (e) {
 					console.log('error: ', e)
 				}
@@ -133,7 +130,7 @@
 			},
 			click (row, index) {
 				this.change('click', row, index)
-				this.rows[row].list[index].selected && websiteApi.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:2,taste:this.rows[row].list[index].id})
+				this.rows[row].list[index].selected && this.$api.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:2,taste:this.rows[row].list[index].id})
 			},
 			change (action, row, index) {
 				let block = this.$refs.rBody[row].childNodes[index],
@@ -163,8 +160,8 @@
 				imgs[2].style.display = 'block'
 				if(block.velocityActEnd){
 					block.velocityActEnd=false
-					Velocity(imgs[0],{scaleX: 1.2, scaleY: 1.2},{duration:100,complete:()=>{block.velocityActEnd=true}})
-					Velocity(imgs[1],{scaleX: 1.2, scaleY: 1.2},[0,.3,.6,1],{duration: 100})
+					this.$velocity(imgs[0],{scaleX: 1.2, scaleY: 1.2},{duration:100,complete:()=>{block.velocityActEnd=true}})
+					this.$velocity(imgs[1],{scaleX: 1.2, scaleY: 1.2},[0,.3,.6,1],{duration: 100})
 				}
 			},
 			inActived(block) {
@@ -174,8 +171,8 @@
 				imgs[2].style.display = 'none'
 				if(block.velocityInActEnd){
 					block.velocityInActEnd=false
-					Velocity(imgs[0],{scaleX:1,scaleY: 1},{duration: 0,complete:()=>{block.velocityInActEnd=true}})
-					Velocity(imgs[1],{scaleX: 1, scaleY: 1},{duration: 0})
+					this.$velocity(imgs[0],{scaleX:1,scaleY: 1},{duration: 0,complete:()=>{block.velocityInActEnd=true}})
+					this.$velocity(imgs[1],{scaleX: 1, scaleY: 1},{duration: 0})
 				}
 			},
 			checkSelects () {
@@ -194,14 +191,14 @@
 				const ids = this.selectids? [...this.selectids, ...this.infoArray]:[],
 					storeIds = ids.length>0? ids.join(','):''
 				setStore('THEME_IDS', storeIds)
-				websiteApi.setUserSelectedInfo(storeIds)
+				this.$api.setUserSelectedInfo(storeIds)
 			},
 			start () {
 				const arrIds = [...this.selectids,...this.infoArray]
 				let ids = this.selectids? (arrIds.length>0? arrIds:this.resIds):[],
 					storeIds = ids.length>0? ids.join(','):''
-				websiteApi.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:3,taste:ids.length})
-				websiteApi.setUserSelectedInfo(ids?ids.join(','):'')
+				this.$api.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:3,taste:ids.length})
+				this.$api.setUserSelectedInfo(ids?ids.join(','):'')
 				this.setComponent('VDiscover')
 				setStore('THEME_IDS', storeIds)
 				this.gifSI && clearInterval(this.gifSI)
@@ -240,8 +237,8 @@
 	}
 </script>
 
-<style lang="stylus" scoped>
-	.content
+<style lang="stylus" rel="stylesheet/stylus">
+	.v-guide
 		zoom 1
 		display flex
 		-webkit-box-orient vertical

@@ -15,15 +15,12 @@ export default {
 
 </script>
 
-<style lang="stylus">
+<style lang="stylus" rel="stylesheet/stylus">
   html, body, #app
     height 100%
 
   *
-    margin: 0
-    padding: 0
-
-  #app
-    font-family microsoft yahei
+    margin 0
+    padding 0
 
 </style>

@@ -16,8 +16,7 @@
 </template>
 
 <script>
-	import { websiteApi } from 'api'
-	import { baiduPath } from '../../../../config/config'
+	import { baiduPath } from 'config/index'
 	export default {
 		name: 'VBaidu',
 		data() {
@@ -63,7 +62,7 @@
 			},
 			goto() {
 				const url = this.baiduURL + encodeURIComponent(this.inputText)
-				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:2,url:'',value:0})
+				this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:2,url:'',value:0})
 				window.open(url, '_blank');
 			},
 			goItem(item) {
@@ -134,14 +133,13 @@
 					&:active
 						background #4f33c7
 		ul
-			z-index 199
+			z-index 100
 			margin auto
-			left 274px
+			margin-top 1px
+			left 273px
 			width 497px
 			position absolute
 			background #fff
-			box-shadow 1px 1px 3px #ededed
-			-webkit-box-shadow 1px 1px 3px #ededed
 			li
 				list-style none
 				margin-top 5px

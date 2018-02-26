@@ -1,20 +1,22 @@
 <template>
-	<transition
-		name="funcTran"
-		:duration="duration"
-		enter-active-class="animated fadeIn"
-		leave-active-class="animated fadeOut">
-		<div ref="function" :class="[type===1?'f-flow function':'f-list function']" v-if="show">
-			<!--<a class="btn refresh" title="刷新" @click="refresh"></a>-->
-			<a v-if="!category.collected" class="btn collect" :title="collectTxt" @click="collect"></a>
-			<a class="btn back-to-top" @click="backToTop" :title="bttTxt"></a>
-		</div>
-	</transition>
+	<div>
+		<transition
+			name="funcTran"
+			:duration="duration"
+			enter-active-class="animated fadeIn"
+			leave-active-class="animated fadeOut">
+			<div ref="function" :class="[type===1?'f-flow function':'f-list function']" v-if="show">
+				<!--<a class="btn refresh" title="刷新" @click="refresh"></a>-->
+				<a v-if="!category.collected" class="btn collect" :title="collectTxt" @click="collect"></a>
+				<a class="btn back-to-top" @click="backToTop" :title="bttTxt"></a>
+			</div>
+		</transition>
+		<VAlert v-if="showAlert"></VAlert>
+	</div>
 </template>
 
 <script>
-	import { websiteApi } from 'api'
-	import { getOperationFullTime } from '../../../../config/utils'
+	import { getOperationFullTime } from 'utils/index'
 	export default {
 		name: 'VFunction',
 		data() {
@@ -22,6 +24,8 @@
 				bttTxt: this.$txt.TXT_11,
 				collectTxt: this.$txt.TXT_8,
 				duration: 300,
+				collectAlertSTO: {},
+				showAlert: false,
 //				scrollVal: 0,
 			}
 		},
@@ -33,9 +37,6 @@
 			type: {
 				type: Number
 			},
-			collect: {
-				type: Function
-			},
 			category: {
 				type: Object
 			},
@@ -44,7 +45,6 @@
 		created() {
 			window.onscroll = () => {
 				return (() => {
-					console.log('in scroll')
 					this.scrollVal = this.getScrollTop() + this.getWindowHeight()
 				})()
 			};
@@ -66,7 +66,17 @@
 		methods: {
 			backToTop() {
 				this.scrollEle.scrollTop = 0
-				websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:7,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:7,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+			},
+			collect() {
+				!this.category.collected && (this.showAlert = true,
+					this.collectAlertSTO = setTimeout( () => {
+						this.showAlert = false
+					}, 1200))
+				this.category.collected && this.collectAlertSTO && (this.showAlert = false, clearTimeout(this.collectAlertSTO))
+				this.category.collected = !this.category.collected
+				this.saveForm(this.category)
+				this.category.collected && this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:4,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 			},
 			getScrollTop(){
 				let scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;

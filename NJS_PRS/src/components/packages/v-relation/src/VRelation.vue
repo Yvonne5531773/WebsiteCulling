@@ -32,10 +32,9 @@
 </template>
 
 <script>
-	import { websiteApi } from 'api'
-	import { getHost, clipstring } from '../../../../config/utils'
-	import { mockRelation } from '../../../../mock/relation'
-	import { aiRecommendPath } from '../../../../config/config'
+	import { getHost, clipstring } from 'utils/index'
+	import { mockRelation } from 'mock/relation'
+	import { aiRecommendPath } from 'config/index'
 	export default {
 		name: 'VRelation',
 		data () {
@@ -84,7 +83,7 @@
 			async getRelations(bookmarksStr) {
 				let list = []
 				try {
-					list = await this.jsonp(aiRecommendPath, 'post', 'urls=' + bookmarksStr)
+					list = await this.fetch(aiRecommendPath, 'post', 'urls=' + bookmarksStr)
 				}catch(e) {
 					console.log('error', e)
 				}
@@ -109,7 +108,7 @@
 				return _.chunk(list, 10)
 			},
 			open(data) {
-				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:11,url:data.host,value:0})
+				this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:11,url:data.host,value:0})
 			},
 			like(data) {
 				data.liked = !data.liked
@@ -123,7 +122,7 @@
 				store.liked = data.liked
 				this.vm = _.cloneDeep(this.vm)
 				this.saveSite(store)
-				store.liked && websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:12,url:data.host,value:0})
+				store.liked && this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:12,url:data.host,value:0})
 			},
 			change() {
 				const list = this.list[this.index+1]
@@ -132,7 +131,7 @@
 				this.$nextTick(() => {
 					this.vm = _.cloneDeep(this.list[this.index])
 				})
-				websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:14,url:'',value:0})
+				this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:14,url:'',value:0})
 			},
 			checkValid(val) {
 				let ret = 1

@@ -1,8 +1,7 @@
 <template>
-  <div class="v-images">
-    <VHeader ref="header" :favoritePage="true"></VHeader>
-    <section ref="content" class="content">
-      <VBanner :category="category" :collect="collect" @back="back"></VBanner>
+  <div class="v-lightbox">
+    <section ref="content" class="lightbox-content">
+      <VBanner :category="category"></VBanner>
       <VWaterfall v-if="imgsArr&&imgsArr.length>0" :imgsArr='imgsArr' :imgWidth="imgWidth" :maxCols="maxCols" :fetchImgsData="fetchImgsData" @changeIndex="changeImg($event)" @response="response($event)"></VWaterfall>
       <transition :duration="300" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
         <div ref="lightbox" class="lightbox" v-if="isShow" @click="isShow=!modalclose" :style="!isFullScreen&&`padding:0 20px 0 20px`">
@@ -11,22 +10,21 @@
           <transition :duration="600" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
             <span v-show="isFullScreen&&showEndTip" class="endTip">{{endTip1}}<b>esc</b>{{endTip2}}</span>
           </transition>
-          <a v-if="isFullScreen" title="退出全屏模式" class="close" @click.stop="close"></a>
+          <a v-if="isFullScreen" :title="exitFullScreenTxt" class="close" @click.stop="close"></a>
         </div>
       </transition>
     </section>
-    <VAlert v-show="showAlert"></VAlert>
-    <VFunction :category="category" :show="showFunction" :scrollEle="scrollEle" :type="1" :collect="collect"></VFunction>
+    <VFunction :category="category" :show="showFunction" :scrollEle="scrollEle" :type="1"></VFunction>
   </div>
 </template>
 
 <script>
-	import { websiteApi } from 'api'
 	import { mapState } from 'vuex'
-	import { getHost, md5, getOperationFullTime } from '../../config/utils'
-	import { dataServicePath } from '../../config/config'
-  import { mockImages } from '../../mock/image'
+	import { getHost, md5, getOperationFullTime } from 'utils/index'
+	import { dataServicePath } from 'config/index'
+  import { mockImages } from 'mock/image'
   export default {
+		name: 'VLightbox',
 	  data () {
 		  return {
 			  imgWidth: '',
@@ -42,21 +40,20 @@
 			  LOAD_INDEX: 0,
 			  changeTime: 100,
 			  category: {},
-			  collectAlertSTO: {},
 			  scrollEle: {},
+//			  fetchSTO: {},
 			  gif: false,
 			  isShow: false,
-			  showAlert: false,
         modalclose: true,
 			  keyinput: true,
 			  mousescroll: true,
 			  showFunction: false,
 			  showEndTip: false,
-        fetchSTO: {},
 			  likeTxt: this.$txt.TXT_14,
 			  likedTxt: this.$txt.TXT_15,
 			  endTip1: this.$txt.TXT_19,
-        endTip2: this.$txt.TXT_20
+        endTip2: this.$txt.TXT_20,
+        exitFullScreenTxt: this.$txt.TXT_43,
 		  }
 	  },
     async created () {
@@ -64,7 +61,6 @@
         window.addEventListener('keydown', this.keyFun)
         window.addEventListener('mousewheel', this.wheelFun)
       }
-      console.log('this.$route.query.config', this.$route.query.config)
       this.constructConfig()
 
 	    this.images = mockImages
@@ -100,7 +96,7 @@
 					  path = dataServicePath + 'json/' + this.categoryid + '/' + md5(img.href, 32) + '.json'
 				  img.articles = _.isEmpty(img.articles)? await this.getJSON(path):img.articles
 				  this.articles = this.constructArticles(img)
-				  websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:2,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				  this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:2,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 			  } else {
 				  window.removeEventListener('keydown', this.keyFun)
 				  this.$refs.lightbox.removeEventListener('mousewheel', this.wheelFun)
@@ -117,16 +113,15 @@
 			  }, 5000)
       },
 		  isFullScreen() {
-			  !this.isFullScreen&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:21,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+			  !this.isFullScreen&&this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:21,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
       }
 	  },
     methods: {
 	    async init () {
 		    await this.construct()
-		    websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:1,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+		    this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:1,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 	    },
 	    async construct () {
-	    	console.log('construct this.categoryid', this.categoryid)
 		    this.category = await this.constructCategory(this.categoryid)
 		    const localSites = await this.getSite()
 		    this.images.forEach((item) => {
@@ -150,17 +145,7 @@
 		    this.articles.forEach(a => a.liked = site.liked)
 		    this.imgsArr[this.index].liked = site.liked
 		    this.saveSite(_.cloneDeep(site))
-		    site.liked && websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:3,name:this.category.id+'',url:site.url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
-	    },
-	    collect() {
-		    !this.category.collected && (this.showAlert = true,
-			    this.collectAlertSTO = setTimeout( () => {
-				    this.showAlert = false
-			    }, 1800))
-		    this.category.collected && this.collectAlertSTO && (this.showAlert = false, clearTimeout(this.collectAlertSTO))
-		    this.category.collected = !this.category.collected
-		    this.saveForm(this.category)
-		    this.category.collected &&  websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:4,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+		    site.liked && this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:3,name:this.category.id+'',url:site.url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 	    },
 	    fetchImgsData(status) {
 //		    !_.isEmpty(this.fetchSTO) && clearTimeout(this.fetchSTO)
@@ -169,7 +154,6 @@
 //        this.fetchSTO = setTimeout(() => {
 //	        this.imgsArr = [...this.imgsArr, ...this.fetchImgsArr]
 //        }, 100)
-        console.log('fetchImgsData this.fetchImgsArr', this.fetchImgsArr)
 	    },
       closeImg () {
         this.isShow = false
@@ -235,11 +219,6 @@
 	      }
 	      return retArr
       },
-	    back() {
-		    const header = this.$refs.header
-		    header && header.change && header.change('VDiscover')
-		    websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:6,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
-	    },
 	    close() {
 		    const paginator = this.$refs.paginator
 		    paginator && paginator.full()
@@ -299,8 +278,8 @@
 						    this.$refs.fancybox.next = false
 						    this.$refs.fancybox.animation = true
 						    this.nextImg()
-						    !this.isFullScreen&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:15,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
-						    this.isFullScreen&&websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:20,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+						    !this.isFullScreen&&this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:15,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+						    this.isFullScreen&&this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:20,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 					    }
 					    this.timeout = setTimeout(() => {
 						    this.timeout = null
@@ -327,85 +306,14 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  .v-images
-    zoom 1
-    display -ms-flexbox
-    display flex
-    -ms-flex-direction column
-    flex-direction column
-    -ms-flex-align stretch
-    align-items stretch
-    -ms-flex-negative 0
-    flex-shrink 0
-    width 100%
-    height 100%
-    top 0
+  .lightbox-content
+    overflow-x hidden
+    top 85px
     bottom 0
-    position absolute
-    .content
-      overflow-x hidden
-      top 85px
-      bottom 0
-      margin 0
-      padding 0
-      position fixed
-      width 100%
-      .c-t
-        position relative
-        top 85px
-        background-color black
-        .banner
-          position absolute
-          opacity 0.5
-          z-index 1
-        .title
-          width 1100px
-          margin auto
-          height 140px
-          font-size 30px
-          color #fff
-          position relative
-          z-index 2
-          .back
-            background url("../../assets/img/flow/back.png") no-repeat
-            width 96px
-            height 56px
-            top 23px
-            left -13px
-            position absolute
-            font-size 12px
-            color #fff
-            line-height 3.6
-            text-align center
-            padding-left 3px
-            &:hover
-              background-position -96px
-            &:active
-              background-position -192px
-          .name
-            position absolute
-            bottom 20px
-          .add
-            background url("../../assets/img/favorite/add.png") no-repeat
-            width 270px
-            height 77px
-            cursor pointer
-            right -10px
-            top 48px
-            margin auto
-            position absolute
-            text-align center
-            line-height 1.8
-            &:hover
-              background-position -270px
-            &:active
-              background-position -540px
-            img
-              position relative
-              top 4px
-            span
-              font-size 16px
-              padding-right 7px
+    margin 0
+    padding 0
+    position fixed
+    width 100%
   .lightbox
     display flex
     position fixed
@@ -418,7 +326,7 @@
     box-sizing border-box
     font-size 14px
     .close
-      background url("../../assets/img/flow/close.png") no-repeat
+      background url("../../../../../assets/img/flow/close.png") no-repeat
       width 48px
       height 48px
       margin 30px 30px 0 0

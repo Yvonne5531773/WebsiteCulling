@@ -1,65 +1,53 @@
-#[猎豹浏览器] 网址精选
+# Project powered by vuejs with a series of vuejs plugins included vuex, vue-router
 
-1.需求背景：
+> vuex 单页面数据状态管理器
 
-a.用户收藏夹收藏有海量的网站，这些网站可以满足用户的各种长尾需求。
-b.但每个用户个人所知网站是有限的，目前用户无法通过高效途径获得他想要的一类网站。
-c.猎豹网址精选，可以将各种特色网站分类，包装成精品网单，推荐给用户，并鼓励用户创建、分享网单，打造网站资源分享社区。
+> vue-router 单页面路由管理
 
-2.需求目标
+> web worker http请求
 
-通过【猎豹网址精选】概念版， 验证用户对于 网址合集（网单）形式的认知程度，和用户的接受度。
+## 基于猎豹浏览器的客户端api
 
+## 基于后台api
 
-3.产品方案（详细交互产品方案及原型图请点击附件查看）
+## how to use
 
-概念版只开发兴趣选择页面和发现页面（包含网单详情页）
+``` bash
+# install dependencies
+npm install
 
-第一部分：用户兴趣选择
+# serve with hot reload at localhost:8081
+npm run dev
 
-1.用户打开浏览器，首先进入【猎豹网址精选】兴趣选择页面。 
+# build for production with minification
+npm run build
 
-2.第一个主题【热门推荐】是默认选中态 ,其他主题为未选中态。（主题总数待确定）
+# build for production and view the bundle analyzer report
+npm run build --report
+```
+## 目录结构
 
-3.用户若不选择其他主题（至少一个），则底部按钮置灰，文案为：选择几个兴趣试试。
+初始的目录结构如下：
 
-4.用户若选择一个以上其他主题，则按钮可点击，文案为：开始使用。 按钮点击进入【发现网站】页面。
+~~~
+www  WEB部署目录（或者子目录）
 
-*屏幕适配：整体居中
-
-第二部分：发现网站
-
-一：【发现网站页面】
-
-1.顶部为滚动banner，是精品推荐，商业推广，或者活动的宣传窗口。 
-
-2.主题推荐版块，左面为用户选择的主题，依次排列；右面为热门网站top10。
-
-3.主题推荐版块，每个主题1行，每行3个网单，点击更多，则下拉显示该主题全部网单，更多变为收起。
-
-4. 点击相关网单，跳转至网单详情页。
-
-5.点击【我的网站】，跳转至该页面。（不做）
-
-6.点击【选择兴趣】，打开兴趣选选择页面，用户可在已有基础上再进行兴趣选择。
-
-二：【网单详情页面】
-
-1网单内容包括：封面，标题，简介，标签， 网站列表。
-
-2.用户点击【加入收藏】，出现收藏成功tip , 【我的网站】-【我收藏的网单】添加该网单。【我的网站】和【我收藏的网单】标记红点。（不做）
-
-3.用户hover网站名或url，网站名和url变为可点击态。用户点击在新页面打开该网站。
-
-4.用户点击 “心”按钮 ，变为实心态 ，出现添加成功tip , 【我的网站】和【我收藏的网单】标记红点。
-
-*屏幕适配：整体居中
-
-第三部分：我的网站
-
-概念版不做
-
-liebao_urlchoose_taste:350 action:byte taste:byte ver:byte
-liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte
-liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte
-liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string
+├───build               应用webpack打包配置
+├───config              应用webpack打包配置参数
+├───src                 应用开发代码
+│   ├───api             客户度的接口
+│   ├───assets          资源文件夹
+│   ├───components      自定义开发的可重复使用的UI组件
+│   ├───config          app开发配置信息
+│   ├───external        外部配置文件
+│   ├───mock            mock文件夹
+│   ├───plugin          自定义vuejs插件
+│   ├───router          路由配置信息
+│   ├───store           vuex文件夹
+│   ├───txt             全局字符串配置
+│   ├───utils           公共库
+│   ├───views           页面组件
+│   └───worker          跨域组件
+├───static              静态文件夹
+├───test                测试文件夹
+└───website_culling     打包后文件夹

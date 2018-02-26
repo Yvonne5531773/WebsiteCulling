@@ -1,4 +1,4 @@
-import { clipstring } from '../config/utils'
+import { clipstring } from 'utils/index'
 
 export default {
 	clip(str, len) {

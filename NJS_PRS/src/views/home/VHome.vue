@@ -8,9 +8,8 @@
 </template>
 <script>
 	import { mapState } from 'vuex'
-	import { websiteApi } from 'api'
-	import { prePage } from '../../config/config'
-	import { getStore, removeStore } from '../../config/utils'
+	import { prePage } from 'config/index'
+	import { getStore, removeStore } from 'utils/index'
 	export default {
 		data() {
 			return {
@@ -52,7 +51,7 @@
 				}
 			},
 			toPrePage() {
-				if(websiteApi.getWebsiteFlag()!='1' && websiteApi.getWebsiteNewTab()!='1' && getStore('WEBSITE')=='0'){
+				if(this.$api.getWebsiteFlag()!='1' && this.$api.getWebsiteNewTab()!='1' && getStore('WEBSITE')=='0'){
 					window.location.href = prePage
 					return true
 				}else {

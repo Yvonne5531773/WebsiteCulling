@@ -1,7 +1,7 @@
 <template>
   <div class="fancybox" :style="isFullScreen&&`width:100%;marginRight:0px`">
     <div class="image-wrapper">
-      <!--<transition-group style="white-space:nowrap" :duration="800" :enter-active-class="'animated ' + transition.enterClass" :leave-active-class="'animated ' + transition.leaveClass">-->
+      <!--<transition-group external="white-space:nowrap" :duration="800" :enter-active-class="'animated ' + transition.enterClass" :leave-active-class="'animated ' + transition.leaveClass">-->
       <img ref="images" class="image" v-for="item in images" :key="item.index" :src="item.src" v-if="item.index===index+1" @click.stop="addIndex(1)">
       <!--</transition-group>-->
     </div>
@@ -11,8 +11,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import { websiteApi } from 'api'
-  import { getOperationFullTime } from '../../../../config/utils'
+  import { getOperationFullTime } from 'utils/index'
   export default {
   	name: 'VFancybox',
     props: {
@@ -48,7 +47,7 @@
 	      this.next = true
 	      this.animation = true
         const action = this.isFullScreen? 18 : 11
-	      websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+	      this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
       },
       addIndex (flag) {
         if (this.index < this.images[this.index].total - 1) {
@@ -57,7 +56,7 @@
 	        this.animation = true
         }
         const action = flag===1? (this.isFullScreen?19:14) : (this.isFullScreen?17:10)
-	      websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+	      this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
       },
 	    like(site) {
 		    this.$emit('addLike', site)
@@ -65,7 +64,7 @@
 	    open(flag) {
       	const action = flag===1? 8 : 9,
           url = flag===1? this.images[this.index].url : this.images[this.index].host
-		    websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+		    this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
       },
     },
   }

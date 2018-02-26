@@ -1,5 +1,5 @@
 <template>
-	<transition name="a-fade">
+	<!--<transition name="a-fade">-->
 		<div style="z-index: 999">
 			<div class="alert-frame">
 				<div class="a-c">
@@ -10,7 +10,7 @@
 				</div>
 			</div>
 		</div>
-	</transition>
+	<!--</transition>-->
 </template>
 
 <script>
@@ -61,6 +61,7 @@
 				float right
 				font-size 16px
 				color #ffffff
-				top 6px
+				top 7px
+				right 10px
 				position relative
 </style>

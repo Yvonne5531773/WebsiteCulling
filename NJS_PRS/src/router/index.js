@@ -2,9 +2,7 @@ import App from '../App'
 
 const guide = r => require.ensure([], () => r(require('../views/guide/VGuide')), 'guide')
 const home = r => require.ensure([], () => r(require('../views/home/VHome')), 'home')
-const favorite = r => require.ensure([], () => r(require('../views/favorite/VFavorite')), 'favorite')
-const flow = r => require.ensure([], () => r(require('../views/flow/VLightbox')), 'flow')
-const list = r => require.ensure([], () => r(require('../views/list/VListbox')), 'list')
+const collection = r => require.ensure([], () => r(require('../views/collection/VCollection')), 'collection')
 
 export default [{
 	path: '/',
@@ -24,16 +22,8 @@ export default [{
 			component: home,
 		},
 		{
-			path: '/favorite',
-			component: favorite,
-		},
-		{
-			path: '/flow',
-			component: flow,
-		},
-		{
-			path: '/list',
-			component: list,
+			path: '/collection',
+			component: collection,
 		}
 	]
 }]

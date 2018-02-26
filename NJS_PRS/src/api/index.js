@@ -143,11 +143,9 @@ export const websiteApi = {
 		})
 	},
 
-	/*上报*/
 	reportByInfoc(name, data) {
 		if(name){
-			let tableName = name.split(' ')[0],
-				arr = [],
+			let arr = [],
 				i,
 				reportData = {
 					name: name
@@ -155,12 +153,11 @@ export const websiteApi = {
 			data.ver = 4
 			for (i in data) {
 				if (data.hasOwnProperty(i)) {
-					arr.push(i + '=' + encodeURIComponent(data[i]));
+					arr.push(i + '=' + encodeURIComponent(data[i]))
 				}
 			}
 			reportData.data = arr.join('&');
-			chrome.send && chrome.send("reportnoformat", [JSON.stringify(reportData)]);
-			// console.log('reportnoformat: ', JSON.stringify(reportData))
+			chrome.send && chrome.send("reportnoformat", [JSON.stringify(reportData)])
 		}
 	},
 
@@ -172,10 +169,37 @@ export const websiteApi = {
 		return external.CallWrapper? external.CallWrapper('websiteCulling', '{"popup_view_id":"get_website_new_tab"}'):0
 	},
 
+	/**
+	 * 移除安装目录下文件websiteflag.dat
+	 *
+	 * @author CainLi<lizihao@cmcm.com>
+	 */
 	removeWebsiteFlag() {
 		external.CallWrapper && external.CallWrapper('websiteCulling', '{"popup_view_id":"remove_website_flag"}')
-	}
+	},
 
+	/**
+	 * 设置浏览器启动时打开的页面
+	 * @param {number} val 设置值
+	 *
+	 * @example
+	 * setRestoreOnStartup(5) 打开 "新标签" 页
+	 * setRestoreOnStartup(1) 恢复上次未关闭的页面
+	 * setRestoreOnStartup(6) 打开上次未关闭的页面列表
+	 * setRestoreOnStartup(7) 打开收藏管理器
+	 * setRestoreOnStartup(8) 打开 "猎豹网址精选"
+	 * setRestoreOnStartup(4) 打开主页
+	 *
+	 * @author CainLi<lizihao@cmcm.com>
+	 */
+	setRestoreOnStartup(val) {
+		if(!val) return
+		const obj = {
+			popup_view_id: 'restore_on_startup',
+			restore_on_startup: val
+		}
+		external.CallWrapper && external.CallWrapper('website', JSON.stringify(obj))
+	}
 }
 
 

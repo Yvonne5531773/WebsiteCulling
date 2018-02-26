@@ -15,13 +15,12 @@
         b.mask(ref="mask")
         img(:src="v.image")
 
-  .loading(v-show="isPreloadingC", :class="{'first-loading':isFirstTIme}")
+  .loading(v-show="isPreloadingC", :class="{'first-loading':isFirstTime}")
     div.double-bounce1
     div.double-bounce2
 </template>
 
 <script>
-import Velocity from 'velocity-animate/velocity.min'
 export default {
 	name: 'VWaterfall',
 	props: {
@@ -44,7 +43,7 @@ export default {
 		//加载时间大于该值才出现加载图
 		timeOut: {
 			type: Number,
-			default: 2000
+			default: 8000
 		},
 		fetchImgsData: {
 			type: Function
@@ -61,7 +60,7 @@ export default {
 			isPreloadingC: true,
 			imgsArrC: [],
 			loadedCount: 0,
-			isFirstTIme: true,
+			isFirstTime: true,
       failImgs: [],
 		}
 	},
@@ -79,8 +78,10 @@ export default {
 		this.preload()
 		this.$on('preloaded', () => {
 			if (this.colsHeightArr.length === 0)
-				this.initColsHeightArr() // 第一次初始化
+				this.initColsHeightArr()
 			this.waterfall()
+			this.isFirstTime && this.fetchImgsData()
+			this.isFirstTime = false
 		})
 		window.addEventListener('resize', () => {
 			let old = this.columnCount
@@ -99,7 +100,7 @@ export default {
 			}
 			if (this.isPreloading) return
 			const lastImgHeight = this.imgsArr[this.imgsArr.length - 1].height || 0
-			if (this.$el.parentNode.scrollTop+this.$el.parentNode.offsetHeight >= this.$el.parentNode.scrollHeight-lastImgHeight) {
+			if (this.$el.parentNode.scrollTop+this.$el.parentNode.offsetHeight >= this.$el.parentNode.scrollHeight-lastImgHeight*3) {
 				this.fetchImgsData()
 			}
 		})
@@ -112,10 +113,14 @@ export default {
 		},
 		isPreloading(v) {
 			if (v) {
-				setTimeout(() => {
-					if (!this.isPreloading) return
+				if(this.isFirstTime) {
 					this.isPreloadingC = true
-				}, this.timeOut)
+				}else {
+					setTimeout(() => {
+						if (!this.isPreloading) return
+						this.isPreloadingC = true
+					}, this.timeOut)
+				}
 			} else {
 				this.isPreloadingC = false
 			}
@@ -149,9 +154,7 @@ export default {
 				this.imgsArrC = _.filter(_.cloneDeep(this.imgsArr), img => {
 					return img && img.height
 				})
-//				this.isFirstTIme && this.fetchImgsData()
 				this.isPreloading = false
-				this.isFirstTIme = false
 				this.$nextTick(() => {
 					this.initImgBoxEls()
 					this.$emit('preloaded')
@@ -205,8 +208,8 @@ export default {
 			const title = this.$refs.title[index],
 				mask = this.$refs.mask[index],
 				duration = 150
-			title && Velocity(title,{opacity: opacity},{duration:duration})
-			mask && Velocity(mask,{opacity: opacity},{duration:duration})
+			title && this.$velocity(title,{opacity: opacity},{duration:duration})
+			mask && this.$velocity(mask,{opacity: opacity},{duration:duration})
 		},
 	},
 }

@@ -23,9 +23,8 @@
 </template>
 
 <script>
-	import { websiteApi } from 'api'
-	import { styleConfigPath } from '../../../../config/config'
-	import styleConfigs from '../../../../config/style'
+	import { styleConfigPath } from 'config/index'
+	import styleConfigs from '../../../../external/style'
 	export default {
 		name: 'VItem',
 		data() {
@@ -51,31 +50,35 @@
 				if(flag === 1) {
 					await this.distribute()
 					if(this.category.id==='0099') {
-						websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:7,url:'',value:0})
+						this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:7,url:'',value:0})
 						return
 					}
 					let categories = await this.getForm(),
 						category = _.find(categories, {id: this.category.id + ''})
 					category = _.isEmpty(category)? this.category:category
 					this.saveForm(category)
-					!this.sort&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:2,value:type,hotsite:0,url:'',name:this.category.id + ''})
-					this.sort&&this.sort===3&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:5,url:'',value:this.category.id})
-					this.sort&&this.sort===5&&type===1&&websiteApi.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:9,url:'',value:this.category.id})
+					!this.sort&&this.$api.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:2,value:type,hotsite:0,url:'',name:this.category.id + ''})
+					this.sort&&this.sort===3&&this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:5,url:'',value:this.category.id})
+					this.sort&&this.sort===5&&type===1&&this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:9,url:'',value:this.category.id})
 				} else if(flag === 2 && site) {
 					let sites = await this.getSite(),
 						s = _.find(sites, {id: site.id + ''})
 					s = _.isEmpty(s)? site:s
-					!this.sort&&websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:2,value:type,hotsite:0,url:site.url,name:this.category.id + ''})
+					!this.sort&&this.$api.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:2,value:type,hotsite:0,url:site.url,name:this.category.id + ''})
 				}
 			},
 			async distribute() {
-				let styles = await this.getJSON(styleConfigPath)
+				let styles = await this.getJSON(styleConfigPath),
+					path = 'collection'
 				styles = !_.isEmpty(styles)? styles:styleConfigs
 				const style = _.find(styles, {categoryId: this.category.id}),
-					data = { path: !_.isEmpty(style)? style.path:'favorite' };
+					data = {
+						path: path
+					};
 				data.query = {
 					categoryid: this.category.id,
 					name: this.category.name,
+					component: !_.isEmpty(style)? style.component:'VBox',
 					config: !_.isEmpty(style)? JSON.stringify(style.config):''
 				}
 				this.$router.push(data)

@@ -22,9 +22,8 @@
 </template>
 
 <script>
-	import { websiteApi } from 'api'
-	import { getHost, clipstring, getOperationFullTime } from '../../../../config/utils'
-	import { mockRelation } from '../../../../mock/relation'
+	import { getHost, clipstring, getOperationFullTime } from 'utils/index'
+	import { mockRelation } from 'mock/relation'
 	export default {
 		name: 'VOriginlist',
 		data () {
@@ -67,7 +66,7 @@
 		},
 		methods: {
 			open(data) {
-				websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:2,name:this.categoryid+'',url:data.href_url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:2,name:this.categoryid+'',url:data.href_url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 			},
 			like(data) {
 				const store = {}
@@ -79,7 +78,7 @@
 				store.icon = data.icon
 				store.liked = data.liked = !data.liked
 				this.saveSite(store)
-				store.liked && websiteApi.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:3,name:this.categoryid+'',url:data.href_url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				store.liked && this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:3,name:this.categoryid+'',url:data.href_url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
 			},
 		},
 	}
@@ -163,6 +162,5 @@
 					height 15px
 	.fixed
 		position fixed
-		/*right 395px*/
 		bottom 0
 </style>

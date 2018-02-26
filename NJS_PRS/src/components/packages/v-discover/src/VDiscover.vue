@@ -10,11 +10,11 @@
 								{{data.name}}
 							</span>
 						</div>
-						<div class="right" @click="pullEvent(data, index)" v-show="dataList.length > 2 && data.categories.length>3">
+						<a class="right" @click="pullEvent(data, index)" v-show="dataList.length > 2 && data.categories.length>3">
 							<span v-if="data.event===0">{{pullTxt}}</span>
 							<span v-else>{{pushTxt}}</span>
 							<b ref="pull" class="pull"></b>
-						</div>
+						</a>
 					</div>
 					<div class="body" ref="body">
 						<ul class="list">
@@ -31,10 +31,8 @@
 </template>
 <script>
 	import { mapState } from 'vuex'
-	import { getStore } from '../../../../config/utils'
-	import Velocity from 'velocity-animate/velocity.min'
-	import { websiteApi } from 'api'
-	import { themePath } from '../../../../config/config'
+	import { getStore } from 'utils/index'
+	import { themePath } from 'config/index'
 	export default {
 		name: 'VDiscover',
 		data() {
@@ -57,7 +55,7 @@
 		},
 		methods: {
 			async init () {
-				websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:1,value:0,hotsite:0,url:'',name:''})
+				this.$api.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:1,value:0,hotsite:0,url:'',name:''})
 				const store = getStore('THEME_IDS')? getStore('THEME_IDS'):''
 				let themeid = ''
 				if(store && store.length > 0) {
@@ -66,7 +64,7 @@
 					let info = await this.getSelectedInfo()
 					themeid = info? info:''
 				}
-				let themes = await this.jsonp(themePath + themeid)
+				let themes = await this.fetch(themePath + themeid)
 				this.dataList = _.cloneDeep(_.sortBy(_.forEach(themes, (d) => {
 					if(themes.length > 2) {
 						d.showCategories = d.categories? d.categories.slice(0, 3):[]
@@ -89,16 +87,16 @@
 					const durationVal = 120*(Math.floor(data.showCategories.length/3)+1)
 					//下拉动画
 					let count = this.dataList[index].categories.length
-					Velocity(this.$refs.pull[index], { rotateZ: "90deg" }, { duration: durationVal})
-					Velocity(this.$refs.body[index], { maxHeight: 360*(Math.floor(count/3)+1) }, { duration: durationVal, complete: ()=>{
+					this.$velocity(this.$refs.pull[index], { rotateZ: "90deg" }, { duration: durationVal})
+					this.$velocity(this.$refs.body[index], { maxHeight: 360*(Math.floor(count/3)+1) }, { duration: durationVal, complete: ()=>{
 						data.event = 1
 					}})
-					websiteApi.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:4,value:0,hotsite:0,url:'',name:this.dataList[index].id+''})
+					this.$api.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:4,value:0,hotsite:0,url:'',name:this.dataList[index].id+''})
 				}else if (data.event===1) { //up
 					data.event = 0
 					//收缩动画
-					Velocity(this.$refs.pull[index], { rotateZ: "0deg" })
-					Velocity(this.$refs.body[index], { maxHeight: 365 }, {complete: () => {
+					this.$velocity(this.$refs.pull[index], { rotateZ: "0deg" })
+					this.$velocity(this.$refs.body[index], { maxHeight: 365 }, {complete: () => {
 						data.showCategories = _.cloneDeep(data.categories.slice(0,3))
 					}})
 				}
@@ -142,18 +140,14 @@
 							color #5454a6
 					.right
 						float right
-						position relative
-						top 8px
-						cursor pointer
 						span
-							position relative
 							font-size 12px
 							color #333333
-							bottom 2px
 						.pull
 							float right
 							width 16px
 							height 16px
+							top 5px
 							position relative
 							cursor pointer
 							background url("../../../../assets/img/home/pull.png") no-repeat

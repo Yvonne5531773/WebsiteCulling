@@ -4,6 +4,8 @@
 let host = 'http://lburlshare.liebao.cn'; //prod
 const routerMode = 'hash',
 	fbHref = 'http://www.liebao.cn/helper/feedback/',
+	prePage = 'https://www.duba.com/',
+	restoreOnStartup = 4,
 	dataServicePath = 'http://act.cmcmcdn.com/liebao/website/',
 	styleConfigPath = dataServicePath + 'config/style.json',
 	indexPath = '/v1/index',
@@ -24,6 +26,8 @@ export {
 	host,
 	routerMode,
 	fbHref,
+	restoreOnStartup,
+	prePage,
 	dataServicePath,
 	styleConfigPath,
 	indexPath,

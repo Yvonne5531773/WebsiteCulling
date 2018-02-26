@@ -1,6 +1,7 @@
 import VAlert from './packages/v-alert/index.js'
 import VBaidu from './packages/v-baidu/index.js'
 import VBanner from './packages/v-banner/index.js'
+import VBack from './packages/v-back/index.js'
 import VFunction from './packages/v-function/index.js'
 import VHeader from './packages/v-header/index.js'
 import VLoading from './packages/v-loading/index.js'
@@ -14,7 +15,15 @@ import VOriginlist from './packages/v-originlist/index.js'
 import VRecyclist from './packages/v-recyclist/index.js'
 import VMy from './packages/v-my/index.js'
 import VDiscover from './packages/v-discover/index.js'
-import txt from '../config/txt'
+import VCollect from './packages/v-collect/index.js'
+
+import VLightbox from '../views/collection/templates/v-lightbox/index.js'
+import VListbox from '../views/collection/templates/v-listbox/index.js'
+import VBox from '../views/collection/templates/v-box/index.js'
+
+import txt from '../txt/index'
+import velocity from 'velocity-animate/velocity.min'
+import { websiteApi } from 'api'
 
 const install = function (Vue, config = {}) {
 	if (install.installed) return
@@ -22,6 +31,7 @@ const install = function (Vue, config = {}) {
 	Vue.component(VAlert.name, VAlert)
 	Vue.component(VBaidu.name, VBaidu)
 	Vue.component(VBanner.name, VBanner)
+	Vue.component(VBack.name, VBack)
 	Vue.component(VFunction.name, VFunction)
 	Vue.component(VHeader.name, VHeader)
 	Vue.component(VLoading.name, VLoading)
@@ -35,8 +45,15 @@ const install = function (Vue, config = {}) {
 	Vue.component(VRecyclist.name, VRecyclist)
 	Vue.component(VMy.name, VMy)
 	Vue.component(VDiscover.name, VDiscover)
+	Vue.component(VCollect.name, VCollect)
 
-	Vue.$txt = Vue.prototype.$txt = txt;
+	Vue.component(VLightbox.name, VLightbox)
+	Vue.component(VListbox.name, VListbox)
+	Vue.component(VBox.name, VBox)
+
+	Vue.$txt = Vue.prototype.$txt = txt
+	Vue.$api = Vue.prototype.$api = websiteApi
+	Vue.$velocity = Vue.prototype.$velocity = velocity;
 };
 
 export default {

@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import App from './App'
-import routes from './router/router'
+import routes from './router/index'
 import components from './components'
 import plugins from './plugin'
 import store from './store'
 import VueRouter from 'vue-router'
 import VueLazyload from 'vue-lazyload'
-import { routerMode } from '../src/config/config'
+import { routerMode } from './config/index'
 import _ from 'lodash'
 
 // import VueResource from 'vue-resource'
@@ -14,9 +14,10 @@ import _ from 'lodash'
 Vue.use(components)
 Vue.use(plugins)
 Vue.use(VueLazyload, {
-	preLoad: 1.2,
+	preLoad: 1.3,
 	loading: 'static/img/default.png',
-	error: 'static/img/default.png'
+	error: 'static/img/default.png',
+	attempt: 1
 })
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -38,10 +39,11 @@ const router = new VueRouter({
 new Vue({
 	router,
 	store,
-	el: '#app',
-	template: '<App/>',
-	components: { App }
-})
+	render: h => h(App),
+	// el: '#app',
+	// template: '<App/>',
+	// components: { App }
+}).$mount('#app-box')
 
 
 

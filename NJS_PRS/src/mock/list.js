@@ -330,4 +330,4 @@ export const mockList =
 			"summary": "少数派特别为大家准备了开学 App 大礼包，希望这些 App 能在你的新学期里起到如虎添翼的效果。",
 			"href": "https://sspai.com/post/40725"
 		}
-		]
+	]

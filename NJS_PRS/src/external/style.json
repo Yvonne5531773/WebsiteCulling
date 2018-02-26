@@ -1,0 +1,155 @@
+[
+ {
+	"categoryId": 65,
+	"component": "VLightbox",
+	"path": "flow",
+	"config": {
+	 "imgWidth": 254,
+	 "maxCols": 8,
+	 "firstLoadCount": 20,
+	 "loadCount": 16
+	}
+ },
+ {
+	"categoryId": 193,
+	"component": "VLightbox",
+	"path": "flow",
+	"config": {
+	 "imgWidth": 284,
+	 "maxCols": 8,
+	 "firstLoadCount": 20,
+	 "loadCount": 16
+	}
+ },
+ {
+	"categoryId": 57,
+	"component": "VLightbox",
+	"path": "flow",
+	"config": {
+	 "imgWidth": 254,
+	 "maxCols": 8,
+	 "firstLoadCount": 20,
+	 "loadCount": 16
+	}
+ },
+ {
+	"categoryId": 244,
+	"component": "VLightbox",
+	"path": "flow",
+	"config": {
+	 "imgWidth": 254,
+	 "maxCols": 8,
+	 "firstLoadCount": 20,
+	 "loadCount": 16
+	}
+ },
+ {
+	"categoryId": 67,
+	"component": "VLightbox",
+	"path": "flow",
+	"config": {
+	 "imgWidth": 254,
+	 "maxCols": 8,
+	 "firstLoadCount": 20,
+	 "loadCount": 16
+	}
+ },
+ {
+	"categoryId": 59,
+	"component": "VLightbox",
+	"path": "flow",
+	"config": {
+	 "imgWidth": 254,
+	 "maxCols": 8,
+	 "firstLoadCount": 20,
+	 "loadCount": 16
+	}
+ },
+ {
+	"categoryId": 60,
+	"path": "flow",
+	"component": "VLightbox",
+	"config": {
+	 "imgWidth": 254,
+	 "maxCols": 8,
+	 "firstLoadCount": 20,
+	 "loadCount": 16
+	}
+ },
+ {
+	"categoryId": 245,
+	"path": "flow",
+	"component": "VLightbox",
+	"config": {
+	 "imgWidth": 254,
+	 "maxCols": 8,
+	 "firstLoadCount": 20,
+	 "loadCount": 10,
+	 "gif": true
+	}
+ },
+ {
+	"categoryId": 43,
+	"component": "VListbox",
+	"path": "list",
+	"config": {
+	 "loadCount": 12
+	}
+ },
+ {
+	"categoryId": 52,
+	"component": "VListbox",
+	"path": "list",
+	"config": {
+	 "loadCount": 12
+	}
+ },
+ {
+	"categoryId": 22,
+	"component": "VListbox",
+	"path": "list",
+	"config": {
+	 "loadCount": 12
+	}
+ },
+ {
+	"categoryId": 86,
+	"component": "VListbox",
+	"path": "list",
+	"config": {
+	 "loadCount": 12
+	}
+ },
+ {
+	"categoryId": 38,
+	"component": "VListbox",
+	"path": "list",
+	"config": {
+	 "loadCount": 12
+	}
+ },
+ {
+	"categoryId": 85,
+	"component": "VListbox",
+	"path": "list",
+	"config": {
+	 "loadCount": 12
+	}
+ },
+ {
+	"categoryId": 50,
+	"component": "VListbox",
+	"path": "list",
+	"config": {
+	 "loadCount": 12
+	}
+ },
+ {
+	"categoryId": 11,
+	"component": "VListbox",
+	"path": "list",
+	"config": {
+	 "loadCount": 12
+	}
+ }
+]
