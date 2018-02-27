@@ -1,5 +1,5 @@
 <template>
-	<div class="v-box">
+	<div class="v-resource-box">
 		<section class="box-content">
 			<div class="f-l">
 				<div class="introduce">
@@ -46,7 +46,7 @@
 				this.category = await this.constructCategory(this.categoryid)
 				this.resources = resourceMock[0].resources
 				_.forEach(this.resources, item => {
-					item.actors = item.actors.join('&')
+					item.actors = item.actors.join(' & ')
 				})
 				console.log('this.resources', this.resources)
 //				this.$api.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte', {

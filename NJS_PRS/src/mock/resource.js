@@ -9,8 +9,8 @@ export const resourceMock =
 						host: '',
 						link: '',
 						actors: ['Marcus', 'Martinus'],
-						region: '美国',
-						size: '1024M',
+						region: '美国美国美国',
+						size: '1024M1024M',
 						downloads: [
 							{
 								type: '迅雷',
