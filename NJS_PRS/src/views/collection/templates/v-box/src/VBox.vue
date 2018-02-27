@@ -1,8 +1,8 @@
 <template>
 	<div class="v-box">
 		<section class="box-content">
-			<h2 class="path">{{txt1}}
-				<span> > </span>
+			<h2 class="path">
+				<span class="p-s-f">{{txt1}}</span>
 				<span>{{category.name}}</span>
 			</h2>
 			<div class="f-l">
@@ -22,7 +22,7 @@
 			</div>
 			<div class="f-r">
 				<div class="content">
-					<div class="block" :key="site.id" v-for="(site, index) in sites" @click="open(site, $event)">
+					<div class="block" :key="site.id" v-for="(site, index) in sites" @click="open(site)">
 						<div class="name">
 							<div class="i">
 								<img v-lazy="site.iconLazyObj"/>
@@ -32,7 +32,7 @@
 						<div class="description" :title="site.description">
 							<span>{{site.description | clip(60)}}</span>
 						</div>
-						<div class="heart" :title="likeTxt" @click="liked(site, index)" >
+						<div class="heart" :title="likeTxt" @click.stop="liked(site, index)" >
 							<span :style="site.liked&&`backgroundPositionX:-30px`" class="like"></span>
 							<span class="text" v-if="!site.liked">{{likeTxt}}</span>
 							<span class="liked-text" v-else>{{likedTxt}}</span>
@@ -51,7 +51,7 @@
 	import { likes } from 'mock/likes'
 	export default {
 		name: 'VBox',
-		data () {
+		data() {
 			return {
 				category: {},
 				sites: [],
@@ -66,14 +66,14 @@
 				return this.$route.query.categoryid || ''
 			},
 		},
-		mounted () {
+		mounted() {
 			this.init()
-			this.$nextTick(()=>{
+			this.$nextTick(() => {
 				this.category = _.cloneDeep(this.category)
 			})
 		},
 		methods: {
-			async init () {
+			async init() {
 				if (this.categoryid === '0099') { //喜欢的网单
 					this.category = likes[0]
 					this.sites = await this.getSite()
@@ -82,7 +82,7 @@
 					this.category = await this.constructCategory(this.categoryid)
 					await this.construct()
 				}
-				this.sites && this.sites.forEach( (site) => {
+				this.sites && this.sites.forEach((site) => {
 					site.iconLazyObj = {
 						src: this.addHttp(site.icon),
 						error: 'static/img/default-icon.png',
@@ -90,39 +90,55 @@
 					}
 				})
 				this.category = _.cloneDeep(this.category)
-				this.$api.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:1,name:this.category.name,url:''})
+				this.$api.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte', {
+					action: 1,
+					name: this.category.name,
+					url: ''
+				})
 			},
-			async construct () {
+			async construct() {
 				const localSites = await this.getSite()
 				this.sites = _.cloneDeep(this.category.sites)
-				if(_.isEmpty(this.sites)) return
-				for(let i = 0; i < this.sites.length; i++){
+				if (_.isEmpty(this.sites)) return
+				for (let i = 0; i < this.sites.length; i++) {
 					let site = this.sites[i],
-						si = _.find(localSites, {'id': site.id+''})
+						si = _.find(localSites, {'id': site.id + ''})
 					!_.isEmpty(si) && (site.liked = si.liked, site.views = si.views)
 					site.liked && (this.sites.splice(i, 1), this.sites.unshift(site))
 				}
 			},
-			liked (site, i) {
-				if(!site) return
+			liked(site, i) {
+				if (!site) return
 				site.alertTimeout && (clearTimeout(site.alertTimeout))
 				site.likedAlert = site.liked = !site.liked
 				site.alertEl = this.$refs.rAlert[i]
 				site.liked && (site.alertTimeout = setTimeout(() => {
 					site.likedAlert = false
 					const alert = site.alertEl
-					this.$velocity(alert, {opacity:0}, {duration:400, complete:()=>{alert.style.display='none',alert.style.opacity=0.95}})
+					this.$velocity(alert, {opacity: 0}, {
+						duration: 400, complete: () => {
+							alert.style.display = 'none', alert.style.opacity = 0.95
+						}
+					})
 				}, 1000))
 				this.saveSite(_.cloneDeep(site), this.categoryid)
 				this.category = _.cloneDeep(this.category)
-				site.liked && this.$api.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:3,name:this.category.name,url:site.url})
+				site.liked && this.$api.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte', {
+					action: 3,
+					name: this.category.name,
+					url: site.url
+				})
 			},
-			open (site, event) {
-				const url = site.href_url? site.href_url : this.addHttp(site.url),
-					className = event.target.className
+			open(site) {
+				const url = site.href_url ? site.href_url : this.addHttp(site.url)
 //				site.views = site.views? site.views+1 : 1
 //				this.saveSite(_.cloneDeep(site), this.categoryid)
-				typeof className==='string' && !~className.indexOf('text') && !~className.indexOf('like') && !~className.indexOf('heart') && (window.open(url), this.$api.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte',{action:2,name:this.category.name,url:site.url}))
+				window.open(url)
+				this.$api.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte', {
+					action: 2,
+					name: this.category.name,
+					url: site.url
+				})
 			},
 		},
 	}
@@ -134,34 +150,38 @@
 		margin 120px auto
 		width 1043px
 		.path
-			font-size 12px
 			position absolute
+			font-size 12px
 			color #5454a6
+			.p-s-f
+				&:after
+					content: '>'
+					margin-left 4px
 		.f-l
-			width 252px
 			position relative
 			top 35px
+			width 252px
 			.introduce
+				position relative
 				float left
+				border 1px solid #eae9ef
+				-webkit-box-sizing border-box
+				box-sizing border-box
 				list-style none
 				width 242px
 				height 310px
 				text-align center
 				color gray
-				-webkit-box-sizing border-box
-				box-sizing border-box
 				-webkit-box-shadow 0 8px 18px rgba(0,0,0,.06)
 				box-shadow 0 8px 18px rgba(0,0,0,.06)
 				background #fff
 				font-size 14px
-				position relative
-				border 1px solid #eae9ef
 				.avatar
+					position relative
+					overflow hidden
 					height 160px
 					-webkit-box-sizing border-box
 					box-sizing border-box
-					overflow hidden
-					position relative
 					font-size 24px
 					color white
 					letter-spacing 7px
@@ -169,30 +189,30 @@
 						position relative
 					span
 						position absolute
-						overflow hidden
 						top 0
 						right 0
 						left 0
 						bottom 0
+						overflow hidden
 						margin auto
 						height 40px
 						z-index 99
 					.mask
-						background-color black
-						width 240px
-						height 156px
 						position absolute
 						left 0
 						top 0
+						background-color black
+						width 240px
+						height 156px
 						opacity 0.2
 						z-index 9
 				.title
+					overflow hidden
 					margin 16px 16px 7px
 					color #333
 					font-size 16px
 					font-weight 600
 					font-synthesis style
-					overflow hidden
 					text-overflow ellipsis
 					white-space nowrap
 					border-bottom 1px solid #949494
@@ -203,35 +223,20 @@
 						color #949494
 						line-height 2
 					a
-						color #333
 						position relative
-						float left
-						width 102px
 						overflow hidden
+						float left
 						text-align left
-				.detail
-					padding 10px
-				.add
-					cursor pointer
-					bottom -21px
-					left -14px
-					margin auto
-					position absolute
-					line-height 4.5
-					&:hover
-						background-position -270px
-					&:active
-						background-position -540px
-					img
-						position relative
-						top 4px
-					span
-						font-size 16px
-						padding-right 7px
+						width 102px
+						color #333
+				.collect-btn
+					position relative
+					top 38px
+					right 14px
 		.f-r
+			position relative
 			top 35px
 			left 40px
-			position relative
 			h2
 				font-size 18px
 				color #5454a6
@@ -240,16 +245,16 @@
 				display flex
 				flex-wrap wrap
 				.block
-					width 240px
-					height 122px
+					position relative
 					margin 0 20px 20px 0
+					border 1px solid #fff
 					box-sizing border-box
+					transition all .2s linear
 					background #fff
 					font-size 12px
-					position relative
 					cursor pointer
-					border 1px solid #fff
-					transition all .2s linear
+					width 240px
+					height 122px
 					&:hover
 						box-shadow 0 1px 20px -5px rgb(84, 84, 166)
 					.name
@@ -257,11 +262,11 @@
 						font-size 14px
 						.i
 							img
+								position relative
 								float left
+								padding 6px 10px 0 0
 								width 16px
 								height 16px
-								padding 6px 10px 0 0
-								position relative
 						span
 							line-height 2
 							color #333333
@@ -269,9 +274,9 @@
 						margin 3px 20px 0 42px
 						span
 							display block
+							overflow hidden
 							color #5b5b5b
 							height 38px
-							overflow hidden
 					.heart
 						position absolute
 						bottom 6px
@@ -286,17 +291,17 @@
 							.like
 								background-position -30px
 						.like
+							top 4px
+							right 8px
+							float left
 							background url("../../../../../assets/img/relation/like.png") no-repeat
 							width 15px
 							height 15px
-							float left
-							top 4px
-							right 8px
 						span
-							cursor pointer
 							position relative
 							width 20px
 							z-index 99
+							cursor pointer
 							&:nth-child(2)
 								font-size 12px
 						.text
@@ -304,24 +309,24 @@
 						.liked-text
 							color #ff3f5f
 				.alert
-					width 100%
-					height 100%
-					background-color #fe5976
 					position absolute
 					left 0
 					top 0
+					border-radius 4px
+					width 100%
+					height 100%
+					background-color #fe5976
 					opacity 0.95
 					font-size 16px
-					color #ffffff
 					text-align center
+					color #ffffff
 					z-index 99
-					border-radius 4px
 					span
-						height 25px
+						position absolute
 						top 0
 						left 0
 						right 0
 						bottom 0
 						margin auto
-						position absolute
+						height 25px
 </style>

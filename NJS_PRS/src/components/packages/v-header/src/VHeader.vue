@@ -23,7 +23,7 @@
 			</div>
 			<div class="component">
 				<a class="option" v-for="(component, index) in components" :style="!isCollection && component.selected&&`color:#ffffff;borderBottom:5px solid #f7ea53`" @click="change(component.name, 1) ">{{component.txt}}
-					<span v-if="component.name===`VMy` && liked" class="dot">●</span>
+					<span v-if="component.name===`VOwn` && liked" class="dot">●</span>
 				</a>
 				<a class="fb" :href="href" target="_blank">{{feedback}}</a>
 				<b v-if="!isCollection" class="back-guide" @click="backGuide">
@@ -53,8 +53,8 @@
 				showTip: false,
 				components:
 					[
-						{name:'VMy',txt:'我的网站',selected:false},
-						{name:'VDiscover',txt:'发现网站',selected:false},
+						{name: 'VOwn', txt: '我的网站', selected: false},
+						{name: 'VPublic', txt: '发现网站', selected: false},
 					],
 			}
 		},
@@ -64,7 +64,7 @@
 				default: false
 			}
 		},
-		computed:{
+		computed: {
 			...mapState([
 				'component',
 				'liked'
@@ -73,15 +73,15 @@
 				return fbHref
 			}
 		},
-		mounted(){
-			const cname = this.component? this.component: 'VMy'
+		mounted() {
+			const cname = this.component ? this.component : 'VOwn'
 			!this.isCollection && this.change(cname)
 		},
 		watch: {
 			component() {
-				this.components.forEach((c)=>{
+				this.components.forEach((c) => {
 					c.selected = false
-					this.component===c.name && (c.selected = true)
+					this.component === c.name && (c.selected = true)
 				})
 			},
 		},
@@ -90,19 +90,49 @@
 				if (this.isCollection) {
 					this.$router.push({path: 'home'})
 				}
-				this.components.forEach((c)=>{
+				this.components.forEach((c) => {
 					c.selected = false
-					name===c.name && (c.selected = true)
+					name === c.name && (c.selected = true)
 				})
 				this.setComponent(name)
-				this.liked && name==='VMy' && this.setLike(false)
-				type===1&&this.component==='VMy'&&!this.isCollection&&this.$api.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:6,value:0,hotsite:0,url:'',name:''})
-				type===1&&this.component==='VMy'&&this.isCollection&&this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:5,name:'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
-				type===1&&this.component==='VDiscover'&&this.isCollection&&this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:6,name:'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				this.liked && name === 'VOwn' && this.setLike(false)
+				type === 1 && this.component === 'VOwn' && !this.isCollection && this.$api.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string', {
+					action: 6,
+					value: 0,
+					hotsite: 0,
+					url: '',
+					name: ''
+				})
+				type === 1 && this.component === 'VOwn' && this.isCollection && this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int', {
+					action: 5,
+					name: '',
+					url: '',
+					action_time: getOperationFullTime(new Date()),
+					number1: 0,
+					number2: 0
+				})
+				type === 1 && this.component === 'VPublic' && this.isCollection && this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int', {
+					action: 6,
+					name: '',
+					url: '',
+					action_time: getOperationFullTime(new Date()),
+					number1: 0,
+					number2: 0
+				})
 			},
 			backGuide() {
-				this.component==='VDiscover'&&this.$api.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:5,value:0,hotsite:0,url:'',name:''})
-				this.component==='VMy'&&this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:10,url:'',value:0})
+				this.component === 'VPublic' && this.$api.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string', {
+					action: 5,
+					value: 0,
+					hotsite: 0,
+					url: '',
+					name: ''
+				})
+				this.component === 'VOwn' && this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte', {
+					action: 10,
+					url: '',
+					value: 0
+				})
 				this.$router.push({path: '/guide'})
 			},
 			know() {
@@ -111,7 +141,11 @@
 				this.showTip = false
 				window.location.href = prePage
 //				setStore('WEBSITE', 0)
-				this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:14,url:'',value:0})
+				this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte', {
+					action: 14,
+					url: '',
+					value: 0
+				})
 			}
 		},
 	}
@@ -119,14 +153,14 @@
 
 <style lang="stylus">
 	.header
+		position fixed
 		z-index 199
 		width 100%
 		height 85px
-		position fixed
-		transition .2s height
 		background-size 100% 110%
 		transform translateZ(0)
 		background #6346de
+		transition .2s height
 		.top
 			position absolute
 			width 100%
@@ -138,8 +172,8 @@
 			min-width 1040px
 			height 85px
 			.title
-				top 14px
 				position absolute
+				top 14px
 				.img
 					position absolute
 					width 60px
@@ -173,20 +207,20 @@
 								background-color #4f33c7
 								border-color #4f33c7
 					.tip
-						background url("../../../../assets/img/head/tip.png") no-repeat
 						position absolute
 						top 40px
 						left 155px
+						background url("../../../../assets/img/head/tip.png") no-repeat
 						width 240px
 						height 130px
 						font-size 14px
 						text-align center
 						.t-c
-							text-align left
-							color #333333
 							display inline-block
 							position relative
 							padding 28px 20px 10px 20px
+							text-align left
+							color #333333
 							b
 								font-weight 600
 								color #6346de
@@ -207,53 +241,54 @@
 							position absolute
 							right 0
 							margin 15px 10px
-							z-index 9
 							background url("../../../../assets/img/guide/close.png") no-repeat
 							width 10px
 							height 10px
+							z-index 9
 			.component
-				text-align center
+				position absolute
 				left 0
 				right 0
 				top 0
 				bottom 0
 				margin auto
-				position absolute
+				text-align center
 				.option
-					font-size 18px
+					display inline-block
 					margin 33px 30px 0 28px
 					height 47px
 					color #a4a4ff
-					display inline-block
+					font-size 18px
+					font-weight 100
 				.fb
-					height 18px
 					position absolute
 					right 140px
 					top 33px
 					border-bottom 1px solid #fff
+					height 18px
 					font-size 14px
 					color #fff
 				.back-guide
-					background url("../../../../assets/img/head/back-guide.png") no-repeat
+					position absolute
+					top 16px
+					right 0
+					margin-right -12px
 					width 146px
 					height 66px
 					font-size 14px
-					position absolute
-					cursor pointer
-					right 0
 					color #000
+					background url("../../../../assets/img/head/back-guide.png") no-repeat
+					cursor pointer
 					line-height 4.2
-					margin-right -12px
-					top 16px
 					&:hover
 						background-position -146px
 					&:active
 						background-position -292px
 				.dot
-					font-size 20px
-					line-heigth 16px
-					color rgba(255, 0, 0, 0.64)
 					position relative
 					bottom 13px
 					float right
+					font-size 20px
+					line-heigth 16px
+					color rgba(255, 0, 0, 0.64)
 </style>

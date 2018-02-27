@@ -13,13 +13,15 @@ import VPaginator from './packages/v-paginator/index.js'
 import VWaterfall from './packages/v-waterfall/index.js'
 import VOriginlist from './packages/v-originlist/index.js'
 import VRecyclist from './packages/v-recyclist/index.js'
-import VMy from './packages/v-my/index.js'
-import VDiscover from './packages/v-discover/index.js'
+import VOwn from '../views/home/childrens/v-own/index.js'
+import VPublic from '../views/home/childrens/v-public/index.js'
 import VCollect from './packages/v-collect/index.js'
 
 import VLightbox from '../views/collection/templates/v-lightbox/index.js'
 import VListbox from '../views/collection/templates/v-listbox/index.js'
 import VBox from '../views/collection/templates/v-box/index.js'
+import VResourcebox from '../views/collection/templates/v-resourcebox/index.js'
+import VHotresource from './packages/v-hotresource/index.js'
 
 import txt from '../txt/index'
 import velocity from 'velocity-animate/velocity.min'
@@ -43,13 +45,15 @@ const install = function (Vue, config = {}) {
 	Vue.component(VWaterfall.name, VWaterfall)
 	Vue.component(VOriginlist.name, VOriginlist)
 	Vue.component(VRecyclist.name, VRecyclist)
-	Vue.component(VMy.name, VMy)
-	Vue.component(VDiscover.name, VDiscover)
+	Vue.component(VOwn.name, VOwn)
+	Vue.component(VPublic.name, VPublic)
 	Vue.component(VCollect.name, VCollect)
 
 	Vue.component(VLightbox.name, VLightbox)
 	Vue.component(VListbox.name, VListbox)
 	Vue.component(VBox.name, VBox)
+	Vue.component(VResourcebox.name, VResourcebox)
+	Vue.component(VHotresource.name, VHotresource)
 
 	Vue.$txt = Vue.prototype.$txt = txt
 	Vue.$api = Vue.prototype.$api = websiteApi

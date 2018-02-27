@@ -13,26 +13,26 @@
 <script type="text/ecmascript-6">
   import { getOperationFullTime } from 'utils/index'
   export default {
-  	name: 'VFancybox',
-    props: {
-      index: Number,
-      images: Array,
-      animate: {
-        type: Boolean,
-        default: false
-      },
-	    category: Object,
-	    isFullScreen: Boolean
-    },
-    data () {
-      return {
-	      nolikedTxt: this.$txt.TXT_14,
-	      likedTxt: this.$txt.TXT_15,
+	  name: 'VFancybox',
+	  props: {
+		  index: Number,
+		  images: Array,
+		  animate: {
+			  type: Boolean,
+			  default: false
+		  },
+		  category: Object,
+		  isFullScreen: Boolean
+	  },
+	  data() {
+		  return {
+			  nolikedTxt: this.$txt.TXT_14,
+			  likedTxt: this.$txt.TXT_15,
 //        next: true,
 //        animation: false,
-      }
-    },
-    computed: {
+		  }
+	  },
+	  computed: {
 //      transition () {
 //        return {
 //          mode: '',
@@ -40,40 +40,61 @@
 //          leaveClass: this.next ? 'slideOutRight' : 'slideOutLeft'
 //        }
 //      }
-    },
-    methods: {
-      decIndex () {
-	      this.$emit('decIndex')
-	      this.next = true
-	      this.animation = true
-        const action = this.isFullScreen? 18 : 11
-	      this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
-      },
-      addIndex (flag) {
-        if (this.index < this.images[this.index].total - 1) {
-	        this.$emit('addIndex')
-	        this.next = false
-	        this.animation = true
-        }
-        const action = flag===1? (this.isFullScreen?19:14) : (this.isFullScreen?17:10)
-	      this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
-      },
-	    like(site) {
-		    this.$emit('addLike', site)
-      },
-	    open(flag) {
-      	const action = flag===1? 8 : 9,
-          url = flag===1? this.images[this.index].url : this.images[this.index].host
-		    this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
-      },
-    },
+	  },
+	  methods: {
+		  decIndex() {
+			  this.$emit('decIndex')
+			  this.next = true
+			  this.animation = true
+			  const action = this.isFullScreen ? 18 : 11
+			  this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int', {
+				  action: action,
+				  name: this.category.id + '',
+				  url: '',
+				  action_time: getOperationFullTime(new Date()),
+				  number1: 0,
+				  number2: 0
+			  })
+		  },
+		  addIndex(flag) {
+			  if (this.index < this.images[this.index].total - 1) {
+				  this.$emit('addIndex')
+				  this.next = false
+				  this.animation = true
+			  }
+			  const action = flag === 1 ? (this.isFullScreen ? 19 : 14) : (this.isFullScreen ? 17 : 10)
+			  this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int', {
+				  action: action,
+				  name: this.category.id + '',
+				  url: '',
+				  action_time: getOperationFullTime(new Date()),
+				  number1: 0,
+				  number2: 0
+			  })
+		  },
+		  like(site) {
+			  this.$emit('addLike', site)
+		  },
+		  open(flag) {
+			  const action = flag === 1 ? 8 : 9,
+				  url = flag === 1 ? this.images[this.index].url : this.images[this.index].host
+			  this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int', {
+				  action: action,
+				  name: this.category.id + '',
+				  url: url,
+				  action_time: getOperationFullTime(new Date()),
+				  number1: 0,
+				  number2: 0
+			  })
+		  },
+	  },
   }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
   .fancybox
-    position relative
     display flex
+    position relative
     width 75vw
     height 100%
     margin-right 20px
@@ -83,18 +104,18 @@
       position relative
       margin 0 auto
       .image
+        margin 0 auto
         vertical-align middle
         object-fit contain
         max-height 100vh
         min-height 200px
         max-width 69vw
-        margin 0 auto
         cursor pointer
         user-select none
       .footer
-        position: relative
-        padding: 5px
-        text-align: left
+        position relative
+        padding 5px
+        text-align left
         span
           display inline-block
           font-size 14px
@@ -105,18 +126,18 @@
               color #888
         .count
           position absolute
-          font-size 12px
           right 0
+          font-size 12px
       .i-l
-        width 46vw
-        position relative
-        text-align center
         display flex
+        position relative
         margin-right 100px
+        width 46vw
+        text-align center
         .header
-          height 40px
           position relative
           text-align left
+          height 40px
           .full, .close
             display inline-block
             width 20px
@@ -137,19 +158,19 @@
          h2
           margin-bottom 15px
          .i-r-t
-          margin-bottom 15px
           display inline-block
+          margin-bottom 15px
          .add
-           background url("../../../../assets/img/favorite/add.png") no-repeat
-           width 270px
-           height 77px
-           cursor pointer
+           position absolute
            right 0
            top 48px
            margin auto
-           position absolute
+           background url("../../../../assets/img/collection/add.png") no-repeat
+           width 270px
+           height 77px
            text-align center
            line-height 1.8
+           cursor pointer
            &:hover
              background-position -270px
            &:active
@@ -158,8 +179,8 @@
              position relative
              top 4px
            span
-             font-size 16px
              padding-right 7px
+             font-size 16px
     .arrow
       display inline-block
       position absolute
@@ -173,14 +194,14 @@
         width 32px
         top calc(50% - 45px)
       &.left
-        background url("../../../../assets/img/flow/arrow-left.png") no-repeat
+        background url("../../../../assets/img/collection/arrow-left.png") no-repeat
         left 0
         &:hover
           background-position -32px
         &:active
           background-position -64px
       &.right
-        background url("../../../../assets/img/flow/arrow-right.png") no-repeat
+        background url("../../../../assets/img/collection/arrow-right.png") no-repeat
         right 0
         &:hover
           background-position -32px

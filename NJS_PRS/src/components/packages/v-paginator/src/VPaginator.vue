@@ -30,20 +30,20 @@
 	import { getOperationFullTime } from 'utils/index'
 	export default {
 		name: 'VPaginator',
-		data () {
+		data() {
 			return {
 				index: 0,
 				isMove: false,
 //				showCount: 3,
 				nolikedTxt: this.$txt.TXT_14,
 				likedTxt: this.$txt.TXT_15,
-        fullTxt: this.$txt.TXT_17,
+				fullTxt: this.$txt.TXT_17,
 				tipTxt: this.$txt.TXT_18,
 				isFullScreen: document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen,
 //				screenWidth: document.body.clientWidth
 			}
 		},
-		created () {
+		created() {
 			const that = this
 			document.addEventListener('webkitfullscreenchange', () => {
 				that.isFullScreen = !that.isFullScreen
@@ -57,18 +57,18 @@
 			gif: Boolean
 		},
 		computed: {
-			activeImages () {
+			activeImages() {
 				return this.images.slice(this.index, this.index + this.showCount)
 			},
 			showCount() {
-				return this.gif? 3 : 9
-      }
+				return this.gif ? 3 : 9
+			}
 		},
-		mounted () {
+		mounted() {
 			this.init()
 		},
 		watch: {
-			activeIndex () {
+			activeIndex() {
 				this.index = this.setIndex(this.activeIndex)
 				this.setActive(this.activeIndex)
 			},
@@ -78,13 +78,13 @@
 //			},
 			images() {
 				this.init()
-      },
+			},
 			isFullScreen() {
 				this.setFullScreen(this.isFullScreen)
-      }
+			}
 		},
 		methods: {
-			init () {
+			init() {
 				this.index = this.setIndex(this.activeIndex)
 				this.setActive(this.activeIndex)
 //				const that = this
@@ -96,17 +96,17 @@
 //				}
 //				this.showCount = this.doScreen()
 			},
-			setIndex (idx) {
-				if ((idx <= this.images.length - (Math.floor(this.showCount/2)+1)) && (idx >= Math.floor(this.showCount/2))) {
-					return idx - Math.floor(this.showCount/2)
-				} else if (idx < Math.floor(this.showCount/2)) {
+			setIndex(idx) {
+				if ((idx <= this.images.length - (Math.floor(this.showCount / 2) + 1)) && (idx >= Math.floor(this.showCount / 2))) {
+					return idx - Math.floor(this.showCount / 2)
+				} else if (idx < Math.floor(this.showCount / 2)) {
 					return 0
 				} else {
-					return this.images.length-this.showCount >= 0? this.images.length - this.showCount:0
+					return this.images.length - this.showCount >= 0 ? this.images.length - this.showCount : 0
 				}
 			},
-			setActive (idx) {
-				if(_.isEmpty(this.images)) return
+			setActive(idx) {
+				if (_.isEmpty(this.images)) return
 				if (idx !== this.activeIndex) {
 					this.$emit('changeIndex', idx)
 				}
@@ -120,35 +120,52 @@
 			enterAndLeave(opacity) {
 				const arrowRight = this.$refs.arrowRight,
 					arrowLeft = this.$refs.arrowLeft
-				arrowRight && this.$velocity(arrowRight,{opacity: opacity},{duration:200})
-				arrowLeft && this.$velocity(arrowLeft,{opacity: opacity},{duration:200})
+				arrowRight && this.$velocity(arrowRight, {opacity: opacity}, {duration: 200})
+				arrowLeft && this.$velocity(arrowLeft, {opacity: opacity}, {duration: 200})
 			},
-      doScreen() {
-	      return this.screenWidth>1687? 11:(this.screenWidth>1409? 9:7)
-      },
-      left() {
-	      this.index -= 1
-	      if(this.index < (this.images.length - this.showCount)) {
-		      const arrowRight = this.$refs.arrowRight
-		      arrowRight && this.$velocity(arrowRight,{opacity: 1},{duration:200})
-	      }
-	      this.$api.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:13,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
-      },
+			doScreen() {
+				return this.screenWidth > 1687 ? 11 : (this.screenWidth > 1409 ? 9 : 7)
+			},
+			left() {
+				this.index -= 1
+				if (this.index < (this.images.length - this.showCount)) {
+					const arrowRight = this.$refs.arrowRight
+					arrowRight && this.$velocity(arrowRight, {opacity: 1}, {duration: 200})
+				}
+				this.$api.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string', {
+					action: 13,
+					name: this.category.id + '',
+					url: '',
+					action_time: getOperationFullTime(new Date())
+				})
+			},
 			right() {
 				this.index += 1
-        if(this.index > 0) {
-	        const arrowLeft = this.$refs.arrowLeft
-	        arrowLeft && this.$velocity(arrowLeft,{opacity: 1},{duration:200})
-        }
-				this.$api.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string',{action:12,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date())})
+				if (this.index > 0) {
+					const arrowLeft = this.$refs.arrowLeft
+					arrowLeft && this.$velocity(arrowLeft, {opacity: 1}, {duration: 200})
+				}
+				this.$api.reportByInfoc('liebao_urlchoose_detail:363 action:byte name:string url:string ver:byte action_time:string', {
+					action: 12,
+					name: this.category.id + '',
+					url: '',
+					action_time: getOperationFullTime(new Date())
+				})
 			},
 			like(site) {
 				this.$emit('addLike', site)
 			},
 			open(flag) {
-				const action = flag===1? 8 : 9,
-					url = flag===1? this.images[this.index].url : this.images[this.index].host
-				this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:action,name:this.category.id+'',url:url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				const action = flag === 1 ? 8 : 9,
+					url = flag === 1 ? this.images[this.index].url : this.images[this.index].host
+				this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int', {
+					action: action,
+					name: this.category.id + '',
+					url: url,
+					action_time: getOperationFullTime(new Date()),
+					number1: 0,
+					number2: 0
+				})
 			},
 			full() {
 				const launchFullscreen = element => {
@@ -161,7 +178,14 @@
 					} else if (element.msRequestFullscreen) {
 						element.msRequestFullscreen()
 					}
-					this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:16,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+					this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int', {
+						action: 16,
+						name: this.category.id + '',
+						url: '',
+						action_time: getOperationFullTime(new Date()),
+						number1: 0,
+						number2: 0
+					})
 				}
 				const exitFullscreen = () => {
 					if (document.exitFullscreen) {
@@ -181,19 +205,19 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
   .paginator
+    position relative
+    right 0
+    overflow hidden
     min-width 285px
     max-width 300px
     height 100%
-    overflow hidden
-    position relative
-    right 0
     .info
       position relative
       margin-top 90px
       font-size 14px
       a
-        color #fff
         display block
+        color #fff
         &:link, &:visited, &:focus
           text-decoration none
           color #fff
@@ -203,15 +227,15 @@
       .from
         margin-bottom 30px
       .center-to-head
-        position relative
         display inline-block
+        position relative
       .center-to-head::after
         content ''
         display block
-        width 100%
-        height 2px
         position absolute
         bottom -5px
+        width 100%
+        height 2px
         background #6346de
         transition all 0.3s ease-in-out
         transform scale3d(0,1,1)
@@ -221,56 +245,43 @@
           &::after
             transform scale3d(1,1,1)
       .button
-        font-size 14px
-        margin-bottom 45px
         display flex
+        margin-bottom 45px
+        font-size 14px
         .btn
+          position relative
           width 90px
           height 40px
-          position relative
           &:hover
             background-position -90px
           &:active
             background-position -180px
         .full
-          background url("../../../../assets/img/flow/full.png") no-repeat
-          color #000000
           margin-right 20px
+          background url("../../../../assets/img/collection/full.png") no-repeat
+          color #000000
           line-height 2.8
         .like
-          background url("../../../../assets/img/flow/like.png") no-repeat
+          background url("../../../../assets/img/collection/like.png") no-repeat
         span
-          line-height 2.7
           position relative
           left 39px
+          line-height 2.7
       .image
         .arrow
           display inline-block
           position absolute
+          top 14px
           vertical-align top
           height 24px
           width 24px
-          top 14px
           cursor pointer
           opacity 0
-          /*&.left
-            background url("../../../../static/img/flow/arrow-left-small.png") no-repeat
-            left 0
-            &:hover
-              background-position -24px
-            &:active
-              background-position -48px
-          &.right
-            background url("../../../../static/img/flow/arrow-right-small.png") no-repeat
-            right 10px
-            &:hover
-              background-position -24px
-            &:active
-              background-position -48px*/
         .thumbnail-wrapper
           display inline-block
           .thumbnail
             display inline-block
+            overflow hidden
             margin-right 10px
             margin-bottom 10px
             height 85px
@@ -280,14 +291,13 @@
             box-shadow inset 0 0 0 1px hsla(0,0%,100%,.2)
             opacity 0.6
             cursor pointer
-            overflow hidden
             object-fit cover
             &.active
               opacity 1
               box-shadow inset 0 0 0 2px #f4e763
     .bottom
       position absolute
+      bottom 30px
       color #4d4d4d
       font-size 12px
-      bottom 30px
 </style>

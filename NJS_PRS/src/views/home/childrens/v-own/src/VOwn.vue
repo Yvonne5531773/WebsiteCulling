@@ -1,5 +1,5 @@
 <template>
-	<div class="my-page">
+	<div class="own-page">
 		<section class="containerRow">
 			<VBaidu></VBaidu>
 			<div class="content">
@@ -56,7 +56,7 @@
 	import { compareTime, setStore, getHost } from 'utils/index'
 	import { categoryPath, hotsitePath } from 'config/index'
 	export default {
-		name: 'VMy',
+		name: 'VOwn',
 		data() {
 			return {
 				contents: [
@@ -97,7 +97,7 @@
 			async init() {
 				await this.construct()
 				this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:1,url:'',value:0})
-				this.position.name==='VMy' && this.gotoPosition()
+				this.position.name==='VOwn' && this.gotoPosition()
 			},
 			openUrl(data, sort, index) {
 //				data.views = data.views? data.views+1 : 1
@@ -223,7 +223,7 @@
 				})
 			},
 			addMore(type) {
-				this.setComponent('VDiscover')
+				this.setComponent('VPublic')
 				type===1&&this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:6,url:'',value:0})
 				type===2&&this.$api.reportByInfoc('liebao_urlchoose_mine:353 action:byte url:string value:byte ver:byte',{action:8,url:'',value:0})
 			},
@@ -241,30 +241,29 @@
 </script>
 
 <style lang="stylus" scoped>
-	.my-page
-		width 1045px
-		height 100%
-		margin auto
-		zoom 1
+	.own-page
 		position relative
 		top 115px
+		margin auto
+		width 1045px
+		height 100%
 		.containerRow
-			margin auto
 			float left
+			margin auto
 			.content
 				position relative
 				top 30px
 				li
 					display flex
 					.flag
-						width 20px
-						height 20px
 						float left
 						margin 3px 3px 0 0
+						width 20px
+						height 20px
 					.f-s
-						background url("../../../../assets/img/my/f-s.png") no-repeat
+						background url("../../../../../assets/img/home/f-s.png") no-repeat
 					.f-f
-						background url("../../../../assets/img/my/f-f.png") no-repeat
+						background url("../../../../../assets/img/home/f-f.png") no-repeat
 					.head
 						position relative
 						height 24px
@@ -272,9 +271,9 @@
 						.left
 							float left
 							.head-t
+								display inline-block
 								float left
 								vertical-align middle
-								display inline-block
 								font-size 18px
 								line-height 22px
 								color #5454a6
@@ -283,9 +282,9 @@
 					border-top 1px solid #cdcdde
 					min-height 130px
 					.list
-						padding-top 18px
 						display flex
 						flex-wrap wrap
+						padding-top 18px
 						li
 							margin 0 10px 18px 0
 							font-size 14px
@@ -295,73 +294,73 @@
 								display flex
 								width 118px
 								img
+									padding 3px 8px 0 0
 									width 16px
 									height 16px
-									padding 3px 8px 0 0
 								.name
-									color #333
 									overflow hidden
 									text-overflow ellipsis
 									white-space nowrap
+									color #333
 						.add-like
-							background url("../../../../assets/img/my/add-like.png") no-repeat
+							display block
+							position relative
+							background url("../../../../../assets/img/home/add-like.png") no-repeat
 							width 240px
 							height 310px
-							position relative
 							color #fff
-							display block
 							.txt4
+								position absolute
 								top 20px
 								bottom 0
 								left 0
 								right 0
 								margin auto
+								text-align center
 								height 40px
-								position absolute
 								font-size 24px
 								letter-spacing 7px
-								text-align center
 							.bottom
+								position absolute
 								bottom 0
-								margin auto
 								left 0
 								right 0
-								position absolute
+								margin auto
 								height 95px
 								width 205px
 								text-align left
 								span
 									display block
 								.txt5
-									font-size 14px
 									margin-bottom 12px
+									font-size 14px
 								.txt6
 									font-size 12px
 						.add-more
-							background url("../../../../assets/img/my/add-more.png") no-repeat
-							width 240px
-							height 320px
+							display block
 							position relative
 							bottom 10px
+							background url("../../../../../assets/img/home/add-more.png") no-repeat
+							width 240px
+							height 320px
 							color #fff
-							display block
 							.txt1
+								position absolute
 								top 20px
 								bottom 0
 								left 0
 								right 0
 								margin auto
+								text-align center
 								height 40px
-								position absolute
 								font-size 24px
 								letter-spacing 7px
-								text-align center
 							.bottom
+								position absolute
 								bottom 0
-								margin auto
 								left 0
 								right 0
-								position absolute
+								margin auto
 								height 95px
 								width 205px
 								span
@@ -372,19 +371,19 @@
 								.txt3
 									font-size 12px
 					.block
+						position relative
 						float left
-						list-style none
+						margin-top 0
 						margin 0 20px 17px 0 !important
-						width 240px
-						height 310px
-						text-align center
-						color gray
+						list-style none
 						-webkit-box-sizing border-box
 						box-sizing border-box
+						text-align center
+						width 240px
+						height 310px
+						color gray
 						background #fff
 						font-size 14px
-						position relative
-						margin-top 0
 						&:nth-child(4n)
 							margin 0 !important
 				.body-more-3

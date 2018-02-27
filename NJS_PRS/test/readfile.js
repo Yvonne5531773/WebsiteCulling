@@ -2,6 +2,7 @@ var fs = require("fs");
 
 //path模块，可以生产相对和绝对路径
 var path = require("path");
+var _ = require('lodash')
 
 //配置远程路径
 var remotePath = "D:/development/code/WebsiteCulling/data.js";
@@ -125,5 +126,16 @@ const asyncReadIconFile = async function () {
 	console.log('res', await writeFile(JSON.stringify(arraies)))
 };
 
+const asyncReadFile1 = async function () {
+	var filePath = 'D:/43.json';
+	let arr = await readFile(filePath);
+	let arraies = _.unionBy(JSON.parse(arr), 'title');
+	// console.log('arr', arr)
+	console.log('arraies2', arraies)
+	// console.log('f1', f1)
+	await writeFile(JSON.stringify(arraies))
+};
+
 // asyncReadFile()
-asyncReadIconFile()
+// asyncReadIconFile()
+asyncReadFile1()

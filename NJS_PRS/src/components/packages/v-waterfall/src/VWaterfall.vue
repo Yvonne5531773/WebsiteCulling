@@ -61,7 +61,7 @@ export default {
 			imgsArrC: [],
 			loadedCount: 0,
 			isFirstTime: true,
-      failImgs: [],
+			failImgs: [],
 		}
 	},
 	computed: {
@@ -93,14 +93,14 @@ export default {
 		})
 		this.$el.parentNode.addEventListener('scroll', () => {
 			const listTop = this.$el.parentNode.scrollTop
-			if(listTop >= 200) {
-				this.$emit('response', {show:true, el: this.$el.parentNode})
-			}else {
-				this.$emit('response', {show:false, el: this.$el.parentNode})
+			if (listTop >= 200) {
+				this.$emit('response', {show: true, el: this.$el.parentNode})
+			} else {
+				this.$emit('response', {show: false, el: this.$el.parentNode})
 			}
 			if (this.isPreloading) return
 			const lastImgHeight = this.imgsArr[this.imgsArr.length - 1].height || 0
-			if (this.$el.parentNode.scrollTop+this.$el.parentNode.offsetHeight >= this.$el.parentNode.scrollHeight-lastImgHeight*3) {
+			if (this.$el.parentNode.scrollTop + this.$el.parentNode.offsetHeight >= this.$el.parentNode.scrollHeight - lastImgHeight * 3) {
 				this.fetchImgsData()
 			}
 		})
@@ -113,9 +113,9 @@ export default {
 		},
 		isPreloading(v) {
 			if (v) {
-				if(this.isFirstTime) {
+				if (this.isFirstTime) {
 					this.isPreloadingC = true
-				}else {
+				} else {
 					setTimeout(() => {
 						if (!this.isPreloading) return
 						this.isPreloadingC = true
@@ -129,7 +129,7 @@ export default {
 	methods: {
 		waterfall() {
 			for (let i = this.beginIndex; i < this.imgsArrC.length; i++) {
-				if(this.imgBoxEls[i]) {
+				if (this.imgBoxEls[i]) {
 					let minHeight = Math.min.apply(null, this.colsHeightArr)
 					let minIndex = this.colsHeightArr.indexOf(minHeight)
 					let width = this.imgBoxEls[0].offsetWidth
@@ -142,15 +142,15 @@ export default {
 			this.beginIndex = this.imgsArrC.length
 		},
 		loadFn(e, oImg, i) {
-			if(e === 'error') {
+			if (e === 'error') {
 				this.failImgs.push(oImg)
-			}else if(e === 'success'){
+			} else if (e === 'success') {
 				this.loadedCount++
 				if (this.imgsArr[i]) {
 					this.$set(this.imgsArr[i], 'height', Math.round(this.imgWidthC / (oImg.width / oImg.height)))
 				}
 			}
-			if (this.loadedCount === this.imgsArr.length-this.failImgs.length) {
+			if (this.loadedCount === this.imgsArr.length - this.failImgs.length) {
 				this.imgsArrC = _.filter(_.cloneDeep(this.imgsArr), img => {
 					return img && img.height
 				})
@@ -163,7 +163,7 @@ export default {
 		},
 		preload() {
 			this.imgsArr.forEach((v, i) => {
-				if (i < this.loadedCount+this.failImgs.length) {
+				if (i < this.loadedCount + this.failImgs.length) {
 					return
 				}
 				this.loadImage(v.image, i, this.loadFn)
@@ -182,7 +182,7 @@ export default {
 		initColsHeightArr() {
 			this.colsHeightArr = []
 			for (let i = 0; i < this.columnCount; i++) {
-				if(this.imgBoxEls[i]) {
+				if (this.imgBoxEls[i]) {
 					this.imgBoxEls[i].style.position = 'static'
 					let height = this.imgBoxEls[i].offsetHeight
 					this.colsHeightArr.push(height)
@@ -200,7 +200,7 @@ export default {
 				? 2
 				: (columnCount > this.maxCols ? this.maxCols : columnCount)
 		},
-		setActive (img) {
+		setActive(img) {
 			const idx = this.imgsArr.map(img => img.image).indexOf(img.image)
 			this.$emit('changeIndex', idx)
 		},
@@ -208,8 +208,8 @@ export default {
 			const title = this.$refs.title[index],
 				mask = this.$refs.mask[index],
 				duration = 150
-			title && this.$velocity(title,{opacity: opacity},{duration:duration})
-			mask && this.$velocity(mask,{opacity: opacity},{duration:duration})
+			title && this.$velocity(title, {opacity: opacity}, {duration: duration})
+			mask && this.$velocity(mask, {opacity: opacity}, {duration: duration})
 		},
 	},
 }
@@ -220,45 +220,42 @@ export default {
 		width 100%
 		.img-box
 			display inline-block
+			float left
 			width 50%
 			box-sizing border-box
-			float left
 			transition left 1s, top 1s
 			.img-inner-box
 				.img-wrapper
 					width 100%
-					/*&:hover
-						.mask
-							opacity 1*/
 				img
-					width 100%
 					vertical-align bottom
+					width 100%
 					cursor pointer
 				.title
 					position absolute
 					bottom 0
-					color #fff
-					padding-left 5px
-					height 30px
 					overflow hidden
+					padding-left 5px
+					color #fff
+					height 30px
 					line-height 2.3
 					cursor pointer
 					font-size 14px
 					opacity 0
 					z-index 1
 				.mask
-					opacity 0
-					height 30px
 					position absolute
 					bottom 0
+					opacity 0
+					height 30px
 					width 100%
 					background linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0))
 		.loading
-			text-align center
 			position fixed
 			bottom 10px
 			left 50%
 			margin-left -15px
+			text-align center
 			width 30px
 			height 30px
 		.first-loading
@@ -266,14 +263,14 @@ export default {
 			margin-top -15px
 		.double-bounce1,
 		.double-bounce2
+			position absolute
+			top 0
+			left 0
 			width 100%
 			height 100%
 			border-radius 50%
 			background-color #6248db
 			opacity 0.6
-			position absolute
-			top 0
-			left 0
 			animation bounce 2.0s infinite ease-in-out
 		.double-bounce2
 			animation-delay -1.0s

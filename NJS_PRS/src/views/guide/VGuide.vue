@@ -199,7 +199,7 @@
 					storeIds = ids.length>0? ids.join(','):''
 				this.$api.reportByInfoc('liebao_urlchoose_taste:350 action:byte taste:byte ver:byte',{action:3,taste:ids.length})
 				this.$api.setUserSelectedInfo(ids?ids.join(','):'')
-				this.setComponent('VDiscover')
+				this.setComponent('VPublic')
 				setStore('THEME_IDS', storeIds)
 				this.gifSI && clearInterval(this.gifSI)
 			},
@@ -239,8 +239,12 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
 	.v-guide
-		zoom 1
 		display flex
+		position fixed
+		height 100%
+		width 100%
+		top 0
+		bottom 0
 		-webkit-box-orient vertical
 		-webkit-box-direction normal
 		-ms-flex-direction column
@@ -251,33 +255,28 @@
 		-ms-flex-negative 0
 		flex-shrink 0
 		background #f7f9fb
-		height 100%
-		width 100%
-		top 0
-		bottom 0
-		position fixed
 		overflow-x hidden
 		.container
-			width 1180px
-			max-height 768px
-			min-height 687px
+			position absolute
 			margin auto
 			left 0
 			top 0
 			bottom 0
 			right 0
-			position absolute
 			z-index 9
+			width 1180px
+			max-height 768px
+			min-height 687px
 			.top
 				position relative
+				top 45px
 				margin auto
 				width 398px
-				top 45px
 				img
 					display block
 					&:nth-child(2)
-						top 14px
 						position relative
+						top 14px
 			.btn
 				position absolute
 				bottom 30px
@@ -298,45 +297,45 @@
 				&:active
 					background-position -532px
 				.button-gif
-					background url("../../assets/img/guide/buttongif.png") no-repeat
-					width 24px
-					height 20px
 					position absolute
 					bottom 10px
 					left 0
 					right 0
 					margin auto
+					background url("../../assets/img/guide/buttongif.png") no-repeat
+					width 24px
+					height 20px
 			.no-select
 				font-size 22px
 				background-position -266px
 			.theme
-				bottom 170px
 				position absolute
-				width 1045px
-				margin auto
+				bottom 170px
 				left 0
 				right 0
+				margin auto
+				width 1045px
 				.list
-					font-size 16px
-					float right
 					display flex
+					float right
+					font-size 16px
 					.block
-						font-size 16px
+						display flex
+						position relative
 						margin 10px 0 0 10px
-						width 140px
-						height 140px
 						text-align center
 						-webkit-box-sizing border-box
 						box-sizing border-box
-						position relative
+						font-size 16px
+						width 140px
+						height 140px
 						cursor pointer
 						color #ffffff
-						display flex
 						.cover
+							display none
 							position absolute
 							top -10px
 							left -17px
-							display none
 						.b-bottom
 							position absolute
 							bottom 0
@@ -345,41 +344,41 @@
 							height 27px
 							background-position 0 -537px
 							.title
-								margin auto
+								position absolute
 								left 0
 								right 0
 								bottom 16px
-								position absolute
+								margin auto
 								height 15px
 								z-index 9
 						.check
+							position absolute
+							right 0
 							width 37px
 							height 25px
-							position absolute
 							z-index 11
-							right 0
 						.checked
 							background url('../../assets/img/guide/checked.png') no-repeat
 						.no-check
 							background url('../../assets/img/guide/nocheck.png') no-repeat
 		.bottom
-			background url('../../assets/img/guide/bottom.png') no-repeat
 			position fixed
+			bottom 0
 			width 100%
 			height 30%
-			bottom 0
+			background url('../../assets/img/guide/bottom.png') no-repeat
 		.overlay
 			position fixed
-			z-index 999
 			top 0
+			z-index 999
 			width 100%
 			height 100%
 			.hole
-				height 200px
-				width 200px
 				position absolute
 				border-radius 50%
 				box-shadow rgba(0, 0, 0, 0.6) 0px 0px 1px 10000px
+				height 200px
+				width 200px
 				.light
 					position absolute
 					top 0
@@ -387,23 +386,23 @@
 					left 0
 					right 0
 					.tip
-						background url('../../assets/img/guide/tip.png') no-repeat
-						background-position right
-						width 210px
-						height 115px
 						position absolute
 						top 205px
+						background-position right
+						background url('../../assets/img/guide/tip.png') no-repeat
+						width 210px
+						height 115px
 						color #000000
 						font-size 16px
 						span
 							display block
 						.close
-							background url('../../assets/img/guide/close.png') no-repeat
-							width 10px
-							height 10px
 							position absolute
 							right 22px
 							top 24px
+							background url('../../assets/img/guide/close.png') no-repeat
+							width 10px
+							height 10px
 	@media screen and (max-height:727px)
 		.container
 			.theme

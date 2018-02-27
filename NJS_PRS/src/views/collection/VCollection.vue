@@ -25,18 +25,17 @@
 
 <style lang="stylus" scoped>
 	.collection
-		zoom 1
 		display -ms-flexbox
 		display flex
+		position absolute
+		width 100%
+		height 100%
+		top 0
+		bottom 0
 		-ms-flex-direction column
 		flex-direction column
 		-ms-flex-align stretch
 		align-items stretch
 		-ms-flex-negative 0
 		flex-shrink 0
-		width 100%
-		height 100%
-		top 0
-		bottom 0
-		position absolute
 </style>

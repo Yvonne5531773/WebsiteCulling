@@ -20,26 +20,32 @@
 	import { recommendPath } from 'config/index'
 	export default {
 		name: 'VRecommend',
-		data () {
+		data() {
 			return {
 				list: [],
 			}
 		},
-		mounted () {
+		mounted() {
 			this.init()
 		},
 		methods: {
-			async init () {
+			async init() {
 				let res = {}
 				try {
 					res = await this.fetch(recommendPath)
-				}catch (e) {
+				} catch (e) {
 					console.log('error:', e)
 				}
-				this.list = !_.isEmpty(res) && res.bottoms? res.bottoms:mockRecommend
+				this.list = !_.isEmpty(res) && res.bottoms ? res.bottoms : mockRecommend
 			},
 			open(data) {
-				this.$api.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string',{action:3,value:0,hotsite:data.id,url:'',name:''})
+				this.$api.reportByInfoc('liebao_urlchoose_find:355 action:byte value:byte hotsite:byte ver:byte url:string name:string', {
+					action: 3,
+					value: 0,
+					hotsite: data.id,
+					url: '',
+					name: ''
+				})
 			}
 		}
 	}
@@ -50,9 +56,9 @@
 		float right
 		width 223px
 		h2
-			font-size 18px
 			position relative
 			top 2px
+			font-size 18px
 			color #5454a6
 		.content
 			position relative
@@ -69,13 +75,13 @@
 						height 40px
 						width 40px
 				.title
+					position relative
+					overflow hidden
 					margin 25px 0
 					text-overflow ellipsis
 					white-space pre-wrap
 					word-wrap break-word
-					overflow hidden
 					height 55px
-					position relative
 					left 15px
 					a
 						color #333333

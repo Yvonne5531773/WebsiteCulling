@@ -66,45 +66,59 @@
 		methods: {
 			backToTop() {
 				this.scrollEle.scrollTop = 0
-				this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:7,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int', {
+					action: 7,
+					name: this.category.id + '',
+					url: '',
+					action_time: getOperationFullTime(new Date()),
+					number1: 0,
+					number2: 0
+				})
 			},
 			collect() {
 				!this.category.collected && (this.showAlert = true,
-					this.collectAlertSTO = setTimeout( () => {
+					this.collectAlertSTO = setTimeout(() => {
 						this.showAlert = false
 					}, 1200))
 				this.category.collected && this.collectAlertSTO && (this.showAlert = false, clearTimeout(this.collectAlertSTO))
 				this.category.collected = !this.category.collected
 				this.saveForm(this.category)
-				this.category.collected && this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:4,name:this.category.id+'',url:'',action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				this.category.collected && this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int', {
+					action: 4,
+					name: this.category.id + '',
+					url: '',
+					action_time: getOperationFullTime(new Date()),
+					number1: 0,
+					number2: 0
+				})
 			},
-			getScrollTop(){
+			getScrollTop() {
 				let scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
-				if(document.body){
+				if (document.body) {
 					bodyScrollTop = document.body.scrollTop;
 				}
-				if(document.documentElement){
+				if (document.documentElement) {
 					documentScrollTop = document.documentElement.scrollTop;
 				}
 				scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
 				return scrollTop;
 			},
-			getScrollHeight(){
+			getScrollHeight() {
 				let scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
-				if(document.body){
+				if (document.body) {
 					bodyScrollHeight = document.body.scrollHeight;
 				}
-				if(document.documentElement){
+				if (document.documentElement) {
 					documentScrollHeight = document.documentElement.scrollHeight;
 				}
 				scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
 				return scrollHeight;
 			},
-			getWindowHeight(){
+			getWindowHeight() {
 				let windowHeight = 0;
-				if(document.compatMode === "CSS1Compat"){
+				if (document.compatMode === "CSS1Compat") {
 					windowHeight = document.documentElement.clientHeight;
-				}else{
+				} else {
 					windowHeight = document.body.clientHeight;
 				}
 				return windowHeight;
@@ -128,8 +142,8 @@
 		.collect
 			background url("../../../../assets/img/common/collect.png") no-repeat
 		.back-to-top
-			background url("../../../../assets/img/common/backToTop.png") no-repeat
 			margin-top 10px
+			background url("../../../../assets/img/common/backToTop.png") no-repeat
 	.f-flow
 		right 4.2%
 	.f-list

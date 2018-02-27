@@ -8,7 +8,6 @@ Vue.use(Vuex)
 
 const state = {
 	component: '',
-	collectionTemplate: '',
 	liked: false,
 	position: {},
 	isFullScreen: false,

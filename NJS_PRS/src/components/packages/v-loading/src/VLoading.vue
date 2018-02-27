@@ -20,13 +20,13 @@
 
 <style lang="stylus">
     #loading
-        text-align center
         position absolute
         left 0
         right 0
         bottom 0
-        z-index 1000
         top 120px
+        text-align center
+        z-index 1000
         .loading-con
             z-index 10000
             color #6346de
@@ -36,11 +36,11 @@
             img
                 width 75px
         .loading-bg
-            background-color #000
             position fixed
             top 0
             left 0
             bottom 0
             right 0
+            background-color #000
             opacity .2
 </style>

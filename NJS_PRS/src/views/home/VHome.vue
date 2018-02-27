@@ -69,8 +69,12 @@
 
 <style lang="stylus" scoped>
 	.home
-		zoom 1
 		display flex
+		position absolute
+		width 100%
+		height 100%
+		top 0
+		bottom 0
 		-webkit-box-orient vertical
 		-webkit-box-direction normal
 		-ms-flex-direction column
@@ -80,9 +84,4 @@
 		align-items stretch
 		-ms-flex-negative 0
 		flex-shrink 0
-		width 100%
-		height 100%
-		top 0
-		bottom 0
-		position absolute
 </style>

@@ -32,21 +32,21 @@
 			opacity 0.5
 			z-index 1
 		.title
-			width 1100px
+			position relative
 			margin auto
+			width 1100px
 			height 140px
 			font-size 30px
 			color #fff
-			position relative
 			z-index 2
 			.name
 				position absolute
 				bottom 20px
 			.collect-btn
+				position absolute
 				right -16px
 				top 57px
 				margin auto
-				position absolute
 				text-align center
 				.add
 					line-height 1.7

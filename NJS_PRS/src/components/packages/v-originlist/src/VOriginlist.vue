@@ -26,7 +26,7 @@
 	import { mockRelation } from 'mock/relation'
 	export default {
 		name: 'VOriginlist',
-		data () {
+		data() {
 			return {
 				list: [],
 				vm: [],
@@ -34,7 +34,7 @@
 				txt: this.$txt.TXT_14,
 				index: 0,
 				screenWidth: document.body.clientWidth,
-				right: document.body.clientWidth>=1066?document.body.clientWidth-((document.body.clientWidth-1100)/2+820+25+214):document.body.clientWidth-(820+214)
+				right: document.body.clientWidth >= 1066 ? document.body.clientWidth - ((document.body.clientWidth - 1100) / 2 + 820 + 25 + 214) : document.body.clientWidth - (820 + 214)
 			}
 		},
 		props: {
@@ -45,14 +45,12 @@
 			sites: {
 				type: Array
 			},
-			categoryid: {
-
-			}
+			categoryid: {}
 		},
 		watch: {
-			screenWidth (val) {
+			screenWidth(val) {
 				this.screenWidth = val
-				this.right = this.screenWidth>=1066?this.screenWidth-((this.screenWidth-1100)/2+820+25+214):this.screenWidth-(820+214)
+				this.right = this.screenWidth >= 1066 ? this.screenWidth - ((this.screenWidth - 1100) / 2 + 820 + 25 + 214) : this.screenWidth - (820 + 214)
 			},
 		},
 		mounted() {
@@ -66,7 +64,14 @@
 		},
 		methods: {
 			open(data) {
-				this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:2,name:this.categoryid+'',url:data.href_url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int', {
+					action: 2,
+					name: this.categoryid + '',
+					url: data.href_url,
+					action_time: getOperationFullTime(new Date()),
+					number1: 0,
+					number2: 0
+				})
 			},
 			like(data) {
 				const store = {}
@@ -78,7 +83,14 @@
 				store.icon = data.icon
 				store.liked = data.liked = !data.liked
 				this.saveSite(store)
-				store.liked && this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int',{action:3,name:this.categoryid+'',url:data.href_url,action_time:getOperationFullTime(new Date()),number1:0,number2:0})
+				store.liked && this.$api.reportByInfoc('liebao_urlchoose_detail:366 action:byte name:string url:string ver:byte action_time:string number1:int number2:int', {
+					action: 3,
+					name: this.categoryid + '',
+					url: data.href_url,
+					action_time: getOperationFullTime(new Date()),
+					number1: 0,
+					number2: 0
+				})
 			},
 		},
 	}
@@ -86,11 +98,11 @@
 
 <style lang="stylus" scoped>
 	.from
+		position relative
 		float left
+		padding-bottom 20px
 		width 214px
 		height 82.6%
-		position relative
-		padding-bottom 20px
 		@media screen and (max-height 1800px)
 			height 86.6%
 		@media screen and (max-height 800px)
@@ -98,17 +110,17 @@
 		@media screen and (max-height 687px)
 			height 82.6%
 		.head
-			color #6346de
 			border-bottom 1px solid #cdcdde
+			color #6346de
 			h2
-				font-size 14px
 				position relative
 				bottom 5px
+				font-size 14px
 		.list-content
 			position relative
 			top 20px
-			height 100%
 			overflow auto
+			height 100%
 			&::-webkit-scrollbar
 				display none
 			.r-data
@@ -120,34 +132,34 @@
 						height 16px
 						width 16px
 				.title
-					padding-left 10px
-					overflow hidden
 					position relative
 					bottom 3px
+					overflow hidden
+					padding-left 10px
 					.name
+						display block
+						padding-bottom 3px
 						overflow hidden
 						text-overflow ellipsis
 						white-space nowrap
-						display block
-						padding-bottom 3px
 						&:hover
 							color #6346de
 					a
 						color #333333
 					.description
+						display block
 						font-size 12px
 						height 20px
-						display block
 						color #5b5b5b !important
 						&:hover
 							color #6346de!important
 			.r-t
-				font-size 12px
-				color #6346de
+				display flex
 				position absolute
 				top 0
 				right 0
-				display flex
+				font-size 12px
+				color #6346de
 				cursor pointer
 				&:hover
 					.like
@@ -156,10 +168,10 @@
 					.like
 						background-position -30px
 				.like
-					background url("../../../../assets/img/relation/like.png") no-repeat
 					margin 2px 5px
 					width 15px
 					height 15px
+					background url("../../../../assets/img/relation/like.png") no-repeat
 	.fixed
 		position fixed
 		bottom 0

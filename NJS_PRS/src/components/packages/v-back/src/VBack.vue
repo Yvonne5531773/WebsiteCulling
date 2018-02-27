@@ -15,7 +15,7 @@
 		},
 		methods: {
 			back() {
-				const cname = 'VDiscover',
+				const cname = 'VPublic',
 					path = 'home'
 				this.$router.push({path: path})
 				this.setComponent(cname)
@@ -34,17 +34,17 @@
 
 <style lang="stylus">
 	.back
-		background url("../../../../assets/img/flow/back.png") no-repeat
-		width 96px
-		height 56px
+		position absolute
 		top 23px
 		left -13px
-		position absolute
-		font-size 12px
-		color #fff
-		line-height 3.6
-		text-align center
 		padding-left 3px
+		background url("../../../../assets/img/collection/back.png") no-repeat
+		width 96px
+		height 56px
+		color #fff
+		text-align center
+		font-size 12px
+		line-height 3.6
 		&:hover
 			background-position -96px
 		&:active

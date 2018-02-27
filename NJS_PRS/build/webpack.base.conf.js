@@ -101,8 +101,8 @@ module.exports = {
 			// $: "jquery",
 			// 'window.jQuery': 'jquery'
 		}),
-		new Jarvis({
-			port: 1337
-		})
+		// new Jarvis({
+		// 	port: 1337
+		// })
 	]
 }

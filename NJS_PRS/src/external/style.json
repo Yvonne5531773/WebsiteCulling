@@ -151,5 +151,13 @@
 	"config": {
 	 "loadCount": 12
 	}
+ },
+ {
+	"categoryId": 39,
+	"component": "VResourcebox",
+	"path": "resource",
+	"config": {
+
+	}
  }
 ]

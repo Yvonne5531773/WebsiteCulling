@@ -1,5 +1,5 @@
 <template>
-	<section class="discover-page">
+	<section class="public-page">
 		<div class="containerRow">
 			<ul>
 				<li class="c-l" :key="data.id" v-for="(data, index) in dataList" v-if="data&&data.categories.length>0">
@@ -34,7 +34,7 @@
 	import { getStore } from 'utils/index'
 	import { themePath } from 'config/index'
 	export default {
-		name: 'VDiscover',
+		name: 'VPublic',
 		data() {
 			return {
 				dataList: [],
@@ -78,7 +78,7 @@
 						let count = this.dataList[i].categories.length
 						b.style.maxHeight = 360*(Math.floor(count/3)+1)+'px'
 					})
-					this.position.name==='VDiscover' && this.gotoPosition(this.position.scrolly)
+					this.position.name==='VPublic' && this.gotoPosition(this.position.scrolly)
 				})
 			},
 			pullEvent(data, index){
@@ -110,73 +110,73 @@
 </script>
 
 <style lang="stylus" scoped>
-		.discover-page
-			margin 112px auto
-			width 1040px
-			.containerRow
-				margin 0 auto
-				width 762px
-				float left
-				.c-l
-					margin-bottom 10px
-				.head
-					position relative
-					height 24px
-					white-space nowrap
-					.left
+	.public-page
+		margin 112px auto
+		width 1040px
+		.containerRow
+			float left
+			margin 0 auto
+			width 762px
+			.c-l
+				margin-bottom 10px
+			.head
+				position relative
+				white-space nowrap
+				height 24px
+				.left
+					float left
+					.flag
 						float left
-						.flag
-							background url("../../../../assets/img/my/f-f.png") no-repeat
-							width 20px
-							height 20px
-							float left
-							margin 3px 5px 0 0
-						.head-t
-							float left
-							vertical-align middle
-							display inline-block
-							font-size 18px
-							line-height 22px
-							color #5454a6
-					.right
+						margin 3px 5px 0 0
+						background url("../../../../../assets/img/home/f-f.png") no-repeat
+						width 20px
+						height 20px
+					.head-t
+						display inline-block
+						float left
+						vertical-align middle
+						font-size 18px
+						line-height 22px
+						color #5454a6
+				.right
+					float right
+					span
+						font-size 12px
+						color #333333
+					.pull
+						position relative
+						top 5px
 						float right
-						span
-							font-size 12px
-							color #333333
-						.pull
-							float right
-							width 16px
-							height 16px
-							top 5px
-							position relative
-							cursor pointer
-							background url("../../../../assets/img/home/pull.png") no-repeat
-				.body
-					max-height 365px
+						width 16px
+						height 16px
+						cursor pointer
+						background url("../../../../../assets/img/home/pull.png") no-repeat
+			.body
+				overflow hidden
+				max-height 365px
+				&:after
+					content ''
+					display block
+					visibility hidden
+					height 0
+					clear both
+					font-size 0
+				.list
+					padding-top 17px
 					overflow hidden
-					&:after
-						content ''
-						display block
-						visibility hidden
-						height 0
-						clear both
-						font-size 0
-					.list
-						padding-top 17px
-						overflow hidden
-						li
-							float left
-							list-style none
-							margin 0 20px 20px 0
-							width 239px
-							height 314px
-							text-align center
-							color gray
-							-webkit-box-sizing border-box
-							box-sizing border-box
-							background #fff
-							font-size 14px
-							position relative
-							&:nth-child(3n)
-								margin-right 0
+					li
+						position relative
+						float left
+						margin 0 20px 20px 0
+						list-style none
+						width 239px
+						height 314px
+						text-align center
+						color gray
+						-webkit-box-sizing border-box
+						box-sizing border-box
+						background #fff
+						font-size 14px
+						&:nth-child(3n)
+							margin-right 0
 </style>
