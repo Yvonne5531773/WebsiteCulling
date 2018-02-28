@@ -4,7 +4,7 @@ import { host, categoryPath } from 'config/index'
 import { getOperationFullTime } from 'utils/index'
 
 export default {
-	...mapMutations(['SET_COMPONENT', 'SET_LIKED', 'SET_FULL_SCREEN', 'SET_POSITION']),
+	...mapMutations(['SET_COMPONENT', 'SET_LIKED', 'SET_FULL_SCREEN', 'SET_POSITION', 'SET_RESOURCE_TEMPLATE']),
 
 	setComponent(component) {
 		this.SET_COMPONENT({component: component})
@@ -20,6 +20,10 @@ export default {
 
 	setPosition(position) {
 		this.SET_POSITION({position: position})
+	},
+
+	setResourceTemplate(resourceTemplate) {
+		this.SET_RESOURCE_TEMPLATE({resourceTemplate: resourceTemplate})
 	},
 
 	fetch(path, data, type, method) {

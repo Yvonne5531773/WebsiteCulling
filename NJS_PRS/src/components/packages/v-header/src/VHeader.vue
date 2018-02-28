@@ -2,8 +2,8 @@
 	<div class="header">
 		<div class="head">
 			<div class="title">
-				<div class="txt">
-					<p class="txt1">{{txt1}}</p>
+				<div class="title-txt">
+					<p class="title-txt1">{{txt1}}</p>
 					<a class="back2Pre">
 						<b class="btn" @click.stop="showTip=true">{{back2PreTxt}}</b>
 					</a>
@@ -18,7 +18,7 @@
 							<a class="know" @click.stop="know">{{knowed}}</a>
 						</span>
 					</transition>
-					<p class="txt2">{{txt2}}</p>
+					<p class="title-txt2">{{txt2}}</p>
 				</div>
 			</div>
 			<div class="component">
@@ -179,11 +179,11 @@
 					width 60px
 					height 60px
 					background url("../../../../assets/img/head/logo.png") no-repeat
-				.txt
-					.txt1
+				.title-txt
+					.title-txt1
 						font-size 24px
 						color #ffffff
-					.txt2
+					.title-txt2
 						font-size 14px
 						color #a4a4ff
 					.back2Pre

@@ -4,8 +4,8 @@ import {
 	SET_LIKED,
 	SET_POSITION,
 	SET_FULL_SCREEN,
+	SET_RESOURCE_TEMPLATE,
 } from './mutation-types.js'
-
 
 export default {
 	[SET_COMPONENT](state, {
@@ -30,5 +30,11 @@ export default {
 		isFullScreen,
 	}) {
 		state.isFullScreen = isFullScreen;
+	},
+
+	[SET_RESOURCE_TEMPLATE](state, {
+		resourceTemplate,
+	}) {
+		state.resourceTemplate = resourceTemplate;
 	},
 }

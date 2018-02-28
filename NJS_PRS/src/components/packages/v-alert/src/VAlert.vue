@@ -25,7 +25,6 @@
 <style lang="stylus">
 	.alert-frame
 		position fixed
-		z-index 999
 		top 0
 		bottom 60px
 		left 0
@@ -34,6 +33,7 @@
 		background #49479d
 		height 88px
 		width 210px
+		z-index 999
 		opacity .9
 		.a-c
 			position absolute
@@ -54,4 +54,6 @@
 				float right
 				font-size 16px
 				color #ffffff
+				.content-tip
+					font-weight 100
 </style>

@@ -7,7 +7,6 @@
 	</div>
 </template>
 <script>
-	import { mapState } from 'vuex'
 	import { prePage } from 'config/index'
 	export default {
 		data() {

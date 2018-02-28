@@ -4,7 +4,7 @@
 			<a class="logo" target="_blank" :href="baiduURL"></a>
 			<input type="text" class="input" :placeholder="txt" v-model='inputText' @keyup='show($event)' @keydown.down='down()' @keydown.up.prevent='up()' @focus="focusInput" @blur="blurInput">
 			<span class="btn" @click="goto()">
-	     <input type="submit" :value="inputTxt" >
+				<input type="submit" :value="inputTxt" >
 	    </span>
 		</div>
 		<ul v-show="focus">

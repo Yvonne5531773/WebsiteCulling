@@ -1,29 +1,35 @@
 <template>
-	<div class="v-resource-box">
+	<div class="v-resource-box" @click="destory">
 		<section class="box-content">
+			<VBack></VBack>
 			<div class="f-l">
-				<div class="introduce">
-					<div class="avatar">
-						<img v-lazy="addHttp(category.avatar)"/>
-						<span>{{category.name}}</span>
-						<div class="mask"></div>
-					</div>
-					<div class="title">
-						<a target="_blank" :title="category.name">{{category.name | clip(13)}}</a>
-					</div>
-					<div class="collect-btn">
-						<VCollect :category="category"></VCollect>
-					</div>
-				</div>
+				<VCategoryFrame :category="category"></VCategoryFrame>
 			</div>
 			<div class="f-r">
-				<VHotresource :resources="resources"></VHotresource>
+				<div class="search">
+					<input type="text" class="input" placeholder="" v-model='inputText'>
+					<!--<input type="text" class="input" placeholder="" v-model='inputText' @keyup='show($event)' @keydown.down='down()' @keydown.up.prevent='up()' @focus="focusInput" @blur="blurInput">-->
+					<span class="btn" @click="goto()">
+						<input type="submit" :value="btnTxt">
+			    </span>
+				</div>
+				<!--<ul class="search-tips" v-show="focus">-->
+					<!--<li v-for="(item, index) in result" :class='{bgcolor: index==nowIndex}' @click="goItem(item)">-->
+						<!--{{item}}-->
+					<!--</li>-->
+				<!--</ul>-->
+				<keep-alive>
+					<component ref="resource" :is="resourceTemplate" :resources="resources" :inputText="inputText" :tpid="tpid" :mThunderEncode="mThunderEncode"></component>
+				</keep-alive>
+				<!--<VHotresource ref="rHotresource" :resources="resources"></VHotresource>-->
 			</div>
 		</section>
 	</div>
 </template>
 
 <script>
+	import { mapState } from 'vuex'
+	import { thunderPid } from 'config/index'
 	import { resourceMock } from 'mock/resource'
 	export default {
 		name: 'VResourcebox',
@@ -31,11 +37,23 @@
 			return {
 				category: {},
 				resources: [],
+				inputText: '',
+				btnTxt: this.$txt.TXT_44,
+				text: '',
+				nowIndex: -1,
+				result: [],
+				focus: false,
 			}
 		},
 		computed: {
+			...mapState([
+				'resourceTemplate'
+			]),
 			categoryid() {
 				return this.$route.query.categoryid || ''
+			},
+			tpid() {
+				return thunderPid
 			}
 		},
 		mounted() {
@@ -48,13 +66,70 @@
 				_.forEach(this.resources, item => {
 					item.actors = item.actors.join(' & ')
 				})
-				console.log('this.resources', this.resources)
 //				this.$api.reportByInfoc('liebao_urlchoose_detail:352 action:byte name:string url:string ver:byte', {
 //					action: 1,
 //					name: this.category.name,
 //					url: ''
 //				})
 			},
+			destory() {
+				if(this.resourceTemplate !== 'VHotresource') return
+				const hrEl = this.$refs.resource
+				hrEl.destoryMenu()
+			},
+			goto() {
+				this.inputText==='' && this.setResourceTemplate('VHotresource')
+				this.inputText!=='' && this.setResourceTemplate('VSearchresult')
+			},
+			mThunderEncode(src) {
+				return ThunderEncode(src)
+			}
+//			show(ev) {
+//				if (ev.keyCode === 38 || ev.keyCode === 40) {
+//					if (this.nowIndex < -1) {
+//						return
+//					}
+//					if (this.nowIndex !== this.result.length && this.nowIndex !== -1) {
+//						this.inputText = this.result[this.nowIndex];
+//					}
+//					return
+//				}
+//				if(ev.keyCode === 13) {
+//					console.log('ev.keyCode === 13')
+//					this.inputText = ''
+//				}
+//				this.text = this.inputText;
+//				this.result = []
+//			},
+//			goItem(item) {
+//				console.log('goItem item', item)
+//			},
+//			down() {
+//				this.nowIndex++;
+//				if (this.nowIndex === this.result.length) {
+//					this.nowIndex = -1;
+//					this.inputText = this.text;
+//				}
+//			},
+//			up() {
+//				this.nowIndex--;
+//				if (this.nowIndex < -1) {
+//					this.nowIndex = -1;
+//					return;
+//				}
+//				if (this.nowIndex === -1) {
+//					this.nowIndex = this.result.length;
+//					this.inputText = this.text;
+//				}
+//			},
+//			focusInput() {
+//				this.focus = true
+//			},
+//			blurInput() {
+//				setTimeout(() => {
+//					this.focus = false
+//				}, 100)
+//			}
 		},
 	}
 </script>
@@ -62,92 +137,64 @@
 <style lang="stylus" scoped>
 	.box-content
 		display flex
-		margin 135px auto
+		position relative
+		margin 142px auto
 		width 1040px
+		.back
+			position absolute
+			top -54px
+			left -12px
 		.f-l
 			position relative
 			width 240px
-			.introduce
-				position relative
-				float left
-				border 1px solid #eae9ef
-				-webkit-box-sizing border-box
-				box-sizing border-box
-				list-style none
-				width 242px
-				height 310px
-				text-align center
-				color gray
-				-webkit-box-shadow 0 8px 18px rgba(0,0,0,.06)
-				box-shadow 0 8px 18px rgba(0,0,0,.06)
-				background #fff
-				font-size 14px
-				.avatar
-					position relative
-					overflow hidden
-					height 160px
-					-webkit-box-sizing border-box
-					box-sizing border-box
-					font-size 24px
-					color white
-					letter-spacing 7px
-					img
-						position relative
-					span
-						position absolute
-						top 0
-						right 0
-						left 0
-						bottom 0
-						overflow hidden
-						margin auto
-						height 40px
-						z-index 99
-					.mask
-						position absolute
-						left 0
-						top 0
-						background-color black
-						width 240px
-						height 156px
-						opacity 0.2
-						z-index 9
-				.title
-					overflow hidden
-					margin 16px 16px 7px
-					color #333
-					font-size 16px
-					font-weight 600
-					font-synthesis style
-					text-overflow ellipsis
-					white-space nowrap
-					border-bottom 1px solid #949494
-					height 30px
-					.by
-						float right
-						font-size 12px
-						color #949494
-						line-height 2
-					a
-						position relative
-						overflow hidden
-						float left
-						text-align left
-						width 102px
-						color #333
-				.collect-btn
-					position relative
-					top 38px
-					right 14px
 		.f-r
 			width 761px
 			float left
 			left 40px
 			position relative
 			h2
+				border-bottom 2px solid #e1e0e8
 				font-size 18px
 				color #5454a6
 				height 36px
-				border-bottom 2px solid #e1e0e8
-
+			.search
+				display flex
+				.input
+					border 1px solid #6345de
+					padding-left 5px
+					padding-right 10px
+					width 622px
+					height 38px
+					text-indent 4px
+				.btn
+					input
+						border none
+						height 40px
+						width 140px
+						letter-spacing 1px
+						color #fff
+						background #6345de
+						font-size 14px
+						cursor pointer
+						&:hover
+							background #8368f9
+						&:active
+							background #4f33c7
+			.search-tips
+				position absolute
+				left 273px
+				margin auto
+				margin-top 1px
+				z-index 100
+				width 497px
+				background #fff
+				li
+					margin-top 5px
+					padding 8px
+					cursor pointer
+					list-style none
+					&:hover
+						background #ccc
+				.bgcolor
+					background #ccc
 </style>

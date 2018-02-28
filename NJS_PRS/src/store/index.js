@@ -8,9 +8,10 @@ Vue.use(Vuex)
 
 const state = {
 	component: '',
+	resourceTemplate: 'VHotresource',
 	liked: false,
 	position: {},
-	isFullScreen: false,
+	isFullScreen: false
 }
 
 export default new Vuex.Store({
